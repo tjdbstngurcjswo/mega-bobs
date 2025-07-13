@@ -17,35 +17,21 @@ const WeekSelect = ({currentDate, onChange}: WeekNavigatorProps) => {
   const weekStart = getWeekStart(currentDate);
   const days = Array.from({length: 7}, (_, i) => weekStart.add(i, 'day'));
 
+  const minDate = dayjs('2025-07-14');
+  const maxDate = dayjs('2025-07-20');
+
   const handlePrevWeek = () => {
-    onChange(weekStart.subtract(7, 'day').toDate());
+    const prevWeekStart = weekStart.subtract(7, 'day');
+    if (prevWeekStart.isBefore(minDate, 'day')) return;
+    onChange(prevWeekStart.toDate());
   };
   const handleNextWeek = () => {
-    onChange(weekStart.add(7, 'day').toDate());
+    const nextWeekStart = weekStart.add(7, 'day');
+    if (nextWeekStart.isAfter(maxDate, 'day')) return;
+    onChange(nextWeekStart.toDate());
   };
 
   const weekRange = `${days[0].format('M월 D일')} - ${days[6].format('M월 D일')}`;
-
-  const getTextColorClass = (day: dayjs.Dayjs, isSelected: boolean) => {
-    const dayOfWeek = day.day();
-
-    if (isSelected) {
-      if (dayOfWeek === 0) {
-        return 'text-red-600';
-      } else if (dayOfWeek === 6) {
-        return 'text-blue-600';
-      }
-      return 'text-slate-800';
-    }
-
-    if (dayOfWeek === 0) {
-      return 'text-red-300';
-    } else if (dayOfWeek === 6) {
-      return 'text-blue-300';
-    }
-
-    return 'text-white';
-  };
 
   return (
     <div className="flex flex-col items-center gap-3 bg-gradient-to-r from-slate-800 to-slate-900 p-3 text-white sm:gap-4 sm:p-4">
@@ -71,26 +57,66 @@ const WeekSelect = ({currentDate, onChange}: WeekNavigatorProps) => {
       <div className="flex w-full justify-between gap-0.5 px-1 sm:gap-1 sm:px-2">
         {days.map((d) => {
           const isSelected = d.isSame(dayjs(currentDate), 'day');
-
+          const isDisabled =
+            d.isBefore(minDate, 'day') || d.isAfter(maxDate, 'day');
           return (
-            <button
+            <DayButton
               key={d.format('YYYY-MM-DD')}
-              className={`rounded-lg px-1 py-1.5 text-xs font-medium transition-all sm:px-2 sm:py-2 sm:text-sm ${
-                isSelected
-                  ? `bg-white shadow-md ${getTextColorClass(d, isSelected)}`
-                  : `${getTextColorClass(d, isSelected)} hover:scale-105 hover:bg-white/10`
-              }`}
+              day={d}
+              isSelected={isSelected}
+              isDisabled={isDisabled}
               onClick={() => onChange(d.toDate())}
-            >
-              <div className="flex flex-col items-center">
-                <div className="text-xs">{d.locale('ko').format('dd')}</div>
-                <div className="text-sm font-semibold">{d.format('D')}</div>
-              </div>
-            </button>
+            />
           );
         })}
       </div>
     </div>
+  );
+};
+
+const DayButton = ({
+  day,
+  isSelected,
+  isDisabled,
+  onClick,
+}: {
+  day: dayjs.Dayjs;
+  isSelected: boolean;
+  isDisabled: boolean;
+  onClick: () => void;
+}) => {
+  const getTextColorClass = (day: dayjs.Dayjs, isSelected: boolean) => {
+    const dayOfWeek = day.day();
+
+    if (isSelected) {
+      if (dayOfWeek === 0) {
+        return 'text-red-600';
+      } else if (dayOfWeek === 6) {
+        return 'text-blue-600';
+      }
+      return 'text-slate-800';
+    }
+
+    if (dayOfWeek === 0) {
+      return 'text-red-300';
+    } else if (dayOfWeek === 6) {
+      return 'text-blue-300';
+    }
+
+    return 'text-white';
+  };
+  return (
+    <button
+      key={day.format('YYYY-MM-DD')}
+      className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${isSelected ? `bg-white ${getTextColorClass(day, isSelected)}` : `${getTextColorClass(day, isSelected)} hover:bg-white/20`} ${isDisabled ? 'cursor-not-allowed opacity-40' : ''}`}
+      onClick={onClick}
+      disabled={isDisabled}
+    >
+      <div className="flex flex-col items-center">
+        <div className="text-xs">{day.locale('ko').format('dd')}</div>
+        <div className="text-sm">{day.format('D')}</div>
+      </div>
+    </button>
   );
 };
 
