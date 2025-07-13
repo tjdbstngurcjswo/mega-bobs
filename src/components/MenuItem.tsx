@@ -1,8 +1,6 @@
 import {formatCalories} from '@/lib/utils';
 import {MenuItemType} from '@/types/MenuType';
 
-import {Badge} from './ui/badge';
-
 interface MenuItemProps {
   item: MenuItemType;
 }
