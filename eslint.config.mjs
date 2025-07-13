@@ -112,7 +112,7 @@ const eslintConfig = [
         'error',
         {
           selector: 'variable',
-          format: ['camelCase', 'UPPER_CASE'], // 변수: camelCase, PascalCase, UPPER_CASE
+          format: ['camelCase', 'PascalCase', 'UPPER_CASE'], // 변수: camelCase, PascalCase, UPPER_CASE
           leadingUnderscore: 'allow', // 언더스코어로 시작하는 변수 허용
         },
         {
