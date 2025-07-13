@@ -11,11 +11,12 @@ export const dynamic = 'force-dynamic';
 export default async function Home() {
   const today = new Date();
   const queryClient = new QueryClient();
+  const todayString = formatYYYYMMDD(today);
 
   await queryClient.prefetchQuery({
-    queryKey: ['GET_MENU', today, 'COURSE_1'],
+    queryKey: ['GET_MENU', todayString, 'COURSE_1'],
     queryFn: async () =>
-      await getMenu({date: formatYYYYMMDD(today), category: 'COURSE_1'}),
+      await getMenu({date: todayString, category: 'COURSE_1'}),
   });
 
   return (
