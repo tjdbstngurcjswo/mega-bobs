@@ -1,5 +1,4 @@
-import React from 'react';
-
+import {menuCategoryLabelMap} from '@/constants/menuCategory';
 import {CategoryEnum, MenuItemType} from '@/types/MenuType';
 
 import MenuItem from './MenuItem';
@@ -18,7 +17,7 @@ const MenuSection = ({type, items, isLoading}: MenuSectionProps) => {
           <div className="flex items-center gap-2">
             <div className="flex items-center">
               <h2 className="text-base font-semibold text-slate-800 sm:text-lg">
-                {type}
+                {menuCategoryLabelMap[type].ko}
               </h2>
             </div>
           </div>
@@ -40,7 +39,7 @@ const MenuSection = ({type, items, isLoading}: MenuSectionProps) => {
           <div className="flex items-center gap-2">
             <div className="flex items-center">
               <h2 className="text-base font-semibold text-slate-800 sm:text-lg">
-                {type}
+                {menuCategoryLabelMap[type].ko}
               </h2>
             </div>
           </div>
@@ -63,7 +62,7 @@ const MenuSection = ({type, items, isLoading}: MenuSectionProps) => {
         <div className="flex items-center gap-2">
           <div className="flex items-center">
             <h2 className="text-base font-semibold text-slate-800 sm:text-lg">
-              {type}
+              {menuCategoryLabelMap[type].ko}
             </h2>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import {menuCategoryLabelMap} from '@/constants/menuCategory';
 import {CategoryEnum} from '@/types/MenuType';
 
 interface CourseSelectProps {
@@ -32,7 +33,7 @@ const CourseSelect = ({selectedCourse, onChange}: CourseSelectProps) => {
             : 'text-gray-600 hover:text-gray-800'
         }`}
       >
-        코스1
+        {menuCategoryLabelMap.COURSE_1.ko}
       </button>
       <button
         onClick={() => onChange('COURSE_2')}
@@ -42,7 +43,7 @@ const CourseSelect = ({selectedCourse, onChange}: CourseSelectProps) => {
             : 'text-gray-600 hover:text-gray-800'
         }`}
       >
-        코스2
+        {menuCategoryLabelMap.COURSE_2.ko}
       </button>
       <button
         onClick={() => onChange('TAKE_OUT')}
@@ -52,7 +53,7 @@ const CourseSelect = ({selectedCourse, onChange}: CourseSelectProps) => {
             : 'text-gray-600 hover:text-gray-800'
         }`}
       >
-        Takeout
+        {menuCategoryLabelMap.TAKE_OUT.ko}
       </button>
     </div>
   );
