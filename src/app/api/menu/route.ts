@@ -5,6 +5,7 @@ import {supabase} from '@/lib/supabase';
 export async function GET(req: NextRequest) {
   const {searchParams} = new URL(req.url);
   const date = searchParams.get('date');
+  const category = searchParams.get('category');
 
   if (!date) {
     return new Response(JSON.stringify({message: 'Invalid params'}), {
@@ -16,7 +17,9 @@ export async function GET(req: NextRequest) {
   const {data, error} = await supabase
     .from('daily_menu')
     .select('*')
-    .eq('date', date);
+    .eq('date', date)
+    .eq('category', category)
+    .single();
 
   if (error || !data) {
     return new Response(

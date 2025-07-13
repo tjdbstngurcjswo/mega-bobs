@@ -3,35 +3,52 @@
 import {use, useState} from 'react';
 
 import MainWidget from '@/components/MainWidget';
-import {DailyMenu} from '@/types/DailyMenu';
+import useGetMenu from '@/lib/hooks/useGetMenu';
+import {CategoryEnum, MenuItemType, MenuType} from '@/types/MenuType';
 
-import QueryProvider from './QueryProvider';
-import WeekSelect from './WeekSelect';
 import CourseSelect from './CourseSelect';
+import {ErrorBoundary} from './ErrorBoundary';
+import MenuSection from './MenuSection';
+import WeekSelect from './WeekSelect';
 
 interface HomeClientProps {
-  initialMenu: Promise<DailyMenu>;
+  initialMenu: Promise<MenuType>;
+  initialCategory: CategoryEnum;
+
   initialDate: Date;
 }
 
-export function HomeClient({initialMenu, initialDate}: HomeClientProps) {
+const HomeClient = ({
+  initialMenu,
+  initialCategory,
+  initialDate,
+}: HomeClientProps) => {
   const menu = use(initialMenu);
 
   const [selectedDate, setSelectedDate] = useState(initialDate);
-  const [selectedCourse, setSelectedCourse] = useState<'1' | '2' | 'take-out'>(
-    '1'
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+
+  const {data: dataToGetMenu} = useGetMenu(
+    selectedDate,
+    selectedCategory,
+    menu
   );
 
   return (
-    <QueryProvider>
-      <MainWidget>
+    <MainWidget>
+      <ErrorBoundary notFoundFallback={<div>Not Found</div>}>
         <WeekSelect currentDate={selectedDate} onChange={setSelectedDate} />
         <CourseSelect
-          selectedCourse={selectedCourse}
-          onChange={setSelectedCourse}
+          selectedCourse={selectedCategory}
+          onChange={setSelectedCategory}
         />
-        {JSON.stringify(menu)}
-      </MainWidget>
-    </QueryProvider>
+        <MenuSection
+          type={dataToGetMenu.category}
+          items={dataToGetMenu.items as MenuItemType[]} // DB에서 주는게 JSON 이라 타입 변환 필요
+        />
+      </ErrorBoundary>
+    </MainWidget>
   );
-}
+};
+
+export default HomeClient;

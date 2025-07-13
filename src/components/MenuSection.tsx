@@ -1,38 +1,30 @@
+import {CategoryEnum, MenuItemType} from '@/types/MenuType';
 
-import {formatCalories} from '@/lib/utils'
-import {MealType} from '@/types/DailyMenu'
-
-import MenuItem from './MenuItem'
-import {Badge} from './ui/badge'
+import MenuItem from './MenuItem';
 
 interface MenuSectionProps {
-  type: MealType
-  items: {
-    name: string
-    calories: number
-    description: string
-  }[]
-  totalCalories: number
+  type: CategoryEnum;
+  items: MenuItemType[];
 }
 
-const MenuSection = ({type, items, totalCalories}: MenuSectionProps) => {
+const MenuSection = ({type, items}: MenuSectionProps) => {
+  console.log(items);
   return (
     <div className="space-y-md">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-sm">
+        <div className="gap-sm flex items-center">
           <div className="bg-accent-blue-light rounded-base p-sm">
-            <span className="text-primary-main">{type.name} 식사</span>
+            <span className="text-primary-main">{type}</span>
           </div>
-          <Badge variant="blue">{formatCalories(totalCalories)}</Badge>
         </div>
       </div>
       <div className="space-y-sm">
-        {items.map((item) => (
+        {items?.map((item) => (
           <MenuItem key={item.name} item={item} />
         ))}
       </div>
     </div>
-  )
-} 
+  );
+};
 
 export default MenuSection;

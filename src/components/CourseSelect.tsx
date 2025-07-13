@@ -1,16 +1,18 @@
+import {CategoryEnum} from '@/types/MenuType';
+
 interface CourseSelectProps {
-  selectedCourse: '1' | '2' | 'take-out'; // TODO: yoonp - course 타입 정의 필요
-  onChange: (course: '1' | '2' | 'take-out') => void;
+  selectedCourse: CategoryEnum;
+  onChange: (course: CategoryEnum) => void;
 }
 
 const CourseSelect = ({selectedCourse, onChange}: CourseSelectProps) => {
   const getIndicatorPosition = () => {
     switch (selectedCourse) {
-      case '1':
+      case 'COURSE_1':
         return 'translate-x-0';
-      case '2':
+      case 'COURSE_2':
         return 'translate-x-full';
-      case 'take-out':
+      case 'TAKE_OUT':
         return 'translate-x-[200%]';
       default:
         return 'translate-x-0';
@@ -26,25 +28,25 @@ const CourseSelect = ({selectedCourse, onChange}: CourseSelectProps) => {
 
         {/* 버튼들 */}
         <button
-          onClick={() => onChange('1')}
+          onClick={() => onChange('COURSE_1')}
           className={`relative z-10 flex-1 py-2 text-center text-sm font-medium transition-colors duration-300 ${
-            selectedCourse === '1' ? 'text-white' : 'text-gray-700'
+            selectedCourse === 'COURSE_1' ? 'text-white' : 'text-gray-700'
           }`}
         >
           코스1
         </button>
         <button
-          onClick={() => onChange('2')}
+          onClick={() => onChange('COURSE_2')}
           className={`relative z-10 flex-1 py-2 text-center text-sm font-medium transition-colors duration-300 ${
-            selectedCourse === '2' ? 'text-white' : 'text-gray-700'
+            selectedCourse === 'COURSE_2' ? 'text-white' : 'text-gray-700'
           }`}
         >
           코스2
         </button>
         <button
-          onClick={() => onChange('take-out')}
+          onClick={() => onChange('TAKE_OUT')}
           className={`relative z-10 flex-1 py-2 text-center text-sm font-medium transition-colors duration-300 ${
-            selectedCourse === 'take-out' ? 'text-white' : 'text-gray-700'
+            selectedCourse === 'TAKE_OUT' ? 'text-white' : 'text-gray-700'
           }`}
         >
           Takeout
