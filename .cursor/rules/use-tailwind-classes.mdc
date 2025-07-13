@@ -1,0 +1,5 @@
+Always use Tailwind classes for styling HTML elements; avoid using CSS or tags.
+description:
+globs:
+alwaysApply: false
+---

@@ -1,0 +1,5 @@
+Use descriptive variable and function/const names. Also, event functions should be named with a “handle” prefix, like “handleClick” for onClick and “handleKeyDown” for onKeyDown.
+description:
+globs:
+alwaysApply: false
+---

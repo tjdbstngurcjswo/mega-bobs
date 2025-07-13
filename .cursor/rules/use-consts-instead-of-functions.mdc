@@ -1,0 +1,5 @@
+Use consts instead of functions, for example, “const toggle = () =>”. Also, define a type if possible.
+description:
+globs:
+alwaysApply: false
+---

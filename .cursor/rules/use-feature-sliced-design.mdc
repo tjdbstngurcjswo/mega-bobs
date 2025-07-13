@@ -1,0 +1,5 @@
+Use Feature-Sliced Design for the architecture.
+description:
+globs:
+alwaysApply: false
+---

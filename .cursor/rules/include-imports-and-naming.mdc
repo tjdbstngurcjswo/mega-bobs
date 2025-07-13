@@ -1,0 +1,5 @@
+Include all required imports, and ensure proper naming of key components.
+description:
+globs:
+alwaysApply: false
+---

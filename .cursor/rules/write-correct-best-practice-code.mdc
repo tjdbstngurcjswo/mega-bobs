@@ -1,0 +1,5 @@
+Always write correct, best practice, DRY principle (Dont Repeat Yourself), bug free, fully functional and working code also it should be aligned to listed rules down below at Code Implementation Guidelines.
+description:
+globs:
+alwaysApply: false
+---

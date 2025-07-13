@@ -1,0 +1,5 @@
+---
+description: Always use arrow function for all the components and the modules and export default
+globs:
+alwaysApply: true
+---

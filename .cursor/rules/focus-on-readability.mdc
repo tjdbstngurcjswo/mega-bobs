@@ -1,0 +1,5 @@
+Focus on easy and readability code, over being performant.
+description:
+globs:
+alwaysApply: false
+---

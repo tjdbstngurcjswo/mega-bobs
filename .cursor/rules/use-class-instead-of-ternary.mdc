@@ -1,0 +1,5 @@
+Use “class:” instead of the tertiary operator in class tags whenever possible.
+description:
+globs:
+alwaysApply: false
+---

@@ -1,0 +1,5 @@
+Use early returns whenever possible to make the code more readable.
+description:
+globs:
+alwaysApply: false
+---

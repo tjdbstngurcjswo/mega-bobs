@@ -1,0 +1,5 @@
+Implement accessibility features on elements. For example, a tag should have a tabindex=“0”, aria-label, on:click, and on:keydown, and similar attributes.
+description:
+globs:
+alwaysApply: false
+---
