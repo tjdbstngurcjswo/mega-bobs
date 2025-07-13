@@ -8,6 +8,7 @@ import {CategoryEnum, MenuItemType, MenuType} from '@/types/MenuType';
 
 import CourseSelect from './CourseSelect';
 import {ErrorBoundary} from './ErrorBoundary';
+import Header from './Header';
 import MenuSection from './MenuSection';
 import WeekSelect from './WeekSelect';
 
@@ -37,6 +38,7 @@ const HomeClient = ({
   return (
     <MainWidget>
       <ErrorBoundary notFoundFallback={<div>Not Found</div>}>
+        <Header />
         <WeekSelect currentDate={selectedDate} onChange={setSelectedDate} />
         <CourseSelect
           selectedCourse={selectedCategory}
