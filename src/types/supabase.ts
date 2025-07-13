@@ -16,83 +16,24 @@ export type Database = {
     Tables: {
       daily_menu: {
         Row: {
-          category_id: number | null
+          category: Database["public"]["Enums"]["category"]
           date: string
-          id: number
           items: Json
-          meal_type_id: number | null
+          meal: Database["public"]["Enums"]["meal"]
         }
         Insert: {
-          category_id?: number | null
+          category: Database["public"]["Enums"]["category"]
           date: string
-          id?: number
           items: Json
-          meal_type_id?: number | null
+          meal: Database["public"]["Enums"]["meal"]
         }
         Update: {
-          category_id?: number | null
+          category?: Database["public"]["Enums"]["category"]
           date?: string
-          id?: number
           items?: Json
-          meal_type_id?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "daily_menu_category_id_fkey"
-            columns: ["category_id"]
-            isOneToOne: false
-            referencedRelation: "menu_category"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "daily_menu_meal_type_id_fkey"
-            columns: ["meal_type_id"]
-            isOneToOne: false
-            referencedRelation: "meal_type"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      meal_type: {
-        Row: {
-          id: number
-          name: string
-        }
-        Insert: {
-          id?: number
-          name: string
-        }
-        Update: {
-          id?: number
-          name?: string
+          meal?: Database["public"]["Enums"]["meal"]
         }
         Relationships: []
-      }
-      menu_category: {
-        Row: {
-          id: number
-          meal_type_id: number | null
-          name: string
-        }
-        Insert: {
-          id?: number
-          meal_type_id?: number | null
-          name: string
-        }
-        Update: {
-          id?: number
-          meal_type_id?: number | null
-          name?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "menu_category_meal_type_id_fkey"
-            columns: ["meal_type_id"]
-            isOneToOne: false
-            referencedRelation: "meal_type"
-            referencedColumns: ["id"]
-          },
-        ]
       }
     }
     Views: {
@@ -102,7 +43,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      category: "COURSE_1" | "COURSE_2" | "TAKE_OUT"
+      meal: "BREAKFAST" | "LUNCH" | "DINNER"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -229,6 +171,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      category: ["COURSE_1", "COURSE_2", "TAKE_OUT"],
+      meal: ["BREAKFAST", "LUNCH", "DINNER"],
+    },
   },
 } as const
