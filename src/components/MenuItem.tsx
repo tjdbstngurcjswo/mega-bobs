@@ -7,10 +7,12 @@ interface MenuItemProps {
 
 const MenuItem = ({item}: MenuItemProps) => {
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+    <div className="rounded-lg border border-gray-200 bg-white p-3 shadow-sm transition-all hover:shadow-md sm:p-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-medium text-slate-800">{item.name}</h3>
-        <div className="ml-4 rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
+        <h3 className="text-sm font-medium text-slate-800 sm:text-base">
+          {item.name}
+        </h3>
+        <div className="ml-2 rounded-full bg-orange-100 px-2 py-1 text-xs font-medium text-orange-700 sm:ml-4 sm:px-3 sm:text-sm">
           {formatCalories(item.kcal)}
         </div>
       </div>

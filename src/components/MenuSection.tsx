@@ -13,17 +13,20 @@ interface MenuSectionProps {
 const MenuSection = ({type, items, isLoading}: MenuSectionProps) => {
   if (isLoading) {
     return (
-      <div className="flex h-full flex-col rounded-xl bg-white shadow-lg drop-shadow-2xl">
-        <div className="z-1 flex items-center justify-between rounded-t-xl bg-slate-100 px-8 py-4 shadow-md">
+      <div className="flex h-full flex-col rounded-xl bg-white shadow-lg">
+        <div className="flex items-center justify-between rounded-t-xl bg-gradient-to-r from-gray-50 to-gray-100 px-3 py-3 sm:px-6 sm:py-4">
           <div className="flex items-center gap-2">
             <div className="flex items-center">
-              <h2 className="text-lg font-medium text-slate-800">{type}</h2>
+              <h2 className="text-base font-semibold text-slate-800 sm:text-lg">
+                {type}
+              </h2>
             </div>
           </div>
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="text-center">
-            <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
+            <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-slate-300 border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]" />
+            <p className="text-sm text-gray-500">메뉴를 불러오는 중...</p>
           </div>
         </div>
       </div>
@@ -32,18 +35,20 @@ const MenuSection = ({type, items, isLoading}: MenuSectionProps) => {
 
   if (items && items.length > 0) {
     return (
-      <div className="flex h-full flex-col rounded-xl bg-white shadow-lg drop-shadow-2xl">
-        <div className="z-1 flex items-center justify-between rounded-t-xl bg-slate-100 px-8 py-4 shadow-md">
+      <div className="flex h-full flex-col rounded-xl bg-white shadow-lg">
+        <div className="flex items-center justify-between rounded-t-xl bg-gradient-to-r from-gray-50 to-gray-100 px-3 py-3 sm:px-6 sm:py-4">
           <div className="flex items-center gap-2">
             <div className="flex items-center">
-              <h2 className="text-lg font-medium text-slate-800">{type}</h2>
+              <h2 className="text-base font-semibold text-slate-800 sm:text-lg">
+                {type}
+              </h2>
             </div>
           </div>
-          <div className="rounded-full bg-slate-200 px-3 py-1 text-sm font-medium text-slate-700">
+          <div className="rounded-full bg-orange-100 px-2 py-1 text-xs font-medium text-orange-700 sm:px-3 sm:text-sm">
             {items.reduce((sum, item) => sum + item.kcal, 0)} kcal
           </div>
         </div>
-        <div className="flex-1 space-y-3 overflow-y-auto p-4">
+        <div className="flex-1 space-y-2 overflow-y-auto p-3 sm:space-y-3 sm:p-4">
           {items.map((item) => (
             <MenuItem key={item.name} item={item} />
           ))}
@@ -53,21 +58,23 @@ const MenuSection = ({type, items, isLoading}: MenuSectionProps) => {
   }
 
   return (
-    <div className="flex h-full flex-col rounded-xl bg-white shadow-lg drop-shadow-2xl">
-      <div className="z-1 flex items-center justify-between rounded-t-xl bg-slate-100 px-8 py-4 shadow-md">
+    <div className="flex h-full flex-col rounded-xl bg-white shadow-lg">
+      <div className="flex items-center justify-between rounded-t-xl bg-gradient-to-r from-gray-50 to-gray-100 px-3 py-3 sm:px-6 sm:py-4">
         <div className="flex items-center gap-2">
           <div className="flex items-center">
-            <h2 className="text-lg font-medium text-slate-800">{type}</h2>
+            <h2 className="text-base font-semibold text-slate-800 sm:text-lg">
+              {type}
+            </h2>
           </div>
         </div>
       </div>
       <div className="flex flex-1 items-center justify-center">
         <div className="text-center">
-          <div className="mb-2 text-lg text-gray-500">📋</div>
-          <div className="text-base text-gray-600">
+          <div className="mb-3 text-2xl">📋</div>
+          <div className="text-sm font-medium text-gray-600 sm:text-base">
             선택한 날짜에 메뉴 데이터가 없습니다
           </div>
-          <div className="mt-1 text-sm text-gray-400">
+          <div className="mt-2 text-xs text-gray-400 sm:text-sm">
             다른 날짜를 선택해보세요
           </div>
         </div>

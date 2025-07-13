@@ -20,30 +20,36 @@ const CourseSelect = ({selectedCourse, onChange}: CourseSelectProps) => {
   };
 
   return (
-    <div className="relative flex rounded-full bg-white p-1 drop-shadow-md">
+    <div className="relative flex rounded-xl bg-gray-100 p-1 shadow-sm">
       <div
-        className={`absolute top-1 bottom-1 left-1 w-1/3 rounded-full bg-slate-800 transition-transform duration-300 ease-in-out ${getIndicatorPosition()}`}
+        className={`absolute top-1 bottom-1 left-1 w-1/3 rounded-lg bg-gradient-to-r from-slate-800 to-slate-900 shadow-sm transition-all duration-300 ease-in-out ${getIndicatorPosition()}`}
       />
       <button
         onClick={() => onChange('COURSE_1')}
-        className={`relative z-10 flex-1 py-2 text-center text-sm font-medium transition-colors duration-300 ${
-          selectedCourse === 'COURSE_1' ? 'text-white' : 'text-gray-700'
+        className={`relative z-10 flex-1 py-2 text-center text-xs font-semibold transition-all duration-300 sm:py-2.5 sm:text-sm ${
+          selectedCourse === 'COURSE_1'
+            ? 'text-white'
+            : 'text-gray-600 hover:text-gray-800'
         }`}
       >
         코스1
       </button>
       <button
         onClick={() => onChange('COURSE_2')}
-        className={`relative z-10 flex-1 py-2 text-center text-sm font-medium transition-colors duration-300 ${
-          selectedCourse === 'COURSE_2' ? 'text-white' : 'text-gray-700'
+        className={`relative z-10 flex-1 py-2 text-center text-xs font-semibold transition-all duration-300 sm:py-2.5 sm:text-sm ${
+          selectedCourse === 'COURSE_2'
+            ? 'text-white'
+            : 'text-gray-600 hover:text-gray-800'
         }`}
       >
         코스2
       </button>
       <button
         onClick={() => onChange('TAKE_OUT')}
-        className={`relative z-10 flex-1 py-2 text-center text-sm font-medium transition-colors duration-300 ${
-          selectedCourse === 'TAKE_OUT' ? 'text-white' : 'text-gray-700'
+        className={`relative z-10 flex-1 py-2 text-center text-xs font-semibold transition-all duration-300 sm:py-2.5 sm:text-sm ${
+          selectedCourse === 'TAKE_OUT'
+            ? 'text-white'
+            : 'text-gray-600 hover:text-gray-800'
         }`}
       >
         Takeout
