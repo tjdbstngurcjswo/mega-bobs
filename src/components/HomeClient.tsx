@@ -3,7 +3,7 @@
 import {use, useState} from 'react';
 
 import {MobileContainer} from '@/components/layout';
-import useGetMenu from '@/lib/hooks/useGetMenu';
+import useGetMenu from '@/lib/hooks/queries/useGetMenu';
 import {CategoryEnum, MenuItemType, MenuType} from '@/types/MenuType';
 
 import CourseSelect from './CourseSelect';

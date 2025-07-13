@@ -1,9 +1,8 @@
 import {useQuery} from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
+import getMenu from '@/lib/api/getMenu';
 import {CategoryEnum, MenuType} from '@/types/MenuType';
-
-import getMenu from '../api/getMenu';
 
 const useGetMenu = (
   date: Date,
