@@ -8,6 +8,7 @@ interface MenuSectionProps {
 }
 
 const MenuSection = ({type, items}: MenuSectionProps) => {
+  console.log(items);
   return (
     <div className="space-y-md">
       <div className="flex items-center justify-between">

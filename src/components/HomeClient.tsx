@@ -6,10 +6,9 @@ import MainWidget from '@/components/MainWidget';
 import useGetMenu from '@/lib/hooks/useGetMenu';
 import {CategoryEnum, MenuItemType, MenuType} from '@/types/MenuType';
 
-import DaySelect from './DaySelect';
+import CourseSelect from './CourseSelect';
 import {ErrorBoundary} from './ErrorBoundary';
 import MenuSection from './MenuSection';
-import {Tab, Tabs} from './ui/tabs';
 import WeekSelect from './WeekSelect';
 
 interface HomeClientProps {
@@ -18,7 +17,6 @@ interface HomeClientProps {
 
   initialDate: Date;
 }
-const MEAL_TYPES: CategoryEnum[] = ['COURSE_1', 'COURSE_2', 'TAKE_OUT'];
 
 const HomeClient = ({
   initialMenu,
@@ -40,21 +38,13 @@ const HomeClient = ({
     <MainWidget>
       <ErrorBoundary notFoundFallback={<div>Not Found</div>}>
         <WeekSelect currentDate={selectedDate} onChange={setSelectedDate} />
-        <DaySelect currentDate={selectedDate} onChange={setSelectedDate} />
-        <Tabs>
-          {MEAL_TYPES.map((type) => (
-            <Tab
-              key={type}
-              isActive={type === dataToGetMenu.category}
-              onClick={() => setSelectedCategory(type)}
-            >
-              {type}
-            </Tab>
-          ))}
-        </Tabs>
+        <CourseSelect
+          selectedCourse={selectedCategory}
+          onChange={setSelectedCategory}
+        />
         <MenuSection
           type={dataToGetMenu.category}
-          items={dataToGetMenu.items as MenuItemType[]}
+          items={dataToGetMenu.items as MenuItemType[]} // DB에서 주는게 JSON 이라 타입 변환 필요
         />
       </ErrorBoundary>
     </MainWidget>

@@ -18,7 +18,8 @@ export async function GET(req: NextRequest) {
     .from('daily_menu')
     .select('*')
     .eq('date', date)
-    .eq('category', category);
+    .eq('category', category)
+    .single();
 
   if (error || !data) {
     return new Response(
