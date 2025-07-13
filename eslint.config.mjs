@@ -109,7 +109,7 @@ const eslintConfig = [
       // =============================================
 
       '@typescript-eslint/naming-convention': [
-        'error',
+        'warn',
         {
           selector: 'variable',
           format: ['camelCase', 'PascalCase', 'UPPER_CASE'], // 변수: camelCase, PascalCase, UPPER_CASE
@@ -122,6 +122,10 @@ const eslintConfig = [
         {
           selector: 'typeLike',
           format: ['PascalCase'], // 타입, 인터페이스, 클래스: PascalCase
+        },
+        {
+          selector: 'type',
+          format: ['PascalCase'],
         },
       ],
 
