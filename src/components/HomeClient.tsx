@@ -3,35 +3,62 @@
 import {use, useState} from 'react';
 
 import MainWidget from '@/components/MainWidget';
-import {DailyMenu} from '@/types/DailyMenu';
+import useGetMenu from '@/lib/hooks/useGetMenu';
+import {CategoryEnum, MenuItemType, MenuType} from '@/types/MenuType';
 
-import QueryProvider from './QueryProvider';
+import DaySelect from './DaySelect';
+import {ErrorBoundary} from './ErrorBoundary';
+import MenuSection from './MenuSection';
+import {Tab, Tabs} from './ui/tabs';
 import WeekSelect from './WeekSelect';
-import CourseSelect from './CourseSelect';
 
 interface HomeClientProps {
-  initialMenu: Promise<DailyMenu>;
+  initialMenu: Promise<MenuType>;
+  initialCategory: CategoryEnum;
+
   initialDate: Date;
 }
+const MEAL_TYPES: CategoryEnum[] = ['COURSE_1', 'COURSE_2', 'TAKE_OUT'];
 
-export function HomeClient({initialMenu, initialDate}: HomeClientProps) {
+const HomeClient = ({
+  initialMenu,
+  initialCategory,
+  initialDate,
+}: HomeClientProps) => {
   const menu = use(initialMenu);
 
   const [selectedDate, setSelectedDate] = useState(initialDate);
-  const [selectedCourse, setSelectedCourse] = useState<'1' | '2' | 'take-out'>(
-    '1'
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+
+  const {data: dataToGetMenu} = useGetMenu(
+    selectedDate,
+    selectedCategory,
+    menu
   );
 
   return (
-    <QueryProvider>
-      <MainWidget>
+    <MainWidget>
+      <ErrorBoundary notFoundFallback={<div>Not Found</div>}>
         <WeekSelect currentDate={selectedDate} onChange={setSelectedDate} />
-        <CourseSelect
-          selectedCourse={selectedCourse}
-          onChange={setSelectedCourse}
+        <DaySelect currentDate={selectedDate} onChange={setSelectedDate} />
+        <Tabs>
+          {MEAL_TYPES.map((type) => (
+            <Tab
+              key={type}
+              isActive={type === dataToGetMenu.category}
+              onClick={() => setSelectedCategory(type)}
+            >
+              {type}
+            </Tab>
+          ))}
+        </Tabs>
+        <MenuSection
+          type={dataToGetMenu.category}
+          items={dataToGetMenu.items as MenuItemType[]}
         />
-        {JSON.stringify(menu)}
-      </MainWidget>
-    </QueryProvider>
+      </ErrorBoundary>
+    </MainWidget>
   );
-}
+};
+
+export default HomeClient;
