@@ -1,3 +1,4 @@
+import {dehydrate, HydrationBoundary, QueryClient} from '@tanstack/react-query';
 import {Suspense} from 'react';
 
 import HomeClient from '@/components/HomeClient';
@@ -9,15 +10,18 @@ export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const today = new Date();
-  const menu = getMenu({date: formatYYYYMMDD(today), category: 'COURSE_1'});
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['GET_MENU', today, 'COURSE_1'],
+    queryFn: () => getMenu({date: formatYYYYMMDD(today), category: 'COURSE_1'}),
+  });
 
   return (
     <Suspense fallback={<Loading />}>
-      <HomeClient
-        initialMenu={menu}
-        initialDate={today}
-        initialCategory="COURSE_1"
-      />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <HomeClient initialDate={today} initialCategory="COURSE_1" />
+      </HydrationBoundary>
     </Suspense>
   );
 }

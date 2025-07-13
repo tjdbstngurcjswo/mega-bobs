@@ -1,10 +1,10 @@
 'use client';
 
-import {use, useState} from 'react';
+import {useState} from 'react';
 
 import {MobileContainer} from '@/components/layout';
 import useGetMenu from '@/lib/hooks/queries/useGetMenu';
-import {CategoryEnum, MenuItemType, MenuType} from '@/types/MenuType';
+import {CategoryEnum, MenuItemType} from '@/types/MenuType';
 
 import CourseSelect from './CourseSelect';
 import {ErrorBoundary} from './ErrorBoundary';
@@ -13,25 +13,17 @@ import MenuSection from './MenuSection';
 import WeekSelect from './WeekSelect';
 
 interface HomeClientProps {
-  initialMenu: Promise<MenuType>;
   initialCategory: CategoryEnum;
   initialDate: Date;
 }
 
-const HomeClient = ({
-  initialMenu,
-  initialCategory,
-  initialDate,
-}: HomeClientProps) => {
-  const menu = use(initialMenu);
-
+const HomeClient = ({initialCategory, initialDate}: HomeClientProps) => {
   const [selectedDate, setSelectedDate] = useState(initialDate);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
 
   const {data: dataToGetMenu, isFetching} = useGetMenu(
     selectedDate,
-    selectedCategory,
-    menu
+    selectedCategory
   );
 
   return (

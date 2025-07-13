@@ -4,11 +4,7 @@ import dayjs from 'dayjs';
 import getMenu from '@/lib/api/getMenu';
 import {CategoryEnum, MenuType} from '@/types/MenuType';
 
-const useGetMenu = (
-  date: Date,
-  category: CategoryEnum,
-  initialData: MenuType
-) =>
+const useGetMenu = (date: Date, category: CategoryEnum) =>
   useQuery<MenuType>({
     queryKey: ['GET_MENU', date, category],
     queryFn: async () =>
@@ -16,7 +12,7 @@ const useGetMenu = (
         date: dayjs(date).format('YYYY-MM-DD'),
         category,
       }),
-    initialData,
+    staleTime: 1000 * 60 * 5,
   });
 
 export default useGetMenu;
