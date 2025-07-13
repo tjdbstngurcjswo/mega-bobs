@@ -1,6 +1,7 @@
 import type {Metadata} from 'next';
 import {Inter} from 'next/font/google';
 
+import {AppLayout} from '@/components/layout';
 import QueryProvider from '@/components/QueryProvider';
 import './globals.css';
 
@@ -20,9 +21,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={inter.className}>
         <QueryProvider>
-          <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#EFF6FF] via-[#EFF6FF] to-[#FAF5FF]">
-            {children}
-          </main>
+          <AppLayout>{children}</AppLayout>
         </QueryProvider>
       </body>
     </html>

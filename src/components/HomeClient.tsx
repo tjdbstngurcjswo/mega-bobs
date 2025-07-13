@@ -2,7 +2,7 @@
 
 import {use, useState} from 'react';
 
-import MainWidget from '@/components/MainWidget';
+import {MobileContainer} from '@/components/layout';
 import useGetMenu from '@/lib/hooks/useGetMenu';
 import {CategoryEnum, MenuItemType, MenuType} from '@/types/MenuType';
 
@@ -35,18 +35,18 @@ const HomeClient = ({
   );
 
   return (
-    <MainWidget>
+    <MobileContainer>
       <ErrorBoundary notFoundFallback={<div>Not Found</div>}>
         <Header />
         <WeekSelect currentDate={selectedDate} onChange={setSelectedDate} />
-        <div className="flex flex-1 flex-col overflow-hidden p-4">
-          <div className="mb-3">
+        <div className="flex flex-1 flex-col overflow-hidden p-2 sm:p-4">
+          <div className="mb-2 sm:mb-3">
             <CourseSelect
               selectedCourse={selectedCategory}
               onChange={setSelectedCategory}
             />
           </div>
-          <div className="min-h-0 flex-1">
+          <div className="min-h-0 flex-1 overflow-auto">
             <MenuSection
               type={selectedCategory}
               items={dataToGetMenu?.items as MenuItemType[]}
@@ -55,7 +55,7 @@ const HomeClient = ({
           </div>
         </div>
       </ErrorBoundary>
-    </MainWidget>
+    </MobileContainer>
   );
 };
 
