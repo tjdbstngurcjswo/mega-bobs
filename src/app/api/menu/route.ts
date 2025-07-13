@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   const date = searchParams.get('date');
   const category = searchParams.get('category');
 
-  if (!date) {
+  if (!date || !category) {
     return new Response(JSON.stringify({message: 'Invalid params'}), {
       status: 400,
       headers: {'Content-Type': 'application/json'},
@@ -21,16 +21,15 @@ export async function GET(req: NextRequest) {
     .eq('category', category)
     .single();
 
-  if (error || !data) {
-    return new Response(
-      JSON.stringify({message: error?.message || 'Not found'}),
-      {
-        status: 404,
-        headers: {'Content-Type': 'application/json'},
-      }
-    );
+  // supabase에서 데이터가 없을 때 error.code가 'PGRST116'임
+  if (error && error.code !== 'PGRST116') {
+    return new Response(JSON.stringify({message: error.message}), {
+      status: 500,
+      headers: {'Content-Type': 'application/json'},
+    });
   }
 
+  // 데이터가 없을 때도 200으로 응답
   return new Response(JSON.stringify(data), {
     status: 200,
     headers: {'Content-Type': 'application/json'},

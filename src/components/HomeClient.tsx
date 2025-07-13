@@ -45,8 +45,8 @@ const HomeClient = ({
           onChange={setSelectedCategory}
         />
         <MenuSection
-          type={dataToGetMenu.category}
-          items={dataToGetMenu.items as MenuItemType[]} // DB에서 주는게 JSON 이라 타입 변환 필요
+          type={selectedCategory}
+          items={dataToGetMenu?.items as MenuItemType[]} // DB에서 주는게 JSON 이라 타입 변환 필요
         />
       </ErrorBoundary>
     </MainWidget>
