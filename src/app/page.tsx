@@ -7,7 +7,7 @@ import {formatYYYYMMDD} from '@/lib/utils';
 
 export default async function Home() {
   // SSR: 오늘 날짜와 lunch로 메뉴 fetch
-  const today = new Date('2025-07-14');
+  const today = new Date();
   const menu = getMenu({date: formatYYYYMMDD(today), category: 'COURSE_1'});
 
   return (
