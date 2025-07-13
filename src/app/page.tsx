@@ -5,8 +5,9 @@ import Loading from '@/components/Loading';
 import getMenu from '@/lib/api/getMenu';
 import {formatYYYYMMDD} from '@/lib/utils';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
-  // SSR: 오늘 날짜와 lunch로 메뉴 fetch
   const today = new Date();
   const menu = getMenu({date: formatYYYYMMDD(today), category: 'COURSE_1'});
 

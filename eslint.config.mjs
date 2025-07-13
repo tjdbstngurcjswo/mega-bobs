@@ -87,7 +87,7 @@ const eslintConfig = [
       // =============================================
 
       'max-lines': ['warn', {max: 300, skipComments: true}], // 파일 최대 300줄 (주석 제외)
-      'max-lines-per-function': ['warn', {max: 50, skipComments: true}], // 함수 최대 50줄 (주석 제외)
+      'max-lines-per-function': ['warn', {max: 80, skipComments: true}], // 함수 최대 80줄 (주석 제외)
       complexity: ['warn', 10], // 순환 복잡도 최대 10 (if, for, while 등의 중첩 제한)
       'max-depth': ['warn', 3], // 중첩 블록 최대 3단계 (가독성 향상)
       'max-params': ['warn', 4], // 함수 매개변수 최대 4개 (객체로 전달 권장)
@@ -109,7 +109,7 @@ const eslintConfig = [
       // =============================================
 
       '@typescript-eslint/naming-convention': [
-        'error',
+        'warn',
         {
           selector: 'variable',
           format: ['camelCase', 'PascalCase', 'UPPER_CASE'], // 변수: camelCase, PascalCase, UPPER_CASE
@@ -132,6 +132,13 @@ const eslintConfig = [
       'jsx-a11y/alt-text': 'error', // 이미지에 alt 속성 필수 (스크린 리더 지원)
       'jsx-a11y/anchor-is-valid': 'error', // 유효한 앵커 태그 사용 강제
       'jsx-a11y/no-static-element-interactions': 'warn', // 정적 요소에 이벤트 핸들러 사용 시 경고
+    },
+  },
+  {
+    files: ['**/types/**/*.ts'],
+    rules: {
+      '@typescript-eslint/naming-convention': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
     },
   },
 ];

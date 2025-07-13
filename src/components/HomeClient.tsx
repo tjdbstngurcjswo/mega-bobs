@@ -28,7 +28,7 @@ const HomeClient = ({
   const [selectedDate, setSelectedDate] = useState(initialDate);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
 
-  const {data: dataToGetMenu} = useGetMenu(
+  const {data: dataToGetMenu, isFetching} = useGetMenu(
     selectedDate,
     selectedCategory,
     menu
@@ -49,7 +49,8 @@ const HomeClient = ({
           <div className="min-h-0 flex-1">
             <MenuSection
               type={selectedCategory}
-              items={dataToGetMenu?.items as MenuItemType[]} // DB에서 주는게 JSON 이라 타입 변환 필요
+              items={dataToGetMenu?.items as MenuItemType[]}
+              isLoading={isFetching}
             />
           </div>
         </div>

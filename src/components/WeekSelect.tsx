@@ -9,7 +9,6 @@ interface WeekNavigatorProps {
 
 function getWeekStart(date: Date) {
   const d = dayjs(date);
-  // 월요일 시작(0:일, 1:월, ..., 6:토)
   const day = d.day() === 0 ? 7 : d.day();
   return d.subtract(day - 1, 'day').startOf('day');
 }
@@ -26,6 +25,27 @@ const WeekSelect = ({currentDate, onChange}: WeekNavigatorProps) => {
   };
 
   const weekRange = `${days[0].format('M월 D일')} - ${days[6].format('M월 D일')}`;
+
+  const getTextColorClass = (day: dayjs.Dayjs, isSelected: boolean) => {
+    const dayOfWeek = day.day();
+
+    if (isSelected) {
+      if (dayOfWeek === 0) {
+        return 'text-red-400';
+      } else if (dayOfWeek === 6) {
+        return 'text-blue-400';
+      }
+      return 'text-slate-800';
+    }
+
+    if (dayOfWeek === 0) {
+      return 'text-red-400';
+    } else if (dayOfWeek === 6) {
+      return 'text-blue-400';
+    }
+
+    return 'text-white';
+  };
 
   return (
     <div className="flex flex-col items-center gap-4 bg-slate-800 p-4 text-white">
@@ -47,22 +67,26 @@ const WeekSelect = ({currentDate, onChange}: WeekNavigatorProps) => {
         </button>
       </div>
       <div className="flex w-full justify-between gap-1 px-4">
-        {days.map((d) => (
-          <button
-            key={d.format('YYYY-MM-DD')}
-            className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-              d.isSame(dayjs(currentDate), 'day')
-                ? 'bg-white text-slate-800'
-                : 'text-white hover:bg-white/20'
-            }`}
-            onClick={() => onChange(d.toDate())}
-          >
-            <div className="flex flex-col items-center">
-              <div className="text-xs">{d.locale('ko').format('dd')}</div>
-              <div className="text-sm">{d.format('D')}</div>
-            </div>
-          </button>
-        ))}
+        {days.map((d) => {
+          const isSelected = d.isSame(dayjs(currentDate), 'day');
+
+          return (
+            <button
+              key={d.format('YYYY-MM-DD')}
+              className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                isSelected
+                  ? `bg-white ${getTextColorClass(d, isSelected)}`
+                  : `${getTextColorClass(d, isSelected)} hover:bg-white/20`
+              }`}
+              onClick={() => onChange(d.toDate())}
+            >
+              <div className="flex flex-col items-center">
+                <div className="text-xs">{d.locale('ko').format('dd')}</div>
+                <div className="text-sm">{d.format('D')}</div>
+              </div>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
