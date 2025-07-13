@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
+import toast from 'react-hot-toast';
 
 interface WeekNavigatorProps {
   currentDate: Date;
@@ -22,12 +23,18 @@ const WeekSelect = ({currentDate, onChange}: WeekNavigatorProps) => {
 
   const handlePrevWeek = () => {
     const prevWeekStart = weekStart.subtract(7, 'day');
-    if (prevWeekStart.isBefore(minDate, 'day')) return;
+    if (prevWeekStart.isBefore(minDate, 'day')) {
+      toast.error('이전 주의 메뉴 데이터가 없습니다');
+      return;
+    }
     onChange(prevWeekStart.toDate());
   };
   const handleNextWeek = () => {
     const nextWeekStart = weekStart.add(7, 'day');
-    if (nextWeekStart.isAfter(maxDate, 'day')) return;
+    if (nextWeekStart.isAfter(maxDate, 'day')) {
+      toast.error('매주 목요일에 메뉴가 업데이트됩니다.');
+      return;
+    }
     onChange(nextWeekStart.toDate());
   };
 
