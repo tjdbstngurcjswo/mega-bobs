@@ -7,7 +7,7 @@ interface DaySelectProps {
   onSelectDay: (date: number) => void
 }
 
-export function DaySelect({ days, onSelectDay }: DaySelectProps) {
+const DaySelect = ({days, onSelectDay}: DaySelectProps) => {
   return (
     <div className="flex justify-center items-center gap-[4px] mt-lg">
       {days.map((day) => (
@@ -37,3 +37,5 @@ export function DaySelect({ days, onSelectDay }: DaySelectProps) {
     </div>
   )
 } 
+
+export default DaySelect

@@ -1,12 +1,13 @@
-import { MenuItem as MenuItemType } from '@/lib/types'
-import { formatCalories } from '@/lib/utils'
-import { Badge } from './ui/badge'
+
+import {formatCalories} from '@/lib/utils';
+
+import {Badge} from './ui/badge';
 
 interface MenuItemProps {
-  item: MenuItemType
+  item: any;
 }
 
-export function MenuItem({ item }: MenuItemProps) {
+const MenuItem = ({item}: MenuItemProps) => {
   return (
     <div className="bg-white/50 border border-accent-blue-light/50 rounded-base p-md">
       <div className="flex items-center justify-between">
@@ -17,3 +18,5 @@ export function MenuItem({ item }: MenuItemProps) {
     </div>
   )
 } 
+
+export default MenuItem;

@@ -1,6 +1,8 @@
-import { MealType } from '@/lib/types'
-import { MenuSection } from './menu-section'
-import { Tab, Tabs } from './ui/tabs'
+
+import {MealType} from '@/types/DailyMenu'
+
+import MenuSection from './MenuSection'
+import {Tab, Tabs} from './ui/tabs'
 
 interface MenuBoardProps {
   selectedMeal: MealType
@@ -12,15 +14,9 @@ interface MenuBoardProps {
   }[]
 }
 
-const mealTypeToKorean: Record<MealType, string> = {
-  breakfast: '아침',
-  lunch: '점심',
-  dinner: '저녁',
-}
+const MEAL_TYPES: MealType[] = [{id:1, name:'아침'}, {id:2, name:'점심'}, {id:3, name:'저녁'}]
 
-const MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner']
-
-export function MenuBoard({ selectedMeal, onMealSelect, menuItems }: MenuBoardProps) {
+const MenuBoard = ({selectedMeal, onMealSelect, menuItems}: MenuBoardProps) => {
   const totalCalories = menuItems.reduce((sum, item) => sum + item.calories, 0)
 
   return (
@@ -28,11 +24,11 @@ export function MenuBoard({ selectedMeal, onMealSelect, menuItems }: MenuBoardPr
       <Tabs>
         {MEAL_TYPES.map((type) => (
           <Tab
-            key={type}
+            key={type.id}
             isActive={type === selectedMeal}
             onClick={() => onMealSelect(type)}
           >
-            {mealTypeToKorean[type]}
+            {type.name}
           </Tab>
         ))}
       </Tabs>
@@ -46,4 +42,6 @@ export function MenuBoard({ selectedMeal, onMealSelect, menuItems }: MenuBoardPr
       </div>
     </div>
   )
-} 
+}
+
+export default MenuBoard

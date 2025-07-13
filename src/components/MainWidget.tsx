@@ -2,7 +2,7 @@ interface MainWidgetProps {
   children: React.ReactNode
 }
 
-export function MainWidget({ children }: MainWidgetProps) {
+const MainWidget = ({children}: MainWidgetProps) => {
   return (
     <div className="min-h-screen bg-accent-blue-lighter p-lg flex items-center justify-center">
       <div className="w-full max-w-container bg-white rounded-lg shadow-card overflow-hidden">
@@ -16,7 +16,7 @@ export function MainWidget({ children }: MainWidgetProps) {
                 <path d="M19 5L12 12" />
               </svg>
             </div>
-            <h1 className="text-lg font-medium text-white">메가존 구내식당</h1>
+            <h1 className="text-lg font-medium text-white">MegaBobs</h1>
             <div className="bg-white/20 backdrop-blur-xs rounded-base p-[10px]">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="white" strokeWidth="1.67">
                 <path d="M1.67 1.67H18.34" />
@@ -32,4 +32,6 @@ export function MainWidget({ children }: MainWidgetProps) {
       </div>
     </div>
   )
-} 
+}
+
+export default MainWidget;
