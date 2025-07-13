@@ -1,20 +1,21 @@
-import { cn } from '@/lib/utils'
-import { ReactNode } from 'react'
+import {ReactNode} from 'react';
+
+import {cn} from '@/lib/utils';
 
 interface BadgeProps {
-  children: ReactNode
-  className?: string
-  variant?: 'default' | 'outline' | 'blue'
+  children: ReactNode;
+  className?: string;
+  variant?: 'default' | 'outline' | 'blue';
 }
 
-export function Badge({ children, className, variant = 'default' }: BadgeProps) {
+export function Badge({children, className, variant = 'default'}: BadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center justify-center px-sm py-xs rounded-full text-xs font-normal',
+        'px-sm py-xs inline-flex items-center justify-center rounded-full text-xs font-normal',
         {
           'bg-primary-main text-white': variant === 'default',
-          'border border-primary-main text-primary-main': variant === 'outline',
+          'border-primary-main text-primary-main border': variant === 'outline',
           'bg-accent-blue-light text-primary-main': variant === 'blue',
         },
         className
@@ -22,5 +23,5 @@ export function Badge({ children, className, variant = 'default' }: BadgeProps) 
     >
       {children}
     </span>
-  )
-} 
+  );
+}
