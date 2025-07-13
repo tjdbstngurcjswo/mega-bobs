@@ -8,7 +8,7 @@ import './globals.css';
 const inter = Inter({subsets: ['latin']});
 
 export const metadata: Metadata = {
-  title: '메가존 구내식당',
+  title: '메가밥스',
   description: '메가존 구내식당 식단표',
 };
 
