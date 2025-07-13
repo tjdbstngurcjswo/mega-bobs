@@ -26,8 +26,6 @@ const HomeClient = ({initialCategory, initialDate}: HomeClientProps) => {
     selectedCategory
   );
 
-  console.log('dataToGetMenu', dataToGetMenu);
-
   return (
     <MobileContainer>
       <ErrorBoundary notFoundFallback={<div>Not Found</div>}>
