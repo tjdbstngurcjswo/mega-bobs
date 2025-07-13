@@ -1,6 +1,7 @@
 import {Suspense} from 'react';
 
 import {HomeClient} from '@/components/HomeClient';
+import {Loading} from '@/components/Loading';
 import getMenu from '@/lib/api/getMenu';
 import {formatYYYYMMDD} from '@/lib/utils';
 
@@ -10,7 +11,7 @@ export default async function Home() {
   const menu = getMenu(formatYYYYMMDD(today));
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loading />}>
       <HomeClient initialMenu={menu} initialDate={today} />
     </Suspense>
   );
