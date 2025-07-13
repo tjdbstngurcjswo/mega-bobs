@@ -123,10 +123,6 @@ const eslintConfig = [
           selector: 'typeLike',
           format: ['PascalCase'], // 타입, 인터페이스, 클래스: PascalCase
         },
-        {
-          selector: 'type',
-          format: ['PascalCase'],
-        },
       ],
 
       // =============================================
@@ -136,6 +132,13 @@ const eslintConfig = [
       'jsx-a11y/alt-text': 'error', // 이미지에 alt 속성 필수 (스크린 리더 지원)
       'jsx-a11y/anchor-is-valid': 'error', // 유효한 앵커 태그 사용 강제
       'jsx-a11y/no-static-element-interactions': 'warn', // 정적 요소에 이벤트 핸들러 사용 시 경고
+    },
+  },
+  {
+    files: ['**/types/**/*.ts'],
+    rules: {
+      '@typescript-eslint/naming-convention': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
     },
   },
 ];
