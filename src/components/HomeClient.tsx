@@ -7,6 +7,8 @@ import useGetMenu from '@/lib/hooks/useGetMenu';
 import {CategoryEnum, MenuItemType, MenuType} from '@/types/MenuType';
 
 import CourseSelect from './CourseSelect';
+import {ErrorBoundary} from './ErrorBoundary';
+import Header from './Header';
 import MenuSection from './MenuSection';
 import WeekSelect from './WeekSelect';
 
@@ -35,15 +37,18 @@ const HomeClient = ({
 
   return (
     <MainWidget>
-      <WeekSelect currentDate={selectedDate} onChange={setSelectedDate} />
-      <CourseSelect
-        selectedCourse={selectedCategory}
-        onChange={setSelectedCategory}
-      />
-      <MenuSection
-        type={selectedCategory}
-        items={dataToGetMenu?.items as MenuItemType[]} // DB에서 주는게 JSON 이라 타입 변환 필요
-      />
+      <ErrorBoundary notFoundFallback={<div>Not Found</div>}>
+        <Header />
+        <WeekSelect currentDate={selectedDate} onChange={setSelectedDate} />
+        <CourseSelect
+          selectedCourse={selectedCategory}
+          onChange={setSelectedCategory}
+        />
+        <MenuSection
+          type={selectedCategory}
+          items={dataToGetMenu?.items as MenuItemType[]} // DB에서 주는게 JSON 이라 타입 변환 필요
+        />
+      </ErrorBoundary>
     </MainWidget>
   );
 };
