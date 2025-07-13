@@ -14,7 +14,11 @@ export default async function Home() {
 
   await queryClient.prefetchQuery({
     queryKey: ['GET_MENU', today, 'COURSE_1'],
-    queryFn: () => getMenu({date: formatYYYYMMDD(today), category: 'COURSE_1'}),
+    queryFn: () => {
+      const a = getMenu({date: formatYYYYMMDD(today), category: 'COURSE_1'});
+      console.log('a', a);
+      return a;
+    },
   });
 
   return (
