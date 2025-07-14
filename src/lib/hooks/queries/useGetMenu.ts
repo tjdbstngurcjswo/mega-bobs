@@ -13,7 +13,8 @@ const useGetMenu = (date: Date, category: CategoryEnum) => {
         date: dateString,
         category,
       }),
-    staleTime: 1000 * 60 * 5,
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 };
 
