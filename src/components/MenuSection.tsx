@@ -31,7 +31,7 @@ const MenuSection = ({items, isLoading}: MenuSectionProps) => {
             <MenuItem key={item.name} item={item} />
           ))}
 
-          <div className="my-2 border-t border-dashed border-slate-300"></div>
+          <div className="my-3 border-t border-dashed border-slate-400"></div>
 
           <div className="rounded-lg border border-slate-200 bg-gray-50 p-4 shadow-sm transition-all hover:shadow-md sm:p-5">
             <div className="flex items-center justify-between">
