@@ -12,9 +12,9 @@ export const metadata: Metadata = {
   title: '메가존 구내식당',
   description: '메가존 구내식당 식단표',
   icons: {
-    icon: '/favicon.svg',
-    shortcut: '/favicon.svg',
-    apple: '/favicon.svg',
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
   },
 };
 
