@@ -1,11 +1,12 @@
 import {NextRequest} from 'next/server';
 
 import {supabase} from '@/lib/supabase';
+import {CategoryEnum} from '@/types/MenuType';
 
 export async function GET(req: NextRequest) {
   const {searchParams} = new URL(req.url);
   const date = searchParams.get('date');
-  const category = searchParams.get('category');
+  const category = searchParams.get('category') as CategoryEnum;
 
   if (!date || !category) {
     return new Response(JSON.stringify({message: 'Invalid params'}), {
