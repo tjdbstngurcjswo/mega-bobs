@@ -7,7 +7,7 @@ interface MenuItemProps {
 
 const MenuItem = ({item}: MenuItemProps) => {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-3 shadow-sm transition-all hover:shadow-md sm:p-4">
+    <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition-all hover:shadow-md sm:p-5">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-medium text-slate-800 sm:text-base">
           {item.name}

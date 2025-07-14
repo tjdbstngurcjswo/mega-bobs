@@ -31,16 +31,13 @@ const HomeClient = ({initialCategory, initialDate}: HomeClientProps) => {
       <ErrorBoundary notFoundFallback={<div>Not Found</div>}>
         <Header />
         <WeekSelect currentDate={selectedDate} onChange={setSelectedDate} />
-        <div className="flex flex-1 flex-col overflow-hidden p-2 sm:p-4">
-          <div className="mb-2 sm:mb-3">
-            <CourseSelect
-              selectedCourse={selectedCategory}
-              onChange={setSelectedCategory}
-            />
-          </div>
+        <div className="flex flex-1 flex-col overflow-hidden px-4 py-4 sm:px-6 sm:py-4">
+          <CourseSelect
+            selectedCourse={selectedCategory}
+            onChange={setSelectedCategory}
+          />
           <div className="min-h-0 flex-1 overflow-auto">
             <MenuSection
-              type={selectedCategory}
               items={dataToGetMenu?.items as MenuItemType[]}
               isLoading={isFetching}
             />
