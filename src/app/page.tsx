@@ -3,26 +3,27 @@ import {Suspense} from 'react';
 
 import HomeClient from '@/components/HomeClient';
 import Loading from '@/components/Loading';
-import getMenu from '@/lib/api/getMenu';
-import {formatYYYYMMDD} from '@/lib/utils';
+import {formatYYYYMMDD, getWeekRange} from '@/lib/utils';
+import getWeeklyMenu from '@/lib/api/getWeeklyMenu';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const today = new Date();
+  const week = getWeekRange(today);
   const queryClient = new QueryClient();
-  const todayString = formatYYYYMMDD(today);
+  const start = formatYYYYMMDD(week[0]);
+  const end = formatYYYYMMDD(week[6]);
 
   await queryClient.prefetchQuery({
-    queryKey: ['GET_MENU', todayString, 'COURSE_1'],
-    queryFn: async () =>
-      await getMenu({date: todayString, category: 'COURSE_1'}),
+    queryKey: ['LIST_WEEKLY_MENU', start, end],
+    queryFn: async () => await getWeeklyMenu({start, end}),
   });
 
   return (
     <Suspense fallback={<Loading />}>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <HomeClient initialDate={today} initialCategory="COURSE_1" />
+        <HomeClient initialDate={today} initialWeek={week} />
       </HydrationBoundary>
     </Suspense>
   );

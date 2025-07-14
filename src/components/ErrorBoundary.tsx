@@ -86,7 +86,7 @@ MegaBobs 앱에서 다음과 같은 오류가 발생했습니다:
   );
 };
 
-export class ErrorBoundary extends React.Component<
+class ErrorBoundary extends React.Component<
   ErrorBoundaryProps,
   ErrorBoundaryState
 > {
@@ -150,3 +150,5 @@ export class ErrorBoundary extends React.Component<
     return this.props.children;
   }
 }
+
+export default ErrorBoundary;

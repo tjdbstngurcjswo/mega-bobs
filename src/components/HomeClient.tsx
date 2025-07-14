@@ -2,47 +2,56 @@
 
 import {useState} from 'react';
 
-import {MobileContainer} from '@/components/layout';
-import useGetMenu from '@/lib/hooks/queries/useGetMenu';
+import MobileContainer from '@/components/layout/MobileContainer';
 import {CategoryEnum, MenuItemType} from '@/types/MenuType';
 
 import CourseSelect from './CourseSelect';
-import {ErrorBoundary} from './ErrorBoundary';
+import ErrorBoundary from './ErrorBoundary';
 import Header from './Header';
 import MenuSection from './MenuSection';
 import WeekSelect from './WeekSelect';
+import useListWeeklyMenu from '@/lib/hooks/queries/useListWeeklyMenu';
+import {formatYYYYMMDD} from '@/lib/utils';
+import DaySelect from './DaySelect';
+import CalendarContainer from './layout/CalendarContainer';
+import MenuContainer from './layout/MenuContainer';
 
 interface HomeClientProps {
-  initialCategory: CategoryEnum;
   initialDate: Date;
+  initialWeek: Date[];
 }
 
-const HomeClient = ({initialCategory, initialDate}: HomeClientProps) => {
-  const [selectedDate, setSelectedDate] = useState(initialDate);
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+const HomeClient = ({initialDate, initialWeek}: HomeClientProps) => {
+  const [date, setDate] = useState(initialDate);
+  const [week, setWeek] = useState(initialWeek);
+  const [category, setCategory] = useState<CategoryEnum>('COURSE_1');
 
-  const {data: dataToGetMenu, isFetching} = useGetMenu(
-    selectedDate,
-    selectedCategory
+  const {data: dataToListWeeklyMenu, isLoading} = useListWeeklyMenu(
+    week[0],
+    week[6]
   );
 
   return (
     <MobileContainer>
-      <ErrorBoundary notFoundFallback={<div>Not Found</div>}>
+      <ErrorBoundary>
         <Header />
-        <WeekSelect currentDate={selectedDate} onChange={setSelectedDate} />
-        <div className="flex flex-1 flex-col overflow-hidden px-4 py-4 sm:px-6 sm:py-4">
-          <CourseSelect
-            selectedCourse={selectedCategory}
-            onChange={setSelectedCategory}
+        <CalendarContainer>
+          <WeekSelect week={week} onChange={setWeek} />
+          <DaySelect date={date} week={week} onChange={setDate} />
+        </CalendarContainer>
+        <MenuContainer>
+          <CourseSelect category={category} onChange={setCategory} />
+          <MenuSection
+            items={
+              (dataToListWeeklyMenu?.find(
+                (item) =>
+                  item.date === formatYYYYMMDD(date) &&
+                  item.category === category
+              )?.items as MenuItemType[]) ?? []
+            }
+            isLoading={isLoading}
           />
-          <div className="min-h-0 flex-1 overflow-auto">
-            <MenuSection
-              items={dataToGetMenu?.items as MenuItemType[]}
-              isLoading={isFetching}
-            />
-          </div>
-        </div>
+        </MenuContainer>
       </ErrorBoundary>
     </MobileContainer>
   );
