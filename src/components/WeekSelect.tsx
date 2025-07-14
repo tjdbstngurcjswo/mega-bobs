@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import {ChevronLeft, ChevronRight, Check} from 'lucide-react';
+import {ChevronLeft, ChevronRight} from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface WeekNavigatorProps {

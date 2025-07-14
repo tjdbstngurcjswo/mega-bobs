@@ -51,7 +51,7 @@ MegaBobs 앱 관련 문의드립니다.
         <div className="flex flex-1 justify-end">
           <button
             onClick={() => setIsContactOpen(!isContactOpen)}
-            className="rounded-lg p-2 text-white transition-all hover:bg-white/10"
+            className="rounded-lg p-2 text-white transition-all hover:bg-slate-200"
           >
             <Info size={20} />
           </button>
@@ -65,32 +65,32 @@ MegaBobs 앱 관련 문의드립니다.
           className="absolute top-full right-3 z-50 mt-2 w-72 rounded-lg bg-white p-4 shadow-lg sm:right-6"
         >
           <div className="mb-3">
-            <h3 className="text-sm font-semibold text-gray-800">
+            <h3 className="text-sm font-semibold text-slate-800">
               개발팀 연락처
             </h3>
-            <p className="text-xs text-gray-600">
+            <p className="text-xs text-slate-600">
               문의사항이나 개선사항이 있으시면 연락주세요!
             </p>
           </div>
           <div className="space-y-2">
             <button
               onClick={() => handleEmailClick('yoonp@mz.co.kr')}
-              className="flex w-full items-center gap-3 rounded-md bg-blue-50 p-3 text-left transition-colors hover:bg-blue-100"
+              className="flex w-full items-center gap-3 rounded-md bg-slate-50 p-3 text-left transition-colors hover:bg-slate-100"
             >
-              <Mail size={16} className="text-blue-600" />
+              <Mail size={16} className="text-slate-600" />
               <div>
-                <div className="text-sm font-medium text-gray-800">박서윤</div>
-                <div className="text-xs text-gray-600">yoonp@mz.co.kr</div>
+                <div className="text-sm font-medium text-slate-800">박서윤</div>
+                <div className="text-xs text-slate-600">yoonp@mz.co.kr</div>
               </div>
             </button>
             <button
               onClick={() => handleEmailClick('tngur1120@mz.co.kr')}
-              className="flex w-full items-center gap-3 rounded-md bg-blue-50 p-3 text-left transition-colors hover:bg-blue-100"
+              className="flex w-full items-center gap-3 rounded-md bg-slate-50 p-3 text-left transition-colors hover:bg-slate-100"
             >
-              <Mail size={16} className="text-blue-600" />
+              <Mail size={16} className="text-slate-600" />
               <div>
-                <div className="text-sm font-medium text-gray-800">홍수혁</div>
-                <div className="text-xs text-gray-600">tngur1120@mz.co.kr</div>
+                <div className="text-sm font-medium text-slate-800">홍수혁</div>
+                <div className="text-xs text-slate-600">tngur1120@mz.co.kr</div>
               </div>
             </button>
           </div>
