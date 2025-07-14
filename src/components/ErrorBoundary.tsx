@@ -36,29 +36,29 @@ MegaBobs 앱에서 다음과 같은 오류가 발생했습니다:
   return (
     <div className="flex min-h-[400px] flex-col items-center justify-center bg-white p-6 text-center">
       <div className="mb-6 text-6xl">⚠️</div>
-      <h2 className="mb-4 text-xl font-bold text-gray-800">
+      <h2 className="mb-4 text-xl font-bold text-slate-800">
         알 수 없는 오류가 발생했습니다
       </h2>
-      <p className="mb-6 text-sm text-gray-600">
+      <p className="mb-6 text-sm text-slate-600">
         죄송합니다. 예상치 못한 문제가 발생했습니다.
         <br />
         아래 이메일로 문의해 주시면 빠르게 해결해 드리겠습니다.
       </p>
 
-      <div className="mb-4 rounded-lg bg-gray-50 p-4">
-        <h3 className="mb-2 text-sm font-semibold text-gray-700">
+      <div className="mb-4 rounded-lg bg-slate-50 p-4">
+        <h3 className="mb-2 text-sm font-semibold text-slate-700">
           문의 연락처
         </h3>
         <div className="flex flex-col gap-2">
           <button
             onClick={() => handleEmailClick('yoonp@mz.co.kr')}
-            className="block rounded-md bg-blue-500 px-4 py-2 text-left text-sm font-medium text-white transition-colors hover:bg-blue-600"
+            className="block rounded-md bg-slate-500 px-4 py-2 text-left text-sm font-medium text-white transition-colors hover:bg-slate-600"
           >
             박서윤 📧 yoonp@mz.co.kr
           </button>
           <button
             onClick={() => handleEmailClick('tngur1120@mz.co.kr')}
-            className="block rounded-md bg-blue-500 px-4 py-2 text-left text-sm font-medium text-white transition-colors hover:bg-blue-600"
+            className="block rounded-md bg-slate-500 px-4 py-2 text-left text-sm font-medium text-white transition-colors hover:bg-slate-600"
           >
             홍수혁 📧 tngur1120@mz.co.kr
           </button>
@@ -67,14 +67,14 @@ MegaBobs 앱에서 다음과 같은 오류가 발생했습니다:
 
       <button
         onClick={() => window.location.reload()}
-        className="rounded-lg bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-300"
+        className="rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-300"
       >
         🔄 페이지 새로고침
       </button>
 
       {process.env.NODE_ENV === 'development' && (
         <details className="mt-4 w-full max-w-md">
-          <summary className="cursor-pointer text-xs text-gray-500 hover:text-gray-700">
+          <summary className="cursor-pointer text-xs text-slate-500 hover:text-slate-700">
             개발자 정보 (클릭하여 펼치기)
           </summary>
           <pre className="mt-2 overflow-auto rounded bg-red-50 p-2 text-left text-xs text-red-700">

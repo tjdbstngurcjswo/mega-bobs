@@ -41,7 +41,7 @@ const WeekSelect = ({currentDate, onChange}: WeekNavigatorProps) => {
   const weekRange = `${days[0].format('M월 D일')} - ${days[6].format('M월 D일')}`;
 
   return (
-    <div className="flex flex-col items-center gap-3 bg-gradient-to-r from-slate-800 to-slate-900 p-3 text-white sm:gap-4 sm:p-4">
+    <div className="flex flex-col items-center gap-3 bg-gradient-to-r from-slate-800 to-slate-900 p-3 text-white sm:gap-4">
       <div className="flex w-full items-center justify-between gap-2 sm:gap-4">
         <button
           onClick={handlePrevWeek}
@@ -92,6 +92,8 @@ const DayButton = ({
   isDisabled: boolean;
   onClick: () => void;
 }) => {
+  const isToday = day.isSame(dayjs(), 'day');
+
   const getTextColorClass = (day: dayjs.Dayjs, isSelected: boolean) => {
     const dayOfWeek = day.day();
 
@@ -115,7 +117,7 @@ const DayButton = ({
   return (
     <button
       key={day.format('YYYY-MM-DD')}
-      className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${isSelected ? `bg-white ${getTextColorClass(day, isSelected)}` : `${getTextColorClass(day, isSelected)} hover:bg-white/20`} ${isDisabled ? 'cursor-not-allowed opacity-40' : ''}`}
+      className={`relative rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${isSelected ? `bg-white ${getTextColorClass(day, isSelected)}` : `${getTextColorClass(day, isSelected)} hover:bg-white/20`} ${isDisabled ? 'cursor-not-allowed opacity-40' : ''} ${isToday ? 'outline-1 outline-offset-2 outline-orange-200' : ''}`}
       onClick={onClick}
       disabled={isDisabled}
     >
