@@ -2,13 +2,13 @@ import {menuCategoryLabelMap} from '@/constants/menuCategory';
 import {CategoryEnum} from '@/types/MenuType';
 
 interface CourseSelectProps {
-  selectedCourse: CategoryEnum;
-  onChange: (course: CategoryEnum) => void;
+  category: CategoryEnum;
+  onChange: (category: CategoryEnum) => void;
 }
 
-const CourseSelect = ({selectedCourse, onChange}: CourseSelectProps) => {
+const CourseSelect = ({category, onChange}: CourseSelectProps) => {
   const getIndicatorPosition = () => {
-    switch (selectedCourse) {
+    switch (category) {
       case 'COURSE_1':
         return 'translate-x-0';
       case 'COURSE_2':
@@ -28,7 +28,7 @@ const CourseSelect = ({selectedCourse, onChange}: CourseSelectProps) => {
       <button
         onClick={() => onChange('COURSE_1')}
         className={`relative z-10 flex-1 py-2 text-center text-xs font-semibold transition-all duration-300 sm:py-2.5 sm:text-sm ${
-          selectedCourse === 'COURSE_1'
+          category === 'COURSE_1'
             ? 'text-white'
             : 'text-slate-600 hover:text-slate-800'
         }`}
@@ -38,7 +38,7 @@ const CourseSelect = ({selectedCourse, onChange}: CourseSelectProps) => {
       <button
         onClick={() => onChange('COURSE_2')}
         className={`relative z-10 flex-1 py-2 text-center text-xs font-semibold transition-all duration-300 sm:py-2.5 sm:text-sm ${
-          selectedCourse === 'COURSE_2'
+          category === 'COURSE_2'
             ? 'text-white'
             : 'text-slate-600 hover:text-slate-800'
         }`}
@@ -48,7 +48,7 @@ const CourseSelect = ({selectedCourse, onChange}: CourseSelectProps) => {
       <button
         onClick={() => onChange('TAKE_OUT')}
         className={`relative z-10 flex-1 py-2 text-center text-xs font-semibold transition-all duration-300 sm:py-2.5 sm:text-sm ${
-          selectedCourse === 'TAKE_OUT'
+          category === 'TAKE_OUT'
             ? 'text-white'
             : 'text-slate-600 hover:text-slate-800'
         }`}
