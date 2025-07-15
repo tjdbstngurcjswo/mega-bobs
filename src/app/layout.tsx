@@ -24,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className={inter.className}>
+    <html lang="ko" className="dark">
+      <body className={inter.className + ' bg-white dark:bg-[#181A20]'}>
         <QueryProvider>
           <AppLayout>{children}</AppLayout>
         </QueryProvider>

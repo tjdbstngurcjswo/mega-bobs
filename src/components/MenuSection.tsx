@@ -31,7 +31,7 @@ const MenuSection = ({items, isLoading}: MenuSectionProps) => {
 
 const Section = ({children}: {children: React.ReactNode}) => (
   <div className="min-h-0 flex-1 overflow-auto">
-    <div className="flex h-full flex-col rounded-xl bg-white shadow-lg">
+    <div className="flex h-full flex-col rounded-xl bg-white shadow-lg dark:bg-[#23242B] dark:shadow-none">
       {children}
     </div>
   </div>
@@ -69,12 +69,12 @@ const SectionEmpty = () => (
 );
 
 const TotalCalories = ({totalCalories}: {totalCalories: number}) => (
-  <div className="rounded-lg border border-slate-200 bg-gray-50 p-4 shadow-sm transition-all hover:shadow-md sm:p-5">
+  <div className="rounded-lg border border-slate-200 bg-gray-50 p-4 shadow-sm transition-all hover:shadow-md sm:p-5 dark:border-slate-700 dark:bg-[#181A20] dark:shadow-none">
     <div className="flex items-center justify-between">
-      <h3 className="text-sm font-medium text-slate-800 sm:text-base">
+      <h3 className="text-sm font-medium text-slate-800 sm:text-base dark:text-white">
         총 칼로리
       </h3>
-      <div className="ml-2 rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700 sm:ml-4 sm:px-3 sm:text-sm">
+      <div className="ml-2 rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700 sm:ml-4 sm:px-3 sm:text-sm dark:bg-blue-900 dark:text-blue-200">
         {totalCalories} kcal
       </div>
     </div>
