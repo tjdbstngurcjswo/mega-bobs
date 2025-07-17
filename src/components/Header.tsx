@@ -1,6 +1,6 @@
 'use client';
 
-import {Mail} from 'lucide-react';
+import {Info, Mail} from 'lucide-react';
 import {useEffect, useRef, useState} from 'react';
 import ThemeToggle from './ThemeToggle';
 
@@ -49,7 +49,7 @@ MegaBobs 앱 관련 문의드립니다.
           onClick={() => setIsContactOpen(!isContactOpen)}
           className="mr-2 rounded-full p-2 text-white transition-all hover:bg-gray-700"
         >
-          <Mail size={20} />
+          <Info size={20} />
         </button>
         <div className="flex flex-1 justify-center" />
         <h1 className="text-lg font-bold text-white sm:text-xl md:text-2xl dark:text-white">
