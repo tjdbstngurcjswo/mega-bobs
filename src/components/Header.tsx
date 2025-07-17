@@ -45,17 +45,19 @@ MegaBobs 앱 관련 문의드립니다.
   return (
     <header className="relative flex-shrink-0 bg-gradient-to-r from-slate-800 to-slate-900 px-3 py-3 sm:px-6 sm:py-4 dark:from-[#23242B] dark:to-[#181A20]">
       <div className="flex items-center justify-between">
-        <button
-          onClick={() => setIsContactOpen(!isContactOpen)}
-          className="mr-2 rounded-full p-2 text-white transition-all hover:bg-gray-700"
-        >
-          <Info size={20} />
-        </button>
-        <div className="flex flex-1 justify-center" />
-        <h1 className="text-lg font-bold text-white sm:text-xl md:text-2xl dark:text-white">
-          MegaBobs
-        </h1>
-
+        <div className="flex-1">
+          <button
+            onClick={() => setIsContactOpen(!isContactOpen)}
+            className="mr-2 rounded-full p-2 text-white transition-all hover:bg-gray-700"
+          >
+            <Info size={20} />
+          </button>
+        </div>
+        <div className="flex flex-1 justify-center">
+          <h1 className="text-center text-lg font-bold text-white sm:text-xl md:text-2xl dark:text-white">
+            MegaBobs
+          </h1>
+        </div>
         <div className="flex flex-1 justify-end">
           <ThemeToggle />
         </div>
