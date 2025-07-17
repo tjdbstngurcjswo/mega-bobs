@@ -1,10 +1,11 @@
 'use client';
 
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import dayjs from 'dayjs';
 
 import MobileContainer from '@/components/layout/MobileContainer';
 import useListWeeklyMenu from '@/lib/hooks/queries/useListWeeklyMenu';
-import {formatYYYYMMDD} from '@/lib/utils';
+import {formatYYYYMMDD, getWeekRange} from '@/lib/utils';
 import {CategoryEnum, MenuItemType} from '@/types/MenuType';
 
 import CourseSelect from './CourseSelect';
@@ -26,6 +27,18 @@ const HomeClient = ({initialDate, initialWeek}: HomeClientProps) => {
   const [date, setDate] = useState(initialDate);
   const [week, setWeek] = useState(initialWeek);
   const [category, setCategory] = useState<CategoryEnum>('COURSE_1');
+
+  // week가 이번주가 아닐 때 해당 주의 월요일로 날짜 설정
+  useEffect(() => {
+    const currentWeek = getWeekRange(new Date());
+    const isCurrentWeek = dayjs(week[0]).isSame(dayjs(currentWeek[0]), 'week');
+
+    if (!isCurrentWeek) {
+      setDate(week[0]); // 이번주가 아니면 해당 주의 월요일로 설정
+    } else {
+      setDate(new Date()); // 이번주이면 오늘 날짜로 설정
+    }
+  }, [week]);
 
   const {data: dataToListWeeklyMenu, isLoading} = useListWeeklyMenu(
     week[0],
