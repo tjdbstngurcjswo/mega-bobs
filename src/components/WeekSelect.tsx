@@ -14,13 +14,13 @@ const WeekSelect = ({week, onChange}: WeekNavigatorProps) => {
   const weekStart = dayjs(week[0]);
   const days = Array.from({length: 7}, (_, i) => weekStart.add(i, 'day'));
 
-  const minDate = dayjs('2025-07-14');
-  const maxDate = dayjs('2025-07-20');
+  const minDate = dayjs().startOf('week').add(1, 'day');
+  const maxDate = dayjs().add(1, 'week').endOf('week').add(1, 'day');
 
   const handlePrevWeek = () => {
     const prevWeekStart = weekStart.subtract(7, 'day');
     if (prevWeekStart.isBefore(minDate, 'day')) {
-      toast.error('이전 주의 메뉴 데이터가 없습니다');
+      toast.error('지난 메뉴는 볼 수 없습니다.');
       return;
     }
     onChange(getWeekRange(prevWeekStart.toDate()));
@@ -28,7 +28,7 @@ const WeekSelect = ({week, onChange}: WeekNavigatorProps) => {
   const handleNextWeek = () => {
     const nextWeekStart = weekStart.add(7, 'day');
     if (nextWeekStart.isAfter(maxDate, 'day')) {
-      toast.error('매주 목요일에 메뉴가 업데이트됩니다.');
+      toast.error('매주 목요일에 업데이트됩니다.');
       return;
     }
     onChange(getWeekRange(nextWeekStart.toDate()));

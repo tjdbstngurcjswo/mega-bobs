@@ -8,8 +8,9 @@ interface WeekNavigatorProps {
 }
 
 const DaySelect = ({date, week, onChange}: WeekNavigatorProps) => {
-  const minDate = dayjs('2025-07-14');
-  const maxDate = dayjs('2025-07-20');
+  const minDate = dayjs().startOf('week').add(1, 'day');
+  const maxDate = dayjs().add(1, 'week').endOf('week').add(1, 'day');
+
   return (
     <div className="flex w-full justify-between gap-0.5 px-1 sm:gap-1 sm:px-2">
       {week.map((d) => {
@@ -47,26 +48,21 @@ const DayButton = ({
     const dayOfWeek = day.day();
 
     if (isSelected) {
-      if (dayOfWeek === 0) {
-        return 'text-red-600';
-      } else if (dayOfWeek === 6) {
-        return 'text-blue-600';
-      }
-      return 'text-slate-800';
+      if (dayOfWeek === 0) return 'text-red-600';
+      else if (dayOfWeek === 6) return 'text-blue-600';
+
+      return 'text-slate-800 dark:text-white';
     }
 
-    if (dayOfWeek === 0) {
-      return 'text-red-300';
-    } else if (dayOfWeek === 6) {
-      return 'text-blue-300';
-    }
+    if (dayOfWeek === 0) return 'text-red-300';
+    else if (dayOfWeek === 6) return 'text-blue-300';
 
     return 'text-white';
   };
   return (
     <button
       key={day.format('YYYY-MM-DD')}
-      className={`relative rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${isSelected ? `bg-white ${getTextColorClass(day, isSelected)}` : `${getTextColorClass(day, isSelected)} hover:bg-white/20`} ${isDisabled ? 'cursor-not-allowed opacity-40' : ''} ${isToday ? 'outline-1 outline-offset-2 outline-orange-200' : ''}`}
+      className={`relative rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${isSelected ? `bg-white dark:bg-[#23242B] ${getTextColorClass(day, isSelected)}` : `${getTextColorClass(day, isSelected)} hover:bg-white/20`} ${isDisabled ? 'cursor-not-allowed opacity-40' : ''} ${isToday ? 'outline-1 outline-offset-2 outline-orange-200' : ''}`}
       onClick={onClick}
       disabled={isDisabled}
     >

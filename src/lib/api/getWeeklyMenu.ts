@@ -8,6 +8,7 @@ const getWeeklyMenu = async (args: {start: string; end: string}) => {
   const {data} = await axios.get<MenuType[]>(`${baseUrl}/api/weekly-menu`, {
     params: {start: args.start, end: args.end},
   });
+  console.log(start: args.start, end: args.end);
   return data;
 };
 
