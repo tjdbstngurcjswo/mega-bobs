@@ -2,6 +2,7 @@
 
 import {Info, Mail} from 'lucide-react';
 import {useEffect, useRef, useState} from 'react';
+
 import ThemeToggle from './ThemeToggle';
 
 const Header = () => {

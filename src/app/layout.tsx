@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className="dark">
-      <body className={inter.className + ' bg-white dark:bg-[#181A20]'}>
+      <body className={`${inter.className  } bg-white dark:bg-[#181A20]`}>
         <QueryProvider>
           <AppLayout>{children}</AppLayout>
         </QueryProvider>
