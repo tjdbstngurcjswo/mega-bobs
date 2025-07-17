@@ -1,10 +1,9 @@
-import {getWeekRange} from '@/lib/utils';
-
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 import toast from 'react-hot-toast';
 
+import {getWeekRange} from '@/lib/utils';
 interface WeekNavigatorProps {
   week: Date[];
   onChange: (date: Date[]) => void;
