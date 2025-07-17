@@ -8,8 +8,9 @@ interface WeekNavigatorProps {
 }
 
 const DaySelect = ({date, week, onChange}: WeekNavigatorProps) => {
-  const minDate = dayjs('2025-07-14');
-  const maxDate = dayjs('2025-07-20');
+  const minDate = dayjs().startOf('week').add(1, 'day');
+  const maxDate = dayjs().add(1, 'week').endOf('week').add(1, 'day');
+
   return (
     <div className="flex w-full justify-between gap-0.5 px-1 sm:gap-1 sm:px-2">
       {week.map((d) => {

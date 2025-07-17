@@ -1,6 +1,6 @@
 'use client';
 
-import {Info, Mail} from 'lucide-react';
+import {Mail} from 'lucide-react';
 import {useEffect, useRef, useState} from 'react';
 import ThemeToggle from './ThemeToggle';
 
@@ -45,17 +45,18 @@ MegaBobs 앱 관련 문의드립니다.
   return (
     <header className="relative flex-shrink-0 bg-gradient-to-r from-slate-800 to-slate-900 px-3 py-3 sm:px-6 sm:py-4 dark:from-[#23242B] dark:to-[#181A20]">
       <div className="flex items-center justify-between">
-        <div className="flex-1" />
+        <button
+          onClick={() => setIsContactOpen(!isContactOpen)}
+          className="mr-2 rounded-full p-2 text-white transition-all hover:bg-gray-700"
+        >
+          <Mail size={20} />
+        </button>
+        <div className="flex flex-1 justify-center" />
         <h1 className="text-lg font-bold text-white sm:text-xl md:text-2xl dark:text-white">
           MegaBobs
         </h1>
+
         <div className="flex flex-1 justify-end">
-          <button
-            onClick={() => setIsContactOpen(!isContactOpen)}
-            className="ml-2 rounded-full p-2 text-white transition-all hover:bg-gray-700"
-          >
-            <Info size={20} />
-          </button>
           <ThemeToggle />
         </div>
       </div>
@@ -64,7 +65,7 @@ MegaBobs 앱 관련 문의드립니다.
       {isContactOpen && (
         <div
           ref={dropdownRef}
-          className="absolute top-full right-3 z-50 mt-2 w-72 rounded-lg bg-white p-4 shadow-lg sm:right-6 dark:bg-[#23242B] dark:shadow-none"
+          className="absolute top-full left-3 z-50 w-72 rounded-lg bg-white p-4 shadow-2xl sm:left-6 dark:bg-[#2C2D35] dark:shadow-lg"
         >
           <div className="mb-3">
             <h3 className="text-sm font-semibold text-slate-800 dark:text-white">
