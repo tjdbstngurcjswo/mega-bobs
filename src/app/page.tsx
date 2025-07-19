@@ -4,11 +4,11 @@ import {Suspense} from 'react';
 import HomeClient from '@/components/HomeClient';
 import Loading from '@/components/Loading';
 import getWeeklyMenu from '@/lib/api/getWeeklyMenu';
-import {formatYYYYMMDD, getWeekRange} from '@/lib/utils';
+import {formatYYYYMMDD, getWeekDays} from '@/lib/utils';
 
 export default async function Home() {
   const today = new Date();
-  const week = getWeekRange(today);
+  const week = getWeekDays(today);
   const queryClient = new QueryClient();
   const start = formatYYYYMMDD(week[0]);
   const end = formatYYYYMMDD(week[6]);

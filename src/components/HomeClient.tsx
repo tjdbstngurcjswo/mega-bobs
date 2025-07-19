@@ -5,7 +5,7 @@ import {useEffect, useState} from 'react';
 
 import MobileContainer from '@/components/layout/MobileContainer';
 import useListWeeklyMenu from '@/lib/hooks/queries/useListWeeklyMenu';
-import {formatYYYYMMDD, getWeekRange} from '@/lib/utils';
+import {formatYYYYMMDD, getWeekDays} from '@/lib/utils';
 import {CategoryEnum, MenuItemType} from '@/types/MenuType';
 
 import CourseSelect from './CourseSelect';
@@ -16,7 +16,6 @@ import CalendarContainer from './layout/CalendarContainer';
 import MenuContainer from './layout/MenuContainer';
 import MenuSection from './MenuSection';
 import WeekSelect from './WeekSelect';
-
 
 interface HomeClientProps {
   initialDate: Date;
@@ -30,15 +29,12 @@ const HomeClient = ({initialDate, initialWeek}: HomeClientProps) => {
 
   // week가 이번주가 아닐 때 해당 주의 월요일로 날짜 설정
   useEffect(() => {
-    const currentWeek = getWeekRange(new Date());
+    const currentWeek = getWeekDays(new Date());
     const isCurrentWeek = dayjs(week[0]).isSame(dayjs(currentWeek[0]), 'week');
 
-    if (!isCurrentWeek) {
-      setDate(week[0]); // 이번주가 아니면 해당 주의 월요일로 설정
-    } else {
-      setDate(new Date()); // 이번주이면 오늘 날짜로 설정
-    }
-  }, [week]);
+    if (isCurrentWeek) setDate(initialDate);
+    else setDate(week[0]);
+  }, [week, initialDate]);
 
   const {data: dataToListWeeklyMenu, isLoading} = useListWeeklyMenu(
     week[0],

@@ -3,7 +3,7 @@ import 'dayjs/locale/ko';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 import toast from 'react-hot-toast';
 
-import {getWeekRange} from '@/lib/utils';
+import {getWeekDays} from '@/lib/utils';
 interface WeekNavigatorProps {
   week: Date[];
   onChange: (date: Date[]) => void;
@@ -22,7 +22,7 @@ const WeekSelect = ({week, onChange}: WeekNavigatorProps) => {
       toast.error('지난 메뉴는 볼 수 없습니다.');
       return;
     }
-    onChange(getWeekRange(prevWeekStart.toDate()));
+    onChange(getWeekDays(prevWeekStart.toDate()));
   };
   const handleNextWeek = () => {
     const nextWeekStart = weekStart.add(7, 'day');
@@ -30,7 +30,7 @@ const WeekSelect = ({week, onChange}: WeekNavigatorProps) => {
       toast.error('매주 목요일에 업데이트됩니다.');
       return;
     }
-    onChange(getWeekRange(nextWeekStart.toDate()));
+    onChange(getWeekDays(nextWeekStart.toDate()));
   };
 
   const weekRangeText = `${days[0].format('M월 D일')} - ${days[6].format('M월 D일')}`;
