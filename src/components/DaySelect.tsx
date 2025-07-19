@@ -62,7 +62,7 @@ const DayButton = ({
   return (
     <button
       key={day.format('YYYY-MM-DD')}
-      className={`relative rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${isSelected ? `bg-white dark:bg-[#23242B] ${getTextColorClass(day, isSelected)}` : `${getTextColorClass(day, isSelected)} hover:bg-white/20`} ${isDisabled ? 'cursor-not-allowed opacity-40' : ''} ${isToday ? 'outline-1 outline-offset-2 outline-orange-200' : ''}`}
+      className={`relative rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${isSelected ? `bg-white dark:bg-[#808391] ${getTextColorClass(day, isSelected)}` : `${getTextColorClass(day, isSelected)} hover:bg-white/20`} ${isDisabled ? 'cursor-not-allowed opacity-40' : ''} ${isToday ? 'outline-1 outline-offset-2 outline-orange-200' : ''}`}
       onClick={onClick}
       disabled={isDisabled}
     >
