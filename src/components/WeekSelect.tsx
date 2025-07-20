@@ -13,7 +13,7 @@ const WeekSelect = ({week, onChange}: WeekNavigatorProps) => {
   const weekStart = dayjs(week[0]);
   const days = Array.from({length: 7}, (_, i) => weekStart.add(i, 'day'));
 
-  const minDate = dayjs().startOf('week').add(1, 'day');
+  const minDate = dayjs().subtract(1, 'week').startOf('week').add(1, 'day');
   const maxDate = dayjs().add(1, 'week').endOf('week').add(1, 'day');
 
   const handlePrevWeek = () => {
