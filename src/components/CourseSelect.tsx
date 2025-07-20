@@ -23,7 +23,7 @@ const CourseSelect = ({category, onChange}: CourseSelectProps) => {
   return (
     <div className="relative flex rounded-xl bg-slate-100 p-1 dark:bg-[#23242B]">
       <div
-        className={`absolute top-1 bottom-1 left-1 w-1/3 rounded-lg bg-gradient-to-r from-slate-800 to-slate-900 shadow-sm transition-all duration-300 ease-in-out ${getIndicatorPosition()}`}
+        className={`absolute top-1 bottom-1 left-0 w-1/3 scale-95 rounded-lg bg-gradient-to-r from-slate-800 to-slate-900 shadow-sm transition-all duration-300 ease-in-out ${getIndicatorPosition()}`}
       />
       <button
         onClick={() => onChange('COURSE_1')}
