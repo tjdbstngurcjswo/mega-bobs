@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+import dayjs from 'dayjs';
 import React from 'react';
 
 interface ErrorBoundaryProps {
@@ -23,7 +24,7 @@ const DefaultErrorFallback = ({error}: {error: Error}) => {
 MegaBobs 앱에서 다음과 같은 오류가 발생했습니다:
 
 오류 메시지: ${error.message}
-발생 시간: ${new Date().toLocaleString('ko-KR')}
+발생 시간: ${dayjs().toDate().toLocaleString('ko-KR')}
 브라우저: ${navigator.userAgent}
 
 문제를 해결해 주시기 바랍니다.
