@@ -29,7 +29,7 @@ const HomeClient = ({initialDate, initialWeek}: HomeClientProps) => {
 
   // week가 이번주가 아닐 때 해당 주의 월요일로 날짜 설정
   useEffect(() => {
-    const currentWeek = getWeekDays(new Date());
+    const currentWeek = getWeekDays(dayjs().toDate());
     const isCurrentWeek = dayjs(week[0]).isSame(dayjs(currentWeek[0]), 'week');
 
     if (isCurrentWeek) setDate(initialDate);
