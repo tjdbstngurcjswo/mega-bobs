@@ -27,11 +27,17 @@ const HomeClient = ({initialDate, initialWeek}: HomeClientProps) => {
   const [week, setWeek] = useState(initialWeek);
   const [category, setCategory] = useState<CategoryEnum>('COURSE_1');
 
-  // week가 이번주가 아닐 때 해당 주의 월요일로 날짜 설정
   useEffect(() => {
     const currentWeek = getWeekDays(dayjs().toDate());
     const isCurrentWeek = dayjs(week[0]).isSame(dayjs(currentWeek[0]), 'week');
-
+    console.log(
+      currentWeek,
+      'currentWeek',
+      week,
+      'week',
+      initialDate,
+      'initialDate'
+    );
     if (isCurrentWeek) setDate(initialDate);
     else setDate(week[0]);
   }, [week, initialDate]);
