@@ -30,7 +30,7 @@ export default async function Home() {
   return (
     <Suspense fallback={<Loading />}>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <HomeClient initialDate={formatYYYYMMDD(today)} />
+        <HomeClient/>
       </HydrationBoundary>
     </Suspense>
   );
