@@ -18,27 +18,18 @@ import MenuSection from './MenuSection';
 import WeekSelect from './WeekSelect';
 
 interface HomeClientProps {
-  initialDate: Date;
-  initialWeek: Date[];
+  initialDate: string;
 }
 
-const HomeClient = ({initialDate, initialWeek}: HomeClientProps) => {
-  const [date, setDate] = useState(initialDate);
-  const [week, setWeek] = useState(initialWeek);
+const HomeClient = ({initialDate}: HomeClientProps) => {
+  const [date, setDate] = useState(dayjs(initialDate).toDate());
+  const [week, setWeek] = useState(getWeekDays(dayjs(initialDate).toDate()));
   const [category, setCategory] = useState<CategoryEnum>('COURSE_1');
 
   useEffect(() => {
     const currentWeek = getWeekDays(dayjs().toDate());
     const isCurrentWeek = dayjs(week[0]).isSame(dayjs(currentWeek[0]), 'week');
-    console.log(
-      currentWeek,
-      'currentWeek',
-      week,
-      'week',
-      initialDate,
-      'initialDate'
-    );
-    if (isCurrentWeek) setDate(initialDate);
+    if (isCurrentWeek) setDate(dayjs(initialDate).toDate());
     else setDate(week[0]);
   }, [week, initialDate]);
 
