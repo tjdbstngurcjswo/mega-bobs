@@ -25,12 +25,10 @@ export default async function Home() {
     queryFn: async () => await getWeeklyMenu({start, end}),
   });
 
-  console.info('On Server', formatYYYYMMDD(today));
-
   return (
     <Suspense fallback={<Loading />}>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <HomeClient/>
+        <HomeClient />
       </HydrationBoundary>
     </Suspense>
   );
