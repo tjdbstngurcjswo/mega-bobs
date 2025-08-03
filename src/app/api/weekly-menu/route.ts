@@ -1,6 +1,6 @@
 import {NextRequest} from 'next/server';
 
-import {supabase} from '@/lib/supabase';
+import {supabaseServer} from '@/lib/supabase-server';
 
 export async function GET(req: NextRequest) {
   const {searchParams} = new URL(req.url);
@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  const {data, error} = await supabase
+  const {data, error} = await supabaseServer
     .from('daily_menu')
     .select('*')
     .gte('date', start)
