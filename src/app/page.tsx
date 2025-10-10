@@ -1,11 +1,8 @@
-import {dehydrate, HydrationBoundary, QueryClient} from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import {Suspense} from 'react';
 
 import HomeClient from '@/components/HomeClient';
-import Loading from '@/components/Loading';
 import getWeeklyMenu from '@/lib/api/getWeeklyMenu';
 import {formatYYYYMMDD, getWeekDays} from '@/lib/utils';
 
@@ -13,23 +10,26 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('Asia/Seoul');
 
+const SIX_HOURS_IN_SECONDS = 6 * 60 * 60;
+
+const secondsUntilNextMidnight = () => {
+  const now = dayjs();
+  const nextMidnight = now.add(1, 'day').startOf('day');
+  const diffSeconds = nextMidnight.diff(now, 'second');
+  return Math.max(diffSeconds, SIX_HOURS_IN_SECONDS);
+};
+
+export const revalidate = secondsUntilNextMidnight();
+
 export default async function Home() {
   const today = dayjs().toDate();
-  const week = getWeekDays(today);
-  const queryClient = new QueryClient();
-  const start = formatYYYYMMDD(week[0]);
-  const end = formatYYYYMMDD(week[6]);
+  const previousWeek = getWeekDays(dayjs(today).subtract(1, 'week').toDate());
+  const nextWeek = getWeekDays(dayjs(today).add(1, 'week').toDate());
 
-  await queryClient.prefetchQuery({
-    queryKey: ['LIST_WEEKLY_MENU', start, end],
-    queryFn: async () => await getWeeklyMenu({start, end}),
-  });
+  const start = formatYYYYMMDD(previousWeek[0]);
+  const end = formatYYYYMMDD(nextWeek[6]);
 
-  return (
-    <Suspense fallback={<Loading />}>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <HomeClient />
-      </HydrationBoundary>
-    </Suspense>
-  );
+  const menus = await getWeeklyMenu({start, end});
+
+  return <HomeClient menus={menus} />;
 }
