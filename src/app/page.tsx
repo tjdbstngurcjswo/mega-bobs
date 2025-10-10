@@ -10,18 +10,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('Asia/Seoul');
 
-const SIX_HOURS_IN_SECONDS = 6 * 60 * 60;
-
-const secondsUntilNextMidnight = () => {
-  const now = dayjs();
-  const nextMidnight = now.add(1, 'day').startOf('day');
-  const diffSeconds = nextMidnight.diff(now, 'second');
-  const result = Math.max(diffSeconds, SIX_HOURS_IN_SECONDS);
-  console.log('page revalidate in', result, 'seconds');
-  return result;
-};
-
-export const revalidate = secondsUntilNextMidnight();
+export const revalidate = 21600;
 
 export default async function Home() {
   const today = dayjs().toDate();
