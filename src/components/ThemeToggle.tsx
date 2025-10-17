@@ -1,33 +1,32 @@
+'use client';
+
 import {Moon, Sun} from 'lucide-react';
+import {useTheme} from 'next-themes';
 import {useEffect, useState} from 'react';
 
 const ThemeToggle = () => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [mounted, setMounted] = useState(false);
+  const {theme, setTheme} = useTheme();
 
+  // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
-    const saved = localStorage.getItem('theme');
-    if (
-      saved === 'dark' ||
-      (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      setTheme('dark');
-      document.documentElement.classList.add('dark');
-    } else {
-      setTheme('light');
-      document.documentElement.classList.remove('dark');
-    }
+    setMounted(true);
   }, []);
 
+  if (!mounted) {
+    // Render placeholder to avoid hydration mismatch
+    return (
+      <button
+        aria-label="Toggle theme"
+        className="ml-2 rounded-full p-2 transition-colors hover:bg-gray-700"
+      >
+        <div className="h-5 w-5" />
+      </button>
+    );
+  }
+
   const toggleTheme = () => {
-    if (theme === 'light') {
-      setTheme('dark');
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      setTheme('light');
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
+    setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
   return (

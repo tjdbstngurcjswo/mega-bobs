@@ -3,6 +3,7 @@ import {Inter} from 'next/font/google';
 import {Toaster} from 'react-hot-toast';
 
 import {AppLayout} from '@/components/layout';
+import {ThemeProvider} from '@/components/ThemeProvider';
 import './globals.css';
 
 const inter = Inter({subsets: ['latin']});
@@ -27,23 +28,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body
-        className={`${inter.className} bg-white dark:bg-[#181A20]`}
-        suppressHydrationWarning
-      >
-        <AppLayout>{children}</AppLayout>
-        <Toaster
-          position="bottom-center"
-          toastOptions={{
-            duration: 2000,
-            style: {
-              background: '#1f2937',
-              color: '#fff',
-              fontSize: '14px',
-              fontWeight: '500',
-            },
-          }}
-        />
+      <body className={`${inter.className} bg-white dark:bg-[#181A20]`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <AppLayout>{children}</AppLayout>
+          <Toaster
+            position="bottom-center"
+            toastOptions={{
+              duration: 2000,
+              style: {
+                background: '#1f2937',
+                color: '#fff',
+                fontSize: '14px',
+                fontWeight: '500',
+              },
+            }}
+          />
+        </ThemeProvider>
       </body>
     </html>
   );
