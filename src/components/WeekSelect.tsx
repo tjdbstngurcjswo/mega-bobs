@@ -1,8 +1,7 @@
-import dayjs from 'dayjs';
-import 'dayjs/locale/ko';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 import toast from 'react-hot-toast';
 
+import dayjs from '@/lib/dayjs';
 import {getWeekDays} from '@/lib/utils';
 interface WeekNavigatorProps {
   week: Date[];

@@ -1,12 +1,11 @@
 /* eslint-disable complexity */
-import dayjs from 'dayjs';
 import React from 'react';
+
+import dayjs from '@/lib/dayjs';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
   notFoundFallback?: React.ReactNode;
-  unauthorizedFallback?: React.ReactNode;
-  forbiddenFallback?: React.ReactNode;
   serverErrorFallback?: React.ReactNode;
   errorFallback?: React.ReactNode;
 }
@@ -51,12 +50,6 @@ MegaBobs 앱에서 다음과 같은 오류가 발생했습니다:
           문의 연락처
         </h3>
         <div className="flex flex-col gap-2">
-          <button
-            onClick={() => handleEmailClick('yoonp@mz.co.kr')}
-            className="block rounded-md bg-slate-500 px-4 py-2 text-left text-sm font-medium text-white transition-colors hover:bg-slate-600 dark:bg-slate-700 dark:hover:bg-slate-800"
-          >
-            박서윤 📧 yoonp@mz.co.kr
-          </button>
           <button
             onClick={() => handleEmailClick('tngur1120@mz.co.kr')}
             className="block rounded-md bg-slate-500 px-4 py-2 text-left text-sm font-medium text-white transition-colors hover:bg-slate-600 dark:bg-slate-700 dark:hover:bg-slate-800"

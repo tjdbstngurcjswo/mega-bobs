@@ -1,14 +1,7 @@
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
-
 import HomeClient from '@/components/HomeClient';
 import getWeeklyMenu from '@/lib/api/getWeeklyMenu';
+import dayjs from '@/lib/dayjs';
 import {formatYYYYMMDD, getWeekDays} from '@/lib/utils';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.tz.setDefault('Asia/Seoul');
 
 export const revalidate = 21600;
 

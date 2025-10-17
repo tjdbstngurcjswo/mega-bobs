@@ -1,5 +1,6 @@
-import dayjs from 'dayjs';
-import 'dayjs/locale/ko';
+import type {Dayjs} from 'dayjs';
+
+import dayjs from '@/lib/dayjs';
 
 interface WeekNavigatorProps {
   date: Date;
@@ -36,14 +37,14 @@ const DayButton = ({
   isDisabled,
   onClick,
 }: {
-  day: dayjs.Dayjs;
+  day: Dayjs;
   isSelected: boolean;
   isDisabled: boolean;
   onClick: () => void;
 }) => {
   const isToday = day.isSame(dayjs(), 'day');
 
-  const getTextColorClass = (day: dayjs.Dayjs, isSelected: boolean) => {
+  const getTextColorClass = (day: Dayjs, isSelected: boolean) => {
     const dayOfWeek = day.day();
 
     if (isSelected) {

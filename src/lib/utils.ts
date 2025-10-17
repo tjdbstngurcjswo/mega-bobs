@@ -1,5 +1,6 @@
 import {type ClassValue, clsx} from 'clsx';
-import dayjs from 'dayjs';
+
+import dayjs from '@/lib/dayjs';
 
 export function cn(...inputs: ClassValue[]) {
   return clsx(inputs);

@@ -10,21 +10,18 @@ interface MenuSectionProps {
 const MenuSection = ({items, isLoading}: MenuSectionProps) => {
   const totalCalories = items?.reduce((sum, item) => sum + item.kcal, 0) ?? 0;
 
+  if (isLoading) return <SectionSkeleton />;
+  if (!items || items.length === 0) return <SectionEmpty />;
+
   return (
     <Section>
-      {isLoading ? (
-        <SectionSkeleton />
-      ) : items && items.length > 0 ? (
-        <ItemContainer>
-          {items.map((item) => (
-            <MenuItem key={item.name} item={item} />
-          ))}
-          <Divider />
-          <TotalCalories totalCalories={totalCalories} />
-        </ItemContainer>
-      ) : (
-        <SectionEmpty />
-      )}
+      <ItemContainer>
+        {items.map((item) => (
+          <MenuItem key={item.name} item={item} />
+        ))}
+      </ItemContainer>
+      <Divider />
+      <TotalCalories totalCalories={totalCalories} />
     </Section>
   );
 };

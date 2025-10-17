@@ -1,11 +1,11 @@
 'use client';
 
-import dayjs from 'dayjs';
-import {useEffect,useState} from 'react';
+import {useEffect, useState} from 'react';
 
 import MobileContainer from '@/components/layout/MobileContainer';
-import {formatYYYYMMDD,getWeekDays} from '@/lib/utils';
-import {CategoryEnum,MenuItemType,MenuType} from '@/types/MenuType';
+import dayjs from '@/lib/dayjs';
+import {formatYYYYMMDD, getWeekDays} from '@/lib/utils';
+import {CategoryEnum, MenuItemType, MenuType} from '@/types/MenuType';
 
 import CourseSelect from './CourseSelect';
 import DaySelect from './DaySelect';
@@ -20,7 +20,7 @@ interface HomeClientProps {
   menus: MenuType[];
 }
 
-const HomeClient = ({menus}:HomeClientProps) => {
+const HomeClient = ({menus}: HomeClientProps) => {
   const [today] = useState(() => dayjs().toDate());
   const [date, setDate] = useState(today);
   const [week, setWeek] = useState(getWeekDays(today));

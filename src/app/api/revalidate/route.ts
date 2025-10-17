@@ -1,7 +1,7 @@
-import {NextResponse} from 'next/server';
 import {revalidatePath} from 'next/cache';
+import {NextResponse} from 'next/server';
 
-export async function GET(request: Request) {
+export async function GET() {
   revalidatePath('/');
 
   return NextResponse.json({revalidated: true, now: Date.now()});
