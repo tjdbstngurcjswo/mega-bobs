@@ -1,4 +1,8 @@
-import HomeClient from '@/components/HomeClient';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import Header from '@/components/Header';
+import MobileContainer from '@/components/layout/MobileContainer';
+import MenuSelector from '@/components/MenuSelector';
+import {DateProvider} from '@/contexts/DateContext';
 import getWeeklyMenu from '@/lib/api/getWeeklyMenu';
 import dayjs from '@/lib/dayjs';
 import {formatYYYYMMDD, getWeekDays} from '@/lib/utils';
@@ -7,6 +11,7 @@ export const revalidate = 21600;
 
 export default async function Home() {
   const today = dayjs().toDate();
+  const currentWeek = getWeekDays(today);
   const previousWeek = getWeekDays(dayjs(today).subtract(1, 'week').toDate());
   const nextWeek = getWeekDays(dayjs(today).add(1, 'week').toDate());
 
@@ -15,5 +20,18 @@ export default async function Home() {
 
   const menus = await getWeeklyMenu({start, end});
 
-  return <HomeClient menus={menus} />;
+  return (
+    <DateProvider today={today}>
+      <MobileContainer>
+        <ErrorBoundary>
+          <Header />
+          <MenuSelector
+            menus={menus}
+            initialDate={today}
+            initialWeek={currentWeek}
+          />
+        </ErrorBoundary>
+      </MobileContainer>
+    </DateProvider>
+  );
 }

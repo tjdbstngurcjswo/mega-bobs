@@ -1,19 +1,25 @@
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 import toast from 'react-hot-toast';
 
+import {useToday} from '@/contexts/DateContext';
 import dayjs from '@/lib/dayjs';
 import {getWeekDays} from '@/lib/utils';
+
 interface WeekNavigatorProps {
   week: Date[];
   onChange: (date: Date[]) => void;
 }
 
 const WeekSelect = ({week, onChange}: WeekNavigatorProps) => {
+  const today = useToday();
   const weekStart = dayjs(week[0]);
   const days = Array.from({length: 7}, (_, i) => weekStart.add(i, 'day'));
 
-  const minDate = dayjs().subtract(1, 'week').startOf('week').add(1, 'day');
-  const maxDate = dayjs().add(1, 'week').endOf('week').add(1, 'day');
+  const minDate = dayjs(today)
+    .subtract(1, 'week')
+    .startOf('week')
+    .add(1, 'day');
+  const maxDate = dayjs(today).add(1, 'week').endOf('week').add(1, 'day');
 
   const handlePrevWeek = () => {
     const prevWeekStart = weekStart.subtract(7, 'day');

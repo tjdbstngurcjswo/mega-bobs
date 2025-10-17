@@ -1,4 +1,6 @@
 /* eslint-disable complexity */
+'use client';
+
 import React from 'react';
 
 import dayjs from '@/lib/dayjs';
@@ -95,6 +97,7 @@ class ErrorBoundary extends React.Component<
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // 에러 로깅 (필요시 외부 서비스로 전송)
+    // eslint-disable-next-line no-console
     console.error('ErrorBoundary caught an error:', error, errorInfo);
   }
 

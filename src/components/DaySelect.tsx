@@ -1,5 +1,6 @@
 import type {Dayjs} from 'dayjs';
 
+import {useToday} from '@/contexts/DateContext';
 import dayjs from '@/lib/dayjs';
 
 interface WeekNavigatorProps {
@@ -9,21 +10,20 @@ interface WeekNavigatorProps {
 }
 
 const DaySelect = ({date, week, onChange}: WeekNavigatorProps) => {
-  const minDate = dayjs(week[0]);
-  const maxDate = dayjs(week[6]);
+  const today = useToday();
+
   return (
     <div className="flex w-full justify-between gap-0.5 px-1 sm:gap-1 sm:px-2">
       {week.map((d) => {
-        const isSelected = dayjs(d).isSame(dayjs(date), 'day');
-        const isDisabled =
-          dayjs(d).isBefore(minDate, 'day') || dayjs(d).isAfter(maxDate, 'day');
+        const dayInstance = dayjs(d);
+        const isSelected = dayInstance.isSame(dayjs(date), 'day');
         return (
           <DayButton
-            key={dayjs(d).format('YYYY-MM-DD')}
-            day={dayjs(d)}
+            key={dayInstance.format('YYYY-MM-DD')}
+            day={dayInstance}
             isSelected={isSelected}
-            isDisabled={isDisabled}
-            onClick={() => onChange(dayjs(d).toDate())}
+            onClick={() => onChange(dayInstance.toDate())}
+            today={today}
           />
         );
       })}
@@ -34,15 +34,15 @@ const DaySelect = ({date, week, onChange}: WeekNavigatorProps) => {
 const DayButton = ({
   day,
   isSelected,
-  isDisabled,
   onClick,
+  today,
 }: {
   day: Dayjs;
   isSelected: boolean;
-  isDisabled: boolean;
   onClick: () => void;
+  today: Date;
 }) => {
-  const isToday = day.isSame(dayjs(), 'day');
+  const isToday = day.isSame(dayjs(today), 'day');
 
   const getTextColorClass = (day: Dayjs, isSelected: boolean) => {
     const dayOfWeek = day.day();
@@ -61,10 +61,9 @@ const DayButton = ({
   };
   return (
     <button
-      key={day.format('YYYY-MM-DD')}
-      className={`relative rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${isSelected ? `bg-white dark:bg-[#808391] ${getTextColorClass(day, isSelected)}` : `${getTextColorClass(day, isSelected)} hover:bg-white/20`} ${isDisabled ? 'cursor-not-allowed opacity-40' : ''} ${isToday ? 'outline-1 outline-offset-2 outline-orange-200' : ''}`}
+      type="button"
+      className={`relative rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${isSelected ? `bg-white dark:bg-[#808391] ${getTextColorClass(day, isSelected)}` : `${getTextColorClass(day, isSelected)} hover:bg-white/20`} ${isToday ? 'outline-1 outline-offset-2 outline-orange-200' : ''}`}
       onClick={onClick}
-      disabled={isDisabled}
     >
       <div className="flex flex-col items-center">
         <div className="text-xs">{day.locale('ko').format('dd')}</div>

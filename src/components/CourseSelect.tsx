@@ -1,3 +1,5 @@
+'use client';
+
 import {menuCategoryLabelMap} from '@/constants/menuCategory';
 import {CategoryEnum} from '@/types/MenuType';
 
