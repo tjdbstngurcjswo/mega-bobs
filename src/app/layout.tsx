@@ -3,7 +3,6 @@ import {Inter} from 'next/font/google';
 import {Toaster} from 'react-hot-toast';
 
 import {AppLayout} from '@/components/layout';
-import QueryProvider from '@/components/QueryProvider';
 import './globals.css';
 
 const inter = Inter({subsets: ['latin']});
@@ -27,11 +26,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className="dark">
-      <body className={`${inter.className  } bg-white dark:bg-[#181A20]`}>
-        <QueryProvider>
-          <AppLayout>{children}</AppLayout>
-        </QueryProvider>
+    <html lang="ko" suppressHydrationWarning>
+      <body
+        className={`${inter.className} bg-white dark:bg-[#181A20]`}
+        suppressHydrationWarning
+      >
+        <AppLayout>{children}</AppLayout>
         <Toaster
           position="bottom-center"
           toastOptions={{

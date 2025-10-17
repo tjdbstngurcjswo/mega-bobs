@@ -57,11 +57,6 @@ MegaBobs 앱 관련 문의드립니다.
       </div>
       <div className="space-y-2">
         <ContactButton
-          onClick={() => handleEmailClick('yoonp@mz.co.kr')}
-          title="박서윤"
-          email="yoonp@mz.co.kr"
-        />
-        <ContactButton
           onClick={() => handleEmailClick('tngur1120@mz.co.kr')}
           title="홍수혁"
           email="tngur1120@mz.co.kr"
