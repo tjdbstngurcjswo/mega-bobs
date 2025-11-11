@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/revalidate",
-      "schedule": "5 16 * * *"
+      "schedule": "30 19 * * *"
     }
   ]
 }
