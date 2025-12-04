@@ -4,9 +4,12 @@ import {Moon, Sun} from 'lucide-react';
 import {useTheme} from 'next-themes';
 import {useEffect, useState} from 'react';
 
+import ThemeDropdown from './ThemeDropdown';
+
 const ThemeToggle = () => {
   const [mounted, setMounted] = useState(false);
-  const {theme, setTheme} = useTheme();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const {resolvedTheme} = useTheme();
 
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
@@ -25,19 +28,25 @@ const ThemeToggle = () => {
     );
   }
 
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
-  };
-
   return (
-    <button
-      onClick={toggleTheme}
-      aria-label="Toggle theme"
-      className="ml-2 rounded-full p-2 transition-colors hover:bg-gray-700"
-    >
-      {theme === 'light' && <Sun size={20} className="text-yellow-600" />}
-      {theme === 'dark' && <Moon size={20} className="text-yellow-400" />}
-    </button>
+    <div className="relative">
+      <button
+        onClick={() => setIsDropdownOpen((prev) => !prev)}
+        aria-label="Toggle theme"
+        className="ml-2 rounded-full p-2 transition-colors hover:bg-gray-700"
+      >
+        {resolvedTheme === 'light' && (
+          <Sun size={20} className="text-yellow-600" />
+        )}
+        {resolvedTheme === 'dark' && (
+          <Moon size={20} className="text-yellow-400" />
+        )}
+      </button>
+
+      {isDropdownOpen && (
+        <ThemeDropdown onClose={() => setIsDropdownOpen(false)} />
+      )}
+    </div>
   );
 };
 
