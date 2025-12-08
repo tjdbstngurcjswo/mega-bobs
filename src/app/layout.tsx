@@ -4,6 +4,8 @@ import {Toaster} from 'react-hot-toast';
 
 import {AppLayout} from '@/components/layout';
 import {ThemeProvider} from '@/components/ThemeProvider';
+
+import {Analytics} from '@vercel/analytics/next';
 import './globals.css';
 
 const inter = Inter({subsets: ['latin']});
@@ -44,6 +46,7 @@ export default function RootLayout({
             }}
           />
         </ThemeProvider>
+        <Analytics mode="production" />
       </body>
     </html>
   );
