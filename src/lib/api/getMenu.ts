@@ -1,14 +1,20 @@
-import axios from 'axios';
+import 'server-only';
 
+import {supabaseServer} from '@/lib/supabase-server';
 import {MenuType} from '@/types/MenuType';
 
-const getWeeklyMenu = async (args: {start: string; end: string}) => {
-  const isServer = typeof window === 'undefined';
-  const baseUrl = isServer ? process.env.NEXT_PUBLIC_SITE_URL : '';
-  const {data} = await axios.get<MenuType[]>(`${baseUrl}/api/menu`, {
-    params: {start: args.start, end: args.end},
-  });
-  return data;
+const getMenu = async (args: {start: string; end: string}) => {
+  const {data, error} = await supabaseServer
+    .from('daily_menu')
+    .select('*')
+    .gte('date', args.start)
+    .lte('date', args.end);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return (data ?? []) satisfies MenuType[];
 };
 
-export default getWeeklyMenu;
+export default getMenu;

@@ -3,7 +3,7 @@ import Header from '@/components/Header';
 import MobileContainer from '@/components/layout/MobileContainer';
 import MenuSelector from '@/components/MenuSelector';
 import {DateProvider} from '@/contexts/DateContext';
-import getWeeklyMenu from '@/lib/api/getMenu';
+import getMenu from '@/lib/api/getMenu';
 import dayjs from '@/lib/dayjs';
 import {formatYYYYMMDD, getWeekDays} from '@/lib/utils';
 
@@ -18,7 +18,7 @@ export default async function Home() {
   const start = formatYYYYMMDD(previousWeek[0]);
   const end = formatYYYYMMDD(nextWeek[6]);
 
-  const menus = await getWeeklyMenu({start, end});
+  const menus = await getMenu({start, end});
 
   return (
     <DateProvider today={today}>
