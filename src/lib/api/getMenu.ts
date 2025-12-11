@@ -5,7 +5,7 @@ import {MenuType} from '@/types/MenuType';
 const getWeeklyMenu = async (args: {start: string; end: string}) => {
   const isServer = typeof window === 'undefined';
   const baseUrl = isServer ? process.env.NEXT_PUBLIC_SITE_URL : '';
-  const {data} = await axios.get<MenuType[]>(`${baseUrl}/api/weekly-menu`, {
+  const {data} = await axios.get<MenuType[]>(`${baseUrl}/api/menu`, {
     params: {start: args.start, end: args.end},
   });
   return data;

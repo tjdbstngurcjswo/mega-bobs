@@ -3,7 +3,7 @@ import Header from '@/components/Header';
 import MobileContainer from '@/components/layout/MobileContainer';
 import MenuSelector from '@/components/MenuSelector';
 import {DateProvider} from '@/contexts/DateContext';
-import getWeeklyMenu from '@/lib/api/getWeeklyMenu';
+import getWeeklyMenu from '@/lib/api/getMenu';
 import dayjs from '@/lib/dayjs';
 import {formatYYYYMMDD, getWeekDays} from '@/lib/utils';
 

@@ -53,10 +53,11 @@ const toSectionText = (records: any[]) => {
 
 export async function POST(req: NextRequest) {
   const form = await req.formData();
+  console.log(form);
   const text = ((form.get('text') as string) || '').trim();
   const date = toDateString(text);
 
-  const url = `${getBaseUrl()}/api/weekly-menu?start=${date}&end=${date}`;
+  const url = `${getBaseUrl()}/api/menu?start=${date}&end=${date}`;
 
   const internalRes = await fetch(url);
 
