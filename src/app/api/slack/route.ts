@@ -6,6 +6,7 @@ import {formatYYYYMMDD} from '@/lib/utils';
 
 const DAY_KEYWORDS: Record<string, number> = {
   오늘: 0,
+  내일: 1,
   모레: 2,
   글피: 3,
 };
@@ -64,15 +65,13 @@ const toSectionText = (records: any[]) => {
   }).join('\n\n');
 };
 
-export async function POST(req: NextRequest) {
-  const form = await req.formData();
-  const text = form.get('text') as string | null;
+const handleSlackRequest = async (text: string | null) => {
   const dateInfo = toDateInfo(text);
 
   if (!dateInfo) {
     return NextResponse.json({
       response_type: 'ephemeral',
-      text: "지원하지 않는 날짜 형식입니다. '오늘', '모레', '글피'만 지원합니다.",
+      text: "지원하지 않는 날짜 형식입니다. '오늘', '내일', '모레', '글피'만 지원합니다.",
     });
   }
 
@@ -80,7 +79,7 @@ export async function POST(req: NextRequest) {
 
   const url = `${getBaseUrl()}/api/menu?start=${date}&end=${date}`;
 
-  const internalRes = await fetch(url);
+  const internalRes = await fetch(url, {next: {revalidate: 86400}});
 
   if (!internalRes.ok) {
     return NextResponse.json({
@@ -101,4 +100,15 @@ export async function POST(req: NextRequest) {
     response_type: 'in_channel', // 채널 전체에 보이게
     text: textResponse,
   });
+};
+
+export async function POST(req: NextRequest) {
+  const form = await req.formData();
+  const text = form.get('text') as string | null;
+  return handleSlackRequest(text);
+}
+
+export async function GET(req: NextRequest) {
+  const text = req.nextUrl.searchParams.get('text');
+  return handleSlackRequest(text);
 }

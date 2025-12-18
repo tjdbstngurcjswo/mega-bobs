@@ -1,3 +1,4 @@
+import {Analytics} from '@vercel/analytics/next';
 import type {Metadata} from 'next';
 import {Inter} from 'next/font/google';
 import {Toaster} from 'react-hot-toast';
@@ -5,7 +6,6 @@ import {Toaster} from 'react-hot-toast';
 import {AppLayout} from '@/components/layout';
 import {ThemeProvider} from '@/components/ThemeProvider';
 
-import {Analytics} from '@vercel/analytics/next';
 import './globals.css';
 
 const inter = Inter({subsets: ['latin']});
