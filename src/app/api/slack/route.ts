@@ -1,10 +1,15 @@
 import {NextRequest, NextResponse} from 'next/server';
 
 import {menuCategoryLabelMap} from '@/constants/menuCategory';
-import dayjs from '@/lib/dayjs';
+import {seoulNow} from '@/lib/dayjs';
 import {formatYYYYMMDD} from '@/lib/utils';
 
-const TOMORROW = ['내일', 'tomorrow', 'tmr'];
+const DAY_KEYWORDS: Record<string, number> = {
+  오늘: 0,
+  모레: 2,
+  글피: 3,
+};
+const DEFAULT_KEYWORD = '오늘';
 const CATEGORIES = ['COURSE_1', 'COURSE_2', 'TAKE_OUT'] as const;
 
 const getBaseUrl = () => {
@@ -13,12 +18,20 @@ const getBaseUrl = () => {
   return 'http://localhost:3000';
 };
 
-const isTomorrow = (text: string) => TOMORROW.includes(text);
+const toDateInfo = (text: string | null) => {
+  const keyword = (text || '').trim();
+  const base = seoulNow(); // server runs in UTC, force Asia/Seoul
 
-const toDateString = (text: string) => {
-  const base = dayjs(); // defaults to Asia/Seoul
-  const target = isTomorrow(text) ? base.add(1, 'day') : base;
-  return formatYYYYMMDD(target.toDate());
+  if (!keyword) {
+    const date = formatYYYYMMDD(base.toDate());
+    return {keyword: DEFAULT_KEYWORD, date};
+  }
+
+  const offset = DAY_KEYWORDS[keyword];
+  if (offset === undefined) return null;
+
+  const date = formatYYYYMMDD(base.add(offset, 'day').toDate());
+  return {keyword, date};
 };
 
 const toRecords = (payload: any): any[] =>
@@ -53,9 +66,17 @@ const toSectionText = (records: any[]) => {
 
 export async function POST(req: NextRequest) {
   const form = await req.formData();
-  console.log(form);
-  const text = ((form.get('text') as string) || '').trim();
-  const date = toDateString(text);
+  const text = form.get('text') as string | null;
+  const dateInfo = toDateInfo(text);
+
+  if (!dateInfo) {
+    return NextResponse.json({
+      response_type: 'ephemeral',
+      text: "지원하지 않는 날짜 형식입니다. '오늘', '모레', '글피'만 지원합니다.",
+    });
+  }
+
+  const {keyword, date} = dateInfo;
 
   const url = `${getBaseUrl()}/api/menu?start=${date}&end=${date}`;
 
@@ -72,7 +93,7 @@ export async function POST(req: NextRequest) {
   const records = toRecords(menuJson);
 
   // 슬랙 응답 포맷
-  const header = `🍱 Megabobs *${text || '오늘'} 메뉴 (${date})*`;
+  const header = `🍱 Megabobs *${keyword} 메뉴 (${date})*`;
   const sections = toSectionText(records);
   const textResponse = sections ? [header, sections].join('\n\n') : header;
 
