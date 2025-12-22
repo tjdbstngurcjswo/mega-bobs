@@ -1,14 +1,15 @@
-import {NextResponse} from 'next/server';
+import {NextRequest, NextResponse} from 'next/server';
 
 const WARM_KEYWORDS: (string | null)[] = [null, '오늘', '내일', '모레', '글피'];
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const origin = req.nextUrl.origin;
   const results = await Promise.all(
     WARM_KEYWORDS.map(async (keyword) => {
       const params = new URLSearchParams();
       if (keyword) params.set('text', keyword);
 
-      const url = `/api/slack${params.toString() ? `?${params}` : ''}`;
+      const url = `${origin}/api/slack${params.toString() ? `?${params}` : ''}`;
       const res = await fetch(url, {cache: 'no-store'});
 
       const body = res.ok ? undefined : await res.text().catch(() => undefined);
