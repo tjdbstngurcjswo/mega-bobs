@@ -59,7 +59,7 @@ const toSectionText = (records: any[]) => {
   }).join('\n\n');
 };
 
-const handleSlackRequest = async (text: string | null) => {
+const handleSlackRequest = async (origin: string, text: string | null) => {
   const dateInfo = toDateInfo(text);
 
   if (!dateInfo) {
@@ -71,7 +71,7 @@ const handleSlackRequest = async (text: string | null) => {
 
   const {keyword, date} = dateInfo;
 
-  const url = `/api/menu?start=${date}&end=${date}`;
+  const url = `${origin}/api/menu?start=${date}&end=${date}`;
 
   console.log('url', url);
   const internalRes = await fetch(url, {next: {revalidate: 86400}});
@@ -99,11 +99,13 @@ const handleSlackRequest = async (text: string | null) => {
 
 export async function POST(req: NextRequest) {
   const form = await req.formData();
+  const origin = req.nextUrl.origin;
   const text = form.get('text') as string | null;
-  return handleSlackRequest(text);
+  return handleSlackRequest(origin, text);
 }
 
 export async function GET(req: NextRequest) {
+  const origin = req.nextUrl.origin;
   const text = req.nextUrl.searchParams.get('text');
-  return handleSlackRequest(text);
+  return handleSlackRequest(origin, text);
 }
