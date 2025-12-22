@@ -79,6 +79,7 @@ const handleSlackRequest = async (text: string | null) => {
 
   const url = `${getBaseUrl()}/api/menu?start=${date}&end=${date}`;
 
+  console.log('url', url);
   const internalRes = await fetch(url, {next: {revalidate: 86400}});
 
   if (!internalRes.ok) {
