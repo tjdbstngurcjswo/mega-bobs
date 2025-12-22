@@ -1,4 +1,4 @@
-import {MenuItemType} from '@/types/MenuType';
+import {MenuItemType} from '@/types/menu';
 
 import MenuItem from './MenuItem';
 

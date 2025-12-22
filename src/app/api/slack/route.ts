@@ -1,20 +1,17 @@
 import {NextRequest, NextResponse} from 'next/server';
 
-import {menuCategoryLabelMap} from '@/constants/menuCategory';
+import {MENU_CATEGORIES, MenuCategoryLabel} from '@/constants/menu';
+import {
+  CommandKeyword,
+  DAY_OFFSET_MAP,
+  DEFAULT_KEYWORD,
+} from '@/constants/slack';
 import {seoulNow} from '@/lib/dayjs';
 import {formatYYYYMMDD} from '@/lib/utils';
-
-const DAY_KEYWORDS: Record<string, number> = {
-  오늘: 0,
-  내일: 1,
-  모레: 2,
-  글피: 3,
-};
-const DEFAULT_KEYWORD = '오늘';
-const CATEGORIES = ['COURSE_1', 'COURSE_2', 'TAKE_OUT'] as const;
+import {MenuCategory, MenuType} from '@/types/menu';
 
 const toDateInfo = (text: string | null) => {
-  const keyword = (text || '').trim();
+  const keyword = (text || '').trim() as CommandKeyword;
   const base = seoulNow(); // server runs in UTC, force Asia/Seoul
 
   if (!keyword) {
@@ -22,44 +19,42 @@ const toDateInfo = (text: string | null) => {
     return {keyword: DEFAULT_KEYWORD, date};
   }
 
-  const offset = DAY_KEYWORDS[keyword];
+  const offset = DAY_OFFSET_MAP[keyword];
   if (offset === undefined) return null;
 
   const date = formatYYYYMMDD(base.add(offset, 'day').toDate());
   return {keyword, date};
 };
 
-const toRecords = (payload: any): any[] =>
-  Array.isArray(payload)
-    ? payload
-    : Array.isArray(payload?.data)
-      ? payload.data
-      : [];
-
-const toCategoryLabel = (category?: string) => {
+const toCategoryLabel = (category: MenuCategory) => {
   if (!category) return '';
-  return (
-    menuCategoryLabelMap[category as keyof typeof menuCategoryLabelMap]?.ko ??
-    category
-  );
+  return MenuCategoryLabel[category].ko;
 };
 
-const toSectionText = (records: any[]) => {
-  return CATEGORIES.map((category) => {
+const toSlackFormat = (records: MenuType[], keyword: string, date: string) => {
+  const header = `🍱 Megabobs *${keyword} 메뉴 (${date})*`;
+
+  const sections = MENU_CATEGORIES.map((category) => {
     const label = toCategoryLabel(category);
-    const record = records.find((r) => r?.category === category);
-    const items = Array.isArray(record?.items) ? record.items : [];
+    const record = records.find((r) => r.category === category);
+    const items = record?.items ?? [];
 
     if (!items.length) return `_${label}: 메뉴 없음_`;
 
-    const lines = items.map((item: {name: string; kcal?: number}) =>
+    const lines = items.map((item) =>
       item.kcal ? `• ${item.name} (${item.kcal} kcal)` : `• ${item.name}`
     );
     return [`*${label}*`, ...lines].join('\n');
   }).join('\n\n');
+
+  return sections ? [header, sections].join('\n\n') : header;
 };
 
-const handleSlackRequest = async (origin: string, text: string | null) => {
+export async function POST(req: NextRequest) {
+  const form = await req.formData();
+  const origin = req.nextUrl.origin;
+  const text = form.get('text') as string | null;
+
   const dateInfo = toDateInfo(text);
 
   if (!dateInfo) {
@@ -73,7 +68,6 @@ const handleSlackRequest = async (origin: string, text: string | null) => {
 
   const url = `${origin}/api/menu?start=${date}&end=${date}`;
 
-  console.log('url', url);
   const internalRes = await fetch(url, {next: {revalidate: 86400}});
 
   if (!internalRes.ok) {
@@ -83,29 +77,12 @@ const handleSlackRequest = async (origin: string, text: string | null) => {
     });
   }
 
-  const menuJson = await internalRes.json();
-  const records = toRecords(menuJson);
+  const menus: MenuType[] = await internalRes.json();
 
-  // 슬랙 응답 포맷
-  const header = `🍱 Megabobs *${keyword} 메뉴 (${date})*`;
-  const sections = toSectionText(records);
-  const textResponse = sections ? [header, sections].join('\n\n') : header;
+  const textResponse = toSlackFormat(menus, keyword, date);
 
   return NextResponse.json({
     response_type: 'in_channel', // 채널 전체에 보이게
     text: textResponse,
   });
-};
-
-export async function POST(req: NextRequest) {
-  const form = await req.formData();
-  const origin = req.nextUrl.origin;
-  const text = form.get('text') as string | null;
-  return handleSlackRequest(origin, text);
-}
-
-export async function GET(req: NextRequest) {
-  const origin = req.nextUrl.origin;
-  const text = req.nextUrl.searchParams.get('text');
-  return handleSlackRequest(origin, text);
 }

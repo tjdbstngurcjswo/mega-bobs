@@ -1,5 +1,5 @@
 import {formatCalories} from '@/lib/utils';
-import {MenuItemType} from '@/types/MenuType';
+import {MenuItemType} from '@/types/menu';
 
 interface MenuItemProps {
   item: MenuItemType;

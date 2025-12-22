@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from 'next/server';
 
-const WARM_KEYWORDS: (string | null)[] = [null, '오늘', '내일', '모레', '글피'];
+import {WARM_KEYWORDS} from '@/constants/slack';
 
 export async function GET(req: NextRequest) {
   const origin = req.nextUrl.origin;

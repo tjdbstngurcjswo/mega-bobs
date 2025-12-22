@@ -1,11 +1,10 @@
 'use client';
 
-import {menuCategoryLabelMap} from '@/constants/menuCategory';
-import {CategoryEnum} from '@/types/MenuType';
-
+import {MenuCategoryLabel} from '@/constants/menu';
+import {MenuCategory} from '@/types/menu';
 interface CourseSelectProps {
-  category: CategoryEnum;
-  onChange: (category: CategoryEnum) => void;
+  category: MenuCategory;
+  onChange: (category: MenuCategory) => void;
 }
 
 const CourseSelect = ({category, onChange}: CourseSelectProps) => {
@@ -35,7 +34,7 @@ const CourseSelect = ({category, onChange}: CourseSelectProps) => {
             : 'text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white'
         }`}
       >
-        {menuCategoryLabelMap.COURSE_1.ko}
+        {MenuCategoryLabel.COURSE_1.ko}
       </button>
       <button
         onClick={() => onChange('COURSE_2')}
@@ -45,7 +44,7 @@ const CourseSelect = ({category, onChange}: CourseSelectProps) => {
             : 'text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white'
         }`}
       >
-        {menuCategoryLabelMap.COURSE_2.ko}
+        {MenuCategoryLabel.COURSE_2.ko}
       </button>
       <button
         onClick={() => onChange('TAKE_OUT')}
@@ -55,7 +54,7 @@ const CourseSelect = ({category, onChange}: CourseSelectProps) => {
             : 'text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white'
         }`}
       >
-        {menuCategoryLabelMap.TAKE_OUT.ko}
+        {MenuCategoryLabel.TAKE_OUT.ko}
       </button>
     </div>
   );

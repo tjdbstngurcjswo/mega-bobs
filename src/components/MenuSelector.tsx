@@ -2,8 +2,9 @@
 
 import {useState} from 'react';
 
+import {DEFAULT_MENU_CATEGORY} from '@/constants/menu';
 import {formatYYYYMMDD} from '@/lib/utils';
-import {CategoryEnum, MenuItemType, MenuType} from '@/types/MenuType';
+import {MenuCategory, MenuItemType, MenuType} from '@/types/menu';
 
 import CourseSelect from './CourseSelect';
 import DaySelect from './DaySelect';
@@ -19,7 +20,7 @@ interface MenuSelectorProps {
 const MenuSelector = ({menus, initialDate, initialWeek}: MenuSelectorProps) => {
   const [date, setDate] = useState(initialDate);
   const [week, setWeek] = useState(initialWeek);
-  const [category, setCategory] = useState<CategoryEnum>('COURSE_1');
+  const [category, setCategory] = useState<MenuCategory>(DEFAULT_MENU_CATEGORY);
 
   const selectedItems =
     (menus.find(
