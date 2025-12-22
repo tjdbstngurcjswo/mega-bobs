@@ -13,12 +13,6 @@ const DAY_KEYWORDS: Record<string, number> = {
 const DEFAULT_KEYWORD = '오늘';
 const CATEGORIES = ['COURSE_1', 'COURSE_2', 'TAKE_OUT'] as const;
 
-const getBaseUrl = () => {
-  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-  return 'http://localhost:3000';
-};
-
 const toDateInfo = (text: string | null) => {
   const keyword = (text || '').trim();
   const base = seoulNow(); // server runs in UTC, force Asia/Seoul
@@ -77,7 +71,7 @@ const handleSlackRequest = async (text: string | null) => {
 
   const {keyword, date} = dateInfo;
 
-  const url = `${getBaseUrl()}/api/menu?start=${date}&end=${date}`;
+  const url = `/api/menu?start=${date}&end=${date}`;
 
   console.log('url', url);
   const internalRes = await fetch(url, {next: {revalidate: 86400}});
