@@ -1,7 +1,6 @@
 import type {Dayjs} from 'dayjs';
 
-import {useToday} from '@/contexts/DateContext';
-import dayjs from '@/lib/dayjs';
+import dayjs, {seoulNow} from '@/lib/dayjs';
 
 interface WeekNavigatorProps {
   date: Date;
@@ -10,10 +9,10 @@ interface WeekNavigatorProps {
 }
 
 const DaySelect = ({date, week, onChange}: WeekNavigatorProps) => {
-  const today = useToday();
+  const today = seoulNow().toDate();
 
   return (
-    <div className="flex w-full justify-between gap-0.5 px-1 sm:gap-1 sm:px-2">
+    <div className="flex w-full justify-between gap-1 p-2">
       {week.map((d) => {
         const dayInstance = dayjs(d);
         const isSelected = dayInstance.isSame(dayjs(date), 'day');

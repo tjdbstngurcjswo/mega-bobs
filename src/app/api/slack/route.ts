@@ -32,7 +32,7 @@ const toCategoryLabel = (category: MenuCategory) => {
 };
 
 const toSlackFormat = (records: MenuType[], keyword: string, date: string) => {
-  const header = `🍱 Megabobs *${keyword} 메뉴 (${date})*`;
+  const header = `🍱 MegaBobs *${keyword} 메뉴 (${date})*`;
 
   const sections = MENU_CATEGORIES.map((category) => {
     const label = toCategoryLabel(category);

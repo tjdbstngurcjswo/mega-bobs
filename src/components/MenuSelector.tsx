@@ -28,16 +28,16 @@ const MenuSelector = ({menus, initialDate, initialWeek}: MenuSelectorProps) => {
     )?.items as MenuItemType[]) ?? [];
 
   return (
-    <>
-      <div className="flex flex-col items-center gap-3 bg-gradient-to-r from-slate-800 to-slate-900 p-3 text-white sm:gap-4 dark:from-[#23242B] dark:to-[#181A20] dark:text-white">
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col bg-slate-900 px-4 dark:bg-[#181A20]">
         <WeekSelect week={week} onChange={setWeek} />
         <DaySelect date={date} week={week} onChange={setDate} />
       </div>
-      <div className="flex flex-1 flex-col gap-1 overflow-hidden px-4 py-4 sm:px-6 sm:py-4">
+      <div className="flex flex-1 flex-col gap-2 overflow-hidden px-4">
         <CourseSelect category={category} onChange={setCategory} />
         <MenuSection items={selectedItems} />
       </div>
-    </>
+    </div>
   );
 };
 

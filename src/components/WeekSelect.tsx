@@ -1,8 +1,7 @@
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 import toast from 'react-hot-toast';
 
-import {useToday} from '@/contexts/DateContext';
-import dayjs from '@/lib/dayjs';
+import dayjs, {seoulNow} from '@/lib/dayjs';
 import {getWeekDays} from '@/lib/utils';
 
 interface WeekNavigatorProps {
@@ -11,7 +10,7 @@ interface WeekNavigatorProps {
 }
 
 const WeekSelect = ({week, onChange}: WeekNavigatorProps) => {
-  const today = useToday();
+  const today = seoulNow();
   const weekStart = dayjs(week[0]);
   const days = Array.from({length: 7}, (_, i) => weekStart.add(i, 'day'));
 
