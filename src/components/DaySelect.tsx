@@ -9,7 +9,7 @@ interface WeekNavigatorProps {
 }
 
 const DaySelect = ({date, week, onChange}: WeekNavigatorProps) => {
-  const today = seoulNow().toDate();
+  const today = seoulNow();
 
   return (
     <div className="flex w-full justify-between gap-1 p-2">
@@ -39,9 +39,9 @@ const DayButton = ({
   day: Dayjs;
   isSelected: boolean;
   onClick: () => void;
-  today: Date;
+  today: Dayjs;
 }) => {
-  const isToday = day.isSame(dayjs(today), 'day');
+  const isToday = day.isSame(today, 'day');
 
   const getTextColorClass = (day: Dayjs, isSelected: boolean) => {
     const dayOfWeek = day.day();

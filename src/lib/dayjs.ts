@@ -3,23 +3,12 @@ import 'dayjs/locale/ko';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.locale('ko');
+
 export const SEOUL_TIMEZONE = 'Asia/Seoul';
 
-let initialized = false;
-
-const initializeDayjs = () => {
-  if (initialized) return;
-
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
-  dayjs.tz.setDefault(SEOUL_TIMEZONE);
-  dayjs.locale('ko');
-
-  initialized = true;
-};
-
-initializeDayjs();
-
-export const seoulNow = () => dayjs().tz(SEOUL_TIMEZONE);
+export const seoulNow = () => dayjs.tz(new Date(), SEOUL_TIMEZONE);
 
 export default dayjs;
