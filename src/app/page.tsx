@@ -9,7 +9,7 @@ import {formatYYYYMMDD, getWeekDays} from '@/lib/utils';
 export const revalidate = 21600;
 
 export default async function Home() {
-  const today = dayjs().toDate();
+  const today = dayjs.tz('Asia/Seoul').toDate();
   console.log('home today', today.toString());
   const currentWeek = getWeekDays(today);
   const previousWeek = getWeekDays(dayjs(today).subtract(1, 'week').toDate());
