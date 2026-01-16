@@ -6,13 +6,13 @@ import {
   DAY_OFFSET_MAP,
   DEFAULT_KEYWORD,
 } from '@/constants/slack';
-import {seoulNow} from '@/lib/dayjs';
+import dayjs from '@/lib/dayjs';
 import {formatYYYYMMDD} from '@/lib/utils';
 import {MenuCategory, MenuType} from '@/types/menu';
 
 const toDateInfo = (text: string | null) => {
   const keyword = (text || '').trim() as CommandKeyword;
-  const base = seoulNow(); // server runs in UTC, force Asia/Seoul
+  const base = dayjs.tz('Asia/Seoul'); // server runs in UTC, force Asia/Seoul
 
   if (!keyword) {
     const date = formatYYYYMMDD(base.toDate());
