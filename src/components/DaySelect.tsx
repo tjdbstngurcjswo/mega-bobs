@@ -9,8 +9,7 @@ interface WeekNavigatorProps {
 }
 
 const DaySelect = ({date, week, onChange}: WeekNavigatorProps) => {
-  const today = dayjs().toDate();
-  console.log('day select today', today.toString());
+  const today = dayjs().tz('Asia/Seoul').toDate();
   return (
     <div className="flex w-full justify-between gap-1 p-2">
       {week.map((d) => {

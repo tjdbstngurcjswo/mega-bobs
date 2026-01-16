@@ -10,7 +10,7 @@ interface WeekNavigatorProps {
 }
 
 const WeekSelect = ({week, onChange}: WeekNavigatorProps) => {
-  const today = dayjs();
+  const today = dayjs().tz('Asia/Seoul');
   const weekStart = dayjs(week[0]);
   const days = Array.from({length: 7}, (_, i) => weekStart.add(i, 'day'));
 
