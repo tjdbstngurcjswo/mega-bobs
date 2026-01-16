@@ -3,14 +3,14 @@ import Header from '@/components/Header';
 import MobileContainer from '@/components/layout/MobileContainer';
 import MenuSelector from '@/components/MenuSelector';
 import getMenu from '@/lib/api/getMenu';
-import dayjs from '@/lib/dayjs';
+import dayjs, {SEOUL_TIMEZONE} from '@/lib/dayjs';
 import {formatYYYYMMDD, getWeekDays} from '@/lib/utils';
 
 export const revalidate = 21600;
 
 export default async function Home() {
-  const today = dayjs().tz('Asia/Seoul').toDate();
-  console.log('home today', today.toString());
+  // dayjs.tz()로 서울 타임존 기준 날짜 생성 (UTC 환경에서도 올바르게 동작)
+  const today = dayjs.tz(new Date(), SEOUL_TIMEZONE).toDate();
   const currentWeek = getWeekDays(today);
   const previousWeek = getWeekDays(dayjs(today).subtract(1, 'week').toDate());
   const nextWeek = getWeekDays(dayjs(today).add(1, 'week').toDate());

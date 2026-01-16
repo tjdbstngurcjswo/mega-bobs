@@ -1,6 +1,6 @@
 import type {Dayjs} from 'dayjs';
 
-import dayjs from '@/lib/dayjs';
+import dayjs, {SEOUL_TIMEZONE} from '@/lib/dayjs';
 
 interface WeekNavigatorProps {
   date: Date;
@@ -9,7 +9,7 @@ interface WeekNavigatorProps {
 }
 
 const DaySelect = ({date, week, onChange}: WeekNavigatorProps) => {
-  const today = dayjs().tz('Asia/Seoul').toDate();
+  const today = dayjs.tz(new Date(), SEOUL_TIMEZONE).toDate();
   return (
     <div className="flex w-full justify-between gap-1 p-2">
       {week.map((d) => {

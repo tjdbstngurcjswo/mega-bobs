@@ -6,6 +6,9 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.locale('ko');
-dayjs.tz.setDefault('Asia/Seoul');
+
+export const SEOUL_TIMEZONE = 'Asia/Seoul';
+
+dayjs.tz.setDefault(SEOUL_TIMEZONE);
 
 export default dayjs;
