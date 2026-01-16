@@ -3,13 +3,14 @@ import Header from '@/components/Header';
 import MobileContainer from '@/components/layout/MobileContainer';
 import MenuSelector from '@/components/MenuSelector';
 import getMenu from '@/lib/api/getMenu';
-import dayjs, {seoulNow} from '@/lib/dayjs';
+import dayjs from '@/lib/dayjs';
 import {formatYYYYMMDD, getWeekDays} from '@/lib/utils';
 
 export const revalidate = 21600;
 
 export default async function Home() {
-  const today = seoulNow().toDate();
+  const today = dayjs().toDate();
+  console.log('home today', today.toString());
   const currentWeek = getWeekDays(today);
   const previousWeek = getWeekDays(dayjs(today).subtract(1, 'week').toDate());
   const nextWeek = getWeekDays(dayjs(today).add(1, 'week').toDate());

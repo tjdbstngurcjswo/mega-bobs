@@ -22,6 +22,7 @@ const MenuSelector = ({menus, initialDate, initialWeek}: MenuSelectorProps) => {
   const [week, setWeek] = useState(initialWeek);
   const [category, setCategory] = useState<MenuCategory>(DEFAULT_MENU_CATEGORY);
 
+  console.log('menu selector date', date.toString());
   const selectedItems =
     (menus.find(
       (item) => item.date === formatYYYYMMDD(date) && item.category === category
