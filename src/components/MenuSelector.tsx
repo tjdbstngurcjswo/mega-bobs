@@ -3,6 +3,7 @@
 import {useState} from 'react';
 
 import {DEFAULT_MENU_CATEGORY} from '@/constants/menu';
+import dayjs, {SEOUL_TIMEZONE} from '@/lib/dayjs';
 import {formatYYYYMMDD} from '@/lib/utils';
 import {MenuCategory, MenuItemType, MenuType} from '@/types/menu';
 
@@ -18,7 +19,9 @@ interface MenuSelectorProps {
 }
 
 const MenuSelector = ({menus, initialDate, initialWeek}: MenuSelectorProps) => {
-  const [date, setDate] = useState(initialDate);
+  const [date, setDate] = useState(
+    dayjs.tz(initialDate, SEOUL_TIMEZONE).toDate()
+  );
   const [week, setWeek] = useState(initialWeek);
   const [category, setCategory] = useState<MenuCategory>(DEFAULT_MENU_CATEGORY);
 
