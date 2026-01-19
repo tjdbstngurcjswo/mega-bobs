@@ -1,6 +1,6 @@
 import type {Dayjs} from 'dayjs';
 
-import dayjs, {seoulNow} from '@/lib/dayjs';
+import dayjs, {SEOUL_TIMEZONE} from '@/lib/dayjs';
 
 interface WeekNavigatorProps {
   date: Date;
@@ -9,20 +9,18 @@ interface WeekNavigatorProps {
 }
 
 const DaySelect = ({date, week, onChange}: WeekNavigatorProps) => {
-  const today = seoulNow();
-
+  const today = dayjs.tz(new Date(), SEOUL_TIMEZONE).toDate();
   return (
     <div className="flex w-full justify-between gap-1 p-2">
       {week.map((d) => {
         const dayInstance = dayjs(d);
-        const isSelected = dayInstance.isSame(dayjs(date), 'day');
         return (
           <DayButton
             key={dayInstance.format('YYYY-MM-DD')}
             day={dayInstance}
-            isSelected={isSelected}
             onClick={() => onChange(dayInstance.toDate())}
-            today={today}
+            isSelected={dayInstance.isSame(date, 'day')}
+            isToday={dayInstance.isSame(today, 'day')}
           />
         );
       })}
@@ -34,15 +32,13 @@ const DayButton = ({
   day,
   isSelected,
   onClick,
-  today,
+  isToday,
 }: {
   day: Dayjs;
   isSelected: boolean;
   onClick: () => void;
-  today: Dayjs;
+  isToday: boolean;
 }) => {
-  const isToday = day.isSame(today, 'day');
-
   const getTextColorClass = (day: Dayjs, isSelected: boolean) => {
     const dayOfWeek = day.day();
 

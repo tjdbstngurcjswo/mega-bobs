@@ -2,7 +2,7 @@
 
 import {Moon, Sun} from 'lucide-react';
 import {useTheme} from 'next-themes';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import ThemeDropdown from './ThemeDropdown';
 
@@ -29,9 +29,9 @@ const ThemeToggle = () => {
   }
 
   return (
-    <div className="relative">
+    <React.Fragment>
       <button
-        onClick={() => setIsDropdownOpen((prev) => !prev)}
+        onClick={() => setIsDropdownOpen(true)}
         aria-label="Toggle theme"
         className="ml-2 rounded-full p-2 transition-colors hover:bg-gray-700"
       >
@@ -46,7 +46,7 @@ const ThemeToggle = () => {
       {isDropdownOpen && (
         <ThemeDropdown onClose={() => setIsDropdownOpen(false)} />
       )}
-    </div>
+    </React.Fragment>
   );
 };
 
