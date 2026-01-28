@@ -7,22 +7,21 @@ import {
   DEFAULT_KEYWORD,
 } from '@/constants/slack';
 import dayjs, {SEOUL_TIMEZONE} from '@/lib/dayjs';
-import {formatYYYYMMDD} from '@/lib/utils';
 import {MenuCategory, MenuType} from '@/types/menu';
 
 const toDateInfo = (text: string | null) => {
   const keyword = (text || '').trim() as CommandKeyword;
-  const base = dayjs.tz(new Date(), SEOUL_TIMEZONE); // server runs in UTC, force Asia/Seoul
+  const base = dayjs().tz(SEOUL_TIMEZONE); // 현재 시간을 서울 타임존으로 변환
 
   if (!keyword) {
-    const date = formatYYYYMMDD(base.toDate());
+    const date = base.format('YYYY-MM-DD');
     return {keyword: DEFAULT_KEYWORD, date};
   }
 
   const offset = DAY_OFFSET_MAP[keyword];
   if (offset === undefined) return null;
 
-  const date = formatYYYYMMDD(base.add(offset, 'day').toDate());
+  const date = base.add(offset, 'day').format('YYYY-MM-DD');
   return {keyword, date};
 };
 
