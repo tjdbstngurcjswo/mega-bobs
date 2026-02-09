@@ -7,6 +7,7 @@ import {
   DEFAULT_KEYWORD,
 } from '@/constants/slack';
 import dayjs, {SEOUL_TIMEZONE} from '@/lib/dayjs';
+import {verifySlackSignature} from '@/lib/slack';
 import {MenuCategory, MenuType} from '@/types/menu';
 
 const toDateInfo = (text: string | null) => {
@@ -50,9 +51,19 @@ const toSlackFormat = (records: MenuType[], keyword: string, date: string) => {
 };
 
 export async function POST(req: NextRequest) {
-  const form = await req.formData();
+  const rawBody = await req.text();
   const origin = req.nextUrl.origin;
-  const text = form.get('text') as string | null;
+
+  // Slack 서명 검증
+  const signature = req.headers.get('x-slack-signature');
+  const timestamp = req.headers.get('x-slack-request-timestamp');
+
+  if (!verifySlackSignature(signature, timestamp, rawBody)) {
+    return NextResponse.json({error: 'Invalid signature'}, {status: 401});
+  }
+
+  const params = new URLSearchParams(rawBody);
+  const text = params.get('text');
 
   const dateInfo = toDateInfo(text);
 
