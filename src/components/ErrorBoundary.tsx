@@ -36,7 +36,7 @@ MegaBobs 앱에서 다음과 같은 오류가 발생했습니다:
   };
 
   return (
-    <div className="flex min-h-[400px] flex-col items-center justify-center bg-white p-6 text-center dark:bg-[#23242B]">
+    <div className="flex min-h-[400px] flex-col items-center justify-center bg-white p-6 text-center dark:bg-dark-card">
       <div className="mb-6 text-6xl">⚠️</div>
       <h2 className="mb-4 text-xl font-bold text-slate-800 dark:text-white">
         알 수 없는 오류가 발생했습니다
@@ -47,7 +47,7 @@ MegaBobs 앱에서 다음과 같은 오류가 발생했습니다:
         아래 이메일로 문의해 주시면 빠르게 해결해 드리겠습니다.
       </p>
 
-      <div className="mb-4 rounded-lg bg-slate-50 p-4 dark:bg-[#181A20]">
+      <div className="mb-4 rounded-lg bg-slate-50 p-4 dark:bg-dark-base">
         <h3 className="mb-2 text-sm font-semibold text-slate-700 dark:text-white">
           문의 연락처
         </h3>
@@ -73,7 +73,7 @@ MegaBobs 앱에서 다음과 같은 오류가 발생했습니다:
           <summary className="cursor-pointer text-xs text-slate-500 hover:text-slate-700">
             개발자 정보 (클릭하여 펼치기)
           </summary>
-          <pre className="mt-2 overflow-auto rounded bg-red-50 p-2 text-left text-xs text-red-700 dark:bg-[#23242B] dark:text-red-400">
+          <pre className="mt-2 overflow-auto rounded bg-red-50 p-2 text-left text-xs text-red-700 dark:bg-dark-card dark:text-red-400">
             {error.stack}
           </pre>
         </details>
@@ -108,7 +108,7 @@ class ErrorBoundary extends React.Component<
       if (msg.includes('404'))
         return (
           this.props.notFoundFallback || (
-            <div className="flex min-h-[300px] flex-col items-center justify-center bg-white p-6 text-center dark:bg-[#23242B]">
+            <div className="flex min-h-[300px] flex-col items-center justify-center bg-white p-6 text-center dark:bg-dark-card">
               <div className="mb-4 text-4xl">📋</div>
               <h2 className="mb-2 text-lg font-bold text-gray-800 dark:text-white">
                 데이터가 없습니다
@@ -123,7 +123,7 @@ class ErrorBoundary extends React.Component<
       if (msg.includes('500') || msg.includes('503'))
         return (
           this.props.serverErrorFallback || (
-            <div className="flex min-h-[300px] flex-col items-center justify-center bg-white p-6 text-center dark:bg-[#23242B]">
+            <div className="flex min-h-[300px] flex-col items-center justify-center bg-white p-6 text-center dark:bg-dark-card">
               <div className="mb-4 text-4xl">🔧</div>
               <h2 className="mb-2 text-lg font-bold text-gray-800 dark:text-white">
                 서버 오류

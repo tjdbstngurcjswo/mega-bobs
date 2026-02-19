@@ -34,19 +34,19 @@ const MenuSection = () => {
 };
 
 const Section = ({children}: {children: React.ReactNode}) => (
-  <div className="min-h-0 flex-1 overflow-auto">
-    <div className="flex h-full flex-col rounded-xl bg-white shadow-lg dark:bg-[#23242B] dark:shadow-none">
+  <div className="min-h-0 flex-1">
+    <div className="flex h-full flex-col rounded-xl bg-white shadow-lg dark:bg-dark-card dark:shadow-none">
       {children}
     </div>
   </div>
 );
 
 const Divider = () => (
-  <div className="my-3 border-t border-dashed border-slate-400"></div>
+  <div className="shrink-0 my-3 border-t border-dashed border-slate-400"></div>
 );
 
 const ItemContainer = ({children}: {children: React.ReactNode}) => (
-  <div className="flex-1 space-y-4 overflow-y-auto px-1 py-2">{children}</div>
+  <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-1 py-2">{children}</div>
 );
 
 const SectionEmpty = () => (
@@ -62,7 +62,7 @@ const SectionEmpty = () => (
 );
 
 const TotalCalories = ({totalCalories}: {totalCalories: number}) => (
-  <div className="rounded-lg border border-slate-200 bg-gray-50 p-4 shadow-sm transition-all hover:shadow-md sm:p-5 dark:border-slate-700 dark:bg-[#181A20] dark:shadow-none">
+  <div className="shrink-0 rounded-lg border border-slate-200 bg-gray-50 p-4 shadow-sm transition-all hover:shadow-md sm:p-5 dark:border-slate-700 dark:bg-dark-base dark:shadow-none">
     <div className="flex items-center justify-between">
       <h3 className="text-sm font-medium text-slate-800 sm:text-base dark:text-white">
         총 칼로리

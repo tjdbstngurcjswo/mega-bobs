@@ -45,7 +45,7 @@ MegaBobs 앱 관련 문의드립니다.
   return (
     <div
       ref={dropdownRef}
-      className="absolute top-full left-3 z-50 w-72 rounded-lg bg-white p-4 shadow-2xl sm:left-6 dark:bg-[#2C2D35] dark:shadow-lg"
+      className="absolute top-full left-3 z-50 w-72 rounded-lg bg-white p-4 shadow-2xl sm:left-6 dark:bg-dark-elevated dark:shadow-lg"
     >
       <div className="mb-3">
         <h3 className="text-sm font-semibold text-slate-800 dark:text-white">

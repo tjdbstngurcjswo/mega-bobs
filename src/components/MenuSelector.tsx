@@ -22,12 +22,12 @@ const MenuSelector = ({menus}: MenuSelectorProps) => {
   }, [menus, setMenus]);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col bg-slate-900 px-4 dark:bg-[#181A20]">
+    <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-hidden">
+      <div className="dark:bg-dark-base flex flex-col bg-slate-900 px-4">
         <WeekSelect />
         <DaySelect />
       </div>
-      <div className="flex flex-1 flex-col gap-2 overflow-hidden px-4">
+      <div className="flex flex-1 flex-col gap-2 overflow-hidden px-4 py-2">
         <CourseSelect />
         <MenuSection />
       </div>

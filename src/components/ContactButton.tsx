@@ -9,7 +9,7 @@ interface ContactButtonProps {
 const ContactButton = ({onClick, title, email}: ContactButtonProps) => (
   <button
     onClick={onClick}
-    className="flex w-full items-center gap-3 rounded-md bg-slate-50 p-3 text-left transition-colors hover:bg-slate-100 dark:bg-[#181A20] dark:hover:bg-[#23242B]"
+    className="flex w-full items-center gap-3 rounded-md bg-slate-50 p-3 text-left transition-colors hover:bg-slate-100 dark:bg-dark-base dark:hover:bg-dark-card"
   >
     <Mail size={16} className="text-slate-600 dark:text-slate-300" />
     <div>

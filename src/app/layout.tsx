@@ -30,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={`${inter.className} bg-white dark:bg-[#181A20]`}>
+      <body className={`${inter.className} bg-white dark:bg-dark-base`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <AppLayout>{children}</AppLayout>
           <Toaster

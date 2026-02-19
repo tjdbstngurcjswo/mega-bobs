@@ -37,7 +37,7 @@ const ThemeDropdown = ({onClose}: ThemeDropdownProps) => {
   return (
     <div
       ref={dropdownRef}
-      className="absolute top-full right-3 z-50 mt-2 w-48 rounded-lg bg-white p-2 shadow-2xl sm:right-6 dark:bg-[#2C2D35] dark:shadow-lg"
+      className="absolute top-full right-3 z-50 mt-2 w-48 rounded-lg bg-white p-2 shadow-2xl sm:right-6 dark:bg-dark-elevated dark:shadow-lg"
     >
       <div className="mb-2 px-2 pt-1">
         <h3 className="text-sm font-semibold text-slate-800 dark:text-white">
@@ -49,8 +49,8 @@ const ThemeDropdown = ({onClose}: ThemeDropdownProps) => {
           onClick={() => handleThemeChange('light')}
           className={`flex w-full items-center gap-3 rounded-md p-2.5 text-left transition-colors ${
             theme === 'light'
-              ? 'bg-slate-200 dark:bg-[#181A20]'
-              : 'hover:bg-slate-100 dark:hover:bg-[#23242B]'
+              ? 'bg-slate-200 dark:bg-dark-base'
+              : 'hover:bg-slate-100 dark:hover:bg-dark-card'
           }`}
         >
           <Sun size={18} className="text-slate-600 dark:text-slate-300" />
@@ -62,8 +62,8 @@ const ThemeDropdown = ({onClose}: ThemeDropdownProps) => {
           onClick={() => handleThemeChange('dark')}
           className={`flex w-full items-center gap-3 rounded-md p-2.5 text-left transition-colors ${
             theme === 'dark'
-              ? 'bg-slate-200 dark:bg-[#181A20]'
-              : 'hover:bg-slate-100 dark:hover:bg-[#23242B]'
+              ? 'bg-slate-200 dark:bg-dark-base'
+              : 'hover:bg-slate-100 dark:hover:bg-dark-card'
           }`}
         >
           <Moon size={18} className="text-slate-600 dark:text-slate-300" />
@@ -75,8 +75,8 @@ const ThemeDropdown = ({onClose}: ThemeDropdownProps) => {
           onClick={() => handleThemeChange('system')}
           className={`flex w-full items-center gap-3 rounded-md p-2.5 text-left transition-colors ${
             theme === 'system'
-              ? 'bg-slate-200 dark:bg-[#181A20]'
-              : 'hover:bg-slate-100 dark:hover:bg-[#23242B]'
+              ? 'bg-slate-200 dark:bg-dark-base'
+              : 'hover:bg-slate-100 dark:hover:bg-dark-card'
           }`}
         >
           <Monitor size={18} className="text-slate-600 dark:text-slate-300" />

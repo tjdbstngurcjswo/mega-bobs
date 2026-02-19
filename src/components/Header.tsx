@@ -10,7 +10,7 @@ const Header = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
-    <header className="relative flex-shrink-0 bg-slate-900 p-4 dark:bg-[#181A20]">
+    <header className="relative flex-shrink-0 bg-slate-900 p-4 dark:bg-dark-base">
       <div className="flex items-center justify-between">
         <button
           onClick={() => setIsContactOpen((prev) => !prev)}
