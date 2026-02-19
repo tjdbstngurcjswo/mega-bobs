@@ -1,20 +1,29 @@
+'use client';
+
+import {formatYYYYMMDD} from '@/lib/utils';
+import {useDateStore} from '@/store/useDateStore';
+import {useMenuStore} from '@/store/useMenuStore';
 import {MenuItemType} from '@/types/menu';
 
 import MenuItem from './MenuItem';
 
-interface MenuSectionProps {
-  items?: MenuItemType[];
-}
+const MenuSection = () => {
+  const selectedDate = useDateStore((state) => state.selectedDate);
+  const {menus, category} = useMenuStore();
+  const menuItems =
+    (menus.find(
+      (menu) =>
+        menu.date === formatYYYYMMDD(selectedDate) && menu.category === category
+    )?.items as MenuItemType[]) ?? [];
 
-const MenuSection = ({items}: MenuSectionProps) => {
-  const totalCalories = items?.reduce((sum, item) => sum + item.kcal, 0) ?? 0;
+  const totalCalories = menuItems.reduce((sum, item) => sum + item.kcal, 0);
 
-  if (!items || items.length === 0) return <SectionEmpty />;
+  if (menuItems.length === 0) return <SectionEmpty />;
 
   return (
     <Section>
       <ItemContainer>
-        {items.map((item) => (
+        {menuItems.map((item) => (
           <MenuItem key={item.name} item={item} />
         ))}
       </ItemContainer>

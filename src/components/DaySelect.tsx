@@ -1,29 +1,23 @@
+'use client';
+
 import type {Dayjs} from 'dayjs';
 
-import dayjs, {SEOUL_TIMEZONE} from '@/lib/dayjs';
+import {useDateStore} from '@/store/useDateStore';
 
-interface WeekNavigatorProps {
-  date: Date;
-  week: Date[];
-  onChange: (date: Date) => void;
-}
+const DaySelect = () => {
+  const {today, currentWeek, selectedDate, setSelectedDate} = useDateStore();
 
-const DaySelect = ({date, week, onChange}: WeekNavigatorProps) => {
-  const today = dayjs.tz(new Date(), SEOUL_TIMEZONE).toDate();
   return (
     <div className="flex w-full justify-between gap-1 p-2">
-      {week.map((d) => {
-        const dayInstance = dayjs(d);
-        return (
-          <DayButton
-            key={dayInstance.format('YYYY-MM-DD')}
-            day={dayInstance}
-            onClick={() => onChange(dayInstance.toDate())}
-            isSelected={dayInstance.isSame(date, 'day')}
-            isToday={dayInstance.isSame(today, 'day')}
-          />
-        );
-      })}
+      {currentWeek.map((day) => (
+        <DayButton
+          key={day.format('YYYY-MM-DD')}
+          day={day}
+          onClick={() => setSelectedDate(day)}
+          isSelected={day.isSame(selectedDate, 'day')}
+          isToday={day.isSame(today, 'day')}
+        />
+      ))}
     </div>
   );
 };
@@ -45,15 +39,14 @@ const DayButton = ({
     if (isSelected) {
       if (dayOfWeek === 0) return 'text-red-600';
       else if (dayOfWeek === 6) return 'text-blue-600';
-
       return 'text-slate-800 dark:text-white';
     }
 
     if (dayOfWeek === 0) return 'text-red-300';
     else if (dayOfWeek === 6) return 'text-blue-300';
-
     return 'text-white';
   };
+
   return (
     <button
       type="button"

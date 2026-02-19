@@ -1,45 +1,18 @@
+'use client';
+
 import {ChevronLeft, ChevronRight} from 'lucide-react';
-import toast from 'react-hot-toast';
 
-import dayjs from '@/lib/dayjs';
-import {getWeekDays} from '@/lib/utils';
+import {useDateStore} from '@/store/useDateStore';
 
-interface WeekNavigatorProps {
-  week: Date[];
-  onChange: (date: Date[]) => void;
-}
+const WeekSelect = () => {
+  const {currentWeek, goToPrevWeek, goToNextWeek} = useDateStore();
 
-const WeekSelect = ({week, onChange}: WeekNavigatorProps) => {
-  const today = dayjs().tz('Asia/Seoul');
-  const weekStart = dayjs(week[0]);
-  const days = Array.from({length: 7}, (_, i) => weekStart.add(i, 'day'));
-
-  const minDate = today.subtract(1, 'week').startOf('week').add(1, 'day');
-  const maxDate = today.add(1, 'week').endOf('week').add(1, 'day');
-
-  const handlePrevWeek = () => {
-    const prevWeekStart = weekStart.subtract(7, 'day');
-    if (prevWeekStart.isBefore(minDate, 'day')) {
-      toast.error('지난 메뉴는 볼 수 없습니다.');
-      return;
-    }
-    onChange(getWeekDays(prevWeekStart.toDate()));
-  };
-  const handleNextWeek = () => {
-    const nextWeekStart = weekStart.add(7, 'day');
-    if (nextWeekStart.isAfter(maxDate, 'day')) {
-      toast.error('매주 목요일에 업데이트됩니다.');
-      return;
-    }
-    onChange(getWeekDays(nextWeekStart.toDate()));
-  };
-
-  const weekRangeText = `${days[0].format('M월 D일')} - ${days[6].format('M월 D일')}`;
+  const weekRangeText = `${currentWeek[0].format('M월 D일')} - ${currentWeek[6].format('M월 D일')}`;
 
   return (
     <div className="flex w-full items-center justify-between gap-2 sm:gap-4">
       <button
-        onClick={handlePrevWeek}
+        onClick={goToPrevWeek}
         className="rounded-lg p-1.5 text-white transition-all hover:scale-110 hover:bg-white/10 sm:p-2"
       >
         <ChevronLeft size={18} className="sm:hidden" />
@@ -49,7 +22,7 @@ const WeekSelect = ({week, onChange}: WeekNavigatorProps) => {
         {weekRangeText}
       </span>
       <button
-        onClick={handleNextWeek}
+        onClick={goToNextWeek}
         className="rounded-lg p-1.5 text-white transition-all hover:scale-110 hover:bg-white/10 sm:p-2"
       >
         <ChevronRight size={18} className="sm:hidden" />

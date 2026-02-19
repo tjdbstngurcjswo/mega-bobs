@@ -1,13 +1,11 @@
 'use client';
 
 import {MenuCategoryLabel} from '@/constants/menu';
-import {MenuCategory} from '@/types/menu';
-interface CourseSelectProps {
-  category: MenuCategory;
-  onChange: (category: MenuCategory) => void;
-}
+import {useMenuStore} from '@/store/useMenuStore';
 
-const CourseSelect = ({category, onChange}: CourseSelectProps) => {
+const CourseSelect = () => {
+  const {category, setCategory} = useMenuStore();
+
   const getIndicatorPosition = () => {
     switch (category) {
       case 'COURSE_1':
@@ -27,7 +25,7 @@ const CourseSelect = ({category, onChange}: CourseSelectProps) => {
         className={`absolute top-1 bottom-1 left-0 w-1/3 scale-95 rounded-lg bg-slate-900 transition-all duration-300 ease-in-out ${getIndicatorPosition()}`}
       />
       <button
-        onClick={() => onChange('COURSE_1')}
+        onClick={() => setCategory('COURSE_1')}
         className={`relative z-10 flex-1 py-2 text-center text-xs font-semibold transition-all duration-300 sm:py-2.5 sm:text-sm ${
           category === 'COURSE_1'
             ? 'text-white dark:text-white'
@@ -37,7 +35,7 @@ const CourseSelect = ({category, onChange}: CourseSelectProps) => {
         {MenuCategoryLabel.COURSE_1.ko}
       </button>
       <button
-        onClick={() => onChange('COURSE_2')}
+        onClick={() => setCategory('COURSE_2')}
         className={`relative z-10 flex-1 py-2 text-center text-xs font-semibold transition-all duration-300 sm:py-2.5 sm:text-sm ${
           category === 'COURSE_2'
             ? 'text-white dark:text-white'
@@ -47,7 +45,7 @@ const CourseSelect = ({category, onChange}: CourseSelectProps) => {
         {MenuCategoryLabel.COURSE_2.ko}
       </button>
       <button
-        onClick={() => onChange('TAKE_OUT')}
+        onClick={() => setCategory('TAKE_OUT')}
         className={`relative z-10 flex-1 py-2 text-center text-xs font-semibold transition-all duration-300 sm:py-2.5 sm:text-sm ${
           category === 'TAKE_OUT'
             ? 'text-white dark:text-white'
