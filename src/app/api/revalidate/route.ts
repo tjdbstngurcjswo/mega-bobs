@@ -5,8 +5,6 @@ import {NextResponse} from 'next/server';
 export async function GET(request: NextRequest) {
   const secret = request.nextUrl.searchParams.get('secret');
 
-  console.log('secret', secret);
-  console.log('process.env.REVALIDATE_SECRET', process.env.REVALIDATE_SECRET);
   if (secret !== process.env.REVALIDATE_SECRET)
     return NextResponse.json({message: 'Invalid secret'}, {status: 401});
 
