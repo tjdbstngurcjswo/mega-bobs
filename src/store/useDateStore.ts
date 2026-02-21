@@ -15,7 +15,7 @@ interface DateStore {
   goToNextWeek: () => void;
 }
 
-const today = dayjs();
+const today = dayjs().tz();
 const minDate = getWeekDays(today.subtract(1, 'week'))[0];
 const maxDate = getWeekDays(today.add(1, 'week'))[6];
 

@@ -9,7 +9,7 @@ import {formatYYYYMMDD} from '@/lib/utils';
 export const revalidate = 21600;
 
 export default async function Home() {
-  const today = dayjs();
+  const today = dayjs().tz();
   const start = formatYYYYMMDD(
     today.subtract(1, 'week').startOf('week').add(1, 'day')
   );
