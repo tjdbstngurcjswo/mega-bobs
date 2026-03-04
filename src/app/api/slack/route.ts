@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
 
   const url = `${origin}/api/menu?start=${date}&end=${date}`;
 
-  const internalRes = await fetch(url, {next: {revalidate: 86400}});
+  const internalRes = await fetch(url, {next: {tags: ['menu']}});
 
   if (!internalRes.ok) {
     return NextResponse.json({
