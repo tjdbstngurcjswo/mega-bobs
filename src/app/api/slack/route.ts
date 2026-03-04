@@ -1,3 +1,4 @@
+import {unstable_cache} from 'next/cache';
 import {NextRequest, NextResponse} from 'next/server';
 
 import {MENU_CATEGORIES, MenuCategoryLabel} from '@/constants/menu';
@@ -6,8 +7,15 @@ import {
   DAY_OFFSET_MAP,
   DEFAULT_KEYWORD,
 } from '@/constants/slack';
+import getMenu from '@/lib/api/getMenu';
 import dayjs, {SEOUL_TIMEZONE} from '@/lib/dayjs';
 import {MenuCategory, MenuType} from '@/types/menu';
+
+const getCachedMenu = unstable_cache(
+  (date: string) => getMenu({start: date, end: date}),
+  ['slack-menu'],
+  {tags: ['menu']}
+);
 
 const toDateInfo = (text: string | null) => {
   const keyword = (text || '').trim() as CommandKeyword;
@@ -51,7 +59,6 @@ const toSlackFormat = (records: MenuType[], keyword: string, date: string) => {
 
 export async function POST(req: NextRequest) {
   const form = await req.formData();
-  const origin = req.nextUrl.origin;
   const text = form.get('text') as string | null;
 
   const dateInfo = toDateInfo(text);
@@ -65,18 +72,15 @@ export async function POST(req: NextRequest) {
 
   const {keyword, date} = dateInfo;
 
-  const url = `${origin}/api/menu?start=${date}&end=${date}`;
-
-  const internalRes = await fetch(url, {next: {tags: ['menu']}});
-
-  if (!internalRes.ok) {
+  let menus: MenuType[];
+  try {
+    menus = await getCachedMenu(date);
+  } catch {
     return NextResponse.json({
       response_type: 'ephemeral',
       text: '메뉴 정보를 가져오지 못했습니다. 잠시 후 다시 시도해주세요.',
     });
   }
-
-  const menus: MenuType[] = await internalRes.json();
 
   const textResponse = toSlackFormat(menus, keyword, date);
 

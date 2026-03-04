@@ -3,6 +3,15 @@ import {NextRequest} from 'next/server';
 import {supabaseServer} from '@/lib/supabase-server';
 
 export async function GET(req: NextRequest) {
+  const apiKey = req.headers.get('x-api-key');
+
+  if (apiKey !== process.env.API_KEY) {
+    return new Response(JSON.stringify({message: 'Unauthorized'}), {
+      status: 401,
+      headers: {'Content-Type': 'application/json'},
+    });
+  }
+
   const {searchParams} = new URL(req.url);
   const start = searchParams.get('start');
   const end = searchParams.get('end');
