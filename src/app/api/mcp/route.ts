@@ -14,6 +14,5 @@ const handleRequest = async (req: Request) => {
   return transport.handleRequest(req);
 };
 
-export const GET = handleRequest;
 export const POST = handleRequest;
 export const DELETE = handleRequest;
