@@ -14,7 +14,7 @@ import {MenuCategory, MenuType} from '@/types/menu';
 const getCachedMenu = unstable_cache(
   (date: string) => getMenu({start: date, end: date}),
   ['slack-menu'],
-  {tags: ['menu']}
+  {tags: ['menu'], revalidate: 86400}
 );
 
 const toDateInfo = (text: string | null) => {
@@ -39,7 +39,7 @@ const toCategoryLabel = (category: MenuCategory) => {
 };
 
 const toSlackFormat = (records: MenuType[], keyword: string, date: string) => {
-  const header = `🍱 MegaBobs *${keyword} 메뉴 (${date})*`;
+  const header = `🍚 MegaBobs *${keyword} 메뉴 (${date})* 🍚`;
 
   const sections = MENU_CATEGORIES.map((category) => {
     const label = toCategoryLabel(category);
