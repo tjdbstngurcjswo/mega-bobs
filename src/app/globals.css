@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@import 'pretendard/dist/web/static/pretendard.css';
 
 @theme {
   /* 디자인 시스템 — docs/design/2026-06-05-phase1-design.md §1 */
@@ -22,7 +21,7 @@
   --color-down: #767676;
   --color-down-soft: #f1f1ef;
 
-  --font-sans: 'Pretendard', -apple-system, sans-serif;
+  --font-sans: var(--font-pretendard), -apple-system, sans-serif;
 
   /* 풀 스퀘어 — radius 사용 금지 (물리적 원형 제외) */
   --radius-none: 0;

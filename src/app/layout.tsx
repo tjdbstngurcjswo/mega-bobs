@@ -1,8 +1,20 @@
 import {Analytics} from '@vercel/analytics/next';
 import type {Metadata} from 'next';
+import localFont from 'next/font/local';
 import {Toaster} from 'react-hot-toast';
 
 import './globals.css';
+
+/**
+ * Pretendard 가변 폰트를 self-host — next/font가 size-adjust된 폴백을 자동 생성해
+ * 폰트 스왑(FOUT) 시 발생하던 레이아웃 시프트를 제거한다.
+ */
+const pretendard = localFont({
+  src: './fonts/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '45 920',
+  variable: '--font-pretendard',
+});
 
 export const metadata: Metadata = {
   title: '메가밥스 — 메가존 구내식당 점심 허브',
@@ -23,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={pretendard.variable}>
       <body className="bg-bg text-ink">
         {children}
         <Toaster
