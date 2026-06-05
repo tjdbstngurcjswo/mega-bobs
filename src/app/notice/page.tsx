@@ -1,7 +1,7 @@
 import type {Metadata} from 'next';
 
 import noticeData from '@/../data/notices.json';
-import {SiteFooter, SiteHeader} from '@/components/site';
+import {SiteFooter, SiteHeader} from '@/components/@shared';
 import dayjs from '@/lib/dayjs';
 import type {NoticeData} from '@/types/notice';
 
