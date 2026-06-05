@@ -25,32 +25,34 @@ const HomeSide = () => (
         랜덤 추천 받기 (준비 중)
       </button>
     </div>
-    <div className="flex flex-1 flex-col gap-2.5">
-      {HOME_ENTRIES.map((entry) => (
-        <Link
-          key={entry.no}
-          href="#"
-          aria-disabled
-          className="shadow-flat flex flex-1 items-center gap-3.5 border border-line bg-surface px-4"
-        >
-          <span className="w-[26px] text-[13px] font-black text-accent-text">{entry.no}</span>
-          <span className="flex-1">
-            <b className="block text-sm font-extrabold">
-              {entry.label}
-              {entry.isNew && (
-                <i className="ml-1.5 bg-accent px-1.5 py-0.5 align-[2px] text-[9px] font-extrabold text-ink not-italic">
-                  NEW
-                </i>
-              )}
-            </b>
-            <span className="mt-0.5 block text-[10.5px] text-muted">{entry.desc}</span>
-          </span>
-          <span aria-hidden className="text-[#C9C9C6]">
-            ›
-          </span>
-        </Link>
-      ))}
-    </div>
+    {HOME_ENTRIES.length > 0 && (
+      <div className="flex flex-1 flex-col gap-2.5">
+        {HOME_ENTRIES.map((entry) => (
+          <Link
+            key={entry.no}
+            href="#"
+            aria-disabled
+            className="shadow-flat flex flex-1 items-center gap-3.5 border border-line bg-surface px-4"
+          >
+            <span className="w-[26px] text-[13px] font-black text-accent-text">{entry.no}</span>
+            <span className="flex-1">
+              <b className="block text-sm font-extrabold">
+                {entry.label}
+                {entry.disabled && (
+                  <i className="bg-down-soft text-down ml-1.5 px-1.5 py-0.5 align-[2px] text-[9px] font-extrabold not-italic">
+                    준비 중
+                  </i>
+                )}
+              </b>
+              <span className="mt-0.5 block text-[10.5px] text-muted">{entry.desc}</span>
+            </span>
+            <span aria-hidden className="text-[#C9C9C6]">
+              ›
+            </span>
+          </Link>
+        ))}
+      </div>
+    )}
   </aside>
 );
 

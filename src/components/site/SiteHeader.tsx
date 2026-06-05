@@ -26,14 +26,19 @@ const SiteHeader = () => {
                 href={item.disabled ? '#' : item.href}
                 aria-disabled={item.disabled}
                 className={cn(
-                  'px-3 py-2 text-sm font-semibold',
+                  'flex items-center gap-1.5 px-3 py-2 text-sm font-semibold',
                   active
                     ? 'bg-board-2 text-white shadow-[inset_0_-2px_0_var(--color-accent)]'
                     : 'text-cream-2 hover:bg-board-2',
-                  item.disabled && 'cursor-default opacity-50'
+                  item.disabled && 'cursor-default opacity-60'
                 )}
               >
                 {item.label}
+                {item.disabled && (
+                  <span className="bg-board-2 px-1 py-px text-[9px] font-bold text-cream">
+                    준비중
+                  </span>
+                )}
               </Link>
             );
           })}

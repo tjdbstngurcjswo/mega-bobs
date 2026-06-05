@@ -3,7 +3,7 @@ import {getWeekDays} from '@/lib/utils';
 
 /** 구내식당 운영 정보 — 하드코딩 1곳에만 둔다 (§5.1: 마감 시각은 여기서 파생) */
 export const CAFETERIA = {
-  openLabel: '11:30 – 13:00',
+  openLabel: '11:00 – 13:15',
   closeHour: 13,
 } as const;
 

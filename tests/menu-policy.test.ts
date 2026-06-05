@@ -41,6 +41,6 @@ describe('isNextWeek — 기준일이 오늘의 다음 주인지', () => {
 });
 
 test('CAFETERIA 운영시간 상수', () => {
-  expect(CAFETERIA.openLabel).toBe('11:30 – 13:00');
+  expect(CAFETERIA.openLabel).toBe('11:00 – 13:15');
   expect(CAFETERIA.closeHour).toBe(13);
 });
