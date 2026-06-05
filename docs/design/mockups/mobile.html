@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>megabobs — 모바일 390 (홈 확정안 + 게임 결과)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="shared.css">
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+  body{width:1440px;padding:48px 0 64px}
+  .row{display:flex;gap:48px;justify-content:center;align-items:flex-start}
+  .phone-label{text-align:center;font-size:12px;font-weight:800;letter-spacing:.1em;color:#A0A0A0;margin-bottom:12px}
+  .phone{width:390px;background:var(--bg);border:1px solid var(--line);border-radius:0;overflow:hidden}
+
+  /* 모바일 헤더 — 데스크톱과 동일한 다크 밴드 */
+  .m-head{display:flex;align-items:center;gap:9px;padding:15px 18px;background:var(--board)}
+  .m-head .logo{font-size:16px;color:var(--cream)}
+  .m-head .logo .bowl{width:9px;height:9px}
+  .m-head .burger{margin-left:auto;display:flex;flex-direction:column;gap:4px}
+  .m-head .burger i{display:block;width:18px;height:2px;background:var(--cream)}
+  .m-body{padding:20px 18px 26px}
+
+  .m-date{display:inline-block;font-size:11px;font-weight:800;color:#997400;background:var(--primary-soft);padding:4px 9px;border-radius:0;letter-spacing:.03em}
+  .m-h1{font-size:21px;font-weight:800;letter-spacing:-.01em;line-height:1.45;margin-top:10px}
+  .m-h1 .hl{background:linear-gradient(transparent 58%, #F0E0A0 58%);padding:0 2px}
+
+  /* 식단 보드 (home-b 구조) */
+  .board{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden;margin-top:16px}
+  .board-head{display:flex;align-items:center;justify-content:space-between;background:var(--primary);color:#111111;padding:12px 16px}
+  .board-head h2{font-size:13.5px;font-weight:800}
+  .board-head .sub{font-size:10.5px;font-weight:700;color:rgba(17,17,17,.62)}
+  .course{padding:15px 16px;border-bottom:1px solid var(--line)}
+  .course:last-child{border-bottom:none}
+  .course-top{display:flex;align-items:baseline;gap:8px}
+  .course-label{font-size:10px;font-weight:800;letter-spacing:.08em;color:#997400}
+  .course-name{font-size:18px;font-weight:800;letter-spacing:-.02em}
+  .course-kcal{margin-left:auto;font-size:10.5px;font-weight:600;color:var(--muted)}
+  .course-dishes{margin-top:6px;font-size:12.5px;line-height:1.65;color:var(--ink-2);word-break:keep-all}
+  .course-dishes b{color:var(--ink);font-weight:700}
+  .course-dishes .kc{font-style:normal;font-size:9.5px;font-weight:600;color:var(--muted);margin-left:2px}
+  .course-dishes .kc::after{content:'kcal';font-size:8px;margin-left:1px}
+  .dot{color:#C9C9C6;margin:0 4px}
+  .vote{display:flex;align-items:center;gap:7px;margin-top:11px}
+  .vote-btn{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:0;border:1px solid}
+  .vote-btn.up{color:#997400;background:var(--up-soft);border-color:#EBDFA8}
+  .vote-btn.up.voted{background:var(--up);color:#111111;border-color:var(--up)}
+  .vote-btn.down{color:var(--down);background:var(--down-soft);border-color:#D8D8D5}
+  .bar{flex:1;height:4px;background:#E3E3E0;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--up)}
+  .pct{font-size:10.5px;font-weight:800;color:#997400}
+
+  /* 랜덤 추천 — 다크 카드 */
+  .m-random{margin-top:14px;background:var(--board);border-radius:var(--r-lg);padding:16px 18px;display:flex;align-items:center;gap:12px;color:var(--cream);position:relative;overflow:hidden}
+  .m-random::after{content:'?';position:absolute;right:10px;bottom:-18px;font-size:72px;font-weight:900;color:var(--cream);opacity:.12}
+  .m-random b{font-size:14.5px;font-weight:800;display:block}
+  .m-random span{font-size:11px;color:var(--cream-2)}
+  .m-random .go{margin-left:auto;background:var(--primary);color:#111111;font-size:12.5px;font-weight:800;border:none;border-radius:0;padding:9px 13px;position:relative;flex-shrink:0}
+
+  /* 진입 리스트 — 넘버링 행 */
+  .m-entries{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+  .m-entry{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;box-shadow:var(--shadow)}
+  .m-entry .ic{width:26px;font-size:13px;font-weight:900;color:#997400;flex-shrink:0}
+  .m-entry b{display:block;font-size:13px;font-weight:800}
+  .m-entry span{display:block;font-size:10.5px;color:var(--muted);margin-top:1px}
+  .m-entry .arrow{margin-left:auto;color:#C9C9C6;font-size:15px}
+  .m-entry .badge-new{display:inline-block;width:auto;margin-top:0;color:#111111;font-size:9px;font-weight:800;background:var(--primary);padding:2px 5px;border-radius:0;margin-left:6px;vertical-align:1px}
+
+  /* 모바일 내비 드로어 (햄버거 열림) */
+  .drawer{background:var(--board);min-height:760px;display:flex;flex-direction:column;color:var(--cream)}
+  .d-top{display:flex;align-items:center;gap:9px;padding:15px 18px;border-bottom:1px solid #2E2E2E}
+  .d-top .logo{font-size:16px;color:var(--cream)}
+  .d-top .logo .bowl{width:9px;height:9px}
+  .d-top .close{margin-left:auto;font-size:18px;color:var(--cream-2);font-weight:300}
+  .d-menu{flex:1;display:flex;flex-direction:column;padding:18px 0}
+  .d-item{display:flex;align-items:center;gap:16px;padding:19px 24px;border-bottom:1px solid #222222;text-decoration:none;color:var(--cream-2)}
+  .d-item .no{font-size:12px;font-weight:900;width:24px;color:#6E6E6E}
+  .d-item b{font-size:19px;font-weight:800;letter-spacing:-.02em}
+  .d-item.on{color:var(--primary)}
+  .d-item.on .no{color:var(--primary)}
+  .d-item.on b{box-shadow:inset 0 -8px 0 rgba(226,192,76,.22)}
+  .d-item .d-badge{font-size:9px;font-weight:800;color:#111111;background:var(--primary);padding:2px 5px;border-radius:0;margin-left:8px;vertical-align:3px}
+  .d-item .d-arrow{margin-left:auto;color:#4A4A4A;font-size:16px}
+  .d-foot{display:flex;align-items:center;justify-content:space-between;padding:18px 24px 22px;border-top:1px solid #2E2E2E}
+  .d-foot .label{font-size:12px;font-weight:700;color:var(--cream-2)}
+  .d-toggle{width:42px;height:24px;border-radius:0;background:#2E2E2E;position:relative}
+  .d-toggle::after{content:'';position:absolute;left:3px;top:3px;width:18px;height:18px;background:var(--cream-2)}
+  .d-site{padding:0 24px 24px;font-size:11px;font-weight:900;letter-spacing:.28em;color:#5A5A5A}
+
+  /* 게임 결과 — 바텀시트 */
+  .m-modal-wrap{position:relative;height:760px;background:rgba(0,0,0,.45)}
+  .m-modal{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:390px;background:var(--surface);border-radius:0;overflow:hidden}
+  .confetti-band{height:6px;background:repeating-linear-gradient(90deg,var(--primary) 0 22px,#C2A02E 22px 44px,#242424 44px 66px,#D8D8D5 66px 88px)}
+  .mm-body{padding:28px 24px 26px;text-align:center}
+  .winner-label{font-size:11px;font-weight:900;letter-spacing:.32em;color:#997400}
+  .mm-body .who{margin-top:12px;font-size:20px;font-weight:800}
+  .mm-body .who em{font-style:normal;color:#997400}
+  .mm-sub{margin-top:7px;font-size:12.5px;color:var(--muted);line-height:1.55}
+  .game-tag{display:inline-flex;gap:6px;margin-top:13px;font-size:11px;font-weight:800;color:var(--ink-2);background:var(--surface-warm);border:1px solid var(--line);padding:6px 11px;border-radius:0}
+  .mm-actions{display:flex;gap:9px;margin-top:18px}
+  .mm-actions .btn{flex:1;padding:13px 0;font-size:14px}
+  .vote-btn svg{display:block}
+  .daybar{display:flex;align-items:center;gap:5px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--surface)}
+  .wk{width:24px;height:40px;display:flex;align-items:center;justify-content:center;font-size:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);flex-shrink:0}
+  .wk.off{color:#D5D5D2;border-color:#EFEFEC}
+  .days{flex:1;display:flex;gap:4px}
+  .day{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 0 5px;border:1px solid var(--line);background:var(--surface)}
+  .day .dw{font-size:9px;font-weight:700;color:var(--muted)}
+  .day .dn{font-size:12px;font-weight:800;color:var(--ink)}
+  .day.past .dw,.day.past .dn{color:#B5B5B2}
+  .day.today{background:var(--primary);border-color:var(--primary)}
+  .day.today .dw{color:rgba(17,17,17,.55)}
+  .day.today .dn{color:#111111}
+</style>
+</head>
+<body>
+<div class="row">
+  <div>
+    <div class="phone-label">MOBILE 390 — 홈 (확정안, 1컬럼)</div>
+    <div class="phone">
+      <div class="m-head">
+        <div class="logo"><span class="bowl"></span>메가밥스</div>
+        <div class="burger"><i></i><i></i><i></i></div>
+      </div>
+      <div class="m-body">
+        <span class="m-date">6월 5일 금요일 · 과천 지식정보타운</span>
+        <div class="m-h1">오늘의 메인은 <span class="hl">제육볶음</span>,<br>점심 내기는 하셨나요?</div>
+
+        <div class="board">
+          <div class="board-head">
+            <h2>이번 주 식단</h2>
+            <span class="sub">11:30 – 13:00</span>
+          </div>
+          <div class="daybar">
+            <button class="wk off">‹</button>
+            <div class="days">
+              <div class="day past"><span class="dw">월</span><span class="dn">1</span></div>
+              <div class="day past"><span class="dw">화</span><span class="dn">2</span></div>
+              <div class="day past"><span class="dw">수</span><span class="dn">3</span></div>
+              <div class="day past"><span class="dw">목</span><span class="dn">4</span></div>
+              <div class="day today"><span class="dw">금</span><span class="dn">5</span></div>
+            </div>
+            <button class="wk">›</button>
+          </div>
+
+          <div class="course">
+            <div class="course-top">
+              <span class="course-label">COURSE A</span>
+              <span class="course-name">제육볶음 정식</span>
+              <span class="course-kcal">748 kcal</span>
+            </div>
+            <div class="course-dishes"><b>제육볶음<i class="kc">350</i></b><span class="dot">·</span>백미밥<i class="kc">270</i><span class="dot">·</span>계란찜<i class="kc">55</i><span class="dot">·</span>콩나물무침<i class="kc">25</i><span class="dot">·</span>배추김치<i class="kc">15</i></div>
+            <div class="vote">
+              <button class="vote-btn up voted" title="맛있다" aria-label="맛있다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
+              <button class="vote-btn down" title="별로다" aria-label="별로다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
+              <div class="bar"><i style="width:89%"></i></div>
+              <span class="pct">89%</span>
+            </div>
+          </div>
+          <div class="course">
+            <div class="course-top">
+              <span class="course-label">COURSE B</span>
+              <span class="course-name">크림 파스타</span>
+              <span class="course-kcal">812 kcal</span>
+            </div>
+            <div class="course-dishes"><b>베이컨 크림 파스타<i class="kc">620</i></b><span class="dot">·</span>마늘 바게트<i class="kc">95</i><span class="dot">·</span>리코타 샐러드<i class="kc">60</i></div>
+            <div class="vote">
+              <button class="vote-btn up" title="맛있다" aria-label="맛있다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
+              <button class="vote-btn down" title="별로다" aria-label="별로다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
+              <div class="bar"><i style="width:64%"></i></div>
+              <span class="pct">64%</span>
+            </div>
+          </div>
+          <div class="course">
+            <div class="course-top">
+              <span class="course-label">TAKE-OUT</span>
+              <span class="course-name">에그마요 샌드위치</span>
+              <span class="course-kcal">432 kcal</span>
+            </div>
+            <div class="vote">
+              <button class="vote-btn up" title="맛있다" aria-label="맛있다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
+              <button class="vote-btn down" title="별로다" aria-label="별로다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
+              <div class="bar"><i style="width:78%"></i></div>
+              <span class="pct">78%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="m-random">
+          <div><b>오늘 뭐 먹지?</b><span>구내식당 + 지정타 맛집에서 랜덤 추천</span></div>
+          <button class="go">추천 받기</button>
+        </div>
+
+        <div class="m-entries">
+          <div class="m-entry"><span class="ic">01</span><div><b>내기 게임<span class="badge-new">NEW</span></b><span>사다리 · 슬롯 · 풍선으로 커피 내기</span></div><span class="arrow">›</span></div>
+          <div class="m-entry"><span class="ic">02</span><div><b>주변 맛집</b><span>지정타 직장인 검증 맛집 10곳</span></div><span class="arrow">›</span></div>
+          <div class="m-entry"><span class="ic">03</span><div><b>블로그</b><span>어제의 투표 결과와 점심 이야기</span></div><span class="arrow">›</span></div>
+          <div class="m-entry"><span class="ic">04</span><div><b>메가존 소식</b><span>우리 회사 새 소식 모아보기</span></div><span class="arrow">›</span></div>
+        </div>
+      </div>
+      <div style="background:var(--board);padding:16px 18px;display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800;color:var(--cream)"><span style="width:8px;height:8px;background:var(--primary);display:inline-block"></span>메가밥스</div>
+        <a style="font-size:11px;font-weight:700;color:var(--cream-2)">만든 사람들 — 개발자 1 (dev1@megabobs.com) · 개발자 2 (dev2@megabobs.com)</a>
+        <span style="font-size:10px;color:#6E6E6E">© 2026 megabobs · 식단은 매주 목요일 업데이트</span>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="phone-label">MOBILE 390 — 헤더 내비 (햄버거 열림)</div>
+    <div class="phone">
+      <div class="drawer">
+        <div class="d-top">
+          <div class="logo"><span class="bowl"></span>메가밥스</div>
+          <span class="close">✕</span>
+        </div>
+        <div class="d-menu">
+          <a class="d-item on"><span class="no">01</span><b>오늘의 메뉴</b><span class="d-arrow">›</span></a>
+          <a class="d-item"><span class="no">02</span><b>내기 게임<span class="d-badge">NEW</span></b><span class="d-arrow">›</span></a>
+          <a class="d-item"><span class="no">03</span><b>주변 맛집</b><span class="d-arrow">›</span></a>
+          <a class="d-item"><span class="no">04</span><b>블로그</b><span class="d-arrow">›</span></a>
+          <a class="d-item"><span class="no">05</span><b>메가존 소식</b><span class="d-arrow">›</span></a>
+        </div>
+        <div class="d-foot" style="flex-direction:column;align-items:flex-start;gap:7px">
+          <span class="label">만든 사람들</span>
+          <a style="font-size:11.5px;font-weight:800;color:var(--primary);text-decoration:none">개발자 1 — dev1@megabobs.com</a>
+          <a style="font-size:11.5px;font-weight:800;color:var(--primary);text-decoration:none">개발자 2 — dev2@megabobs.com</a>
+        </div>
+        <div class="d-site">MEGABOBS.COM</div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="phone-label">MOBILE 390 — 게임 결과 (바텀시트)</div>
+    <div class="phone">
+      <div class="m-modal-wrap">
+        <div class="m-modal">
+          <div class="confetti-band"></div>
+          <div class="mm-body">
+            <div class="winner-label">WINNER</div>
+            <div class="who">오늘 커피는 <em>도윤</em>님이!</div>
+            <p class="mm-sub">동료들에게 알려서 빼도 박도 못 하게 만드세요</p>
+            <span class="game-tag">슬롯머신 · 4명 · 커피 한 잔</span>
+            <div class="mm-actions">
+              <button class="btn btn-ghost">다시 하기</button>
+              <button class="btn btn-primary">슬랙에 공유</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<a href="index.html" style="position:fixed;left:18px;bottom:18px;z-index:9999;font-family:Pretendard,sans-serif;font-size:12.5px;font-weight:800;color:#fff;background:#111111;padding:9px 14px;border-radius:0;text-decoration:none">화면 목록</a>
+</body>
+</html>

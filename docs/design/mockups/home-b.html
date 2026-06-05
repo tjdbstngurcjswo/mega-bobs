@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>megabobs 홈 — B. 비스트로 테라코타</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+  :root{
+    --bg:#F5F5F3; --surface:#FFFFFF; --board:#111111; --board-2:#242424;
+    --ink:#111111; --ink-2:#454545; --muted:#8A8A8A; --line:#E3E3E0;
+    --primary:#E2C04C; --primary-deep:#C2A02E; --primary-soft:#FAF4D9;
+    --mustard:#E2C04C; --cream:#F5F5F3;
+    --up:#E2C04C; --up-soft:#FAF4D9; --down:#767676; --down-soft:#F1F1EF;
+    --r-sm:0; --r:0; --r-lg:0;
+    --shadow:0 1px 2px rgba(0,0,0,.05);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:Pretendard,-apple-system,sans-serif}
+  body{background:var(--bg);color:var(--ink)}
+  .container{width:min(880px,calc(100% - 40px));margin:0 auto}
+
+  /* Header — dark band */
+  header{background:var(--board)}
+  .header-in{width:min(880px,calc(100% - 40px));margin:0 auto;height:64px;display:flex;align-items:center;gap:28px}
+  .logo{display:flex;align-items:center;gap:9px;font-size:20px;font-weight:800;color:#F5F5F3;letter-spacing:-.02em}
+  .logo .mark{width:11px!important;height:11px!important;border-radius:0!important;font-size:0!important}
+  .logo .mark{width:30px;height:30px;border-radius:0;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:15px}
+  nav{display:flex;gap:2px;flex:1;overflow-x:auto;white-space:nowrap}
+  nav a{font-size:14px;font-weight:600;color:#9A9A9A;padding:8px 13px;border-radius:0;text-decoration:none}
+  nav a.active{color:#FFF;background:var(--board-2);box-shadow:inset 0 -2px 0 var(--mustard)}
+  .theme-toggle{width:34px;height:34px;border-radius:0;border:1px solid #3A3A3A;display:flex;align-items:center;justify-content:center;font-size:14px}
+
+  /* Hero band */
+  .hero{padding:38px 0 26px;display:flex;align-items:flex-end;gap:20px}
+  .hero .left{flex:1}
+  .hero .date{display:inline-block;font-size:12px;font-weight:800;color:var(--primary-deep);background:var(--primary-soft);padding:5px 11px;border-radius:0;letter-spacing:.03em;margin-bottom:12px}
+  .hero h1{font-size:34px;font-weight:800;letter-spacing:-.02em;line-height:1.35}
+  .hero h1 .underline{background:linear-gradient(transparent 58%, #F0E0A0 58%);padding:0 4px}
+  .hero p{margin-top:10px;font-size:15px;color:var(--muted)}
+
+  .grid{display:grid;grid-template-columns:556px 300px;gap:24px;padding-bottom:64px}
+
+  /* Menu board — single board card with course rows */
+  .board-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden}
+  .board-head{display:flex;align-items:center;justify-content:space-between;background:var(--primary);color:#111111;padding:15px 24px}
+  .board-head h2{font-size:16px;font-weight:800;letter-spacing:.01em}
+  .board-head .sub{font-size:12px;font-weight:700;color:rgba(17,17,17,.62)}
+  .course{padding:20px 24px;border-bottom:1px solid var(--line)}
+  .course:last-child{border-bottom:none}
+  .course-top{display:flex;align-items:baseline;gap:10px}
+  .course-label{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--mustard)}
+  .course-name{font-size:22px;font-weight:800;letter-spacing:-.02em}
+  .course-kcal{margin-left:auto;font-size:12px;font-weight:600;color:var(--muted)}
+  .course-dishes{margin-top:8px;font-size:14px;line-height:1.7;color:var(--ink-2);word-break:keep-all}
+  .course-dishes b{color:var(--ink);font-weight:700}
+  .course-dishes .kc{font-style:normal;font-size:10.5px;font-weight:600;color:var(--muted);margin-left:3px}
+  .course-dishes .kc::after{content:'kcal';font-size:9px;margin-left:1px}
+  .dot{color:#9A9A9A;margin:0 6px}
+  .vote{display:flex;align-items:center;gap:8px;margin-top:12px}
+  .vote-btn{display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:0;border:1px solid;cursor:pointer;background:transparent}
+  .vote-btn.up{color:var(--up);border-color:#CFCFCC}
+  .vote-btn.up.voted{background:var(--up);color:#111111;border-color:var(--up)}
+  .vote-btn.down{color:var(--down);border-color:#D8D8D5}
+  .result{flex:1;display:flex;align-items:center;gap:8px;margin-left:6px}
+  .bar{flex:1;height:4px;border-radius:0;background:#E3E3E0;overflow:hidden}
+  .bar > i{display:block;height:100%;border-radius:0;background:var(--up)}
+  .pct{font-size:11.5px;font-weight:800;color:#997400}
+  .votes-n{font-size:10.5px;color:var(--muted)}
+
+  /* Right column */
+  .side{display:flex;flex-direction:column;gap:16px}
+  .random-card{background:var(--board);border-radius:var(--r-lg);padding:22px;color:#F5F5F3;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .random-card::after{content:'?';position:absolute;right:14px;bottom:-26px;font-size:110px;font-weight:900;color:#F5F5F3;opacity:.12}
+  .random-card h3{font-size:18px;font-weight:800;letter-spacing:-.02em}
+  .random-card p{margin-top:6px;font-size:13px;color:#9A9A9A;line-height:1.55}
+  .random-btn{margin-top:16px;width:100%;background:var(--primary);color:#111111;font-size:15px;font-weight:800;border:none;border-radius:0;padding:12px;cursor:pointer}
+  .entries{display:flex;flex-direction:column;gap:10px}
+  .entry{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
+  .entry .ico{width:30px;font-size:15px;font-weight:800;color:#997400;flex-shrink:0;background:none!important}
+  .entry h4{font-size:14.5px;font-weight:800}
+  .entry p{margin-top:2px;font-size:12px;color:var(--muted)}
+  .entry .arrow{margin-left:auto;color:#9A9A9A;font-size:16px}
+  .e-games .ico{background:var(--primary-soft)}
+  .e-food .ico{background:var(--up-soft)}
+  .e-blog .ico{background:var(--cream)}
+  .e-news .ico{background:#EDEDEA}
+  .badge-new{font-size:10px;font-weight:800;color:#111111;background:var(--primary);padding:2px 7px;border-radius:0;margin-left:6px;vertical-align:2px}
+  .theme-toggle::before{content:'';width:13px;height:13px;border-radius:50%;border:1.5px solid #9A9A9A;background:linear-gradient(90deg,#9A9A9A 50%,transparent 50%)}
+  @media(max-width:920px){
+    .grid{grid-template-columns:1fr;gap:16px;padding-bottom:40px}
+    .hero h1{font-size:27px}
+    .side{order:2}
+  }
+  @media(max-width:560px){
+    .header-in{gap:14px}
+    nav a{padding:8px 9px;font-size:13px}
+    .theme-toggle{display:none}
+    .hero{padding:26px 0 18px}
+    .hero h1{font-size:22px;line-height:1.45}
+    .hero p{font-size:13.5px}
+    .board-head{padding:12px 16px}
+    .course{padding:15px 16px}
+    .course-name{font-size:17px}
+    .course-kcal{display:none}
+    .vote{flex-wrap:wrap}
+    .result{flex-basis:100%;margin-left:0;margin-top:9px}
+    .random-card{padding:18px}
+    .entries .entry{padding:12px 14px}
+  }
+
+/* Footer */
+.site-foot{margin-top:64px;background:var(--board);color:var(--cream-2)}
+.foot-in{width:min(880px,calc(100% - 40px));margin:0 auto;padding:28px 0 30px;display:flex;flex-direction:column;gap:13px}
+.f-brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;color:var(--cream)}
+.f-brand .sq{width:9px;height:9px;background:var(--primary);display:inline-block}
+.f-desc{font-size:12px;color:var(--cream-2);font-weight:500;margin-left:4px}
+.f-contact{display:flex;flex-wrap:wrap;gap:16px;font-size:12.5px}
+.f-contact a{color:var(--cream);font-weight:700;text-decoration:none;border-bottom:1px solid #3A3A3A;padding-bottom:2px}
+.f-meta{font-size:11.5px;color:#6E6E6E;line-height:1.6}
+  .vote-btn svg{display:block}
+.f-makers-label{font-size:11px;font-weight:800;letter-spacing:.08em;color:#6E6E6E;align-self:center}
+  /* 식전 픽 위젯 */
+  .pick{padding:14px 24px 15px;border-bottom:1px solid var(--line);background:var(--surface-warm)}
+  .pick-q{font-size:13px;font-weight:800}
+  .pick-meta{font-weight:600;font-size:11px;color:var(--muted);margin-left:8px}
+  .pick-btns{display:flex;gap:6px;margin-top:10px}
+  .pick-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:700;padding:8px 0;border:1px solid var(--line);background:var(--surface);cursor:pointer;color:var(--ink-2)}
+  .pick-btn i{font-style:normal;font-size:10.5px;font-weight:800;color:#997400}
+  .pick-btn.on{background:var(--primary);border-color:var(--primary);color:#111111}
+  .pick-btn.on i{color:rgba(17,17,17,.6)}
+  .pick-out{margin-top:9px;font-size:11.5px;color:var(--muted)}
+  .pick-out a{color:#997400;font-weight:800;text-decoration:none}
+  /* 주간 날짜 네비 */
+  .daybar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);background:var(--surface)}
+  .wk{width:28px;height:44px;display:flex;align-items:center;justify-content:center;font-size:16px;border:1px solid var(--line);background:var(--surface);cursor:pointer;color:var(--ink);flex-shrink:0}
+  .wk.off{color:#D5D5D2;border-color:#EFEFEC;cursor:default}
+  .days{flex:1;display:flex;gap:6px}
+  .day{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 0 6px;border:1px solid var(--line);background:var(--surface);cursor:pointer}
+  .day .dw{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+  .day .dn{font-size:13.5px;font-weight:800;color:var(--ink)}
+  .day.past .dw,.day.past .dn{color:#B5B5B2}
+  .day.today{background:var(--primary);border-color:var(--primary)}
+  .day.today .dw{color:rgba(17,17,17,.55)}
+  .day.today .dn{color:#111111}
+  .wk-label{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--muted);margin:0 2px;flex-shrink:0}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-in">
+    <div class="logo"><span class="mark"></span>메가밥스</div>
+    <nav>
+      <a class="active" href="home-b.html">오늘의 메뉴</a>
+      <a href="games-hub.html">내기 게임</a>
+      <a href="nearby-list.html">주변 맛집</a>
+      <a href="content.html">블로그</a>
+      <a href="content.html">메가존 소식</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <div class="left">
+      <span class="date">6월 5일 금요일 · 과천 지식정보타운</span>
+      <h1>오늘의 메인은 <span class="underline">제육볶음</span>,<br>점심 내기는 하셨나요?</h1>
+      <p>투표로 평가하고, 게임으로 커피 내기하고, 지정타 맛집까지</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="board-card">
+      <div class="board-head">
+        <h2>이번 주 식단</h2>
+        <span class="sub">메가존 구내식당 · 11:30 – 13:00</span>
+      </div>
+      <div class="daybar">
+        <button class="wk off" title="지난주 메뉴는 제공되지 않아요">‹</button>
+        <span class="wk-label">이번 주</span>
+        <div class="days">
+          <div class="day past"><span class="dw">월</span><span class="dn">1</span></div>
+          <div class="day past"><span class="dw">화</span><span class="dn">2</span></div>
+          <div class="day past"><span class="dw">수</span><span class="dn">3</span></div>
+          <div class="day past"><span class="dw">목</span><span class="dn">4</span></div>
+          <div class="day today"><span class="dw">금</span><span class="dn">5</span></div>
+        </div>
+        <button class="wk" title="다음 주 식단 보기">›</button>
+      </div>
+
+      <div class="pick">
+        <div class="pick-q">오늘 점심 어떻게 하실 거예요? <span class="pick-meta">11:30까지 변경 가능 · 33명 참여</span></div>
+        <div class="pick-btns">
+          <button class="pick-btn on">A코스 <i>64%</i></button>
+          <button class="pick-btn">B코스 <i>18%</i></button>
+          <button class="pick-btn">테이크아웃 <i>6%</i></button>
+          <button class="pick-btn">나가서 먹기 <i>12%</i></button>
+        </div>
+        <div class="pick-out">오늘은 12%가 나가서 먹어요 → <a>지정타 맛집 보기 ›</a></div>
+      </div>
+
+
+      <div class="course">
+        <div class="course-top">
+          <span class="course-label">COURSE A</span>
+          <span class="course-name">제육볶음 정식</span>
+          <span class="course-kcal">748 kcal</span>
+        </div>
+        <div class="course-dishes"><b>제육볶음<i class="kc">350</i></b><span class="dot">·</span>백미밥<i class="kc">270</i><span class="dot">·</span>계란찜<i class="kc">55</i><span class="dot">·</span>콩나물무침<i class="kc">25</i><span class="dot">·</span>배추김치<i class="kc">15</i><span class="dot">·</span>미역국<i class="kc">33</i></div>
+        <div class="vote">
+          <button class="vote-btn up voted" title="맛있다" aria-label="맛있다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
+          <button class="vote-btn down" title="별로다" aria-label="별로다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
+          <div class="result">
+            <div class="bar"><i style="width:89%"></i></div>
+            <span class="pct">89%</span>
+            <span class="votes-n">27명</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course">
+        <div class="course-top">
+          <span class="course-label">COURSE B</span>
+          <span class="course-name">크림 파스타</span>
+          <span class="course-kcal">812 kcal</span>
+        </div>
+        <div class="course-dishes"><b>베이컨 크림 파스타<i class="kc">620</i></b><span class="dot">·</span>마늘 바게트<i class="kc">95</i><span class="dot">·</span>리코타 샐러드<i class="kc">60</i><span class="dot">·</span>피클<i class="kc">7</i><span class="dot">·</span>포도주스<i class="kc">30</i></div>
+        <div class="vote">
+          <button class="vote-btn up" title="맛있다" aria-label="맛있다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
+          <button class="vote-btn down" title="별로다" aria-label="별로다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
+          <div class="result">
+            <div class="bar"><i style="width:64%"></i></div>
+            <span class="pct">64%</span>
+            <span class="votes-n">14명</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course">
+        <div class="course-top">
+          <span class="course-label">TAKE-OUT</span>
+          <span class="course-name">에그마요 샌드위치</span>
+          <span class="course-kcal">432 kcal</span>
+        </div>
+        <div class="course-dishes"><b>에그마요 샌드위치<i class="kc">360</i></b><span class="dot">·</span>감자칩<i class="kc">62</i><span class="dot">·</span>아이스 아메리카노<i class="kc">10</i></div>
+        <div class="vote">
+          <button class="vote-btn up" title="맛있다" aria-label="맛있다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
+          <button class="vote-btn down" title="별로다" aria-label="별로다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
+          <div class="result">
+            <div class="bar"><i style="width:78%"></i></div>
+            <span class="pct">78%</span>
+            <span class="votes-n">9명</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="side">
+      <div class="random-card">
+        <h3>오늘 뭐 먹지?</h3>
+        <p>구내식당과 지정타 맛집 중에서<br>점심 메뉴를 골라드려요</p>
+        <button class="random-btn">랜덤 추천 받기</button>
+      </div>
+      <div class="entries">
+        <div class="entry e-games">
+          <div class="ico">01</div>
+          <div><h4>내기 게임<span class="badge-new">NEW</span></h4><p>사다리 · 슬롯 · 풍선으로 커피 내기</p></div>
+          <span class="arrow">›</span>
+        </div>
+        <div class="entry e-food">
+          <div class="ico">02</div>
+          <div><h4>주변 맛집</h4><p>지정타 직장인 검증 맛집 10곳</p></div>
+          <span class="arrow">›</span>
+        </div>
+        <div class="entry e-blog">
+          <div class="ico">03</div>
+          <div><h4>블로그</h4><p>어제의 투표 결과와 점심 이야기</p></div>
+          <span class="arrow">›</span>
+        </div>
+        <div class="entry e-news">
+          <div class="ico">04</div>
+          <div><h4>메가존 소식</h4><p>우리 회사 새 소식 모아보기</p></div>
+          <span class="arrow">›</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+<footer class="site-foot">
+  <div class="foot-in">
+    <div class="f-brand"><span class="sq"></span>메가밥스<span class="f-desc">메가존 구내식당 비공식 점심 허브</span></div>
+    <div class="f-contact">
+      <span class="f-makers-label">만든 사람들</span>
+      <a href="mailto:dev1@megabobs.com">개발자 1 — dev1@megabobs.com</a>
+      <a href="mailto:dev2@megabobs.com">개발자 2 — dev2@megabobs.com</a>
+      <a href="#">슬랙 #megabobs</a>
+      <a href="#">맛집 · 버그 제보</a>
+    </div>
+    <div class="f-meta">© 2026 megabobs — 1인 사이드 프로젝트 · 식단은 매주 목요일 업데이트 · 정보 오류 제보 환영</div>
+  </div>
+</footer>
+<a href="index.html" style="position:fixed;left:18px;bottom:18px;z-index:9999;font-family:Pretendard,sans-serif;font-size:12.5px;font-weight:800;color:#fff;background:#111111;padding:9px 14px;border-radius:0;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">📋 화면 목록</a></body>
+</html>
