@@ -32,7 +32,7 @@ const HomeSide = () => (
             key={entry.no}
             href="#"
             aria-disabled
-            className="shadow-flat flex flex-1 cursor-default items-center gap-3.5 border border-line bg-surface px-4"
+            className="shadow-flat flex min-h-[62px] flex-1 cursor-default items-center gap-3.5 border border-line bg-surface px-4"
           >
             <span className="w-[26px] text-[13px] font-black text-accent-text">{entry.no}</span>
             <span className="flex-1">
