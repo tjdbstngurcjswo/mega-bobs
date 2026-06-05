@@ -36,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={pretendard.variable}>
-      <body className="bg-bg text-ink">
+      <body className="flex min-h-[100dvh] flex-col bg-bg text-ink">
         {children}
         <Toaster
           position="bottom-center"

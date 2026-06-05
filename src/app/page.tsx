@@ -19,7 +19,7 @@ export default async function Home() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto w-[min(880px,calc(100%-40px))]">
+      <main className="mx-auto w-[min(880px,calc(100%-40px))] flex-1">
         <section className="pt-8 pb-5">
           <span className="inline-block bg-accent-soft px-2.5 py-1 text-xs font-extrabold tracking-wide text-accent-text">
             <HeroDate /> · 과천 지식정보타운

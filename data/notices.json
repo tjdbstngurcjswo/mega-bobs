@@ -2,16 +2,16 @@
   "notices": [],
   "makers": [
     {
-      "name": "개발자 1",
+      "name": "박서윤",
       "role": "프론트엔드 · 메뉴/투표/게임",
-      "email": "dev1@megabobs.com",
+      "email": "dev.yelee@gmail.com",
       "github": "",
       "slack": ""
     },
     {
-      "name": "개발자 2",
+      "name": "홍수혁",
       "role": "프론트엔드 · 맛집/블로그/파이프라인",
-      "email": "dev2@megabobs.com",
+      "email": "tngur1120@mz.co.kr",
       "github": "",
       "slack": ""
     }

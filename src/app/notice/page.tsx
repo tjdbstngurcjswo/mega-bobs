@@ -16,7 +16,7 @@ export default function NoticePage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto w-[min(880px,calc(100%-40px))]">
+      <main className="mx-auto w-[min(880px,calc(100%-40px))] flex-1">
         <section className="pt-8 pb-5">
           <span className="inline-block bg-accent-soft px-2.5 py-1 text-xs font-extrabold tracking-wide text-accent-text">
             공지사항
@@ -63,21 +63,16 @@ export default function NoticePage() {
         <section id="makers" className="mt-11 pb-16">
           <h2 className="border-b-2 border-ink pb-3 text-lg font-extrabold">만든 사람들</h2>
           <div className="mt-4 grid grid-cols-2 gap-4 max-[560px]:grid-cols-1">
-            {makers.map((m, i) => (
-              <div key={m.name} className="shadow-flat flex gap-4 border border-line bg-surface p-5">
-                <span className="flex size-[52px] shrink-0 items-center justify-center bg-accent-soft text-[19px] font-extrabold text-accent-text">
-                  D{i + 1}
-                </span>
-                <div>
-                  <h3 className="text-[15.5px] font-extrabold">{m.name}</h3>
-                  <p className="mt-0.5 text-xs text-muted">{m.role}</p>
-                  <a
-                    href={`mailto:${m.email}`}
-                    className="mt-2 inline-block border-b border-accent-soft pb-px text-xs font-bold text-accent-text"
-                  >
-                    {m.email}
-                  </a>
-                </div>
+            {makers.map((m) => (
+              <div key={m.name} className="shadow-flat border border-line bg-surface p-5">
+                <h3 className="text-[15.5px] font-extrabold">{m.name}</h3>
+                <p className="mt-0.5 text-xs text-muted">{m.role}</p>
+                <a
+                  href={`mailto:${m.email}`}
+                  className="mt-2 inline-block border-b border-accent-soft pb-px text-xs font-bold text-accent-text"
+                >
+                  {m.email}
+                </a>
               </div>
             ))}
           </div>
