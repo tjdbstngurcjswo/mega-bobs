@@ -1,6 +1,7 @@
 'use client';
 
 import dayjs from '@/lib/dayjs';
+import {useHasMounted} from '@/lib/useHasMounted';
 import {cn} from '@/lib/utils';
 import {useDateStore} from '@/store/useDateStore';
 
@@ -26,12 +27,14 @@ interface DayChipProps {
   today: dayjs.Dayjs;
   selectedDate: dayjs.Dayjs;
   onSelect: (day: dayjs.Dayjs) => void;
+  /** 마운트 전(=SSR/정적 HTML)에는 강조를 적용하지 않아 stale '오늘' 점프를 막는다 */
+  mounted: boolean;
 }
 
-const DayChip = ({day, today, selectedDate, onSelect}: DayChipProps) => {
-  const isToday = day.isSame(today, 'day');
-  const isSelected = day.isSame(selectedDate, 'day');
-  const isPast = day.isBefore(today, 'day');
+const DayChip = ({day, today, selectedDate, onSelect, mounted}: DayChipProps) => {
+  const isToday = mounted && day.isSame(today, 'day');
+  const isSelected = mounted && day.isSame(selectedDate, 'day');
+  const isPast = mounted && day.isBefore(today, 'day');
 
   return (
     <button
@@ -44,6 +47,7 @@ const DayChip = ({day, today, selectedDate, onSelect}: DayChipProps) => {
       )}
     >
       <span
+        suppressHydrationWarning
         className={cn(
           'text-[10px] font-bold',
           labelClass(isSelected, isToday, isPast)
@@ -52,6 +56,7 @@ const DayChip = ({day, today, selectedDate, onSelect}: DayChipProps) => {
         {isToday ? '오늘' : DOW[day.day()]}
       </span>
       <span
+        suppressHydrationWarning
         className={cn(
           'text-[13.5px] font-extrabold',
           dateClass(isSelected, isToday, isPast)
@@ -72,6 +77,7 @@ const DayBar = () => {
     goToPrevWeek,
     goToNextWeek,
   } = useDateStore();
+  const mounted = useHasMounted();
 
   return (
     <div className="border-line bg-surface flex items-center gap-2 border-b px-5 py-3">
@@ -91,6 +97,7 @@ const DayBar = () => {
             today={today}
             selectedDate={selectedDate}
             onSelect={setSelectedDate}
+            mounted={mounted}
           />
         ))}
       </div>

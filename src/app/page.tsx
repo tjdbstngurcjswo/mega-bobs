@@ -1,5 +1,6 @@
 import MenuBoard from '@/components/board/MenuBoard';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import HeroDate from '@/components/home/HeroDate';
 import HomeSide from '@/components/home/HomeSide';
 import {SiteFooter, SiteHeader} from '@/components/site';
 import getMenu from '@/lib/api/getMenu';
@@ -21,7 +22,7 @@ export default async function Home() {
       <main className="mx-auto w-[min(880px,calc(100%-40px))]">
         <section className="pt-8 pb-5">
           <span className="inline-block bg-accent-soft px-2.5 py-1 text-xs font-extrabold tracking-wide text-accent-text">
-            {today.format('M월 D일 dddd')} · 과천 지식정보타운
+            <HeroDate /> · 과천 지식정보타운
           </span>
           <h1 className="mt-3 text-[27px] font-extrabold tracking-tight max-[560px]:text-[22px]">
             오늘{' '}
