@@ -30,7 +30,7 @@ Supabase `daily_menu` table → server-side fetch in `page.tsx` (ISR, 6h revalid
 - `src/app/` — Next.js App Router pages and API routes
 - `src/components/` — React components (`layout/` for structural, rest are feature components)
 - `src/lib/` — Supabase client (`supabase-server.ts`), data fetching (`api/getMenu.ts`), utilities (`utils.ts`, `dayjs.ts`)
-- `src/store/` — Zustand stores: `useMenuStore` (menus, category), `useDateStore` (selected date, week navigation)
+- `src/store/` — Zustand store: `useDateStore` (selected date, week navigation)
 - `src/types/` — TypeScript types (`MenuType`, `MenuCategory`, `MealType`, `MenuItemType`)
 - `src/constants/` — Constants for menu categories, meal types, Slack commands
 
@@ -43,8 +43,7 @@ Supabase `daily_menu` table → server-side fetch in `page.tsx` (ISR, 6h revalid
 
 ### State Management
 
-Two Zustand stores manage client state:
-- `useMenuStore` — loaded menus array, selected `MenuCategory` (COURSE_1, COURSE_2, TAKE_OUT)
+One Zustand store manages client state:
 - `useDateStore` — today, selectedDate, currentWeek (Dayjs[]), min/max date bounds, week navigation
 
 ### Timezone
