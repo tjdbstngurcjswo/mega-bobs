@@ -134,7 +134,7 @@
   .day.today{background:var(--primary);border-color:var(--primary)}
   .day.today .dw{color:rgba(17,17,17,.55)}
   .day.today .dn{color:#111111}
-  .wk-label{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--muted);margin:0 2px;flex-shrink:0}
+  .today-btn{height:44px;padding:0 13px;font-size:11.5px;font-weight:800;border:1px solid var(--line);background:var(--surface);color:#997400;cursor:pointer;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -163,20 +163,20 @@
   <div class="grid">
     <div class="board-card">
       <div class="board-head">
-        <h2>이번 주 식단</h2>
+        <h2>식단</h2>
         <span class="sub">메가존 구내식당 · 11:30 – 13:00</span>
       </div>
       <div class="daybar">
         <button class="wk off" title="지난주 메뉴는 제공되지 않아요">‹</button>
-        <span class="wk-label">이번 주</span>
         <div class="days">
           <div class="day past"><span class="dw">월</span><span class="dn">1</span></div>
           <div class="day past"><span class="dw">화</span><span class="dn">2</span></div>
           <div class="day past"><span class="dw">수</span><span class="dn">3</span></div>
           <div class="day past"><span class="dw">목</span><span class="dn">4</span></div>
-          <div class="day today"><span class="dw">금</span><span class="dn">5</span></div>
+          <div class="day today"><span class="dw">오늘</span><span class="dn">5</span></div>
         </div>
         <button class="wk" title="다음 주 식단 보기">›</button>
+        <button class="today-btn">오늘</button>
       </div>
 
 
