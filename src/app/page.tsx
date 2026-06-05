@@ -1,8 +1,7 @@
+import {ErrorBoundary, SiteFooter, SiteHeader} from '@/components/@shared';
 import MenuBoard from '@/components/board/MenuBoard';
-import ErrorBoundary from '@/components/ErrorBoundary';
 import HeroDate from '@/components/home/HeroDate';
 import HomeSide from '@/components/home/HomeSide';
-import {SiteFooter, SiteHeader} from '@/components/site';
 import getMenu from '@/lib/api/getMenu';
 import dayjs from '@/lib/dayjs';
 import {formatYYYYMMDD} from '@/lib/utils';
