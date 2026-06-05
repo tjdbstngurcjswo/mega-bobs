@@ -13,9 +13,8 @@ const SiteHeader = () => {
   return (
     <header className="bg-board">
       <div className="mx-auto flex h-16 w-[min(880px,calc(100%-40px))] items-center gap-7">
-        <Link href="/" className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-cream">
-          <span aria-hidden className="inline-block size-[11px] bg-accent" />
-          메가밥스
+        <Link href="/" className="text-xl font-extrabold tracking-tight text-cream">
+          MegaBobs
         </Link>
         <nav className="flex flex-1 gap-0.5 overflow-x-auto whitespace-nowrap">
           {NAV_ITEMS.map((item) => {
