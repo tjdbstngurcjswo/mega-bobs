@@ -16,7 +16,9 @@
   .m-head{display:flex;align-items:center;gap:9px;padding:15px 18px;background:var(--board)}
   .m-head .logo{font-size:16px;color:var(--cream)}
   .m-head .logo .bowl{width:9px;height:9px}
-  .m-head .burger{margin-left:auto;display:flex;flex-direction:column;gap:4px}
+  .m-head .bell{position:relative;margin-left:auto;width:30px;height:30px;display:flex;align-items:center;justify-content:center;color:var(--cream)}
+  .m-head .bell-dot{position:absolute;top:4px;right:3px;width:5px;height:5px;background:var(--primary)}
+  .m-head .burger{display:flex;flex-direction:column;gap:4px}
   .m-head .burger i{display:block;width:18px;height:2px;background:var(--cream)}
   .m-body{padding:20px 18px 26px}
 
@@ -107,6 +109,14 @@
   .day.today{background:var(--primary);border-color:var(--primary)}
   .day.today .dw{color:rgba(17,17,17,.55)}
   .day.today .dn{color:#111111}
+  .pick{display:flex;align-items:center;gap:9px;padding:10px 16px;background:var(--surface-warm)}
+  .pick-q{font-size:11px;font-weight:800;flex-shrink:0}
+  .pick-bar{flex:1;display:flex;height:20px;overflow:hidden}
+  .seg{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;white-space:nowrap;overflow:hidden}
+  .seg.mine{background:var(--primary);color:#111111}
+  .seg.s2{background:#E3E3E0;color:#6E6E6E}
+  .seg.s3{background:#D8D8D5;color:#6E6E6E}
+  .seg.s4{background:#CCCCC8;color:#5A5A5A}
 </style>
 </head>
 <body>
@@ -116,6 +126,7 @@
     <div class="phone">
       <div class="m-head">
         <div class="logo"><span class="bowl"></span>메가밥스</div>
+        <a class="bell" href="notice.html" title="공지사항" aria-label="공지사항"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="bell-dot"></span></a>
         <div class="burger"><i></i><i></i><i></i></div>
       </div>
       <div class="m-body">
@@ -159,6 +170,15 @@
             <div class="course-top">
               <span class="course-label">테이크아웃</span>
               <span class="course-kcal">432 kcal</span>
+            </div>
+          </div>
+          <div class="pick">
+            <span class="pick-q">오늘 점심은?</span>
+            <div class="pick-bar">
+              <div class="seg mine" style="width:64%">✓ A 64%</div>
+              <div class="seg s2" style="width:18%">18%</div>
+              <div class="seg s3" style="width:6%"></div>
+              <div class="seg s4" style="width:12%">12%</div>
             </div>
           </div>
         </div>

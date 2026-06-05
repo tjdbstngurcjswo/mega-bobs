@@ -66,13 +66,14 @@
 
   /* Right column */
   .side{display:flex;flex-direction:column;gap:16px}
+  .grid{align-items:stretch}
   .random-card{background:var(--board);border-radius:var(--r-lg);padding:22px;color:#F5F5F3;box-shadow:var(--shadow);position:relative;overflow:hidden}
   .random-card::after{content:'?';position:absolute;right:14px;bottom:-26px;font-size:110px;font-weight:900;color:#F5F5F3;opacity:.12}
   .random-card h3{font-size:18px;font-weight:800;letter-spacing:-.02em}
   .random-card p{margin-top:6px;font-size:13px;color:#9A9A9A;line-height:1.55}
   .random-btn{margin-top:16px;width:100%;background:var(--primary);color:#111111;font-size:15px;font-weight:800;border:none;border-radius:0;padding:12px;cursor:pointer}
-  .entries{display:flex;flex-direction:column;gap:10px}
-  .entry{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
+  .entries{flex:1;display:flex;flex-direction:column;gap:10px}
+  .entry{flex:1;display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:0 16px;box-shadow:var(--shadow)}
   .entry .ico{width:30px;font-size:15px;font-weight:800;color:#997400;flex-shrink:0;background:none!important}
   .entry h4{font-size:14.5px;font-weight:800}
   .entry p{margin-top:2px;font-size:12px;color:var(--muted)}
@@ -114,14 +115,16 @@
 .f-meta{font-size:11.5px;color:#6E6E6E;line-height:1.6}
   .vote-btn svg{display:block}
 .f-makers-label{font-size:11px;font-weight:800;letter-spacing:.08em;color:#6E6E6E;align-self:center}
-  /* 식전 픽 — 한 줄 컴팩트 */
-  .pick{display:flex;align-items:center;gap:10px;padding:11px 24px;background:var(--surface-warm)}
+  /* 식전 픽 — 완료 후엔 결과 바만 */
+  .pick{display:flex;align-items:center;gap:12px;padding:11px 24px;background:var(--surface-warm)}
   .pick-q{font-size:12px;font-weight:800;flex-shrink:0}
-  .pick-btns{display:flex;gap:5px}
-  .pick-btn{font-size:11.5px;font-weight:700;padding:5px 11px;border:1px solid var(--line);background:var(--surface);cursor:pointer;color:var(--ink-2)}
-  .pick-btn.on{background:var(--primary);border-color:var(--primary);color:#111111}
-  .pick-result{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--muted)}
-  .pick-result a{color:#997400;font-weight:800;text-decoration:none}
+  .pick-bar{flex:1;display:flex;height:24px;overflow:hidden}
+  .seg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;white-space:nowrap;overflow:hidden}
+  .seg.mine{background:var(--primary);color:#111111}
+  .seg.s2{background:#E3E3E0;color:#6E6E6E}
+  .seg.s3{background:#D8D8D5;color:#6E6E6E}
+  .seg.s4{background:#CCCCC8;color:#5A5A5A}
+  .pick-n{font-size:10.5px;font-weight:700;color:var(--muted);flex-shrink:0}
   /* 주간 날짜 네비 */
   .daybar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);background:var(--surface)}
   .wk{width:28px;height:44px;display:flex;align-items:center;justify-content:center;font-size:16px;border:1px solid var(--line);background:var(--surface);cursor:pointer;color:var(--ink);flex-shrink:0}
@@ -134,6 +137,9 @@
   .day.today{background:var(--primary);border-color:var(--primary)}
   .day.today .dw{color:rgba(17,17,17,.55)}
   .day.today .dn{color:#111111}
+  .bell{position:relative;width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--cream)}
+  .bell:hover{color:var(--cream)}
+  .bell-dot{position:absolute;top:7px;right:6px;width:6px;height:6px;background:var(--primary)}
 </style>
 </head>
 <body>
@@ -147,6 +153,7 @@
       <a href="content.html">블로그</a>
       <a href="content.html">메가존 소식</a>
     </nav>
+    <a class="bell" href="notice.html" title="공지사항" aria-label="공지사항"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="bell-dot"></span></a>
   </div>
 </header>
 
@@ -206,13 +213,13 @@
       </div>
       <div class="pick">
         <span class="pick-q">오늘 점심은?</span>
-        <div class="pick-btns">
-          <button class="pick-btn on">코스 A</button>
-          <button class="pick-btn">코스 B</button>
-          <button class="pick-btn">테이크아웃</button>
-          <button class="pick-btn">나가서</button>
+        <div class="pick-bar">
+          <div class="seg mine" style="width:64%">✓ 코스 A 64%</div>
+          <div class="seg s2" style="width:18%">18%</div>
+          <div class="seg s3" style="width:6%"></div>
+          <div class="seg s4" style="width:12%">12%</div>
         </div>
-        <span class="pick-result">A 64% · 나가서 12% <a>맛집 ›</a></span>
+        <span class="pick-n">33명 참여</span>
       </div>
     </div>
 
