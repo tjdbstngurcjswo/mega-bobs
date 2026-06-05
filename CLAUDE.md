@@ -69,7 +69,11 @@ Single quotes, no bracket spacing (`{foo}`), trailing commas (es5), 2-space inde
 
 ### Styling
 
-Tailwind CSS with custom theme tokens defined in `tailwind.config.ts`. Dark mode via `next-themes` (class-based). Mobile-first design with `maxWidth.container: 375px`.
+Tailwind CSS v4 with custom theme tokens defined in `@theme` inside `src/app/globals.css` (no `tailwind.config.ts`). Light theme only — no dark mode (`next-themes` was removed). Responsive layout with a `min(880px, calc(100% - 40px))` content container; home is a 2-column desktop grid (`1fr 300px`) that collapses to a single column under 920px.
+
+### Design System
+
+Read `DESIGN.md` (repo root) before any visual or UI change. All tokens, typography, color, spacing, shape, and accessibility rules are defined there. Do not deviate without explicit user approval. In QA, flag any UI code that violates DESIGN.md.
 
 ## Environment Variables
 
