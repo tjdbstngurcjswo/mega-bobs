@@ -312,11 +312,12 @@ Expected: FAIL — `Cannot find module '@/lib/menu-policy'`
 
 - [ ] **Step 3: 구현**
 
-주의: 기존 `getWeekDays`(`src/lib/utils.ts`)는 월요일 시작 주를 만든다(`startOf('week').add(1, 'day')` 패턴). 동일 기준 사용. dayjs `day()`: 일=0, 목=4.
+주의: 기존 `getWeekDays`(`src/lib/utils.ts`)가 월요일 시작 주를 **이미 로케일-비의존 수동 계산**으로 만든다. `startOf('week')`는 로케일 weekStart에 따라 일/월이 갈리므로 쓰지 말고, **`getWeekDays(d)[0]`(월요일 시작일) 재사용**으로 일관성 유지. dayjs `day()`: 일=0, 목=4. *(리뷰 #4 반영)*
 
 `src/lib/menu-policy.ts`:
 ```ts
 import dayjs from '@/lib/dayjs';
+import {getWeekDays} from '@/lib/utils';
 
 /** 구내식당 운영 정보 — 하드코딩 1곳에만 둔다 (§5.1: 마감 시각은 여기서 파생) */
 export const CAFETERIA = {
@@ -324,9 +325,8 @@ export const CAFETERIA = {
   closeHour: 13,
 } as const;
 
-/** 월요일 시작 주의 첫날 */
-const startOfWeekMon = (d: dayjs.Dayjs) =>
-  d.day() === 0 ? d.subtract(6, 'day').startOf('day') : d.startOf('week').add(1, 'day').startOf('day');
+/** 월요일 시작 주의 첫날 — getWeekDays(로케일 비의존)와 동일 기준 */
+const startOfWeekMon = (d: dayjs.Dayjs) => getWeekDays(d)[0];
 
 /** date가 today 기준 다음 주에 속하는가 */
 export const isNextWeek = (date: dayjs.Dayjs, today: dayjs.Dayjs) =>
@@ -460,7 +460,7 @@ import clsx, {type ClassValue} from 'clsx';
 
 export const cn = (...inputs: ClassValue[]) => clsx(inputs);
 ```
-(`clsx`는 devDependencies에 이미 있음 — dependencies로 이동: `pnpm add clsx`)
+정정(실행 중 확인): `clsx`는 `devDependencies`에 있었음 → `cn`이 런타임 import이므로 **`pnpm remove clsx && pnpm add clsx`로 `dependencies`로 이동**해야 함(원 플랜이 옳았음). `cn`은 `clsx(...inputs)` 형태(스프레드)로 작성.
 
 - [ ] **Step 3: SiteFooter 작성**
 
@@ -995,7 +995,7 @@ export default async function Home() {
 }
 ```
 
-비고: dayjs `dddd` 한국어 요일은 `@/lib/dayjs`에 ko 로케일이 설정돼 있어야 한다 — 없으면 `import 'dayjs/locale/ko'` + `dayjs.locale('ko')`를 `src/lib/dayjs.ts`에 추가.
+비고: dayjs `dddd` 한국어 요일 — `@/lib/dayjs`에 **`import 'dayjs/locale/ko'` + `dayjs.locale('ko')` + tz 디폴트가 이미 설정됨**(리뷰 #3, 확인만). 추가 작업 불필요.
 
 - [ ] **Step 3: 수동 검증 (목업과 비교)**
 
@@ -1175,7 +1175,7 @@ export default function NoticePage() {
 }
 ```
 
-비고: `@/../data/notices.json` import가 tsconfig `resolveJsonModule` 필요 — 없으면 `tsconfig.json` compilerOptions에 `"resolveJsonModule": true` 추가.
+비고: `@/../data/notices.json` import는 tsconfig `resolveJsonModule` 필요 — **이미 `tsconfig.json`에 `"resolveJsonModule": true` 설정됨**(리뷰 #3, 확인만). 추가 작업 불필요.
 
 - [ ] **Step 3: 수동 검증 + 빌드**
 
@@ -1194,16 +1194,17 @@ git commit -m "feat: 공지사항 페이지 — 공지 목록 + 만든 사람들
 ### Task 8: 구컴포넌트 제거 + 다크모드 청산
 
 **Files:**
-- Delete: `src/components/Header.tsx`, `src/components/MenuSelector.tsx`, `src/components/WeekSelect.tsx`, `src/components/DaySelect.tsx`, `src/components/CourseSelect.tsx`, `src/components/MenuSection.tsx`, `src/components/MenuItem.tsx`, `src/components/ThemeProvider.tsx`, `src/components/ThemeToggle.tsx`, `src/components/ThemeDropdown.tsx`, `src/components/layout/` (AppLayout, MobileContainer 포함)
+- Delete: `src/components/Header.tsx`, `src/components/MenuSelector.tsx`, `src/components/WeekSelect.tsx`, `src/components/DaySelect.tsx`, `src/components/CourseSelect.tsx`, `src/components/MenuSection.tsx`, `src/components/MenuItem.tsx`, `src/components/ThemeProvider.tsx`, `src/components/ThemeToggle.tsx`, `src/components/ThemeDropdown.tsx`, `src/components/layout/` (AppLayout, MenuContainer, MobileContainer, index.ts 포함)
+- Delete(조건부, 리뷰 #5): `src/components/Loading.tsx`, `src/components/ContactButton.tsx`, `src/components/ContactDropdown.tsx` — Step 1 grep으로 미참조 확인 후 삭제
+- Delete(리뷰 #2): `tailwind.config.ts` — v3식 레거시 설정(`fontSize.sm=11px`/`base=12px`, 구 컬러, `maxWidth.container=375px`, `darkMode:'class'`)이 v4 `@theme`(globals.css)와 혼선. v4는 `@config` 없이는 이 파일을 읽지 않아 사실상 dormant이므로 제거
 - Modify: `package.json` (`next-themes` 제거)
-- 주의: `ContactButton/ContactDropdown`은 슬랙 라우트 등에서 참조 여부 확인 후 미사용 시에만 삭제
 
 - [ ] **Step 1: 참조 확인**
 
 ```bash
-grep -rn "MenuSelector\|WeekSelect\|DaySelect\|CourseSelect\|MenuSection\|AppLayout\|MobileContainer\|ThemeProvider\|ThemeToggle\|next-themes\|components/Header" src/ --include='*.tsx' --include='*.ts'
+grep -rn "MenuSelector\|WeekSelect\|DaySelect\|CourseSelect\|MenuSection\|MenuItem\|AppLayout\|MenuContainer\|MobileContainer\|ThemeProvider\|ThemeToggle\|ThemeDropdown\|next-themes\|components/Header\|components/Loading\|ContactButton\|ContactDropdown" src/ --include='*.tsx' --include='*.ts'
 ```
-Expected: 삭제 대상 파일들 상호 참조만 남아 있어야 함. 외부(신규 코드/API)에서 참조가 나오면 그 참조 먼저 정리.
+Expected: 삭제 대상 파일들 상호 참조만 남아 있어야 함. 외부(신규 코드/API)에서 참조가 나오면 그 참조 먼저 정리. `Loading`/`Contact*`이 어디서도 참조되지 않으면 Step 2에서 함께 삭제, 참조가 있으면 그 파일은 남기고 사유를 커밋 메시지에 기록.
 
 - [ ] **Step 2: 파일 삭제 + 의존성 제거**
 
@@ -1213,10 +1214,15 @@ git rm src/components/Header.tsx src/components/MenuSelector.tsx src/components/
   src/components/MenuItem.tsx src/components/ThemeProvider.tsx src/components/ThemeToggle.tsx \
   src/components/ThemeDropdown.tsx
 git rm -r src/components/layout
+git rm tailwind.config.ts
+# 아래는 Step 1에서 미참조로 확인된 경우에만
+git rm src/components/Loading.tsx src/components/ContactButton.tsx src/components/ContactDropdown.tsx
 pnpm remove next-themes
 ```
 
 `useMenuStore`의 `category` 상태가 CourseSelect 전용이었다면 함께 정리하되, 플랜 ②(투표)에서 menu_id로 재사용할 수 있으므로 **store는 남긴다**.
+
+주의(리뷰 #2): `tailwind.config.ts` 삭제 후 `pnpm build`로 빌드가 깨지지 않는지 반드시 재확인. 만약 신규 컴포넌트가 `text-sm`/`text-base` 같은 폰트 사이즈 유틸에 의존해 시각이 틀어지면, 해당 토큰을 globals.css `@theme`에 옮기거나 컴포넌트에서 arbitrary value(`text-[11px]`)로 고정.
 
 - [ ] **Step 3: 빌드 + 테스트 + lint 최종 확인**
 

@@ -1,4 +1,8 @@
+import clsx, {type ClassValue} from 'clsx';
+
 import dayjs from '@/lib/dayjs';
+
+export const cn = (...inputs: ClassValue[]) => clsx(...inputs);
 
 export function formatCalories(calories: number): string {
   return `${calories} kcal`;
