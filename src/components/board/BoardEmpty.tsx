@@ -5,7 +5,7 @@ interface BoardEmptyProps {
 const COPY = {
   closed: {
     label: 'CLOSED',
-    title: '오늘은 구내식당이 쉬는 날이에요',
+    title: '구내식당이 쉬는 날이에요',
     body: '그래도 점심은 먹어야죠 — 주변 맛집은 어때요?',
   },
   comingUp: {

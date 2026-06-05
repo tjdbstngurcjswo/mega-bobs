@@ -7,7 +7,7 @@ describe('BoardEmpty', () => {
   test('CLOSED — 메뉴 없는 날 안내', () => {
     render(<BoardEmpty variant="closed" />);
     expect(screen.getByText('CLOSED')).toBeInTheDocument();
-    expect(screen.getByText('오늘은 구내식당이 쉬는 날이에요')).toBeInTheDocument();
+    expect(screen.getByText('구내식당이 쉬는 날이에요')).toBeInTheDocument();
   });
 
   test('COMING UP — 다음 주 미공개 안내', () => {
