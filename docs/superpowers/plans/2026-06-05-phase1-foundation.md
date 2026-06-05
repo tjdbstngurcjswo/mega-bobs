@@ -460,7 +460,7 @@ import clsx, {type ClassValue} from 'clsx';
 
 export const cn = (...inputs: ClassValue[]) => clsx(inputs);
 ```
-검증 결과(리뷰 #3): `clsx`는 **이미 `dependencies`에 존재** — `pnpm add clsx`는 사실상 no-op이므로 생략 가능. `cn` 헬퍼 추가만 하면 됨.
+정정(실행 중 확인): `clsx`는 `devDependencies`에 있었음 → `cn`이 런타임 import이므로 **`pnpm remove clsx && pnpm add clsx`로 `dependencies`로 이동**해야 함(원 플랜이 옳았음). `cn`은 `clsx(...inputs)` 형태(스프레드)로 작성.
 
 - [ ] **Step 3: SiteFooter 작성**
 
