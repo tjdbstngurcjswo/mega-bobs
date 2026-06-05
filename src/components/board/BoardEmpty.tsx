@@ -19,7 +19,7 @@ const BoardEmpty = ({variant}: BoardEmptyProps) => {
   const copy = COPY[variant];
 
   return (
-    <div className="px-6 py-12 text-center">
+    <div className="flex flex-1 flex-col items-center justify-center px-6 py-12 text-center">
       <div className="text-accent-text text-[13px] font-black tracking-[0.3em]">
         {copy.label}
       </div>

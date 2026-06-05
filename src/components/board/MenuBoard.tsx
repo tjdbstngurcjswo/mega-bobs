@@ -35,7 +35,7 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
       : 'closed';
 
   return (
-    <section className="bg-surface shadow-flat border-line border">
+    <section className="bg-surface shadow-flat border-line flex flex-col border">
       <div className="bg-accent text-ink flex items-center justify-between px-6 py-4">
         <h2 className="text-base font-extrabold">메뉴</h2>
         <span className="text-ink/60 text-xs font-bold">
