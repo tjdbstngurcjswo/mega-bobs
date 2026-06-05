@@ -20,9 +20,13 @@ const BoardEmpty = ({variant}: BoardEmptyProps) => {
 
   return (
     <div className="px-6 py-12 text-center">
-      <div className="text-[13px] font-black tracking-[0.3em] text-accent-text">{copy.label}</div>
+      <div className="text-accent-text text-[13px] font-black tracking-[0.3em]">
+        {copy.label}
+      </div>
       <h3 className="mt-3 text-[17px] font-extrabold">{copy.title}</h3>
-      <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">{copy.body}</p>
+      <p className="text-muted mt-1.5 text-[13.5px] leading-relaxed">
+        {copy.body}
+      </p>
     </div>
   );
 };

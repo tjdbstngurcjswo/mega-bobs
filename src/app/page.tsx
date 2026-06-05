@@ -26,7 +26,7 @@ export default async function Home() {
           </span>
           <h1 className="mt-3 text-[27px] font-extrabold tracking-tight max-[560px]:text-[22px]">
             오늘{' '}
-            <mark className="bg-[linear-gradient(transparent_58%,var(--color-highlight)_58%)] px-1">
+            <mark className="px-1 text-ink [background:linear-gradient(transparent_58%,var(--color-highlight)_58%)]">
               점심
             </mark>
             , 정하셨나요?
