@@ -4,11 +4,23 @@ import {Bell} from 'lucide-react';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
 
+import noticeData from '@/../data/notices.json';
 import {NAV_ITEMS} from '@/constants/site';
+import dayjs from '@/lib/dayjs';
+import {useHasMounted} from '@/lib/useHasMounted';
 import {cn} from '@/lib/utils';
+import type {NoticeData} from '@/types/notice';
+
+const {notices} = noticeData as NoticeData;
+
+/** 발행 후 일주일 이내 공지가 하나라도 있으면 NEW */
+const hasRecentNotice = () =>
+  notices.some((n) => dayjs().tz().diff(dayjs.tz(n.publishedAt), 'day') < 7);
 
 const SiteHeader = () => {
   const pathname = usePathname();
+  const mounted = useHasMounted();
+  const showNoticeDot = mounted && hasRecentNotice();
 
   return (
     <header className="bg-board">
@@ -49,7 +61,9 @@ const SiteHeader = () => {
           className="relative flex size-9 items-center justify-center text-cream"
         >
           <Bell size={18} strokeWidth={2.4} />
-          <span aria-hidden className="absolute top-[7px] right-[6px] size-1.5 bg-accent" />
+          {showNoticeDot && (
+            <span aria-hidden className="absolute top-[7px] right-[6px] size-1.5 bg-accent" />
+          )}
         </Link>
       </div>
     </header>
