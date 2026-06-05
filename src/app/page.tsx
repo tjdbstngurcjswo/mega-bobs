@@ -1,5 +1,4 @@
 import MenuBoard from '@/components/board/MenuBoard';
-import MenuStoreHydrator from '@/components/board/MenuStoreHydrator';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import HomeSide from '@/components/home/HomeSide';
 import {SiteFooter, SiteHeader} from '@/components/site';
@@ -33,9 +32,8 @@ export default async function Home() {
           </h1>
         </section>
         <ErrorBoundary>
-          <MenuStoreHydrator menus={menus} />
           <div className="grid grid-cols-[1fr_300px] items-stretch gap-6 pb-10 max-[920px]:grid-cols-1">
-            <MenuBoard />
+            <MenuBoard menus={menus} />
             <HomeSide />
           </div>
         </ErrorBoundary>

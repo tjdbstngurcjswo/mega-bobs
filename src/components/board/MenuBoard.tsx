@@ -6,15 +6,19 @@ import {MENU_CATEGORIES} from '@/constants/menu';
 import {CAFETERIA, isNextWeek, isNextWeekPublished} from '@/lib/menu-policy';
 import {formatYYYYMMDD} from '@/lib/utils';
 import {useDateStore} from '@/store/useDateStore';
-import {useMenuStore} from '@/store/useMenuStore';
+import {MenuType} from '@/types/menu';
 
 import BoardEmpty from './BoardEmpty';
 import CourseRow from './CourseRow';
 import DayBar from './DayBar';
 
-const MenuBoard = () => {
+interface MenuBoardProps {
+  /** 서버에서 페치한 ±1주 메뉴 — SSR 시점에 바로 렌더해 하이드레이션 시프트를 방지 */
+  menus: MenuType[];
+}
+
+const MenuBoard = ({menus}: MenuBoardProps) => {
   const {today, selectedDate} = useDateStore();
-  const menus = useMenuStore((s) => s.menus);
 
   const dayMenus = useMemo(() => {
     const key = formatYYYYMMDD(selectedDate);
