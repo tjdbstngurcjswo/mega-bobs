@@ -1,0 +1,27 @@
+{
+  "notices": [
+    {
+      "id": "2026-06-05-renewal",
+      "title": "메가밥스가 새 옷을 입었어요",
+      "body": "홈이 메뉴 중심으로 개편됐어요. 내기 게임, 주변 맛집, 식전 픽 투표가 차례로 추가될 예정이에요.",
+      "publishedAt": "2026-06-05",
+      "isNew": true
+    }
+  ],
+  "makers": [
+    {
+      "name": "개발자 1",
+      "role": "프론트엔드 · 메뉴/투표/게임",
+      "email": "dev1@megabobs.com",
+      "github": "",
+      "slack": ""
+    },
+    {
+      "name": "개발자 2",
+      "role": "프론트엔드 · 맛집/블로그/파이프라인",
+      "email": "dev2@megabobs.com",
+      "github": "",
+      "slack": ""
+    }
+  ]
+}
