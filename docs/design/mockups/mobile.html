@@ -33,10 +33,8 @@
   .course:last-child{border-bottom:none}
   .course-top{display:flex;align-items:baseline;gap:8px}
   .course-label{font-size:10px;font-weight:800;letter-spacing:.08em;color:#997400}
-  .course-name{font-size:18px;font-weight:800;letter-spacing:-.02em}
   .course-kcal{margin-left:auto;font-size:10.5px;font-weight:600;color:var(--muted)}
-  .course-dishes{margin-top:6px;font-size:12.5px;line-height:1.65;color:var(--ink-2);word-break:keep-all}
-  .course-dishes b{color:var(--ink);font-weight:700}
+  .course-dishes{margin-top:6px;font-size:13.5px;font-weight:600;line-height:1.7;color:var(--ink);word-break:keep-all}
   .course-dishes .kc{font-style:normal;font-size:9.5px;font-weight:600;color:var(--muted);margin-left:2px}
   .course-dishes .kc::after{content:'kcal';font-size:8px;margin-left:1px}
   .dot{color:#C9C9C6;margin:0 4px}
@@ -45,9 +43,8 @@
   .vote-btn.up{color:#997400;background:var(--up-soft);border-color:#EBDFA8}
   .vote-btn.up.voted{background:var(--up);color:#111111;border-color:var(--up)}
   .vote-btn.down{color:var(--down);background:var(--down-soft);border-color:#D8D8D5}
-  .bar{flex:1;height:4px;background:#E3E3E0;overflow:hidden}
-  .bar i{display:block;height:100%;background:var(--up)}
-  .pct{font-size:10.5px;font-weight:800;color:#997400}
+  .vote-stat{font-size:10.5px;font-weight:700;color:var(--muted);margin-left:2px}
+  .vote-stat b{color:#997400;font-weight:800}
 
   /* 랜덤 추천 — 다크 카드 */
   .m-random{margin-top:14px;background:var(--board);border-radius:var(--r-lg);padding:16px 18px;display:flex;align-items:center;gap:12px;color:var(--cream);position:relative;overflow:hidden}
@@ -123,7 +120,7 @@
       </div>
       <div class="m-body">
         <span class="m-date">6월 5일 금요일 · 과천 지식정보타운</span>
-        <div class="m-h1">오늘의 메인은 <span class="hl">제육볶음</span>,<br>점심 내기는 하셨나요?</div>
+        <div class="m-h1">오늘 <span class="hl">점심</span>, 정하셨나요?</div>
 
         <div class="board">
           <div class="board-head">
@@ -144,43 +141,37 @@
 
           <div class="course">
             <div class="course-top">
-              <span class="course-label">COURSE A</span>
-              <span class="course-name">제육볶음 정식</span>
+              <span class="course-label">코스 A</span>
               <span class="course-kcal">748 kcal</span>
             </div>
-            <div class="course-dishes"><b>제육볶음<i class="kc">350</i></b><span class="dot">·</span>백미밥<i class="kc">270</i><span class="dot">·</span>계란찜<i class="kc">55</i><span class="dot">·</span>콩나물무침<i class="kc">25</i><span class="dot">·</span>배추김치<i class="kc">15</i></div>
+            <div class="course-dishes">제육볶음<i class="kc">350</i><span class="dot">·</span>백미밥<i class="kc">270</i><span class="dot">·</span>계란찜<i class="kc">55</i><span class="dot">·</span>콩나물무침<i class="kc">25</i><span class="dot">·</span>배추김치<i class="kc">15</i></div>
             <div class="vote">
               <button class="vote-btn up voted" title="맛있다" aria-label="맛있다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
               <button class="vote-btn down" title="별로다" aria-label="별로다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
-              <div class="bar"><i style="width:89%"></i></div>
-              <span class="pct">89%</span>
+              <span class="vote-stat"><b>89%</b> · 27명</span>
             </div>
           </div>
           <div class="course">
             <div class="course-top">
-              <span class="course-label">COURSE B</span>
-              <span class="course-name">크림 파스타</span>
+              <span class="course-label">코스 B</span>
               <span class="course-kcal">812 kcal</span>
             </div>
-            <div class="course-dishes"><b>베이컨 크림 파스타<i class="kc">620</i></b><span class="dot">·</span>마늘 바게트<i class="kc">95</i><span class="dot">·</span>리코타 샐러드<i class="kc">60</i></div>
+            <div class="course-dishes">베이컨 크림 파스타<i class="kc">620</i><span class="dot">·</span>마늘 바게트<i class="kc">95</i><span class="dot">·</span>리코타 샐러드<i class="kc">60</i></div>
             <div class="vote">
               <button class="vote-btn up" title="맛있다" aria-label="맛있다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
               <button class="vote-btn down" title="별로다" aria-label="별로다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
-              <div class="bar"><i style="width:64%"></i></div>
-              <span class="pct">64%</span>
+              <span class="vote-stat"><b>64%</b> · 14명</span>
             </div>
           </div>
           <div class="course">
             <div class="course-top">
-              <span class="course-label">TAKE-OUT</span>
-              <span class="course-name">에그마요 샌드위치</span>
+              <span class="course-label">테이크아웃</span>
               <span class="course-kcal">432 kcal</span>
             </div>
             <div class="vote">
               <button class="vote-btn up" title="맛있다" aria-label="맛있다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
               <button class="vote-btn down" title="별로다" aria-label="별로다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
-              <div class="bar"><i style="width:78%"></i></div>
-              <span class="pct">78%</span>
+              <span class="vote-stat"><b>78%</b> · 9명</span>
             </div>
           </div>
         </div>

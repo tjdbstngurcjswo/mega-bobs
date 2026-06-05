@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>megabobs — 맛집 상세</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="shared.css">
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+  .back{display:inline-block;font-size:13.5px;font-weight:700;color:var(--muted);margin:24px 0 14px}
+  .detail{overflow:hidden;margin-bottom:64px}
+  .gallery{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:140px 140px;gap:4px}
+  .g-main{grid-row:1/3;background:linear-gradient(135deg,#FBE9DC,#F0C9A8);display:flex;align-items:center;justify-content:center;font-size:56px;font-weight:900;color:rgba(0,0,0,.16)}
+  .g-sub{display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:rgba(0,0,0,.14)}
+  .g-sub.s1{background:linear-gradient(135deg,#FCEFE3,#F6DDC2)}
+  .g-sub.s2{background:linear-gradient(135deg,#F2E9DC,#E6D6BE);position:relative}
+  .g-more{position:absolute;bottom:10px;right:10px;font-size:11px;font-weight:800;color:#fff;background:rgba(0,0,0,.55);padding:4px 10px;border-radius:0}
+  .d-body{padding:26px 30px 28px}
+  .d-top{display:flex;align-items:center;gap:10px}
+  .d-name{font-size:24px;font-weight:800;letter-spacing:-.02em}
+  .d-tags{display:flex;gap:6px}
+  .cat{background:var(--primary-soft);color:var(--primary-deep)}
+  .price{background:var(--surface-warm);border:1px solid var(--line);color:var(--ink-2)}
+  .d-desc{margin-top:8px;font-size:14.5px;color:var(--ink-2);line-height:1.6}
+  .d-cols{display:grid;grid-template-columns:1fr 300px;gap:30px;margin-top:24px}
+  .menu-table{border:1px solid var(--line);border-radius:0;overflow:hidden}
+  .mt-head{font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.05em;background:var(--surface-warm);padding:11px 18px;border-bottom:1px solid var(--line)}
+  .mt-row{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;border-bottom:1px solid var(--line);font-size:14.5px}
+  .mt-row:last-child{border-bottom:none}
+  .mt-row b{font-weight:700}
+  .mt-row.best b::after{content:'대표';font-size:10px;font-weight:800;color:var(--primary-deep);background:var(--primary-soft);padding:3px 7px;border-radius:0;margin-left:8px;vertical-align:2px}
+  .mt-row .won{font-weight:800;color:var(--ink)}
+  .info{display:flex;flex-direction:column;gap:2px}
+  .i-row{display:flex;gap:12px;padding:11px 2px;border-bottom:1px dashed var(--line);font-size:13.5px}
+  .i-row:last-child{border-bottom:none}
+  .i-row .k{width:64px;flex-shrink:0;font-weight:800;color:var(--muted);font-size:12.5px;padding-top:1px}
+  .i-row .v{color:var(--ink-2);line-height:1.55}
+  .i-row .v b{color:var(--ink)}
+  .i-row .v .tel{color:var(--primary-deep);font-weight:800}
+  .d-foot{display:flex;align-items:center;margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}
+  .verify-note{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted)}
+  .verify-note .ok{color:var(--up);font-weight:800}
+  .report{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-in">
+    <div class="logo"><span class="bowl"></span>메가밥스</div>
+    <nav>
+      <a href="home-b.html">오늘의 메뉴</a>
+      <a href="games-hub.html">내기 게임</a>
+      <a class="active" href="nearby-list.html">주변 맛집</a>
+      <a href="content.html">블로그</a>
+      <a href="content.html">메가존 소식</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <a class="back">‹ 맛집 목록으로</a>
+
+  <div class="card detail">
+    <div class="gallery">
+      <div class="g-main">한</div>
+      <div class="g-sub s1">食</div>
+      <div class="g-sub s2">堂<span class="g-more">사진 4장</span></div>
+    </div>
+    <div class="d-body">
+      <div class="d-top">
+        <span class="d-name">지정타 김치찌개</span>
+        <div class="d-tags"><span class="tag cat">한식</span><span class="tag price">8천~1.2만</span></div>
+      </div>
+      <p class="d-desc">지정타 직장인들의 단골 한식집. 묵은지로 끓여 깊은 맛이 나고, 라면사리 무료.
+        점심 피크(12:00–12:40)엔 줄이 기니 11:40 전 도착을 추천해요.</p>
+
+      <div class="d-cols">
+        <div class="menu-table">
+          <div class="mt-head">대표 메뉴</div>
+          <div class="mt-row best"><b>김치찌개</b><span class="won">9,000원</span></div>
+          <div class="mt-row"><b>제육쌈밥</b><span class="won">11,000원</span></div>
+          <div class="mt-row"><b>된장찌개</b><span class="won">8,000원</span></div>
+          <div class="mt-row"><b>계란말이 (추가)</b><span class="won">6,000원</span></div>
+        </div>
+        <div class="info">
+          <div class="i-row"><span class="k">영업시간</span><span class="v"><b>11:00 – 21:00</b><br>브레이크 15:00–17:00 · 일요일 휴무</span></div>
+          <div class="i-row"><span class="k">전화</span><span class="v"><span class="tel">02-1234-5678</span></span></div>
+          <div class="i-row"><span class="k">위치</span><span class="v">경기도 과천시 과천대로7길 33<br>메가존 사옥에서 도보 5분</span></div>
+          <div class="i-row"><span class="k">꿀팁</span><span class="v">2인 이상이면 계란말이 추가가 국룰</span></div>
+        </div>
+      </div>
+
+      <div class="d-foot">
+        <span class="verify-note"><span class="ok">✓</span> 2026년 6월 1일에 직접 방문해 확인한 정보예요</span>
+        <a class="report">정보가 달라졌나요?</a>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="site-foot">
+  <div class="foot-in">
+    <div class="f-brand"><span class="sq"></span>메가밥스<span class="f-desc">메가존 구내식당 비공식 점심 허브</span></div>
+    <div class="f-contact">
+      <span class="f-makers-label">만든 사람들</span>
+      <a href="mailto:dev1@megabobs.com">개발자 1 — dev1@megabobs.com</a>
+      <a href="mailto:dev2@megabobs.com">개발자 2 — dev2@megabobs.com</a>
+      <a href="#">슬랙 #megabobs</a>
+      <a href="#">맛집 · 버그 제보</a>
+    </div>
+    <div class="f-meta">© 2026 megabobs — 1인 사이드 프로젝트 · 식단은 매주 목요일 업데이트 · 정보 오류 제보 환영</div>
+  </div>
+</footer>
+<a href="index.html" style="position:fixed;left:18px;bottom:18px;z-index:9999;font-family:Pretendard,sans-serif;font-size:12.5px;font-weight:800;color:#fff;background:#111111;padding:9px 14px;border-radius:0;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">📋 화면 목록</a></body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>megabobs — 상태 디자인 모음</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="shared.css">
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+  .sheet{width:1200px;margin:0 auto;padding:40px 0 64px}
+  .sheet-title{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+  .sheet-sub{font-size:13.5px;color:var(--muted);margin-bottom:28px}
+  .s-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .frame{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden}
+  .f-label{font-size:11.5px;font-weight:800;letter-spacing:.08em;color:#A0A0A0;background:var(--surface-warm);border-bottom:1px solid var(--line);padding:10px 18px}
+  .f-body{padding:26px 28px}
+
+  .empty{text-align:center;padding:34px 28px}
+  .empty .e-emoji{font-size:13px;font-weight:900;letter-spacing:.3em;color:#997400}
+  .empty h3{margin-top:12px;font-size:17px;font-weight:800}
+  .empty p{margin-top:6px;font-size:13.5px;color:var(--muted);line-height:1.6}
+  .empty .e-actions{display:flex;gap:10px;justify-content:center;margin-top:18px}
+
+  .vote{display:flex;align-items:center;gap:10px}
+  .vote-btn{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;padding:9px 16px;border-radius:0;border:1.5px solid transparent}
+  .vote-btn.off{color:#A0A0A0;background:#F1F1EF;border-color:#E0E0DD}
+  .vote-warn{margin-top:12px;display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:#A3672B;background:#FBF1DD;border:1px solid #F0DCB4;border-radius:0;padding:10px 13px}
+  .vote-done-note{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--up);margin-top:12px}
+  .vote-btn.up-voted{background:var(--up);color:#111111;border-color:var(--up)}
+  .bar{flex:1;height:8px;border-radius:0;background:#E3E3E0;overflow:hidden}
+  .bar > i{display:block;height:100%;background:var(--up)}
+  .pct{font-size:13px;font-weight:800;color:#997400}
+
+  .skel{border-radius:0;background:linear-gradient(90deg,#EFEFED 25%,#F7F7F5 50%,#EFEFED 75%)}
+  .skel-row{display:flex;gap:8px;margin-top:10px}
+
+  .start-area{display:flex;flex-direction:column;gap:10px}
+  .helper{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--muted)}
+  .vote-btn svg{display:block}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="sheet-title">상태 디자인 모음 — 빈 상태 · 에러 · 로딩</div>
+  <div class="sheet-sub">"No items found"는 디자인이 아니다 — 모든 상태는 따뜻함 + 다음 행동 + 맥락을 갖는다</div>
+
+  <div class="s-grid">
+    <div class="frame">
+      <div class="f-label">홈 — 주말 / 식단 없는 날</div>
+      <div class="f-body empty">
+        <div class="e-emoji">CLOSED</div>
+        <h3>오늘은 구내식당이 쉬는 날이에요</h3>
+        <p>주말 잘 보내고 계신가요?<br>그래도 점심은 먹어야죠 — 대신 이건 어때요?</p>
+        <div class="e-actions">
+          <button class="btn btn-primary">오늘 뭐 먹지?</button>
+          <button class="btn btn-ghost">주변 맛집 보기</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="f-label">투표 — SUPABASE 연결 실패</div>
+      <div class="f-body">
+        <div class="vote">
+          <button class="vote-btn off" title="맛있다" aria-label="맛있다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
+          <button class="vote-btn off" title="별로다" aria-label="별로다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
+          <div style="flex:1"></div>
+        </div>
+        <div class="vote-warn">투표 서버가 잠시 쉬고 있어요 — 메뉴는 그대로 볼 수 있고, 투표는 곧 다시 열려요</div>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="f-label">투표 — 오늘 이미 참여함 (1일 1회)</div>
+      <div class="f-body">
+        <div class="vote">
+          <button class="vote-btn up-voted" title="맛있다" aria-label="맛있다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
+          <div class="bar"><i style="width:89%"></i></div>
+          <span class="pct">89%</span>
+        </div>
+        <div class="vote-done-note">✓ 오늘 투표 완료! 결과는 내일 아침 블로그로 정리해드려요</div>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="f-label">투표 결과 — 로딩 (메뉴 렌더를 막지 않음)</div>
+      <div class="f-body">
+        <div class="vote">
+          <button class="vote-btn" style="color:#997400;background:var(--up-soft);border-color:#D5D5D2" title="맛있다" aria-label="맛있다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
+          <button class="vote-btn" style="color:var(--down);background:var(--down-soft);border-color:#E3E3E0" title="별로다" aria-label="별로다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
+        </div>
+        <div class="skel-row">
+          <div class="skel" style="flex:1;height:8px;border-radius:0"></div>
+          <div class="skel" style="width:36px;height:12px"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="f-label">게임 — 참가자 부족 (시작 비활성)</div>
+      <div class="f-body start-area">
+        <button class="btn disabled" style="width:100%">시작하려면 1명 더 필요해요</button>
+        <div class="helper">내기는 2명부터 — 참가자를 더 추가해 주세요</div>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="f-label">블로그 — 글 0개 (런칭 직후)</div>
+      <div class="f-body empty">
+        <div class="e-emoji">SOON</div>
+        <h3>첫 글을 준비하고 있어요</h3>
+        <p>내일 아침 9시, 오늘의 투표 결과가<br>첫 데일리 리포트로 자동 발행될 예정이에요</p>
+        <div class="e-actions">
+          <button class="btn btn-primary">오늘 메뉴에 투표하러 가기</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="f-label">맛집 — 데이터 수집 중 (10곳 미만)</div>
+      <div class="f-body empty">
+        <div class="e-emoji">ON FOOT</div>
+        <h3>지금 4곳, 계속 발로 뛰는 중</h3>
+        <p>광고 없이 직접 가서 확인한 곳만 올려요.<br>매주 새로운 맛집이 추가됩니다</p>
+        <div class="e-actions">
+          <button class="btn btn-ghost">추천하고 싶은 맛집 제보하기</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="f-label">랜덤 추천 — 결과 카드</div>
+      <div class="f-body empty">
+        <div class="e-emoji">PICK</div>
+        <h3>오늘의 추천 — 홍반장 마라탕</h3>
+        <p>구내식당 대신 매운맛 어때요? 도보 4분</p>
+        <div class="e-actions">
+          <button class="btn btn-primary">맛집 상세 보기</button>
+          <button class="btn btn-ghost">다시 뽑기</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="f-label">식단 — 다음 주 조회 (목요일 공개 전)</div>
+      <div class="f-body empty">
+        <div class="e-emoji">COMING UP</div>
+        <h3>다음 주 식단은 목요일에 공개돼요</h3>
+        <p>영양사 선생님이 식단을 짜는 중이에요.<br>목요일에 다시 확인해 주세요</p>
+        <div class="e-actions">
+          <button class="btn btn-primary">이번 주 식단으로 돌아가기</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="frame">
+      <div class="f-label">날짜 네비 — 열람 범위 경계 (지난주 잠금)</div>
+      <div class="f-body">
+        <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);padding:12px 16px">
+          <span style="font-size:16px;color:#C9C9C6;font-weight:300">‹</span>
+          <div style="display:flex;gap:6px">
+            <span class="chip" style="padding:6px 11px;font-size:12px">월</span>
+            <span class="chip" style="padding:6px 11px;font-size:12px">화</span>
+            <span class="chip" style="padding:6px 11px;font-size:12px">수</span>
+            <span class="chip on" style="padding:6px 11px;font-size:12px">목</span>
+            <span class="chip" style="padding:6px 11px;font-size:12px">금</span>
+          </div>
+          <span style="font-size:16px;color:var(--ink);font-weight:700">›</span>
+        </div>
+        <div style="margin-top:11px;font-size:12px;color:var(--muted);line-height:1.6">이전 주 화살표 비활성(연회색) — 호버 시 "지난주 메뉴는 제공되지 않아요" 툴팁. 다음 주 화살표는 공개 전에도 활성(빈 상태로 연결해 정책 학습)</div>
+      </div>
+    </div>
+  </div>
+</div>
+<a href="index.html" style="position:fixed;left:18px;bottom:18px;z-index:9999;font-family:Pretendard,sans-serif;font-size:12.5px;font-weight:800;color:#fff;background:#111111;padding:9px 14px;border-radius:0;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">📋 화면 목록</a></body>
+</html>

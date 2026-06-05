@@ -1,0 +1,54 @@
+/* megabobs 디자인 시스템 — B. 비스트로 테라코타 (확정) */
+:root{
+  --bg:#F5F5F3; --surface:#FFFFFF; --surface-warm:#F7F7F5;
+  --board:#111111; --board-2:#242424;
+  --ink:#111111; --ink-2:#454545; --muted:#8A8A8A; --line:#E3E3E0;
+  --cream:#F5F5F3; --cream-2:#9A9A9A;
+  --primary:#E2C04C; --primary-deep:#C2A02E; --primary-soft:#FAF4D9;
+  --up:#E2C04C; --up-soft:#FAF4D9; --down:#767676; --down-soft:#F1F1EF;
+  --gold:#E2C04C; --gold-soft:#FAF4D9; --blue-soft:#EFEFEC;
+  --r-sm:0; --r:0; --r-lg:0;
+  --shadow:0 1px 2px rgba(0,0,0,.05);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Pretendard,-apple-system,sans-serif}
+body{background:var(--bg);color:var(--ink)}
+.container{width:min(880px,calc(100% - 40px));margin:0 auto}
+
+/* Header — 다크 식단보드 밴드 */
+header{background:var(--board)}
+.header-in{width:min(880px,calc(100% - 40px));margin:0 auto;height:64px;display:flex;align-items:center;gap:28px}
+.logo{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:800;letter-spacing:-.02em;color:var(--cream)}
+.logo .bowl{width:11px;height:11px;background:var(--primary);display:inline-block;font-size:0}
+nav{display:flex;gap:2px;flex:1;overflow-x:auto;white-space:nowrap}
+nav a{font-size:14px;font-weight:600;color:var(--cream-2);padding:8px 13px;border-radius:0;text-decoration:none}
+nav a.active{color:#fff;background:var(--board-2);box-shadow:inset 0 -2px 0 var(--gold)}
+nav a:hover{background:var(--board-2)}
+.theme-toggle{width:36px;height:36px;border-radius:0;border:1px solid #3A3A3A;background:transparent;display:flex;align-items:center;justify-content:center;font-size:15px}
+
+/* Page title */
+.page-head{padding:36px 0 24px}
+.page-head .eyebrow{display:inline-block;font-size:12px;font-weight:800;color:var(--primary-deep);background:var(--primary-soft);padding:5px 11px;border-radius:0;letter-spacing:.03em;margin-bottom:12px}
+.page-head h1{font-size:30px;font-weight:800;letter-spacing:-.02em}
+.page-head p{margin-top:8px;font-size:15px;color:var(--muted)}
+
+/* Common */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:15px;font-weight:800;border:none;border-radius:0;padding:13px 22px;cursor:pointer}
+.btn-primary{background:var(--primary);color:#111111}
+.btn-ghost{background:var(--surface);color:var(--ink-2);border:1.5px solid var(--line)}
+.btn:disabled,.btn.disabled{background:#E0E0DD;color:#A0A0A0;cursor:not-allowed}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;padding:7px 14px;border-radius:0;border:1.5px solid var(--line);background:var(--surface);color:var(--ink-2)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.tag{font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:0}
+.theme-toggle::before{content:'';width:13px;height:13px;border-radius:50%;border:1.5px solid var(--cream-2);background:linear-gradient(90deg,var(--cream-2) 50%,transparent 50%)}
+
+/* Footer */
+.site-foot{margin-top:64px;background:var(--board);color:var(--cream-2)}
+.foot-in{width:min(880px,calc(100% - 40px));margin:0 auto;padding:28px 0 30px;display:flex;flex-direction:column;gap:13px}
+.f-brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;color:var(--cream)}
+.f-brand .sq{width:9px;height:9px;background:var(--primary);display:inline-block}
+.f-desc{font-size:12px;color:var(--cream-2);font-weight:500;margin-left:4px}
+.f-contact{display:flex;flex-wrap:wrap;gap:16px;font-size:12.5px}
+.f-contact a{color:var(--cream);font-weight:700;text-decoration:none;border-bottom:1px solid #3A3A3A;padding-bottom:2px}
+.f-meta{font-size:11.5px;color:#6E6E6E;line-height:1.6}
+.f-makers-label{font-size:11px;font-weight:800;letter-spacing:.08em;color:#6E6E6E;align-self:center}
