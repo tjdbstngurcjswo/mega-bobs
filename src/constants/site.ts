@@ -1,4 +1,4 @@
-export type NavItem = {label: string; href: string; disabled?: boolean};
+type NavItem = {label: string; href: string; disabled?: boolean};
 
 /** 미구현 라우트는 disabled — UI에 '준비 중'으로 표시, 후속 플랜에서 해제 */
 export const NAV_ITEMS: NavItem[] = [
@@ -9,7 +9,7 @@ export const NAV_ITEMS: NavItem[] = [
   {label: '메가존 소식', href: '/news', disabled: true},
 ];
 
-export type HomeEntry = {
+type HomeEntry = {
   no: string;
   label: string;
   desc: string;

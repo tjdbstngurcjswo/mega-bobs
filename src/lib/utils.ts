@@ -4,10 +4,6 @@ import dayjs from '@/lib/dayjs';
 
 export const cn = (...inputs: ClassValue[]) => clsx(...inputs);
 
-export function formatCalories(calories: number): string {
-  return `${calories} kcal`;
-}
-
 export function formatYYYYMMDD(date: dayjs.Dayjs) {
   return date.format('YYYY-MM-DD');
 }

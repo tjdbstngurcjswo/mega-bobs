@@ -1,7 +1,5 @@
 import {MenuCategory} from '@/types/menu';
 
-export const DEFAULT_MENU_CATEGORY: MenuCategory = 'COURSE_1';
-
 export const MENU_CATEGORIES: MenuCategory[] = [
   'COURSE_1',
   'COURSE_2',
