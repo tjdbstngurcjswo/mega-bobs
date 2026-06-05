@@ -20,7 +20,7 @@ const HomeSide = () => (
       {/* 랜덤 추천 동작은 플랜 ④(맛집 데이터) 이후 활성화 */}
       <button
         disabled
-        className="relative mt-4 w-full bg-accent py-3 text-[15px] font-extrabold text-ink disabled:opacity-60"
+        className="relative mt-4 w-full cursor-default bg-accent py-3 text-[15px] font-extrabold text-ink disabled:opacity-60"
       >
         랜덤 추천 받기 (준비 중)
       </button>
@@ -32,7 +32,7 @@ const HomeSide = () => (
             key={entry.no}
             href="#"
             aria-disabled
-            className="shadow-flat flex flex-1 items-center gap-3.5 border border-line bg-surface px-4"
+            className="shadow-flat flex flex-1 cursor-default items-center gap-3.5 border border-line bg-surface px-4"
           >
             <span className="w-[26px] text-[13px] font-black text-accent-text">{entry.no}</span>
             <span className="flex-1">

@@ -42,7 +42,7 @@ const DayChip = ({day, today, selectedDate, onSelect, mounted}: DayChipProps) =>
       onClick={() => onSelect(day)}
       aria-pressed={isSelected}
       className={cn(
-        'flex flex-1 flex-col items-center gap-0.5 border py-1.5',
+        'flex flex-1 cursor-pointer flex-col items-center gap-0.5 border py-1.5',
         chipBorder(isSelected, isToday)
       )}
     >
@@ -85,7 +85,7 @@ const DayBar = () => {
         type="button"
         onClick={goToPrevWeek}
         aria-label="지난주 메뉴 보기"
-        className="border-line text-ink flex h-11 w-7 shrink-0 items-center justify-center border"
+        className="border-line text-ink flex h-11 w-7 shrink-0 cursor-pointer items-center justify-center border"
       >
         ‹
       </button>
@@ -105,7 +105,7 @@ const DayBar = () => {
         type="button"
         onClick={goToNextWeek}
         aria-label="다음 주 메뉴 보기"
-        className="border-line text-ink flex h-11 w-7 shrink-0 items-center justify-center border"
+        className="border-line text-ink flex h-11 w-7 shrink-0 cursor-pointer items-center justify-center border"
       >
         ›
       </button>
