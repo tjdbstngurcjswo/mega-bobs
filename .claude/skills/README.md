@@ -8,11 +8,11 @@ MegaBobs Phase 1 구현을 돕는 프로젝트 레벨 Claude 스킬 모음입니
 
 | 스킬 | 폴더 | 목적 | 발동 시점 |
 |---|---|---|---|
-| create-pr | `create-pr/` | diff 분석 → 구조화된 PR 본문(요약·Changes 테이블·Mermaid·테스트 계획) 생성 후 `gh pr create`. 슬래시 커맨드 [`/pr`](../commands/pr.md) 과 동일 절차 (✅ 작성 완료) | "PR 만들어줘" 등 PR 생성 요청 시 |
-| 디자인 시스템 가드 | `design-system-guard/` | Phase 1 디자인 토큰·컨벤션(각진 모서리, 단일 옐로우 키컬러 `#E2C04C`, UI 이모지 금지, Pretendard/Noto Serif KR)을 UI 구현 시 강제 | 컴포넌트·스타일 작성/리뷰 시 |
-| 컴포넌트 스캐폴딩 | `component-scaffold/` | 프로젝트 컨벤션(arrow fn + `export default`, 네이밍, import 순서, 300줄/80줄 제한)에 맞춰 새 컴포넌트·페이지 생성 | 새 컴포넌트/페이지 추가 시 |
-| API 라우트 패턴 | `api-route-pattern/` | Next.js Route Handler + Supabase + 인증/캐시 패턴을 따르는 새 API 엔드포인트 생성 | `src/app/api/*` 추가 시 |
-| Supabase 스키마 작업 | `supabase-schema/` | 투표·메뉴·맛집 등 테이블/마이그레이션과 타입·쿼리 레이어를 일관되게 작성 | 새 테이블/스키마 변경 시 |
+| `create-pr` | `create-pr/` | diff 분석 → 구조화된 PR 본문(요약·Changes 테이블·Mermaid·테스트 계획) 생성 후 `gh pr create` | "PR 만들어줘" 등 PR 생성 요청 시 |
+| `design-system-guard` | `design-system-guard/` | DESIGN.md 토큰·규칙 위반(border, rounded, 하드코딩 컬러, 이모지 등) 검출 및 수정 제안, 접근성 체크 | 컴포넌트·스타일 작성/리뷰 시 |
+| `component-scaffold` | `component-scaffold/` | 프로젝트 컨벤션(arrow fn, 네이밍, import 순서, 300/80줄 제한)에 맞춰 새 컴포넌트·페이지·훅 생성 | 새 컴포넌트/페이지/훅 추가 시 |
+| `api-route-pattern` | `api-route-pattern/` | Next.js Route Handler + Supabase + 인증/캐시 패턴으로 새 API 엔드포인트 생성 | `src/app/api/*` 추가 시 |
+| `supabase-schema` | `supabase-schema/` | 테이블 SQL·RLS 정책·TypeScript 타입·쿼리 함수를 일관되게 작성 | 새 테이블/스키마 변경 시 |
 
 ## 작성 가이드
 
