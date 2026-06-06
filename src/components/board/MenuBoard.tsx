@@ -3,11 +3,9 @@
 import {CalendarDays, MapPin} from 'lucide-react';
 import {useMemo} from 'react';
 
-import {cn} from '@/lib/utils';
-
 import {MENU_CATEGORIES} from '@/constants/menu';
 import {isNextWeek, isNextWeekPublished} from '@/lib/menu-policy';
-import {formatYYYYMMDD} from '@/lib/utils';
+import {cn, formatYYYYMMDD} from '@/lib/utils';
 import {useDateStore} from '@/store/useDateStore';
 import {MenuType} from '@/types/menu';
 
