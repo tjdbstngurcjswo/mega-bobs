@@ -1,9 +1,10 @@
+const VOTER_KEY = 'voter-id';
+
 export const getVoterId = (): string => {
   if (typeof window === 'undefined') return '';
-  const key = 'voter-id';
-  const stored = localStorage.getItem(key);
+  const stored = localStorage.getItem(VOTER_KEY);
   if (stored) return stored;
   const id = crypto.randomUUID();
-  localStorage.setItem(key, id);
+  localStorage.setItem(VOTER_KEY, id);
   return id;
 };

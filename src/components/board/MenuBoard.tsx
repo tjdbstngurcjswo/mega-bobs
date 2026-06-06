@@ -15,6 +15,7 @@ import {MenuType} from '@/types/menu';
 import BoardEmpty from './BoardEmpty';
 import CourseRow from './CourseRow';
 import DayBar from './DayBar';
+import PreMealPick from './PreMealPick';
 
 interface MenuBoardProps {
   /** 서버에서 페치한 ±1주 메뉴 — SSR 시점에 바로 렌더해 하이드레이션 시프트를 방지 */
@@ -67,6 +68,9 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
         </button>
       </div>
       <DayBar />
+      {formatYYYYMMDD(selectedDate) === formatYYYYMMDD(today) && (
+        <PreMealPick date={formatYYYYMMDD(today)} />
+      )}
       {dayMenus.length > 0 ? (
         dayMenus.map((menu, i) => {
           const menuKey = `${menu.date}_${menu.category}`;
