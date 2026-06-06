@@ -1,10 +1,11 @@
 'use client';
 
 import dayjs from '@/lib/dayjs';
-import {useHasMounted} from '@/lib/useHasMounted';
 import {usePick} from '@/lib/hooks/usePick';
-import {isCafeteriaOpen} from '@/lib/menu-policy';
+import {isAfterClose} from '@/lib/menu-policy';
+import {useHasMounted} from '@/lib/useHasMounted';
 import {cn} from '@/lib/utils';
+import {useDateStore} from '@/store/useDateStore';
 import {PickType} from '@/types/vote';
 
 interface PreMealPickProps {
@@ -20,10 +21,15 @@ const PICKS: {type: PickType; label: string}[] = [
 
 const PreMealPick = ({date}: PreMealPickProps) => {
   const mounted = useHasMounted();
+  const {today} = useDateStore();
   const {myPick, counts, isLoading, submitPick} = usePick(date);
 
   if (!mounted) return null;
-  if (!isCafeteriaOpen(dayjs().tz())) return null;
+
+  const dateObj = dayjs(date);
+  const isToday = dateObj.isSame(today, 'day');
+  if (isToday && isAfterClose(dayjs().tz())) return null;
+  if (dateObj.isBefore(today, 'day')) return null;
 
   return (
     <div className="border-b border-line px-6 py-4">

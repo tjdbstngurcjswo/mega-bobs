@@ -68,8 +68,8 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
         </button>
       </div>
       <DayBar />
-      {formatYYYYMMDD(selectedDate) === formatYYYYMMDD(today) && (
-        <PreMealPick date={formatYYYYMMDD(today)} />
+      {dayMenus.length > 0 && !selectedDate.isBefore(today, 'day') && (
+        <PreMealPick date={dateStr} />
       )}
       {dayMenus.length > 0 ? (
         dayMenus.map((menu, i) => {
