@@ -1,5 +1,7 @@
 language: ko-KR
 
+# 리뷰 코멘트를 한국어·영어 병기로 작성 (instructions에 명시)
+
 reviews:
   request_changes_workflow: false
   high_level_summary: true
@@ -10,6 +12,11 @@ reviews:
     drafts: false
 
 instructions: |
+  모든 리뷰 코멘트는 **한국어와 영어를 병기**해 주세요.
+  형식 예시:
+  > 🇰🇷 border 클래스 사용은 디자인 시스템 위반입니다. shadow-[var(--shadow-card)]를 사용하세요.
+  > 🇺🇸 Using `border` class violates the design system. Use `shadow-[var(--shadow-card)]` instead.
+
   이 프로젝트는 Next.js 15 App Router + Supabase + Tailwind CSS v4 기반입니다.
   아래 기준으로 리뷰해 주세요:
 
