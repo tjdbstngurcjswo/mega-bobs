@@ -3,16 +3,21 @@ import Link from 'next/link';
 import {FOOTER_LINKS} from '@/constants/site';
 
 const SiteFooter = () => (
-  <footer className="mt-16 bg-board text-cream-2">
-    <div className="mx-auto flex w-[min(880px,calc(100%-40px))] flex-wrap items-center justify-between gap-x-4 gap-y-1 py-3.5 text-[11.5px]">
-      <span className="font-extrabold text-cream">MegaBobs</span>
-      <div className="flex items-center gap-4">
-        {FOOTER_LINKS.map((l) => (
-          <Link key={l.label} href={l.href} className="font-bold text-cream">
-            {l.label}
-          </Link>
-        ))}
-        <span className="text-[#6E6E6E]">© 2026 megabobs</span>
+  <footer className="mt-16">
+    <div className="mx-auto w-[min(880px,calc(100%-40px))] py-6">
+      <div className="flex items-center justify-between gap-x-6 gap-y-3 max-[560px]:flex-col max-[560px]:items-center">
+        <div className="flex items-center gap-5 max-[560px]:flex-col max-[560px]:items-center max-[560px]:gap-1">
+          <span className="text-[13px] font-extrabold text-ink">MegaBobs</span>
+          <p className="text-[12px] text-muted">메가존 임직원을 위한 구내식당 메뉴 서비스</p>
+        </div>
+        <div className="flex items-center gap-5">
+          {FOOTER_LINKS.map((l) => (
+            <Link key={l.label} href={l.href} className="text-[12px] font-medium text-muted hover:text-ink-2 max-[560px]:hidden">
+              {l.label}
+            </Link>
+          ))}
+          <span className="text-[12px] text-muted">© 2026 megabobs</span>
+        </div>
       </div>
     </div>
   </footer>
