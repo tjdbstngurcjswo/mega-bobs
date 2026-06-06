@@ -1,7 +1,5 @@
 language: ko-KR
 
-# 리뷰 코멘트를 한국어·영어 병기로 작성 (instructions에 명시)
-
 reviews:
   request_changes_workflow: false
   high_level_summary: true
@@ -10,34 +8,36 @@ reviews:
   auto_review:
     enabled: true
     drafts: false
+    base_branches:
+      - main
+      - dev
+  instructions: |
+    모든 리뷰 코멘트는 **한국어와 영어를 병기**해 주세요.
+    형식 예시:
+    > 🇰🇷 border 클래스 사용은 디자인 시스템 위반입니다. shadow-[var(--shadow-card)]를 사용하세요.
+    > 🇺🇸 Using `border` class violates the design system. Use `shadow-[var(--shadow-card)]` instead.
 
-instructions: |
-  모든 리뷰 코멘트는 **한국어와 영어를 병기**해 주세요.
-  형식 예시:
-  > 🇰🇷 border 클래스 사용은 디자인 시스템 위반입니다. shadow-[var(--shadow-card)]를 사용하세요.
-  > 🇺🇸 Using `border` class violates the design system. Use `shadow-[var(--shadow-card)]` instead.
+    이 프로젝트는 Next.js 15 App Router + Supabase + Tailwind CSS v4 기반입니다.
+    아래 기준으로 리뷰해 주세요:
 
-  이 프로젝트는 Next.js 15 App Router + Supabase + Tailwind CSS v4 기반입니다.
-  아래 기준으로 리뷰해 주세요:
+    ## 컨벤션
+    - 컴포넌트는 arrow function + export default (`const Fn = () =>`)
+    - import 순서: builtin → external → internal → parent → sibling
+    - 파일 300줄 / 함수 80줄 / nesting depth 3 / params 4 초과 시 지적
+    - 미사용 변수는 `_` 접두사 사용
 
-  ## 컨벤션
-  - 컴포넌트는 arrow function + export default (`const Fn = () =>`)
-  - import 순서: builtin → external → internal → parent → sibling
-  - 파일 300줄 / 함수 80줄 / nesting depth 3 / params 4 초과 시 지적
-  - 미사용 변수는 `_` 접두사 사용
+    ## 디자인 시스템 (UI 변경 시)
+    - `border` 클래스로 카드 경계 표시 금지 → `shadow-[var(--shadow-card)]` 사용
+    - `rounded-*` 금지 (풀 스퀘어 원칙)
+    - 하드코딩 컬러(`#fff`, `gray-*` 등) 금지 → `--color-*` 토큰 사용
+    - `dark:*` 클래스 금지 (라이트 단일 테마)
+    - UI 이모지 텍스트 직접 삽입 금지 → lucide 아이콘 사용
 
-  ## 디자인 시스템 (UI 변경 시)
-  - `border` 클래스로 카드 경계 표시 금지 → `shadow-[var(--shadow-card)]` 사용
-  - `rounded-*` 금지 (풀 스퀘어 원칙)
-  - 하드코딩 컬러(`#fff`, `gray-*` 등) 금지 → `--color-*` 토큰 사용
-  - `dark:*` 클래스 금지 (라이트 단일 테마)
-  - UI 이모지 텍스트 직접 삽입 금지 → lucide 아이콘 사용
+    ## 보안
+    - `NEXT_PUBLIC_` 접두사 없는 환경변수는 서버에서만 사용
+    - API Route에서 인증 누락 여부 확인
+    - XSS, SQL Injection 등 OWASP Top 10 확인
 
-  ## 보안
-  - `NEXT_PUBLIC_` 접두사 없는 환경변수는 서버에서만 사용
-  - API Route에서 인증 누락 여부 확인
-  - XSS, SQL Injection 등 OWASP Top 10 확인
-
-  ## 타입 안전성
-  - `any` 타입 사용 지양
-  - Supabase 쿼리 결과 타입 명시
+    ## 타입 안전성
+    - `any` 타입 사용 지양
+    - Supabase 쿼리 결과 타입 명시
