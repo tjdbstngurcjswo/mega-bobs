@@ -15,7 +15,6 @@ import {MenuType} from '@/types/menu';
 import BoardEmpty from './BoardEmpty';
 import CourseRow from './CourseRow';
 import DayBar from './DayBar';
-import VoteBar from './VoteBar';
 
 interface MenuBoardProps {
   /** 서버에서 페치한 ±1주 메뉴 — SSR 시점에 바로 렌더해 하이드레이션 시프트를 방지 */
@@ -27,12 +26,13 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
   const mounted = useHasMounted();
   const dateStr = formatYYYYMMDD(selectedDate);
   const {voteMap, submitVote} = useVotes(dateStr);
-  const afterClose = mounted && isAfterClose(dayjs().tz());
+  const isPast = mounted && selectedDate.isBefore(today, 'day');
+  const isToday = mounted && selectedDate.isSame(today, 'day');
+  const showVote = isPast || (isToday && isAfterClose(dayjs().tz()));
 
   const dayMenus = useMemo(() => {
     const key = formatYYYYMMDD(selectedDate);
     const found = menus.filter((m) => m.date === key && m.items.length > 0);
-    // 코스 순서 고정: 코스1 → 코스2 → 테이크아웃
     return MENU_CATEGORIES.map((c) =>
       found.find((m) => m.category === c)
     ).filter((m): m is NonNullable<typeof m> => Boolean(m));
@@ -71,16 +71,14 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
         dayMenus.map((menu, i) => {
           const menuKey = `${menu.date}_${menu.category}`;
           return (
-            <div key={menu.category}>
-              <CourseRow menu={menu} index={i} />
-              {afterClose && (
-                <VoteBar
-                  menuKey={menuKey}
-                  result={voteMap[menuKey]}
-                  onVote={(type) => submitVote(menuKey, type)}
-                />
-              )}
-            </div>
+            <CourseRow
+              key={menu.category}
+              menu={menu}
+              index={i}
+              showVote={showVote}
+              voteResult={voteMap[menuKey]}
+              onVote={(type) => submitVote(menuKey, type)}
+            />
           );
         })
       ) : (
