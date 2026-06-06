@@ -5,22 +5,17 @@ import Link from 'next/link';
 import {usePathname} from 'next/navigation';
 import {useEffect, useState} from 'react';
 
-import noticeData from '@/../data/notices.json';
 import {NAV_ITEMS} from '@/constants/site';
-import dayjs from '@/lib/dayjs';
+import {getAnnouncements, hasNewAnnouncement} from '@/lib/getAnnouncements';
 import {useHasMounted} from '@/lib/useHasMounted';
 import {cn} from '@/lib/utils';
-import type {NoticeData} from '@/types/notice';
 
-const {notices} = noticeData as NoticeData;
-
-const hasRecentNotice = () =>
-  notices.some((n) => dayjs().tz().diff(dayjs.tz(n.publishedAt), 'day') < 7);
+const announcements = getAnnouncements();
 
 const SiteHeader = () => {
   const pathname = usePathname();
   const mounted = useHasMounted();
-  const showNoticeDot = mounted && hasRecentNotice();
+  const showNoticeDot = mounted && hasNewAnnouncement(announcements);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -36,7 +31,9 @@ const SiteHeader = () => {
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => {document.body.style.overflow = '';};
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [menuOpen]);
 
   return (
@@ -44,7 +41,7 @@ const SiteHeader = () => {
       <header
         className={cn(
           'sticky top-0 z-50 transition-all duration-300',
-          scrolled || menuOpen ? 'bg-white/70 backdrop-blur-xl' : 'bg-transparent'
+          scrolled || menuOpen ? 'bg-white/70 backdrop-blur-xl' : 'bg-transparent',
         )}
       >
         <div className="mx-auto flex h-14 w-[min(880px,calc(100%-40px))] items-center gap-7">
@@ -66,7 +63,7 @@ const SiteHeader = () => {
                     active
                       ? 'text-ink shadow-[inset_0_-2px_0_var(--color-accent)]'
                       : 'text-muted hover:text-ink-2',
-                    item.disabled && 'cursor-default opacity-50'
+                    item.disabled && 'cursor-default opacity-50',
                   )}
                 >
                   {item.label}
@@ -87,7 +84,14 @@ const SiteHeader = () => {
             aria-label="공지사항"
             className="relative flex size-9 items-center justify-center text-ink-2 max-[640px]:hidden"
           >
-            <Bell size={17} strokeWidth={2.2} />
+            <span
+              className={cn(
+                'origin-top',
+                showNoticeDot && 'animate-[bellRingLoop_4s_ease-in-out_infinite]',
+              )}
+            >
+              <Bell size={17} strokeWidth={2.2} />
+            </span>
             {showNoticeDot && (
               <span aria-hidden className="absolute top-[7px] right-[6px] size-1.5 bg-accent" />
             )}
@@ -101,9 +105,19 @@ const SiteHeader = () => {
               aria-label="공지사항"
               className="relative flex size-9 items-center justify-center text-ink-2"
             >
-              <Bell size={17} strokeWidth={2.2} />
+              <span
+                className={cn(
+                  'origin-top',
+                  showNoticeDot && 'animate-[bellRingLoop_4s_ease-in-out_infinite]',
+                )}
+              >
+                <Bell size={17} strokeWidth={2.2} />
+              </span>
               {showNoticeDot && (
-                <span aria-hidden className="absolute top-[7px] right-[6px] size-1.5 bg-accent" />
+                <span
+                  aria-hidden
+                  className="absolute top-[7px] right-[6px] size-1.5 bg-accent"
+                />
               )}
             </Link>
             <button
@@ -121,15 +135,15 @@ const SiteHeader = () => {
       {/* 모바일 메뉴 — header 밖 fixed, stacking context 영향 없음 */}
       <div
         className={cn(
-          'fixed inset-0 top-14 z-40 min-[641px]:hidden',
+          'fixed inset-x-0 bottom-0 top-14 z-40 min-[641px]:hidden',
           'bg-[var(--color-bg)]',
           'transition-all duration-200 ease-in-out',
           menuOpen
-            ? 'opacity-100 translate-y-0 pointer-events-auto'
-            : 'opacity-0 -translate-y-2 pointer-events-none'
+            ? 'pointer-events-auto translate-y-0 opacity-100'
+            : 'pointer-events-none -translate-y-2 opacity-0',
         )}
       >
-        <nav className="mx-auto w-[min(880px,calc(100%-40px))] flex flex-col pb-4 pt-1">
+        <nav className="mx-auto flex w-[min(880px,calc(100%-40px))] flex-col pb-4 pt-1">
           {NAV_ITEMS.map((item) => {
             const active = pathname === item.href;
             return (
@@ -139,9 +153,9 @@ const SiteHeader = () => {
                 aria-disabled={item.disabled}
                 onClick={() => setMenuOpen(false)}
                 className={cn(
-                  'flex items-center justify-between py-3.5 text-[15px] font-semibold border-b border-line/50',
+                  'flex items-center justify-between border-b border-line/50 py-3.5 text-[15px] font-semibold',
                   active ? 'text-ink' : 'text-ink-2',
-                  item.disabled && 'cursor-default opacity-40'
+                  item.disabled && 'cursor-default opacity-40',
                 )}
               >
                 {item.label}
