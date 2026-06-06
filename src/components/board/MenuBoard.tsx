@@ -1,9 +1,12 @@
 'use client';
 
+import {CalendarDays, MapPin} from 'lucide-react';
 import {useMemo} from 'react';
 
+import {cn} from '@/lib/utils';
+
 import {MENU_CATEGORIES} from '@/constants/menu';
-import {CAFETERIA, isNextWeek, isNextWeekPublished} from '@/lib/menu-policy';
+import {isNextWeek, isNextWeekPublished} from '@/lib/menu-policy';
 import {formatYYYYMMDD} from '@/lib/utils';
 import {useDateStore} from '@/store/useDateStore';
 import {MenuType} from '@/types/menu';
@@ -18,7 +21,7 @@ interface MenuBoardProps {
 }
 
 const MenuBoard = ({menus}: MenuBoardProps) => {
-  const {today, selectedDate} = useDateStore();
+  const {today, selectedDate, setSelectedDate} = useDateStore();
 
   const dayMenus = useMemo(() => {
     const key = formatYYYYMMDD(selectedDate);
@@ -35,16 +38,31 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
       : 'closed';
 
   return (
-    <section className="bg-surface shadow-flat border-line flex flex-col border">
-      <div className="bg-accent text-ink flex items-center justify-between px-6 py-4">
-        <h2 className="text-base font-extrabold">메뉴</h2>
-        <span className="text-ink/60 text-xs font-bold">
-          메가존 구내식당 · {CAFETERIA.openLabel}
-        </span>
+    <section className="bg-surface flex flex-col shadow-[var(--shadow-card)]">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-line">
+        <h2 className="flex items-center gap-2">
+          <span className="text-[14px] font-extrabold tracking-wide text-ink">메뉴</span>
+          <span className="flex items-center gap-1 text-[11px] font-medium text-muted">
+            <MapPin size={10} strokeWidth={2.5} />
+            메가존 구내식당
+          </span>
+        </h2>
+        <button
+          type="button"
+          onClick={() => setSelectedDate(today)}
+          aria-hidden={selectedDate.isSame(today, 'day')}
+          className={cn(
+            'flex items-center gap-1.5 border border-accent/50 bg-accent-soft px-3 py-1 text-[11px] font-bold text-accent-text transition-opacity hover:opacity-70',
+            selectedDate.isSame(today, 'day') ? 'invisible' : 'visible'
+          )}
+        >
+          <CalendarDays size={11} strokeWidth={2.5} />
+          오늘
+        </button>
       </div>
       <DayBar />
       {dayMenus.length > 0 ? (
-        dayMenus.map((menu) => <CourseRow key={menu.category} menu={menu} />)
+        dayMenus.map((menu, i) => <CourseRow key={menu.category} menu={menu} index={i} />)
       ) : (
         <BoardEmpty variant={emptyVariant} />
       )}

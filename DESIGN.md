@@ -6,18 +6,18 @@
 
 ## Product Context
 
-- **무엇인가:** 메가존 임직원용 구내식당 점심 허브 — 날짜·코스별 식단 조회, (예정) 투표·내기 게임·지정타 맛집.
+- **무엇인가:** 메가존 임직원용 구내식당 메뉴 뷰어 — 날짜·코스별 식단 조회, 실시간 운영 상태 표시, Slack 봇 연동.
 - **누구를 위한가:** 과천 지식정보타운 메가존 직원. 점심 직전 "오늘 뭐 먹지"를 30초 안에 해결하려는 사람.
-- **공간/업종:** 사내 유틸리티 + 점심 커뮤니티. 식단표(메뉴판)가 1차 정체성.
+- **공간/업종:** 사내 유틸리티. 식단표(메뉴판)가 1차 정체성.
 - **프로젝트 타입:** 모바일 우선 반응형 웹앱(App UI). 마케팅 사이트 아님.
-- **기억에 남길 한 가지:** "각진 메뉴판" — 둥근 SaaS 카드가 아니라, 옐로우 키컬러 한 점이 박힌 흑백 에디토리얼 식단표.
+- **기억에 남길 한 가지:** 토스 느낌의 쿨 팔레트 — near-black + clean white + cool blue-tint, 경계선 없는 shadow-only 카드.
 
 ## Aesthetic Direction
 
-- **방향:** 비스트로 테라코타 / 에디토리얼 — 푸드 웜톤 리브랜딩(기존 블루 폐기). 메뉴판 무드, 식단 스캔 속도 우선.
-- **데코레이션 레벨:** minimal — 타이포와 여백이 일한다. 그림자는 헤어라인 + 미세 섀도뿐. 장식 블롭·그라데이션 데코 금지.
-- **무드:** 차분한 흑백 베이스에 옐로우 한 점. 진지하지만 친근한 사내 도구.
-- **레퍼런스:** Figma `Db40M9n99faf18mk211nM4`, `docs/design/mockups`.
+- **방향:** 쿨 블루틴트 배경 + near-black 잉크 + shadow-only elevation. 경계선 없음.
+- **데코레이션 레벨:** minimal — 타이포와 여백이 일한다. 그림자로 깊이 표현. 장식 블롭·그라데이션 데코 금지.
+- **무드:** 전문적이고 깔끔한 쿨 팔레트에 옐로우 키컬러 한 점. 진지하지만 친근한 사내 도구.
+- **헤더:** 스크롤 전 투명 → 스크롤 후 `bg-white/70 backdrop-blur-xl` frosted glass 고정.
 
 ## Shape (핵심 규칙)
 
@@ -44,37 +44,46 @@
 
 | 토큰 | Hex | 용도 |
 |---|---|---|
-| `--color-bg` | `#F5F5F3` | 페이지 배경 |
-| `--color-surface` | `#FFFFFF` | 카드 |
-| `--color-surface-warm` | `#F7F7F5` | 따뜻한 면 |
-| `--color-board` / `--color-board-2` | `#111111` / `#242424` | 잉크 밴드(헤더/풋터/다크) / 활성 탭 면 |
-| `--color-ink` / `--color-ink-2` | `#111111` / `#454545` | 본문 / 보조 텍스트 |
-| `--color-muted` | `#8A8A8A` | 캡션/메타 **한정** (본문 대비 미달 — 본문 사용 금지) |
-| `--color-line` | `#E3E3E0` | 헤어라인 보더 |
-| `--color-cream` / `--color-cream-2` | `#F5F5F3` / `#9A9A9A` | 다크 위 텍스트 / 다크 위 보조 |
-| `--color-accent` | `#E2C04C` | 키컬러 (유일한 액센트) |
-| `--color-accent-deep` | `#C2A02E` | 키컬러 딥 |
-| `--color-accent-soft` | `#FAF4D9` | 키컬러 연한 면 |
-| `--color-accent-text` | `#997400` | 라이트 위 옐로우 텍스트 |
-| `--color-highlight` | `#F0E0A0` | 헤드라인 형광펜 |
-| `--color-down` / `--color-down-soft` | `#767676` / `#F1F1EF` | '별로다' 그레이 |
+| `--color-bg` | `#f3f6fb` | 페이지 배경 (cool blue-tint) |
+| `--color-surface` | `#ffffff` | 카드 배경 |
+| `--color-surface-warm` | `#eaf0f8` | 섹션 구분용 cool tint |
+| `--color-board` / `--color-board-2` | `#111720` / `#1a2333` | 다크 카드 (cool deep navy-black) / 활성 탭 면 |
+| `--color-ink` / `--color-ink-2` | `#111720` / `#455060` | 본문 / 보조 텍스트 (cool) |
+| `--color-muted` | `#7e8fa0` | 캡션/메타 **한정** (본문 대비 미달 — 본문 사용 금지) |
+| `--color-line` | `#d8e0ea` | 헤어라인 (cool blue-grey) |
+| `--color-cream` / `--color-cream-2` | `#dde5f0` / `#8fa4bc` | 다크 위 텍스트 / 다크 위 보조 |
+| `--color-accent` | `#e2c04c` | 키컬러 (유일한 액센트) |
+| `--color-accent-deep` | `#c2a02e` | 키컬러 딥 |
+| `--color-accent-soft` | `#faf3d6` | 키컬러 연한 면 |
+| `--color-accent-text` | `#836000` | 라이트 위 옐로우 텍스트 |
+| `--color-highlight` | `#eedfa0` | 헤드라인 형광펜 (코스 카테고리 레이블) |
+| `--color-down` / `--color-down-soft` | `#6e8094` / `#e4eaf3` | 비활성/보조 버튼 그레이 |
 
-- **테마: 라이트 단일 확정.** 다크모드 토글 제거(`next-themes` 미사용).
-- **하드코딩 금지:** `#C9C9C6`, `#B5B5B2` 등 토큰 밖 그레이는 토큰으로 흡수할 것.
+- **테마: 라이트 단일 확정.** 다크모드 없음(`next-themes` 미사용).
+- **하드코딩 금지:** 토큰 밖 그레이(`#B5B5B2` 등)는 토큰으로 흡수할 것.
 
 ## Spacing & Layout
 
 - **base unit:** 4px 계열. 밀도: comfortable(식단은 dense-but-readable).
 - **콘텐츠 컨테이너:** `min(880px, calc(100% - 40px))` (좌우 20px 거터 고정).
-- **홈 그리드:** 데스크톱 `1fr 300px` gap 24 → 920px 미만 1컬럼 스택. 우측 컬럼은 보드 높이에 stretch.
-- **헤딩 반응형:** 히어로 27px → 560px 미만 22px.
-- **그림자:** `--shadow-flat: 0 1px 2px rgba(0,0,0,.05)` 하나만.
+- **홈 그리드:** 데스크톱 `1fr 300px` gap 24 → 920px 미만 1컬럼 스택.
+- **헤딩 반응형:** 히어로 22px → 640px 미만 18px.
+- **최소 뷰포트:** `min-width: 360px`. 360px 미만에서는 `transform: scale(100vw / 360px)` 비율 유지 축소.
+- **그림자 (elevation — border 대체):**
+  - `--shadow-flat: 0 1px 2px rgba(0,0,0,.05)` — 미세 구분
+  - `--shadow-card: 0 1px 3px rgba(0,0,0,.06), 0 4px 20px rgba(0,0,0,.05)` — 카드 기본
+  - `--shadow-card-hover: 0 2px 6px rgba(0,0,0,.08), 0 8px 28px rgba(0,0,0,.07)` — 카드 호버
+- **border 사용 금지:** 카드 경계는 그림자로만 표현. `border` 클래스 추가 전 DESIGN.md 확인 필수.
 
 ## Motion
 
-- **방향:** minimal-functional — 이해를 돕는 전환만. 식단/사이트 크롬은 정적.
-- 예외: 게임 3종(사다리/슬롯/풍선)은 expressive 연출 허용(결과 선계산, 연출만 재생). 상세는 디자인 문서 §모션 스펙.
-- `prefers-reduced-motion` 시 결과 즉시 표시.
+- **방향:** minimal-functional — 이해를 돕는 전환만.
+- **구현된 키프레임** (`src/app/globals.css`):
+  - `fadeUp` — `opacity: 0 + translateY(6px)` → 정상. 0.28s ease. CourseRow 스태거(`animationDelay: index * 70ms`), HeroStatus 아이콘/텍스트.
+  - `fadeIn` — opacity만. 0.3s ease.
+  - `softPulse` — opacity 1↔0.55 반복 (2.4s). HeroStatus 운영 중 `Utensils` 아이콘.
+- **스태거 패턴:** `index * 70ms` delay — 목록 항목이 순차 등장하는 효과.
+- `prefers-reduced-motion` 대응 필요 (미구현 — 향후 추가).
 
 ## Iconography
 
@@ -103,5 +112,11 @@
 
 | Date | Decision | Rationale |
 |------|----------|-----------|
-| 2026-06-05 | 비스트로 테라코타(B안) + 풀 스퀘어 + 옐로우 단일 키컬러 + Pretendard 단일 + 라이트 단일 | `docs/design/2026-06-05-phase1-design.md` (D2/D3/D5) |
-| 2026-06-05 | DESIGN.md를 SSOT로 신설(/design-consultation) | 기존 phase1 디자인 문서 + globals.css 토큰 정리, a11y 규칙 명문화 |
+| 2026-06-05 | DESIGN.md를 SSOT로 신설 | globals.css 토큰 정리, a11y 규칙 명문화 |
+| 2026-06-05 | 풀 스퀘어 + 옐로우 단일 키컬러 + Pretendard 단일 + 라이트 단일 | 사내 유틸리티 무드, 다크모드 미지원 확정 |
+| 2026-06-06 | 쿨 팔레트로 전환 (bg `#f3f6fb`, ink `#111720`) | 웜톤 대비 전문적이고 쿨한 느낌 |
+| 2026-06-06 | border 전면 제거 → shadow-only elevation | `--shadow-card`/`--shadow-card-hover` 두 단계로 깊이 표현 |
+| 2026-06-06 | 투명 헤더 → scroll frosted glass | 메뉴 컨텐츠가 눈에 잘 띄도록, 헤더 강조 최소화 |
+| 2026-06-06 | 햄버거 메뉴 (640px 이하) | 좁은 뷰포트에서 nav 링크 풀스크린 드롭다운 |
+| 2026-06-06 | HeroStatus 동적 헤드라인 | 시각·요일·메뉴 유무 기반 6개 베리에이션, `softPulse` 운영 중 표시 |
+| 2026-06-06 | 코스 카테고리 레이블 형광펜 효과 | `linear-gradient(transparent 40%, --color-highlight 40%)` |

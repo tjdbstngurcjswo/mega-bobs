@@ -6,7 +6,7 @@ const COPY = {
   closed: {
     label: 'CLOSED',
     title: '구내식당이 쉬는 날이에요',
-    body: '그래도 점심은 먹어야죠 — 주변 맛집은 어때요?',
+    body: '',
   },
   comingUp: {
     label: 'COMING UP',
@@ -24,9 +24,11 @@ const BoardEmpty = ({variant}: BoardEmptyProps) => {
         {copy.label}
       </div>
       <h3 className="mt-3 text-[17px] font-extrabold">{copy.title}</h3>
-      <p className="text-muted mt-1.5 text-[13.5px] leading-relaxed">
-        {copy.body}
-      </p>
+      {copy.body && (
+        <p className="text-muted mt-1.5 text-[13.5px] leading-relaxed">
+          {copy.body}
+        </p>
+      )}
     </div>
   );
 };

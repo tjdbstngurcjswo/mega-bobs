@@ -27,5 +27,4 @@ export const HOME_ENTRIES: HomeEntry[] = [
 
 export const FOOTER_LINKS = [
   {label: '공지사항', href: '/notice'},
-  {label: '만든 사람들', href: '/notice#makers'},
 ] as const;
