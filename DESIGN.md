@@ -14,7 +14,7 @@
 
 ## Aesthetic Direction
 
-- **방향:** Toss 톤앤매너 참고 — 쿨 블루틴트 배경 + near-black 잉크 + shadow-only elevation. 경계선 없음.
+- **방향:** 쿨 블루틴트 배경 + near-black 잉크 + shadow-only elevation. 경계선 없음.
 - **데코레이션 레벨:** minimal — 타이포와 여백이 일한다. 그림자로 깊이 표현. 장식 블롭·그라데이션 데코 금지.
 - **무드:** 전문적이고 깔끔한 쿨 팔레트에 옐로우 키컬러 한 점. 진지하지만 친근한 사내 도구.
 - **헤더:** 스크롤 전 투명 → 스크롤 후 `bg-white/70 backdrop-blur-xl` frosted glass 고정.
@@ -114,7 +114,7 @@
 |------|----------|-----------|
 | 2026-06-05 | DESIGN.md를 SSOT로 신설 | globals.css 토큰 정리, a11y 규칙 명문화 |
 | 2026-06-05 | 풀 스퀘어 + 옐로우 단일 키컬러 + Pretendard 단일 + 라이트 단일 | 사내 유틸리티 무드, 다크모드 미지원 확정 |
-| 2026-06-06 | 쿨 팔레트로 전환 (bg `#f3f6fb`, ink `#111720`) | Toss 참고 — 웜톤 대비 전문적이고 쿨한 느낌 |
+| 2026-06-06 | 쿨 팔레트로 전환 (bg `#f3f6fb`, ink `#111720`) | 웜톤 대비 전문적이고 쿨한 느낌 |
 | 2026-06-06 | border 전면 제거 → shadow-only elevation | `--shadow-card`/`--shadow-card-hover` 두 단계로 깊이 표현 |
 | 2026-06-06 | 투명 헤더 → scroll frosted glass | 메뉴 컨텐츠가 눈에 잘 띄도록, 헤더 강조 최소화 |
 | 2026-06-06 | 햄버거 메뉴 (640px 이하) | 좁은 뷰포트에서 nav 링크 풀스크린 드롭다운 |

@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 @theme {
-  /* 디자인 시스템 — DESIGN.md / Toss-tone: near-black + clean white */
+  /* 디자인 시스템 — DESIGN.md / 쿨 팔레트: near-black + clean white + cool blue-tint */
   --color-bg: #f3f6fb; /* 페이지 배경 — cool blue-tint */
   --color-surface: #ffffff; /* 카드 */
   --color-surface-warm: #eaf0f8; /* 섹션 구분용 cool tint */
