@@ -46,6 +46,12 @@
   50%       { opacity: 0.55; }
 }
 
+@keyframes voteBounce {
+  0%, 100% { transform: scale(1); }
+  40%       { transform: scale(1.25); }
+  60%       { transform: scale(0.95); }
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-ink);

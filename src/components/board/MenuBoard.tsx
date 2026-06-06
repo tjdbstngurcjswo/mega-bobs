@@ -3,17 +3,19 @@
 import {CalendarDays, MapPin} from 'lucide-react';
 import {useMemo} from 'react';
 
-import {cn} from '@/lib/utils';
-
 import {MENU_CATEGORIES} from '@/constants/menu';
-import {isNextWeek, isNextWeekPublished} from '@/lib/menu-policy';
-import {formatYYYYMMDD} from '@/lib/utils';
+import dayjs from '@/lib/dayjs';
+import {useVotes} from '@/lib/hooks/useVote';
+import {isAfterClose, isNextWeek, isNextWeekPublished} from '@/lib/menu-policy';
+import {useHasMounted} from '@/lib/useHasMounted';
+import {cn, formatYYYYMMDD} from '@/lib/utils';
 import {useDateStore} from '@/store/useDateStore';
 import {MenuType} from '@/types/menu';
 
 import BoardEmpty from './BoardEmpty';
 import CourseRow from './CourseRow';
 import DayBar from './DayBar';
+import VoteBar from './VoteBar';
 
 interface MenuBoardProps {
   /** 서버에서 페치한 ±1주 메뉴 — SSR 시점에 바로 렌더해 하이드레이션 시프트를 방지 */
@@ -22,6 +24,10 @@ interface MenuBoardProps {
 
 const MenuBoard = ({menus}: MenuBoardProps) => {
   const {today, selectedDate, setSelectedDate} = useDateStore();
+  const mounted = useHasMounted();
+  const dateStr = formatYYYYMMDD(selectedDate);
+  const {voteMap, submitVote} = useVotes(dateStr);
+  const afterClose = mounted && isAfterClose(dayjs().tz());
 
   const dayMenus = useMemo(() => {
     const key = formatYYYYMMDD(selectedDate);
@@ -62,7 +68,21 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
       </div>
       <DayBar />
       {dayMenus.length > 0 ? (
-        dayMenus.map((menu, i) => <CourseRow key={menu.category} menu={menu} index={i} />)
+        dayMenus.map((menu, i) => {
+          const menuKey = `${menu.date}_${menu.category}`;
+          return (
+            <div key={menu.category}>
+              <CourseRow menu={menu} index={i} />
+              {afterClose && (
+                <VoteBar
+                  menuKey={menuKey}
+                  result={voteMap[menuKey]}
+                  onVote={(type) => submitVote(menuKey, type)}
+                />
+              )}
+            </div>
+          );
+        })
       ) : (
         <BoardEmpty variant={emptyVariant} />
       )}
