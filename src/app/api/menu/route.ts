@@ -1,43 +1,27 @@
 import {NextRequest} from 'next/server';
 
-import {supabaseServer} from '@/lib/supabase-server';
+import getMenu from '@/lib/api/getMenu';
+
+const json = (body: unknown, status: number) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: {'Content-Type': 'application/json'},
+  });
 
 export async function GET(req: NextRequest) {
   const apiKey = req.headers.get('x-api-key');
-
-  if (apiKey !== process.env.API_KEY) {
-    return new Response(JSON.stringify({message: 'Unauthorized'}), {
-      status: 401,
-      headers: {'Content-Type': 'application/json'},
-    });
-  }
+  if (apiKey !== process.env.API_KEY) return json({message: 'Unauthorized'}, 401);
 
   const {searchParams} = new URL(req.url);
   const start = searchParams.get('start');
   const end = searchParams.get('end');
+  if (!start || !end) return json({message: 'Invalid params'}, 400);
 
-  if (!start || !end) {
-    return new Response(JSON.stringify({message: 'Invalid params'}), {
-      status: 400,
-      headers: {'Content-Type': 'application/json'},
-    });
+  try {
+    const data = await getMenu({start, end});
+    return json(data, 200);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Internal error';
+    return json({message}, 500);
   }
-
-  const {data, error} = await supabaseServer
-    .from('daily_menu')
-    .select('*')
-    .gte('date', start)
-    .lte('date', end);
-
-  if (error) {
-    return new Response(JSON.stringify({message: error.message}), {
-      status: 500,
-      headers: {'Content-Type': 'application/json'},
-    });
-  }
-
-  return new Response(JSON.stringify(data), {
-    status: 200,
-    headers: {'Content-Type': 'application/json'},
-  });
 }
