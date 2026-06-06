@@ -1,6 +1,7 @@
 import {ErrorBoundary, SiteFooter, SiteHeader} from '@/components/@shared';
 import MenuBoard from '@/components/board/MenuBoard';
 import HeroDate from '@/components/home/HeroDate';
+import HeroStatus from '@/components/home/HeroStatus';
 import HomeSide from '@/components/home/HomeSide';
 import getMenu from '@/lib/api/getMenu';
 import dayjs from '@/lib/dayjs';
@@ -19,16 +20,12 @@ export default async function Home() {
     <>
       <SiteHeader />
       <main className="mx-auto w-[min(880px,calc(100%-40px))] flex-1">
-        <section className="pt-8 pb-5">
-          <span className="inline-block bg-accent-soft px-2.5 py-1 text-xs font-extrabold tracking-wide text-accent-text">
-            <HeroDate /> · 과천 지식정보타운
-          </span>
-          <h1 className="mt-3 text-[27px] font-extrabold tracking-tight max-[560px]:text-[22px]">
-            오늘{' '}
-            <mark className="px-1 text-ink [background:linear-gradient(transparent_58%,var(--color-highlight)_58%)]">
-              점심
-            </mark>
-            , 정하셨나요?
+        <section className="pt-12 pb-6">
+          <p className="text-[11.5px] font-semibold tracking-[0.06em] text-muted uppercase">
+            <HeroDate />
+          </p>
+          <h1 className="mt-3 text-[22px] font-extrabold tracking-[-0.02em] text-ink max-[560px]:text-[18px]">
+            <HeroStatus menus={menus} />
           </h1>
         </section>
         <ErrorBoundary>

@@ -22,26 +22,20 @@ const EntryInner = ({no, label, desc, disabled}: {no: string; label: string; des
   </>
 );
 
-const ENTRY_CLASS = 'shadow-flat flex min-h-[62px] flex-1 items-center gap-3.5 border border-line bg-surface px-4';
+const ENTRY_CLASS = 'flex min-h-[62px] flex-1 items-center gap-3.5 bg-surface px-4 shadow-[var(--shadow-card)]';
 
 const HomeSide = () => (
   <aside className="flex flex-col gap-4">
-    <div className="relative overflow-hidden bg-board p-5 text-cream">
-      <span
-        aria-hidden
-        className="absolute right-3 -bottom-7 text-[110px] leading-none font-black text-cream opacity-10"
-      >
-        ?
-      </span>
-      <h3 className="text-lg font-extrabold">오늘 뭐 먹지?</h3>
-      <p className="mt-1.5 text-[13px] leading-relaxed text-cream-2">
+    <div className="bg-surface p-6 shadow-[var(--shadow-card)]">
+      <h3 className="text-[14px] font-bold text-ink-2">오늘 뭐 먹지?</h3>
+      <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted">
         구내식당과 지정타 맛집 중에서
         <br />
         점심 메뉴를 골라드려요
       </p>
       <button
         disabled
-        className="relative mt-4 w-full cursor-default bg-accent py-3 text-[15px] font-extrabold text-ink disabled:opacity-60"
+        className="mt-4 w-full cursor-default bg-down-soft py-2.5 text-[12.5px] font-semibold text-muted disabled:opacity-60"
       >
         랜덤 추천 받기 (준비 중)
       </button>

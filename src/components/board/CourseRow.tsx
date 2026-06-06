@@ -3,15 +3,22 @@ import {MenuType} from '@/types/menu';
 
 interface CourseRowProps {
   menu: MenuType;
+  index?: number;
 }
 
-const CourseRow = ({menu}: CourseRowProps) => {
+const CourseRow = ({menu, index = 0}: CourseRowProps) => {
   const total = menu.items.reduce((sum, item) => sum + (item.kcal ?? 0), 0);
 
   return (
-    <div className="border-line border-b px-6 py-5 last:border-b-0">
+    <div
+      className="border-line border-b px-6 py-5 last:border-b-0"
+      style={{animation: 'fadeUp 0.28s ease both', animationDelay: `${index * 70}ms`}}
+    >
       <div className="flex items-baseline gap-2.5">
-        <span className="text-accent-text text-[11px] font-extrabold tracking-wider">
+        <span
+          className="text-accent-text text-[11px] font-extrabold tracking-wider"
+          style={{background: 'linear-gradient(transparent 40%, var(--color-highlight) 40%)', paddingInline: '2px'}}
+        >
           {MenuCategoryLabel[menu.category].ko}
         </span>
         {total > 0 && (

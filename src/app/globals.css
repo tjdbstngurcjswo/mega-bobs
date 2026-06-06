@@ -1,25 +1,25 @@
 @import 'tailwindcss';
 
 @theme {
-  /* 디자인 시스템 — docs/design/2026-06-05-phase1-design.md §1 */
-  --color-bg: #f5f5f3; /* 페이지 배경 */
+  /* 디자인 시스템 — DESIGN.md / 쿨 팔레트: near-black + clean white + cool blue-tint */
+  --color-bg: #f3f6fb; /* 페이지 배경 — cool blue-tint */
   --color-surface: #ffffff; /* 카드 */
-  --color-surface-warm: #f7f7f5;
-  --color-board: #111111; /* 잉크 — 헤더 밴드/다크 카드 */
-  --color-board-2: #242424; /* 활성 탭 면 */
-  --color-ink: #111111;
-  --color-ink-2: #454545;
-  --color-muted: #8a8a8a;
-  --color-line: #e3e3e0; /* 헤어라인 보더 */
-  --color-cream: #f5f5f3; /* 다크 위 텍스트 */
-  --color-cream-2: #9a9a9a;
-  --color-accent: #e2c04c; /* 키컬러 — 저채도 옐로우 */
+  --color-surface-warm: #eaf0f8; /* 섹션 구분용 cool tint */
+  --color-board: #111720; /* 다크 카드 — cool deep navy-black */
+  --color-board-2: #1a2333; /* 활성 탭 면 */
+  --color-ink: #111720; /* 본문 */
+  --color-ink-2: #455060; /* 보조 텍스트 — cool */
+  --color-muted: #7e8fa0; /* 캡션/메타 — cool */
+  --color-line: #d8e0ea; /* 헤어라인 — cool blue-grey */
+  --color-cream: #dde5f0; /* 다크 위 텍스트 */
+  --color-cream-2: #8fa4bc;
+  --color-accent: #e2c04c; /* 키컬러 — 옐로우 (브랜드 유지) */
   --color-accent-deep: #c2a02e;
-  --color-accent-soft: #faf4d9;
-  --color-accent-text: #997400; /* 라이트 배경 위 옐로우 텍스트 */
-  --color-highlight: #f0e0a0; /* 헤드라인 형광펜 */
-  --color-down: #767676;
-  --color-down-soft: #f1f1ef;
+  --color-accent-soft: #faf3d6;
+  --color-accent-text: #836000; /* 라이트 배경 위 */
+  --color-highlight: #eedfa0; /* 헤드라인 형광펜 */
+  --color-down: #6e8094;
+  --color-down-soft: #e4eaf3;
 
   --font-sans: var(--font-pretendard), -apple-system, sans-serif;
 
@@ -27,6 +27,23 @@
   --radius-none: 0;
 
   --shadow-flat: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 20px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover: 0 2px 6px rgba(0, 0, 0, 0.08), 0 8px 28px rgba(0, 0, 0, 0.07);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes softPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
 }
 
 body {
@@ -34,4 +51,15 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
   word-break: keep-all;
+  min-width: 360px;
+}
+
+@media (max-width: 360px) {
+  html {
+    overflow-x: hidden;
+  }
+  body {
+    transform-origin: 0 0;
+    transform: scale(calc(100vw / 360px));
+  }
 }

@@ -7,19 +7,26 @@ import {useDateStore} from '@/store/useDateStore';
 
 const DOW = ['일', '월', '화', '수', '목', '금', '토'];
 
-const chipBorder = (isSelected: boolean, isToday: boolean) => {
-  if (!isSelected) return 'border-line bg-surface';
-  return isToday ? 'border-accent bg-accent' : 'border-ink bg-ink';
+const chipBg = (isSelected: boolean, isToday: boolean) => {
+  if (!isSelected) return 'bg-transparent hover:bg-surface-warm';
+  return isToday ? 'bg-accent' : 'bg-ink';
 };
 
-const labelClass = (isSelected: boolean, isToday: boolean, isPast: boolean) => {
+const dowColor = (dow: number, isPast: boolean) => {
+  if (isPast) return 'text-[#B5B5B2]';
+  if (dow === 0) return 'text-red-500';
+  if (dow === 6) return 'text-blue-500';
+  return null;
+};
+
+const labelClass = (isSelected: boolean, isToday: boolean, isPast: boolean, dow: number) => {
   if (isSelected) return isToday ? 'text-ink/55' : 'text-white/60';
-  return isPast ? 'text-[#B5B5B2]' : 'text-muted';
+  return dowColor(dow, isPast) ?? 'text-muted';
 };
 
-const dateClass = (isSelected: boolean, isToday: boolean, isPast: boolean) => {
+const dateClass = (isSelected: boolean, isToday: boolean, isPast: boolean, dow: number) => {
   if (isSelected) return isToday ? 'text-ink' : 'text-white';
-  return isPast ? 'text-[#B5B5B2]' : 'text-ink';
+  return dowColor(dow, isPast) ?? 'text-ink';
 };
 
 interface DayChipProps {
@@ -42,24 +49,24 @@ const DayChip = ({day, today, selectedDate, onSelect, mounted}: DayChipProps) =>
       onClick={() => onSelect(day)}
       aria-pressed={isSelected}
       className={cn(
-        'flex flex-1 cursor-pointer flex-col items-center gap-0.5 border py-1.5',
-        chipBorder(isSelected, isToday)
+        'flex flex-1 cursor-pointer flex-col items-center gap-0.5 py-1.5 transition-colors duration-150',
+        chipBg(isSelected, isToday)
       )}
     >
       <span
         suppressHydrationWarning
         className={cn(
           'text-[10px] font-bold',
-          labelClass(isSelected, isToday, isPast)
+          labelClass(isSelected, isToday, isPast, day.day())
         )}
       >
-        {isToday ? '오늘' : DOW[day.day()]}
+        {DOW[day.day()]}
       </span>
       <span
         suppressHydrationWarning
         className={cn(
           'text-[13.5px] font-extrabold',
-          dateClass(isSelected, isToday, isPast)
+          dateClass(isSelected, isToday, isPast, day.day())
         )}
       >
         {day.date()}
@@ -85,7 +92,7 @@ const DayBar = () => {
         type="button"
         onClick={goToPrevWeek}
         aria-label="지난주 메뉴 보기"
-        className="border-line text-ink flex h-11 w-7 shrink-0 cursor-pointer items-center justify-center border"
+        className="text-muted hover:text-ink flex h-11 w-7 shrink-0 cursor-pointer items-center justify-center transition-transform duration-100 active:scale-75"
       >
         ‹
       </button>
@@ -105,7 +112,7 @@ const DayBar = () => {
         type="button"
         onClick={goToNextWeek}
         aria-label="다음 주 메뉴 보기"
-        className="border-line text-ink flex h-11 w-7 shrink-0 cursor-pointer items-center justify-center border"
+        className="text-muted hover:text-ink flex h-11 w-7 shrink-0 cursor-pointer items-center justify-center transition-transform duration-100 active:scale-75"
       >
         ›
       </button>
