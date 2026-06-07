@@ -61,6 +61,7 @@ SUPABASE_SERVICE_ROLE_KEY=
 REVALIDATE_SECRET=
 API_KEY=
 CRON_SECRET=
+NEXT_PUBLIC_SITE_URL=
 ```
 
 ### 설치 및 실행
@@ -151,6 +152,7 @@ src/
     ├── announcementPolicy.ts # 신규 공지 여부 판별 함수
     ├── cn.ts             # cn() 클래스 병합 유틸
     ├── date.ts           # formatYYYYMMDD(), getWeekDays()
+    ├── jsonLd.ts         # JSON-LD 구조화 데이터 생성 유틸
     ├── menuPolicy.ts     # 운영 시각 판별 함수
     └── voterId.ts        # 익명 투표자 ID 생성·관리
 ```
