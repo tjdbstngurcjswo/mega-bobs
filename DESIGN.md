@@ -2,7 +2,6 @@
 
 > 단일 진실 소스(SSOT). 모든 시각/UI 결정은 이 문서를 따른다.
 > 토큰 구현 기준은 [`src/app/globals.css`](src/app/globals.css)의 `@theme` 블록.
-> 화면별 상세 스펙·엣지케이스는 [`docs/design/2026-06-05-phase1-design.md`](docs/design/2026-06-05-phase1-design.md) 참조.
 
 ## Product Context
 
@@ -10,7 +9,7 @@
 - **누구를 위한가:** 과천 지식정보타운 메가존 직원. 점심 직전 "오늘 뭐 먹지"를 30초 안에 해결하려는 사람.
 - **공간/업종:** 사내 유틸리티. 식단표(메뉴판)가 1차 정체성.
 - **프로젝트 타입:** 모바일 우선 반응형 웹앱(App UI). 마케팅 사이트 아님.
-- **기억에 남길 한 가지:** 토스 느낌의 쿨 팔레트 — near-black + clean white + cool blue-tint, 경계선 없는 shadow-only 카드.
+- **기억에 남길 한 가지:** 쿨 팔레트 — near-black + clean white + cool blue-tint, 경계선 없는 shadow-only 카드.
 
 ## Aesthetic Direction
 
@@ -42,22 +41,22 @@
 - **규칙 1:** 옐로우 배경 위 텍스트는 **잉크(#111)**, 화이트 금지.
 - **규칙 2:** 라이트 배경 위 옐로우 텍스트는 `--accent-text #997400` 사용(대비 확보용).
 
-| 토큰 | Hex | 용도 |
-|---|---|---|
-| `--color-bg` | `#f3f6fb` | 페이지 배경 (cool blue-tint) |
-| `--color-surface` | `#ffffff` | 카드 배경 |
-| `--color-surface-warm` | `#eaf0f8` | 섹션 구분용 cool tint |
-| `--color-board` / `--color-board-2` | `#111720` / `#1a2333` | 다크 카드 (cool deep navy-black) / 활성 탭 면 |
-| `--color-ink` / `--color-ink-2` | `#111720` / `#455060` | 본문 / 보조 텍스트 (cool) |
-| `--color-muted` | `#7e8fa0` | 캡션/메타 **한정** (본문 대비 미달 — 본문 사용 금지) |
-| `--color-line` | `#d8e0ea` | 헤어라인 (cool blue-grey) |
-| `--color-cream` / `--color-cream-2` | `#dde5f0` / `#8fa4bc` | 다크 위 텍스트 / 다크 위 보조 |
-| `--color-accent` | `#e2c04c` | 키컬러 (유일한 액센트) |
-| `--color-accent-deep` | `#c2a02e` | 키컬러 딥 |
-| `--color-accent-soft` | `#faf3d6` | 키컬러 연한 면 |
-| `--color-accent-text` | `#836000` | 라이트 위 옐로우 텍스트 |
-| `--color-highlight` | `#eedfa0` | 헤드라인 형광펜 (코스 카테고리 레이블) |
-| `--color-down` / `--color-down-soft` | `#6e8094` / `#e4eaf3` | 비활성/보조 버튼 그레이 |
+| 토큰                                 | Hex                   | 용도                                                 |
+| ------------------------------------ | --------------------- | ---------------------------------------------------- |
+| `--color-bg`                         | `#f3f6fb`             | 페이지 배경 (cool blue-tint)                         |
+| `--color-surface`                    | `#ffffff`             | 카드 배경                                            |
+| `--color-surface-warm`               | `#eaf0f8`             | 섹션 구분용 cool tint                                |
+| `--color-board` / `--color-board-2`  | `#111720` / `#1a2333` | 다크 카드 (cool deep navy-black) / 활성 탭 면        |
+| `--color-ink` / `--color-ink-2`      | `#111720` / `#455060` | 본문 / 보조 텍스트 (cool)                            |
+| `--color-muted`                      | `#7e8fa0`             | 캡션/메타 **한정** (본문 대비 미달 — 본문 사용 금지) |
+| `--color-line`                       | `#d8e0ea`             | 헤어라인 (cool blue-grey)                            |
+| `--color-cream` / `--color-cream-2`  | `#dde5f0` / `#8fa4bc` | 다크 위 텍스트 / 다크 위 보조                        |
+| `--color-accent`                     | `#e2c04c`             | 키컬러 (유일한 액센트)                               |
+| `--color-accent-deep`                | `#c2a02e`             | 키컬러 딥                                            |
+| `--color-accent-soft`                | `#faf3d6`             | 키컬러 연한 면                                       |
+| `--color-accent-text`                | `#836000`             | 라이트 위 옐로우 텍스트                              |
+| `--color-highlight`                  | `#eedfa0`             | 헤드라인 형광펜 (코스 카테고리 레이블)               |
+| `--color-down` / `--color-down-soft` | `#6e8094` / `#e4eaf3` | 비활성/보조 버튼 그레이                              |
 
 - **테마: 라이트 단일 확정.** 다크모드 없음(`next-themes` 미사용).
 - **하드코딩 금지:** 토큰 밖 그레이(`#B5B5B2` 등)는 토큰으로 흡수할 것.
@@ -92,31 +91,11 @@
 
 ## Accessibility (규칙 — QA 시 위반 플래그)
 
-- **대비:** 본문 텍스트 ≥ 4.5:1. `ink #111 on bg #F5F5F3 ≈ 17:1` OK. `muted #8A8A8A`는 캡션 한정(본문 대비 미달). 라이트 위 옐로우는 `#997400`.
+- **대비:** 본문 텍스트 ≥ 4.5:1. `ink #111720 on bg #f3f6fb ≈ 16:1` OK. `muted #7e8fa0`는 캡션 한정(본문 대비 미달). 라이트 위 옐로우는 `#836000`(`--color-accent-text`).
 - **터치 타깃:** 모바일 인터랙티브 요소 ≥ 44px.
 - **포커스:** 키보드 내비 가능 + 보이는 `focus-visible` 링 제공. 슬롯 등 게임은 스페이스바 지원.
 - **상태 표시:** `aria-pressed`/`aria-disabled`/`aria-label`/`aria-hidden`(장식) 일관 적용.
 
 ### 현재 알려진 위반 (수정 대상)
 
-| 항목 | 위치 | 비고 |
-|---|---|---|
-| © `#6E6E6E` on `#111` ≈ 3.7:1 (미달) | [SiteFooter.tsx:15](src/components/site/SiteFooter.tsx#L15) | `--color-cream-2`(#9A9A9A, ~6.7:1)로 교체 |
-| `muted #8A8A8A` 본문 사용 ~3.5:1 | CourseRow, BoardEmpty, HomeSide | 본문은 `ink-2`, 메타만 muted |
-| 10.5px 이하 초소형 본문 | [HomeSide.tsx:47](src/components/home/HomeSide.tsx#L47) 등 | 본문 13px↑, 메타 한정 |
-| 터치 타깃 <44px (종 36px, 데이 칩) | SiteHeader, DayBar | 모바일에서 44px 확보 |
-| 명시적 `focus-visible` 없음 | 전역 | 키컬러 아웃라인 링 추가 |
-| 하드코딩 그레이 `#C9C9C6`/`#B5B5B2` | CourseRow:34, DayBar | 토큰화 |
-
-## Decisions Log
-
-| Date | Decision | Rationale |
-|------|----------|-----------|
-| 2026-06-05 | DESIGN.md를 SSOT로 신설 | globals.css 토큰 정리, a11y 규칙 명문화 |
-| 2026-06-05 | 풀 스퀘어 + 옐로우 단일 키컬러 + Pretendard 단일 + 라이트 단일 | 사내 유틸리티 무드, 다크모드 미지원 확정 |
-| 2026-06-06 | 쿨 팔레트로 전환 (bg `#f3f6fb`, ink `#111720`) | 웜톤 대비 전문적이고 쿨한 느낌 |
-| 2026-06-06 | border 전면 제거 → shadow-only elevation | `--shadow-card`/`--shadow-card-hover` 두 단계로 깊이 표현 |
-| 2026-06-06 | 투명 헤더 → scroll frosted glass | 메뉴 컨텐츠가 눈에 잘 띄도록, 헤더 강조 최소화 |
-| 2026-06-06 | 햄버거 메뉴 (640px 이하) | 좁은 뷰포트에서 nav 링크 풀스크린 드롭다운 |
-| 2026-06-06 | HeroStatus 동적 헤드라인 | 시각·요일·메뉴 유무 기반 6개 베리에이션, `softPulse` 운영 중 표시 |
-| 2026-06-06 | 코스 카테고리 레이블 형광펜 효과 | `linear-gradient(transparent 40%, --color-highlight 40%)` |
+없음.

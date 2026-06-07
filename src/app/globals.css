@@ -28,64 +28,132 @@
 
   --shadow-flat: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 20px rgba(0, 0, 0, 0.05);
-  --shadow-card-hover: 0 2px 6px rgba(0, 0, 0, 0.08), 0 8px 28px rgba(0, 0, 0, 0.07);
+  --shadow-card-hover:
+    0 2px 6px rgba(0, 0, 0, 0.08), 0 8px 28px rgba(0, 0, 0, 0.07);
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes softPulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.55; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
 }
 
 @keyframes slideFromRight {
-  from { opacity: 0; transform: translateX(24px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes slideFromLeft {
-  from { opacity: 0; transform: translateX(-24px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes voteBounce {
-  0%, 100% { transform: scale(1); }
-  40%       { transform: scale(1.25); }
-  60%       { transform: scale(0.95); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.25);
+  }
+  60% {
+    transform: scale(0.95);
+  }
 }
 
 @keyframes thumbsUpBounce {
-  0%   { transform: translateY(0)     scale(1)   rotate(0deg); }
-  20%  { transform: translateY(-10px) scale(1.5) rotate(-15deg); }
-  50%  { transform: translateY(-5px)  scale(1.2) rotate(-6deg); }
-  70%  { transform: translateY(-8px)  scale(1.35) rotate(-11deg); }
-  100% { transform: translateY(0)     scale(1)   rotate(0deg); }
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  20% {
+    transform: translateY(-10px) scale(1.5) rotate(-15deg);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.2) rotate(-6deg);
+  }
+  70% {
+    transform: translateY(-8px) scale(1.35) rotate(-11deg);
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
 }
 
 @keyframes thumbsDownBounce {
-  0%   { transform: translateY(0)    scale(1)   rotate(0deg); }
-  20%  { transform: translateY(10px) scale(1.5) rotate(15deg); }
-  50%  { transform: translateY(5px)  scale(1.2) rotate(6deg); }
-  70%  { transform: translateY(8px)  scale(1.35) rotate(11deg); }
-  100% { transform: translateY(0)    scale(1)   rotate(0deg); }
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  20% {
+    transform: translateY(10px) scale(1.5) rotate(15deg);
+  }
+  50% {
+    transform: translateY(5px) scale(1.2) rotate(6deg);
+  }
+  70% {
+    transform: translateY(8px) scale(1.35) rotate(11deg);
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
 }
 
 @keyframes bellRingLoop {
   /* 0~18% 실제 흔들림 (~0.7s @ 4s cycle), 나머지는 정지 */
-  0%   { transform: rotate(0deg); }
-  4%   { transform: rotate(-16deg); }
-  9%   { transform: rotate(14deg); }
-  13%  { transform: rotate(-8deg); }
-  16%  { transform: rotate(6deg); }
-  18%, 100% { transform: rotate(0deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  4% {
+    transform: rotate(-16deg);
+  }
+  9% {
+    transform: rotate(14deg);
+  }
+  13% {
+    transform: rotate(-8deg);
+  }
+  16% {
+    transform: rotate(6deg);
+  }
+  18%,
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 body {
@@ -94,6 +162,11 @@ body {
   font-family: var(--font-sans);
   word-break: keep-all;
   min-width: 360px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 @media (max-width: 360px) {
