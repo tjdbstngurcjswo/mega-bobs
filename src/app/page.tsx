@@ -5,6 +5,8 @@ import getMenu from '@/api/getMenu';
 import dayjs from '@/lib/dayjs';
 import { formatYYYYMMDD, getWeekDays } from '@/utils/date';
 
+import { heroDatelabelClass, heroTitleClass } from './page.styles';
+
 export const revalidate = 21600;
 
 export default async function Home() {
@@ -19,10 +21,10 @@ export default async function Home() {
       <SiteHeader />
       <main className="mx-auto w-[min(880px,calc(100%-40px))] flex-1">
         <section className="pt-12 pb-6">
-          <p className="text-muted text-[11.5px] font-semibold tracking-[0.06em] uppercase">
+          <p className={heroDatelabelClass}>
             <HeroDate />
           </p>
-          <h1 className="text-ink mt-3 text-[22px] font-extrabold tracking-[-0.02em] max-[560px]:text-[18px]">
+          <h1 className={heroTitleClass}>
             <HeroStatus menus={menus} />
           </h1>
         </section>

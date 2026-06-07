@@ -11,11 +11,19 @@ import { hasNewAnnouncement } from '@/utils/announcementPolicy';
 import { useHasMounted } from '@/hooks/useHasMounted';
 
 import {
+  bellDotClass,
   bellSpanClass,
+  desktopBellLinkClass,
+  desktopNavClass,
   desktopNavLinkClass,
   headerClass,
+  logoLinkClass,
+  mobileBellLinkClass,
+  mobileMenuButtonClass,
+  mobileNavBadgeClass,
   mobileNavLinkClass,
   mobileOverlayClass,
+  navBadgeClass,
 } from './SiteHeader.styles';
 
 const SiteHeader = () => {
@@ -50,15 +58,12 @@ const SiteHeader = () => {
     <>
       <header className={headerClass(scrolled, menuOpen)}>
         <div className="mx-auto flex h-14 w-[min(880px,calc(100%-40px))] items-center gap-7">
-          <Link
-            href="/"
-            className="text-ink text-[17px] font-extrabold tracking-tight"
-          >
+          <Link href="/" className={logoLinkClass}>
             MegaBobs
           </Link>
 
           {/* 데스크톱 nav */}
-          <nav className="flex flex-1 gap-0.5 overflow-x-auto whitespace-nowrap max-[640px]:hidden">
+          <nav className={desktopNavClass}>
             {NAV_ITEMS.map((item) => {
               const active = pathname === item.href;
               return (
@@ -70,9 +75,7 @@ const SiteHeader = () => {
                 >
                   {item.label}
                   {item.disabled && (
-                    <span className="bg-down-soft text-down px-1 py-px text-[9px] font-bold">
-                      준비중
-                    </span>
+                    <span className={navBadgeClass}>준비중</span>
                   )}
                 </Link>
               );
@@ -84,16 +87,13 @@ const SiteHeader = () => {
             href="/notice"
             title="공지사항"
             aria-label="공지사항"
-            className="text-ink-2 relative flex size-9 items-center justify-center max-[640px]:hidden"
+            className={desktopBellLinkClass}
           >
             <span className={bellSpanClass(showNoticeDot)}>
               <Bell size={17} strokeWidth={2.2} />
             </span>
             {showNoticeDot && (
-              <span
-                aria-hidden
-                className="bg-accent absolute top-[7px] right-[6px] size-1.5"
-              />
+              <span aria-hidden className={bellDotClass} />
             )}
           </Link>
 
@@ -103,23 +103,20 @@ const SiteHeader = () => {
               href="/notice"
               title="공지사항"
               aria-label="공지사항"
-              className="text-ink-2 relative flex size-11 items-center justify-center"
+              className={mobileBellLinkClass}
             >
               <span className={bellSpanClass(showNoticeDot)}>
                 <Bell size={17} strokeWidth={2.2} />
               </span>
               {showNoticeDot && (
-                <span
-                  aria-hidden
-                  className="bg-accent absolute top-[7px] right-[6px] size-1.5"
-                />
+                <span aria-hidden className={bellDotClass} />
               )}
             </Link>
             <button
               type="button"
               aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
               onClick={() => setMenuOpen((v) => !v)}
-              className="text-ink-2 flex size-11 items-center justify-center"
+              className={mobileMenuButtonClass}
             >
               {menuOpen ? (
                 <X size={20} strokeWidth={2} />
@@ -146,9 +143,7 @@ const SiteHeader = () => {
               >
                 {item.label}
                 {item.disabled && (
-                  <span className="bg-down-soft text-down px-1.5 py-0.5 text-[9px] font-bold">
-                    준비중
-                  </span>
+                  <span className={mobileNavBadgeClass}>준비중</span>
                 )}
               </Link>
             );

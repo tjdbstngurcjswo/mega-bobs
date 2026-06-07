@@ -7,15 +7,23 @@ import { MenuCategoryLabel } from '@/constants/menu';
 import { MenuBoardCourseRowProps } from './MenuBoardCourseRow.types';
 
 import {
+  TOOLTIP,
+  courseRowClass,
+  courseRowHeaderClass,
+  courseLabelClass,
   downVoteButtonClass,
   downVoteIconClass,
+  itemKcalClass,
+  itemNameClass,
+  itemSeparatorClass,
+  itemsTextClass,
+  kcalClass,
   pickButtonClass,
+  tabularNumsClass,
   upVoteButtonClass,
   upVoteIconClass,
+  voteGroupClass,
 } from './MenuBoardCourseRow.styles';
-
-const TOOLTIP =
-  "pointer-events-none invisible absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-2 py-1 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-['']";
 
 const MenuBoardCourseRow = ({
   menu,
@@ -37,15 +45,15 @@ const MenuBoardCourseRow = ({
 
   return (
     <div
-      className="px-5 py-6"
+      className={courseRowClass}
       style={{
         animation: 'fadeUp 0.28s ease both',
         animationDelay: `${index * 70}ms`,
       }}
     >
-      <div className="mb-1.5 flex items-end gap-2">
+      <div className={courseRowHeaderClass}>
         <span
-          className="text-accent-text text-[13px] font-extrabold tracking-wider"
+          className={courseLabelClass}
           style={{
             background:
               'linear-gradient(transparent 40%, var(--color-highlight) 40%)',
@@ -55,9 +63,7 @@ const MenuBoardCourseRow = ({
           {MenuCategoryLabel[menu.category].ko}
         </span>
         {total > 0 && (
-          <span className="text-muted text-[11px] font-semibold">
-            {total} kcal
-          </span>
+          <span className={kcalClass}>{total} kcal</span>
         )}
         {pick?.show && (
           <button
@@ -73,7 +79,7 @@ const MenuBoardCourseRow = ({
           </button>
         )}
         {vote?.show && (
-          <div className="ml-auto flex gap-1">
+          <div className={voteGroupClass}>
             <button
               type="button"
               onClick={() => handleVote('up')}
@@ -85,7 +91,7 @@ const MenuBoardCourseRow = ({
               <span className={upVoteIconClass(animating)}>
                 <ThumbsUp size={11} strokeWidth={2.5} />
               </span>
-              <span className="tabular-nums">
+              <span className={tabularNumsClass}>
                 {vote.result?.up_count ?? 0}
               </span>
               <span className={TOOLTIP}>맛있었어요</span>
@@ -101,7 +107,7 @@ const MenuBoardCourseRow = ({
               <span className={downVoteIconClass(animating)}>
                 <ThumbsDown size={11} strokeWidth={2.5} />
               </span>
-              <span className="tabular-nums">
+              <span className={tabularNumsClass}>
                 {vote.result?.down_count ?? 0}
               </span>
               <span className={TOOLTIP}>별로였어요</span>
@@ -109,17 +115,15 @@ const MenuBoardCourseRow = ({
           </div>
         )}
       </div>
-      <p className="text-ink text-[15px] leading-relaxed font-semibold">
+      <p className={itemsTextClass}>
         {menu.items.map((item, i) => (
-          <span key={item.name} className="whitespace-nowrap">
+          <span key={item.name} className={itemNameClass}>
             {item.name}
             {item.kcal > 0 && (
-              <i className="text-muted ml-0.5 text-[10.5px] font-semibold not-italic">
-                {`${item.kcal}kcal`}
-              </i>
+              <i className={itemKcalClass}>{`${item.kcal}kcal`}</i>
             )}
             {i < menu.items.length - 1 && (
-              <span className="text-line mx-1.5">·</span>
+              <span className={itemSeparatorClass}>·</span>
             )}
           </span>
         ))}

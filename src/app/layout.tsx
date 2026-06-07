@@ -5,6 +5,8 @@ import { Toaster } from 'react-hot-toast';
 
 import './globals.css';
 
+import { bodyClass } from './layout.styles';
+
 /**
  * Pretendard 가변 폰트를 self-host — next/font가 size-adjust된 폴백을 자동 생성해
  * 폰트 스왑(FOUT) 시 발생하던 레이아웃 시프트를 제거한다.
@@ -36,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={pretendard.variable}>
-      <body className="bg-bg text-ink flex min-h-[100dvh] flex-col">
+      <body className={bodyClass}>
         {children}
         <Toaster
           position="bottom-center"

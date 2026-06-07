@@ -56,29 +56,46 @@ export const getStatus = (menus: MenuType[], now: dayjs.Dayjs): Status => { ... 
 
 ### 스타일 분리 기준
 
-다음 중 하나라도 해당하면 `.styles.ts`로 분리한다:
+`className`에 **비레이아웃 클래스**가 하나라도 포함되면 `.styles.ts`로 분리한다.
 
-| 기준              | 설명                                                             |
-| ----------------- | ---------------------------------------------------------------- |
-| **2줄 이상**      | className 값이 여러 줄에 걸친 `cn()` 호출                        |
-| **5회 이상 반복** | 동일하거나 유사한 className 패턴이 컴포넌트 내에서 5회 이상 등장 |
+| 레이아웃 클래스 — JSX 인라인 유지 가능                            | 비레이아웃 클래스 — 반드시 `.styles.ts` 분리                |
+| ----------------------------------------------------------------- | ----------------------------------------------------------- |
+| `flex`, `grid`, `block`, `inline-flex`, `hidden`, `contents`      | `text-*` (색상·크기·굵기·정렬·데코), `font-*`              |
+| `flex-*`, `grid-*`, `col-*`, `row-*`                              | `tracking-*`, `leading-*`, `whitespace-*`, `truncate`       |
+| `w-*`, `h-*`, `size-*`, `min-w-*`, `max-w-*`, `min-h-*`, `max-h-*` | `bg-*`                                                    |
+| `p-*`, `px-*`, `py-*`, `pt-*`, `pb-*`, `pl-*`, `pr-*`            | `border-*`, `rounded-*`, `divide-*`, `outline-*`, `ring-*`  |
+| `m-*`, `mx-*`, `my-*`, `mt-*`, `mb-*`, `ml-*`, `mr-*`            | `shadow-*`                                                  |
+| `gap-*`, `space-*`                                                | `opacity-*`                                                 |
+| `items-*`, `justify-*`, `content-*`, `self-*`, `place-*`         | `transition-*`, `duration-*`, `ease-*`, `delay-*`           |
+| `absolute`, `relative`, `fixed`, `sticky`, `static`              | `animate-*`, `scale-*`, `rotate-*`, `translate-*`           |
+| `top-*`, `right-*`, `bottom-*`, `left-*`, `inset-*`, `z-*`       | `cursor-*`, `pointer-events-*`, `select-*`, `appearance-*`  |
+| `overflow-*`, `shrink-*`, `grow-*`, `basis-*`, `order-*`         | `hover:*`, `active:*`, `group-hover:*` (비레이아웃 대상 시) |
+| `aspect-*`                                                        | `sr-only`, `visible`, `invisible`                           |
+| 위 레이아웃 클래스에 대한 반응형 접두사 (`max-[920px]:grid-cols-1`) | 비레이아웃에 대한 반응형 접두사 (`max-[640px]:text-sm`)    |
 
 ```ts
-// ❌ Component.tsx — 2줄 이상 cn()이 JSX 안에 흩어짐
-<div className={cn(
-  'flex items-center gap-2',
-  active && 'text-ink',
-)} />
+// ✅ 순수 레이아웃만 — 인라인 유지
+<div className="flex flex-col gap-4 p-6">
 
-// ✅ Component.styles.ts 에 함수 또는 상수로 분리
-export const itemClass = (active: boolean) =>
-  cn('flex items-center gap-2', active && 'text-ink');
+// ❌ 비레이아웃 포함 — 인라인 금지
+<span className="text-accent text-[13px] font-bold mt-2">
 
-// ✅ Component.tsx — 깔끔
-<div className={itemClass(active)} />
+// ✅ 비레이아웃이 포함된 경우 — 해당 className 전체를 .styles.ts로
+// ComponentName.styles.ts
+export const labelClass = 'text-accent text-[13px] font-bold mt-2';
+
+// ComponentName.tsx
+<span className={labelClass}>
+
+// 조건부 className — styles.ts에서 함수로
+export const navLinkClass = (active: boolean) =>
+  cn('px-3 py-1.5', active ? 'text-ink font-bold' : 'text-muted');
+
+// ComponentName.tsx
+<a className={navLinkClass(active)}>
 ```
 
-단, 단순 한 줄 static 문자열(`'px-4 py-2 text-sm'`)은 인라인 유지해도 무방.
+> 비레이아웃 클래스가 하나라도 있으면 레이아웃 클래스까지 포함해 **className 전체**를 `.styles.ts`로 옮긴다. JSX에는 `className={exportedConst}` 형태만 남긴다.
 
 ## Import 경로 규칙
 
@@ -106,7 +123,7 @@ import { supabaseServer } from '../lib/supabase-server';
 - [ ] 컴포넌트 파일에 `interface` / `type` 정의가 없는가?
 - [ ] 컴포넌트 함수 바깥에 상수(`const UPPER` 또는 일반 값 상수)가 없는가?
 - [ ] 컴포넌트 함수 바깥에 유틸/로직 함수가 없는가?
-- [ ] 2줄 이상 `cn()` 또는 5회 이상 반복 스타일 패턴을 `.styles.ts`로 분리했는가?
+- [ ] 비레이아웃 클래스(`text-*`, `bg-*`, `border-*`, `shadow-*`, `font-*`, `transition-*`, `cursor-*` 등)가 있는 모든 `className`을 `.styles.ts`로 분리했는가?
 - [ ] 분리한 파일이 올바른 위치에 있고 export가 정확한가?
 - [ ] 다른 폴더 import가 `@/` 절대경로를 사용하는가? (`../` 없는가?)
 - [ ] 컴포넌트 파일이 import → 컴포넌트 → export default 구조로만 이루어졌는가?

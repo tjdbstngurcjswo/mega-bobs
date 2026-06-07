@@ -3,21 +3,24 @@ import Link from 'next/link';
 import { HOME_ENTRIES } from '@/constants/site';
 
 import EntryInner from './EntryInner';
-import { entryClass } from './HomeSide.styles';
+import {
+  entryClass,
+  randomButtonClass,
+  randomCardClass,
+  randomCardDescClass,
+  randomCardTitleClass,
+} from './HomeSide.styles';
 
 const HomeSide = () => (
   <aside className="flex flex-col gap-4">
-    <div className="bg-surface p-6 shadow-[var(--shadow-card)]">
-      <h3 className="text-ink-2 text-[14px] font-bold">오늘 뭐 먹지?</h3>
-      <p className="text-ink-2 mt-1.5 text-[12.5px] leading-relaxed">
+    <div className={randomCardClass}>
+      <h3 className={randomCardTitleClass}>오늘 뭐 먹지?</h3>
+      <p className={randomCardDescClass}>
         구내식당과 지정타 맛집 중에서
         <br />
         점심 메뉴를 골라드려요
       </p>
-      <button
-        disabled
-        className="bg-down-soft text-muted mt-4 w-full cursor-default py-2.5 text-[12.5px] font-semibold disabled:opacity-60"
-      >
+      <button disabled className={randomButtonClass}>
         랜덤 추천 받기 (준비 중)
       </button>
     </div>

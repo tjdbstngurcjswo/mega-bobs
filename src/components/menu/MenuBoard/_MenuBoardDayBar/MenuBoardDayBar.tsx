@@ -7,7 +7,11 @@ import { useHasMounted } from '@/hooks/useHasMounted';
 import { useDateStore } from '@/store/useDateStore';
 
 import MenuBoardDayChip from './MenuBoardDayChip';
-import { navButtonClass } from './MenuBoardDayBar.styles';
+import {
+  dayBarContainerClass,
+  navArrowClass,
+  navButtonClass,
+} from './MenuBoardDayBar.styles';
 
 const MenuBoardDayBar = () => {
   const {
@@ -45,7 +49,7 @@ const MenuBoardDayBar = () => {
   };
 
   return (
-    <div className="bg-surface flex items-center gap-2 px-4 py-3">
+    <div className={dayBarContainerClass}>
       <button
         type="button"
         onClick={handlePrev}
@@ -53,7 +57,7 @@ const MenuBoardDayBar = () => {
         aria-label="지난주 메뉴 보기"
         className={navButtonClass(canGoPrev)}
       >
-        <span className="text-[16px] leading-none font-light">‹</span>
+        <span className={navArrowClass}>‹</span>
       </button>
       <div className="flex flex-1 flex-col">
         <div
@@ -82,7 +86,7 @@ const MenuBoardDayBar = () => {
         aria-label="다음 주 메뉴 보기"
         className={navButtonClass(canGoNext)}
       >
-        <span className="text-[16px] leading-none font-light">›</span>
+        <span className={navArrowClass}>›</span>
       </button>
     </div>
   );

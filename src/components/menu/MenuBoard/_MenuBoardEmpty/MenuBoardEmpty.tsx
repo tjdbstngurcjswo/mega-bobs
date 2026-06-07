@@ -1,5 +1,10 @@
 import { BOARD_EMPTY_COPY } from './MenuBoardEmpty.constants';
 import { MenuBoardEmptyProps } from './MenuBoardEmpty.types';
+import {
+  emptyBodyClass,
+  emptyLabelClass,
+  emptyTitleClass,
+} from './MenuBoardEmpty.styles';
 
 const MenuBoardEmpty = ({
   variant,
@@ -21,15 +26,9 @@ const MenuBoardEmpty = ({
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-6 py-12 text-center">
-      <div className="text-accent-text text-[13px] font-black tracking-[0.3em]">
-        {copy.label}
-      </div>
-      <h3 className="mt-3 text-[17px] font-extrabold">{closedTitle}</h3>
-      {copy.body && (
-        <p className="text-ink-2 mt-1.5 text-[13.5px] leading-relaxed">
-          {copy.body}
-        </p>
-      )}
+      <div className={emptyLabelClass}>{copy.label}</div>
+      <h3 className={emptyTitleClass}>{closedTitle}</h3>
+      {copy.body && <p className={emptyBodyClass}>{copy.body}</p>}
     </div>
   );
 };

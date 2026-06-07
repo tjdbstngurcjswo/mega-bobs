@@ -1,12 +1,13 @@
 'use client';
 
-import { dateClass, labelClass } from './MenuBoardDayBar.styles';
-import { cn } from '@/utils/cn';
-
 import { DOW } from './MenuBoardDayBar.constants';
 import { MenuBoardDayChipProps } from './MenuBoardDayBar.types';
 
-import { chipButtonClass } from './MenuBoardDayChip.styles';
+import {
+  chipButtonClass,
+  chipDateClass,
+  chipDowClass,
+} from './MenuBoardDayChip.styles';
 
 const MenuBoardDayChip = ({
   day,
@@ -27,19 +28,13 @@ const MenuBoardDayChip = ({
     >
       <span
         suppressHydrationWarning
-        className={cn(
-          'text-[10px] font-bold',
-          labelClass(isSelected, isToday, day.day())
-        )}
+        className={chipDowClass(isSelected, isToday, day.day())}
       >
         {isToday ? '오늘' : DOW[day.day()]}
       </span>
       <span
         suppressHydrationWarning
-        className={cn(
-          'text-[13.5px] font-extrabold',
-          dateClass(isSelected, isToday, day.day())
-        )}
+        className={chipDateClass(isSelected, isToday, day.day())}
       >
         {day.date()}
       </span>

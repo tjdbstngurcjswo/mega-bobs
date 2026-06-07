@@ -19,7 +19,13 @@ import { MenuBoardProps } from './MenuBoard.types';
 import MenuBoardEmpty from './_MenuBoardEmpty/MenuBoardEmpty';
 import MenuBoardCourseRow from './_MenuBoardCourseRow/MenuBoardCourseRow';
 import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
-import { todayButtonClass } from './MenuBoard.styles';
+import {
+  footerNoteClass,
+  menuHeadingLocationClass,
+  menuHeadingTitleClass,
+  sectionClass,
+  todayButtonClass,
+} from './MenuBoard.styles';
 
 const MenuBoard = ({ menus }: MenuBoardProps) => {
   const { today, selectedDate, setSelectedDate } = useDateStore();
@@ -57,13 +63,11 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
     : 'closed';
 
   return (
-    <section className="bg-surface flex flex-col shadow-[var(--shadow-card)]">
+    <section className={sectionClass}>
       <div className="flex items-center justify-between px-6 py-4">
         <h2 className="flex items-center gap-2">
-          <span className="text-ink text-[14px] font-extrabold tracking-wide">
-            메뉴
-          </span>
-          <span className="text-muted flex items-center gap-1 text-[11px] font-medium">
+          <span className={menuHeadingTitleClass}>메뉴</span>
+          <span className={menuHeadingLocationClass}>
             <MapPin size={10} strokeWidth={2.5} />
             메가존 구내식당
           </span>
@@ -112,7 +116,7 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
         />
       )}
       {(showVote || showPick) && dayMenus.length > 0 && (
-        <p className="text-muted flex items-center gap-1.5 px-5 py-2.5 text-[10px] leading-relaxed">
+        <p className={footerNoteClass}>
           <Info size={11} strokeWidth={2} className="shrink-0" />
           {showVote
             ? '투표 데이터는 정확하지 않을 수 있으며, 맛평가를 위한 참고용 기능이에요.'
