@@ -19,18 +19,18 @@ export async function GET(req: NextRequest) {
   const apiKey = req.headers.get('x-api-key');
   const API_KEY = process.env.API_KEY;
   if (!API_KEY || apiKey !== API_KEY)
-    return json({ message: 'Unauthorized' }, 401);
+    return json({ error: 'Unauthorized' }, 401);
 
   const { searchParams } = new URL(req.url);
   const start = searchParams.get('start');
   const end = searchParams.get('end');
-  if (!start || !end) return json({ message: 'Invalid params' }, 400);
+  if (!start || !end) return json({ error: 'Invalid params' }, 400);
 
   try {
     const data = await getMenu({ start, end });
     return json(data, 200);
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Internal error';
-    return json({ message }, 500);
+    const error = err instanceof Error ? err.message : 'Internal error';
+    return json({ error }, 500);
   }
 }
