@@ -1,4 +1,4 @@
-import {MenuCategory} from '@/types/menu';
+import {MenuCategory} from '@/api/menu.types';
 
 export const MENU_CATEGORIES: MenuCategory[] = [
   'COURSE_1',

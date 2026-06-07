@@ -3,7 +3,7 @@
 import {useCallback, useEffect, useState} from 'react';
 
 import {getVoterId} from '@/utils/voterId';
-import {PickResult, PickType} from '@/types/vote';
+import {PickResult, PickType} from '@/api/vote.types';
 
 const DEFAULT_COUNTS: PickResult['counts'] = {COURSE_1: 0, COURSE_2: 0, TAKE_OUT: 0, pass: 0};
 

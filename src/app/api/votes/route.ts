@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from 'next/server';
 
 import {supabaseServer} from '@/lib/supabaseServer';
-import {VoteResult, VoteType} from '@/types/vote';
+import {VoteResult, VoteType} from '@/api/vote.types';
 
 export const GET = async (req: NextRequest) => {
   const date = req.nextUrl.searchParams.get('date');

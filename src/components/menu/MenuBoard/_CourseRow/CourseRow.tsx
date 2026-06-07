@@ -5,7 +5,7 @@ import {useState} from 'react';
 
 import {MenuCategoryLabel} from '@/constants/menu';
 import {CourseRowProps} from './CourseRow.types';
-import {VoteType} from '@/types/vote';
+import {VoteType} from '@/api/vote.types';
 
 import {
   downVoteButtonClass,

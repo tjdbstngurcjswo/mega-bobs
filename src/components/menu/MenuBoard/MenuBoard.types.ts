@@ -1,4 +1,4 @@
-import {MenuType} from '@/types/menu';
+import {MenuType} from '@/api/menu.types';
 
 export interface MenuBoardProps {
   menus: MenuType[];

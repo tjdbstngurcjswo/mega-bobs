@@ -9,7 +9,7 @@ import {
 } from '@/constants/slack';
 import getMenu from '@/api/getMenu';
 import dayjs, {SEOUL_TIMEZONE} from '@/lib/dayjs';
-import {MenuCategory, MenuType} from '@/types/menu';
+import {MenuCategory, MenuType} from '@/api/menu.types';
 
 const getCachedMenu = unstable_cache(
   (date: string) => getMenu({start: date, end: date}),

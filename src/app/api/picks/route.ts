@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from 'next/server';
 
 import {supabaseServer} from '@/lib/supabaseServer';
-import {PickResult, PickType} from '@/types/vote';
+import {PickResult, PickType} from '@/api/vote.types';
 
 const PICK_TYPES: PickType[] = ['COURSE_1', 'COURSE_2', 'TAKE_OUT', 'pass'];
 
