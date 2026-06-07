@@ -1,6 +1,5 @@
 'use client';
 
-import { useRef } from 'react';
 import toast from 'react-hot-toast';
 
 import { useHasMounted } from '@/hooks/useHasMounted';
@@ -25,26 +24,23 @@ const MenuBoardDayBar = () => {
     goToNextWeek,
   } = useDateStore();
   const mounted = useHasMounted();
-  const directionRef = useRef<'prev' | 'next'>('next');
 
   const canGoPrev = !mounted || currentWeek[0].isAfter(minDate, 'day');
   const canGoNext = !mounted || currentWeek[6].isBefore(maxDate, 'day');
 
   const handlePrev = () => {
     if (!canGoPrev) {
-      toast.error('지난 메뉴는 볼 수 없습니다.');
+      toast.error('제공하지 않는 날짜예요');
       return;
     }
-    directionRef.current = 'prev';
     goToPrevWeek();
   };
 
   const handleNext = () => {
     if (!canGoNext) {
-      toast.error('매주 목요일에 업데이트됩니다.');
+      toast.error('아직 준비 중이에요');
       return;
     }
-    directionRef.current = 'next';
     goToNextWeek();
   };
 
@@ -53,7 +49,6 @@ const MenuBoardDayBar = () => {
       <button
         type="button"
         onClick={handlePrev}
-        disabled={!canGoPrev}
         aria-label="지난주 메뉴 보기"
         className={navButtonClass(canGoPrev)}
       >
@@ -62,11 +57,25 @@ const MenuBoardDayBar = () => {
       <div className="flex flex-1 flex-col">
         <div
           key={currentWeek[0]?.format('YYYY-MM-DD')}
-          className="flex gap-1.5 overflow-hidden"
-          style={{
-            animation: `${directionRef.current === 'next' ? 'slideFromRight' : 'slideFromLeft'} 0.22s ease both`,
-          }}
+          className="relative flex gap-1.5 overflow-hidden"
+          style={{ animation: 'fadeIn 0.2s ease both' }}
         >
+          {(() => {
+            const idx = mounted
+              ? currentWeek.findIndex((d) => d.isSame(selectedDate, 'day'))
+              : -1;
+            const isToday = mounted && selectedDate.isSame(today, 'day');
+            return idx >= 0 ? (
+              <div
+                aria-hidden
+                className={`pointer-events-none absolute inset-y-0 transition-transform duration-200 ease-out ${isToday ? 'bg-accent' : 'bg-ink'}`}
+                style={{
+                  width: 'calc((100% - 36px) / 7)',
+                  transform: `translateX(calc(${idx} * (100% + 6px)))`,
+                }}
+              />
+            ) : null;
+          })()}
           {currentWeek.map((day) => (
             <MenuBoardDayChip
               key={day.format('YYYY-MM-DD')}
@@ -82,7 +91,6 @@ const MenuBoardDayBar = () => {
       <button
         type="button"
         onClick={handleNext}
-        disabled={!canGoNext}
         aria-label="다음 주 메뉴 보기"
         className={navButtonClass(canGoNext)}
       >

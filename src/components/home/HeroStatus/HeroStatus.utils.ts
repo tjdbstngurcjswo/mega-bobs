@@ -11,7 +11,11 @@ import {
 import { formatYYYYMMDD } from '@/utils/date';
 import { MenuType } from '@/models/menu';
 
-export type HeroStatusState = { icon: ElementType; text: string };
+export type HeroStatusState = {
+  icon: ElementType;
+  text: string;
+  variant: 'open' | 'upcoming' | 'closed';
+};
 
 const nextWorkdayKey = (from: dayjs.Dayjs): string => {
   const dow = from.day();
@@ -30,8 +34,8 @@ export const getHeroStatus = (
 
   if (dow === 0 || dow === 6) {
     return hasMenu(nextWorkdayKey(now))
-      ? { icon: Sun, text: '주말이에요, 월요일에 만나요!' }
-      : { icon: Sun, text: '편안한 주말 되세요!' };
+      ? { icon: Sun, text: '주말이에요. 월요일에 만나요!', variant: 'closed' }
+      : { icon: Sun, text: '편안한 주말 되세요!', variant: 'closed' };
   }
 
   const todayKey = formatYYYYMMDD(now);
@@ -39,23 +43,27 @@ export const getHeroStatus = (
     const nwKey = nextWorkdayKey(now);
     const nextLabel = dow === 5 ? '월요일에 만나요!' : '내일 만나요!';
     return hasMenu(nwKey)
-      ? { icon: Sun, text: `오늘은 공휴일이에요. ${nextLabel}` }
-      : { icon: Sun, text: '오늘은 공휴일이에요.' };
+      ? { icon: Sun, text: `오늘은 공휴일이에요. ${nextLabel}`, variant: 'closed' }
+      : { icon: Sun, text: '오늘은 공휴일이에요', variant: 'closed' };
   }
 
   if (min < CAFETERIA_OPEN_MIN)
-    return { icon: Clock, text: '잠시 후 운영 시작이에요.' };
+    return { icon: Clock, text: '잠시 후 운영 시작이에요', variant: 'upcoming' };
   if (min < CAFETERIA_CLOSE_MIN)
-    return { icon: Utensils, text: `지금 운영 중이에요! ${CAFETERIA_LABEL}` };
+    return {
+      icon: Utensils,
+      text: `지금 운영 중이에요! ${CAFETERIA_LABEL}`,
+      variant: 'open',
+    };
 
   if (dow === 5) {
     return hasMenu(nextWorkdayKey(now))
-      ? { icon: Moon, text: '오늘 점심은 끝났어요. 월요일에 만나요!' }
-      : { icon: Sun, text: '즐거운 주말 되세요!' };
+      ? { icon: Moon, text: '오늘 점심은 끝났어요. 월요일에 만나요!', variant: 'closed' }
+      : { icon: Sun, text: '즐거운 주말 되세요!', variant: 'closed' };
   }
 
   const tomorrowKey = formatYYYYMMDD(now.add(1, 'day'));
   return hasMenu(tomorrowKey)
-    ? { icon: Moon, text: '오늘 점심은 끝났어요. 내일 만나요!' }
-    : { icon: Moon, text: '오늘 점심은 끝났어요.' };
+    ? { icon: Moon, text: '오늘 점심은 끝났어요. 내일 만나요!', variant: 'closed' }
+    : { icon: Moon, text: '오늘 점심은 끝났어요', variant: 'closed' };
 };

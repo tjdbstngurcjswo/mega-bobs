@@ -27,7 +27,6 @@ import {
 
 const MenuBoardCourseRow = ({
   menu,
-  index = 0,
   vote,
   pick,
 }: MenuBoardCourseRowProps) => {
@@ -46,10 +45,6 @@ const MenuBoardCourseRow = ({
   return (
     <div
       className={courseRowClass}
-      style={{
-        animation: 'fadeUp 0.28s ease both',
-        animationDelay: `${index * 70}ms`,
-      }}
     >
       <div className={courseRowHeaderClass}>
         <span
