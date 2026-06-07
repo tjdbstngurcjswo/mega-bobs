@@ -2,7 +2,7 @@ import toast from 'react-hot-toast';
 import {create} from 'zustand';
 
 import dayjs from '@/lib/dayjs';
-import {getWeekDays} from '@/lib/utils';
+import {getWeekDays} from '@/utils/utils';
 
 interface DateStore {
   today: dayjs.Dayjs;

@@ -1,5 +1,5 @@
 import {chipBg} from './day-bar';
-import {cn} from '@/lib/utils';
+import {cn} from '@/utils/utils';
 
 export const chipButtonClass = (isSelected: boolean, isToday: boolean) =>
   cn(

@@ -1,7 +1,7 @@
 'use client';
 
 import {dateClass, labelClass} from './day-bar';
-import {cn} from '@/lib/utils';
+import {cn} from '@/utils/utils';
 
 import {DOW} from './constants';
 import {DayChipProps} from './DayBar.types';

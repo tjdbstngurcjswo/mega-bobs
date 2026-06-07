@@ -1,5 +1,5 @@
 import dayjs from '@/lib/dayjs';
-import {getWeekDays} from '@/lib/utils';
+import {getWeekDays} from '@/utils/utils';
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
