@@ -35,7 +35,7 @@ src/components/<domain>/<ComponentName>/
 
 서브 컴포넌트(외부 미노출)는 같은 폴더에 둔다. `index.ts`는 최상위 컴포넌트만 export한다.
 
-**도메인 디렉토리(`board/`, `home/` 등)에도 `index.ts`가 있어야 한다.** 새 컴포넌트를 추가하면 해당 도메인 index에도 export를 추가한다.
+**`src/components/` 하위 모든 디렉토리에 `index.ts`가 있어야 한다.** 새 컴포넌트를 추가하면 컴포넌트 폴더·도메인 폴더·`src/components/index.ts` 모두에 export를 추가한다.
 
 ```ts
 // src/components/board/index.ts
