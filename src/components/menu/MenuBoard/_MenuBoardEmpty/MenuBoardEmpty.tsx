@@ -29,11 +29,9 @@ const MenuBoardEmpty = ({
   const showPlane = variant === 'closed';
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center px-6 py-12 text-center">
-      <div className={emptyLabelClass}>{copy.label}</div>
-      <h3 className={emptyTitleClass}>{closedTitle}</h3>
+    <div className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-6 py-12 text-center">
       {showPlane && (
-        <div className="relative mt-4 h-12 w-full overflow-hidden" aria-hidden>
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
           <span
             className="absolute left-1/2 top-1/2 -translate-y-1/2 text-muted"
             style={{ animation: 'planeFly 7s linear infinite' }}
@@ -48,7 +46,11 @@ const MenuBoardEmpty = ({
           </span>
         </div>
       )}
-      {copy.body && <p className={emptyBodyClass}>{copy.body}</p>}
+      <div className="relative">
+        <div className={emptyLabelClass}>{copy.label}</div>
+        <h3 className={emptyTitleClass}>{closedTitle}</h3>
+        {copy.body && <p className={emptyBodyClass}>{copy.body}</p>}
+      </div>
     </div>
   );
 };
