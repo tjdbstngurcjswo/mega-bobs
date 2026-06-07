@@ -126,12 +126,12 @@ src/
 │   └── fonts/            # Pretendard 셀프호스팅 폰트
 ├── components/
 │   ├── @shared/          # ErrorBoundary, SiteHeader, SiteFooter
-│   ├── menu/             # MenuBoard (_BoardEmpty, _CourseRow, _DayBar)
-│   └── home/             # HeroStatus, HomeSide, HeroDate
+│   ├── menu/             # MenuBoard (_MenuBoardEmpty, _MenuBoardCourseRow, _MenuBoardDayBar)
+│   └── home/             # HeroStatus, HeroDate
 ├── constants/
 │   ├── cafeteria.ts      # CAFETERIA 운영 시각 config (단일 소스)
 │   ├── menu.ts           # 코스 카테고리 한글 레이블
-│   ├── site.ts           # NAV_ITEMS, HOME_ENTRIES, FOOTER_LINKS
+│   ├── site.ts           # NAV_ITEMS, FOOTER_LINKS
 │   └── slack.ts          # Slack 커맨드 맵
 ├── data/
 │   └── announcements.ts  # 정적 공지 데이터 (TS 배열)
