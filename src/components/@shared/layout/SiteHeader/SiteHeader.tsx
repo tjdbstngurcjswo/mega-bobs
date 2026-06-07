@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
-import { NAV_ITEMS } from '@/constants/site';
+import { NAV_ITEMS, SITE_NAME } from '@/constants/site';
 import { getAnnouncements } from '@/api/getAnnouncements';
 import { hasNewAnnouncement } from '@/utils/announcementPolicy';
 import { useHasMounted } from '@/hooks/useHasMounted';
@@ -57,7 +57,7 @@ const SiteHeader = () => {
       <header className={headerClass(scrolled, menuOpen)}>
         <div className="mx-auto flex h-14 w-[min(880px,calc(100%-40px))] items-center gap-7">
           <Link href="/" className={logoLinkClass}>
-            MegaBobs
+            {SITE_NAME}
           </Link>
 
           <nav className={desktopNavClass}>

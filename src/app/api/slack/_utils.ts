@@ -1,6 +1,7 @@
 import { unstable_cache } from 'next/cache';
 
 import { MENU_CATEGORIES, MenuCategoryLabel } from '@/constants/menu';
+import { SITE_NAME } from '@/constants/site';
 import {
   CommandKeyword,
   DAY_OFFSET_MAP,
@@ -42,7 +43,7 @@ export const toSlackFormat = (
   keyword: string,
   date: string
 ) => {
-  const header = `🍚 MegaBobs *${keyword} 메뉴 (${date})* 🍚`;
+  const header = `🍚 ${SITE_NAME} *${keyword} 메뉴 (${date})* 🍚`;
 
   const sections = MENU_CATEGORIES.map((category) => {
     const label = toCategoryLabel(category);

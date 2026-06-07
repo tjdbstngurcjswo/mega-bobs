@@ -5,6 +5,8 @@ import { Toaster } from 'react-hot-toast';
 
 import './globals.css';
 
+import { SITE_NAME } from '@/constants/site';
+
 import { bodyClass } from './layout.styles';
 
 /**
@@ -19,7 +21,7 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'MegaBobs — 메가존 구내식당 점심 허브',
+  title: `${SITE_NAME} — 메가존 구내식당 점심 허브`,
   description: '구내식당 메뉴, 투표, 내기 게임, 지정타 맛집까지',
   icons: {
     icon: '/favicon.ico',
