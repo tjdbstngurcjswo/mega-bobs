@@ -4,8 +4,12 @@ import { ErrorBoundary, PageLayout, SiteFooter, SiteHeader } from '@/components/
 import { MenuBoard } from '@/components/menu';
 import { HeroDate, HeroStatus } from '@/components/home';
 import getMenu from '@/api/getMenu';
-import { SITE_NAME } from '@/constants/site';
 import dayjs from '@/lib/dayjs';
+import {
+  getCafeteriaJsonLd,
+  getOrgJsonLd,
+  getWebsiteJsonLd,
+} from '@/utils/jsonLd';
 import { formatYYYYMMDD, getWeekDays } from '@/utils/date';
 
 export const revalidate = 21600;
@@ -15,15 +19,6 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 };
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: SITE_NAME,
-  description:
-    '메가존 구내식당 메뉴, 실시간 운영 상태, 투표, 내기 게임까지 — 점심을 30초 안에 결정하세요.',
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
-  inLanguage: 'ko-KR',
-};
 
 export default async function Home() {
   const today = dayjs().tz();
@@ -36,7 +31,15 @@ export default async function Home() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getWebsiteJsonLd()) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getOrgJsonLd()) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getCafeteriaJsonLd()) }}
       />
       <SiteHeader />
       <PageLayout

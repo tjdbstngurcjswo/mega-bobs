@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { SITE_NAME } from '@/constants/site';
 import dayjs from '@/lib/dayjs';
+import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 import { getAnnouncements } from '@/api/getAnnouncements';
 
 import {
@@ -15,17 +16,20 @@ import {
   newBadgeClass,
 } from './page.styles';
 
+const noticeDesc = `${SITE_NAME} 구내식당 앱의 새 기능 소식, 점검 일정, 운영 안내를 확인하세요.`;
+
 export const metadata: Metadata = {
   title: '공지사항',
-  description: `${SITE_NAME}의 새 기능, 점검, 운영 안내를 확인하세요.`,
+  description: noticeDesc,
+  alternates: { canonical: '/notice' },
   openGraph: {
     title: `공지사항 — ${SITE_NAME}`,
-    description: `${SITE_NAME}의 새 기능, 점검, 운영 안내를 확인하세요.`,
+    description: noticeDesc,
     url: '/notice',
   },
   twitter: {
     title: `공지사항 — ${SITE_NAME}`,
-    description: `${SITE_NAME}의 새 기능, 점검, 운영 안내를 확인하세요.`,
+    description: noticeDesc,
   },
 };
 
@@ -34,6 +38,17 @@ export default function NoticePage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            getBreadcrumbJsonLd([
+              { name: '홈', path: '/' },
+              { name: '공지사항', path: '/notice' },
+            ])
+          ),
+        }}
+      />
       <SiteHeader />
       <PageLayout
         eyebrow="공지사항"
