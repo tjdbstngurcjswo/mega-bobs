@@ -2,6 +2,11 @@ import {revalidatePath, revalidateTag} from 'next/cache';
 import type {NextRequest} from 'next/server';
 import {NextResponse} from 'next/server';
 
+/**
+ * @route GET /api/revalidate
+ * @query secret - REVALIDATE_SECRET (env)
+ * @returns `{ revalidated: true, now }` — '/' 경로와 'menu' 태그 강제 재검증
+ */
 export async function GET(request: NextRequest) {
   const secret = request.nextUrl.searchParams.get('secret');
 

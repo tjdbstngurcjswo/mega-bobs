@@ -8,6 +8,13 @@ const json = (body: unknown, status: number) =>
     headers: {'Content-Type': 'application/json'},
   });
 
+/**
+ * @route GET /api/menu
+ * @header x-api-key - API 인증 키 (env: API_KEY)
+ * @query start - 조회 시작일 (YYYY-MM-DD)
+ * @query end - 조회 종료일 (YYYY-MM-DD)
+ * @returns 날짜 범위 내 메뉴 목록
+ */
 export async function GET(req: NextRequest) {
   const apiKey = req.headers.get('x-api-key');
   if (apiKey !== process.env.API_KEY) return json({message: 'Unauthorized'}, 401);

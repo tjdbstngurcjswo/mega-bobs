@@ -3,6 +3,12 @@ import {NextRequest, NextResponse} from 'next/server';
 import dayjs from '@/lib/dayjs';
 import {supabaseServer} from '@/lib/supabaseServer';
 
+/**
+ * @route GET /api/votes/cleanup
+ * @header authorization - `Bearer ${CRON_SECRET}` (Vercel Cron 자동 호출)
+ * @query secret - REVALIDATE_SECRET (수동 호출 시)
+ * @returns `{ deleted, cutoff }` — 삭제된 행 수와 기준 날짜 (오늘 -14일)
+ */
 export const GET = async (req: NextRequest) => {
   const authHeader = req.headers.get('authorization');
   const secret = req.nextUrl.searchParams.get('secret');

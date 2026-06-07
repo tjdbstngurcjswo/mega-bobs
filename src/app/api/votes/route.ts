@@ -3,6 +3,12 @@ import {NextRequest, NextResponse} from 'next/server';
 import {supabaseServer} from '@/lib/supabaseServer';
 import {VoteResult, VoteType} from '@/api/vote.types';
 
+/**
+ * @route GET /api/votes
+ * @header x-voter-id - 익명 투표자 ID
+ * @query date - 조회할 날짜 (YYYY-MM-DD)
+ * @returns 해당 날짜의 코스별 투표 집계 목록
+ */
 export const GET = async (req: NextRequest) => {
   const date = req.nextUrl.searchParams.get('date');
   const voterId = req.headers.get('x-voter-id') ?? '';
@@ -44,6 +50,12 @@ export const GET = async (req: NextRequest) => {
   }
 };
 
+/**
+ * @route POST /api/votes
+ * @header x-voter-id - 익명 투표자 ID
+ * @body `{ menu_key, date, vote_type }` — vote_type이 null이면 투표 취소
+ * @returns `{ ok: true }`
+ */
 export const POST = async (req: NextRequest) => {
   const voterId = req.headers.get('x-voter-id') ?? '';
 
