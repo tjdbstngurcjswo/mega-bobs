@@ -23,11 +23,6 @@ const pretendard = localFont({
 export const metadata: Metadata = {
   title: `${SITE_NAME} — 메가존 구내식당 점심 허브`,
   description: '구내식당 메뉴, 투표, 내기 게임, 지정타 맛집까지',
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
-  },
   other: {
     'google-adsense-account': 'ca-pub-4501038602130909',
   },
