@@ -129,7 +129,19 @@ src/
 
 ### Prettier
 
-Single quotes, no bracket spacing (`{foo}`), trailing commas (es5), 2-space indent, `prettier-plugin-tailwindcss` 클래스 자동 정렬.
+| 옵션 | 값 |
+|---|---|
+| `singleQuote` | `true` |
+| `semi` | `true` |
+| `trailingComma` | `"es5"` |
+| `printWidth` | `80` |
+| `tabWidth` | `2` |
+| `useTabs` | `false` |
+| `bracketSpacing` | `false` (`{foo}`) |
+| `bracketSameLine` | `false` |
+| `arrowParens` | `"always"` |
+| `endOfLine` | `"lf"` |
+| `plugins` | `prettier-plugin-tailwindcss` |
 
 ### Styling
 
