@@ -3,19 +3,19 @@
 import {CalendarDays, Info, MapPin} from 'lucide-react';
 import {useMemo} from 'react';
 
-import {CATEGORY_TO_PICK, MENU_CATEGORIES} from '@/constants/menu';
+import {MENU_CATEGORIES} from '@/constants/menu';
 import dayjs from '@/lib/dayjs';
 import {usePick} from '@/lib/hooks/usePick';
 import {useVotes} from '@/lib/hooks/useVote';
 import {isAfterClose, isNextWeek, isNextWeekPublished} from '@/lib/menu-policy';
 import {useHasMounted} from '@/lib/useHasMounted';
-import {cn, formatYYYYMMDD} from '@/lib/utils';
+import {formatYYYYMMDD} from '@/lib/utils';
 import {useDateStore} from '@/store/useDateStore';
 import {MenuBoardProps} from './MenuBoard.types';
 
-import BoardEmpty from '../BoardEmpty';
-import CourseRow from '../CourseRow';
-import DayBar from '../DayBar';
+import BoardEmpty from './_BoardEmpty/BoardEmpty';
+import CourseRow from './_CourseRow/CourseRow';
+import DayBar from './_DayBar/DayBar';
 import {todayButtonClass} from './MenuBoard.styles';
 
 const MenuBoard = ({menus}: MenuBoardProps) => {
@@ -70,7 +70,6 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
       {dayMenus.length > 0 ? (
         dayMenus.map((menu, i) => {
           const menuKey = `${menu.date}_${menu.category}`;
-          const pickType = CATEGORY_TO_PICK[menu.category];
           return (
             <CourseRow
               key={menu.category}
@@ -80,10 +79,10 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
               voteResult={voteMap[menuKey]}
               onVote={(type) => submitVote(menuKey, type)}
               isSubmitting={isSubmitting}
-              showPick={showPick && !!pickType}
-              pickCount={pickType ? counts[pickType] : 0}
-              isPicked={!!pickType && myPick === pickType}
-              onPick={() => pickType && submitPick(pickType)}
+              showPick={showPick}
+              pickCount={counts[menu.category]}
+              isPicked={myPick === menu.category}
+              onPick={() => submitPick(menu.category)}
               isSubmittingPick={isSubmittingPick}
             />
           );

@@ -5,7 +5,7 @@ import {useCallback, useEffect, useState} from 'react';
 import {getVoterId} from '@/lib/voterId';
 import {PickResult, PickType} from '@/types/vote';
 
-const DEFAULT_COUNTS: PickResult['counts'] = {A: 0, B: 0, takeout: 0, pass: 0};
+const DEFAULT_COUNTS: PickResult['counts'] = {COURSE_1: 0, COURSE_2: 0, TAKE_OUT: 0, pass: 0};
 
 export const usePick = (date: string, {enabled = true} = {}) => {
   const [myPick, setMyPick] = useState<PickType | null>(null);

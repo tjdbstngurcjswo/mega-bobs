@@ -7,7 +7,7 @@ export type VoteResult = {
   myVote: VoteType | null;
 };
 
-export type PickType = 'A' | 'B' | 'takeout' | 'pass';
+export type PickType = 'COURSE_1' | 'COURSE_2' | 'TAKE_OUT' | 'pass';
 
 export type PickResult = {
   date: string;

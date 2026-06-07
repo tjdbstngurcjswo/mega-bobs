@@ -3,11 +3,11 @@ import {NextRequest, NextResponse} from 'next/server';
 import {supabaseServer} from '@/lib/supabase-server';
 import {PickResult, PickType} from '@/types/vote';
 
-const PICK_TYPES: PickType[] = ['A', 'B', 'takeout', 'pass'];
+const PICK_TYPES: PickType[] = ['COURSE_1', 'COURSE_2', 'TAKE_OUT', 'pass'];
 
 const emptyResult = (date: string, myPick: PickType | null = null): PickResult => ({
   date,
-  counts: {A: 0, B: 0, takeout: 0, pass: 0},
+  counts: {COURSE_1: 0, COURSE_2: 0, TAKE_OUT: 0, pass: 0},
   myPick,
 });
 
@@ -27,7 +27,7 @@ export const GET = async (req: NextRequest) => {
 
     if (error) return NextResponse.json(emptyResult(date), {status: 200});
 
-    const counts: Record<PickType, number> = {A: 0, B: 0, takeout: 0, pass: 0};
+    const counts: Record<PickType, number> = {COURSE_1: 0, COURSE_2: 0, TAKE_OUT: 0, pass: 0};
     let myPick: PickType | null = null;
 
     for (const row of data ?? []) {

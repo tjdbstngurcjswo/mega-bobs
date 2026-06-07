@@ -1,5 +1,4 @@
 import {MenuCategory} from '@/types/menu';
-import {PickType} from '@/types/vote';
 
 export const MENU_CATEGORIES: MenuCategory[] = [
   'COURSE_1',
@@ -22,9 +21,3 @@ export const MenuCategoryLabel: Record<MenuCategory, {ko: string; en: string}> =
       en: 'Take Out',
     },
   } as const;
-
-export const CATEGORY_TO_PICK: Partial<Record<MenuCategory, PickType>> = {
-  COURSE_1: 'A',
-  COURSE_2: 'B',
-  TAKE_OUT: 'takeout',
-};

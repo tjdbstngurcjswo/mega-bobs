@@ -13,7 +13,7 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json({error: 'unauthorized'}, {status: 401});
   }
 
-  const cutoff = dayjs().tz().subtract(14, 'day').format('YYYYMMDD');
+  const cutoff = dayjs().tz().subtract(14, 'day').format('YYYY-MM-DD');
 
   try {
     const {error, count} = await supabaseServer
