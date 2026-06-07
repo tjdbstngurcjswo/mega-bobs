@@ -9,7 +9,7 @@ import { getCachedMenu, toDateInfo, toSlackFormat } from './_utils';
  * @body FormData `text` — '오늘' | '내일' | '모레' | '글피' (없으면 오늘)
  * @returns Slack 메시지 응답 (in_channel 또는 ephemeral)
  */
-export async function POST(req: NextRequest) {
+export const POST = async (req: NextRequest) => {
   const form = await req.formData();
   const text = form.get('text') as string | null;
 

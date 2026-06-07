@@ -15,7 +15,7 @@ const json = (body: unknown, status: number) =>
  * @query end - 조회 종료일 (YYYY-MM-DD)
  * @returns 날짜 범위 내 메뉴 목록
  */
-export async function GET(req: NextRequest) {
+export const GET = async (req: NextRequest) => {
   const apiKey = req.headers.get('x-api-key');
   const API_KEY = process.env.API_KEY;
   if (!API_KEY || apiKey !== API_KEY)
