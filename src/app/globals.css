@@ -138,13 +138,13 @@
     transform: translateX(-55vw) translateY(0px) rotate(40deg);
   }
   25% {
-    transform: translateX(-18vw) translateY(-10px) rotate(26deg);
+    transform: translateX(-27.5vw) translateY(-10px) rotate(26deg);
   }
   50% {
     transform: translateX(0vw) translateY(10px) rotate(57deg);
   }
   75% {
-    transform: translateX(18vw) translateY(-10px) rotate(26deg);
+    transform: translateX(27.5vw) translateY(-10px) rotate(26deg);
   }
   100% {
     transform: translateX(55vw) translateY(0px) rotate(40deg);
