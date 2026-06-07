@@ -57,9 +57,25 @@ const MenuBoardDayBar = () => {
       <div className="flex flex-1 flex-col">
         <div
           key={currentWeek[0]?.format('YYYY-MM-DD')}
-          className="flex gap-1.5 overflow-hidden"
+          className="relative flex gap-1.5 overflow-hidden"
           style={{ animation: 'fadeIn 0.2s ease both' }}
         >
+          {(() => {
+            const idx = mounted
+              ? currentWeek.findIndex((d) => d.isSame(selectedDate, 'day'))
+              : -1;
+            const isToday = mounted && selectedDate.isSame(today, 'day');
+            return idx >= 0 ? (
+              <div
+                aria-hidden
+                className={`pointer-events-none absolute inset-y-0 transition-transform duration-200 ease-out ${isToday ? 'bg-accent' : 'bg-ink'}`}
+                style={{
+                  width: 'calc((100% - 36px) / 7)',
+                  transform: `translateX(calc(${idx} * (100% + 6px)))`,
+                }}
+              />
+            ) : null;
+          })()}
           {currentWeek.map((day) => (
             <MenuBoardDayChip
               key={day.format('YYYY-MM-DD')}

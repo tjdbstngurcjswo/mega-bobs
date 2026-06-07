@@ -11,9 +11,9 @@ export const navButtonClass = (canGo: boolean) =>
 
 export const navArrowClass = 'text-[16px] leading-none font-light';
 
-export const chipBg = (isSelected: boolean, isToday: boolean): string => {
-  if (!isSelected) return 'bg-transparent hover:bg-surface-warm';
-  return isToday ? 'bg-accent' : 'bg-ink';
+export const chipBg = (isSelected: boolean): string => {
+  if (!isSelected) return 'hover:bg-surface-warm';
+  return '';
 };
 
 const dowColor = (dow: number): string | null => {

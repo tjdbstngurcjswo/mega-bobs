@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import { DOW } from './MenuBoardDayBar.constants';
 import { MenuBoardDayChipProps } from './MenuBoardDayBar.types';
 
@@ -18,13 +20,21 @@ const MenuBoardDayChip = ({
 }: MenuBoardDayChipProps) => {
   const isToday = mounted && day.isSame(today, 'day');
   const isSelected = mounted && day.isSame(selectedDate, 'day');
+  const [justSelected, setJustSelected] = useState(false);
+
+  useEffect(() => {
+    if (!isSelected) return;
+    setJustSelected(true);
+    const t = setTimeout(() => setJustSelected(false), 220);
+    return () => clearTimeout(t);
+  }, [isSelected]);
 
   return (
     <button
       type="button"
       onClick={() => onSelect(day)}
       aria-pressed={isSelected}
-      className={chipButtonClass(isSelected, isToday)}
+      className={chipButtonClass(isSelected, justSelected)}
     >
       <span
         suppressHydrationWarning
