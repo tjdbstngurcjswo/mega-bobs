@@ -39,10 +39,11 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
     submitPick,
     isSubmitting: isSubmittingPick,
   } = usePick(dateStr, { enabled: hasMenus });
-  const isPast = mounted && selectedDate.isBefore(today, 'day');
-  const isToday = mounted && selectedDate.isSame(today, 'day');
-  const showVote = isPast || (isToday && isAfterClose(dayjs().tz()));
-  const showPick = mounted && !showVote && !selectedDate.isBefore(today, 'day');
+  const now = dayjs().tz();
+  const isPast = mounted && selectedDate.isBefore(now, 'day');
+  const isToday = mounted && selectedDate.isSame(now, 'day');
+  const showVote = isPast || (isToday && isAfterClose(now));
+  const showPick = mounted && !showVote && !selectedDate.isBefore(now, 'day');
 
   const dayMenus = useMemo(() => {
     const key = formatYYYYMMDD(selectedDate);
@@ -53,7 +54,7 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
   }, [menus, selectedDate]);
 
   const emptyVariant =
-    isNextWeek(selectedDate, today) && !isNextWeekPublished(today)
+    isNextWeek(selectedDate, now) && !isNextWeekPublished(now)
       ? 'comingUp'
       : 'closed';
 

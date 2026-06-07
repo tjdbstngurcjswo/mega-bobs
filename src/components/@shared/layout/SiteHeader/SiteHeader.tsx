@@ -3,7 +3,7 @@
 import { Bell, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { NAV_ITEMS } from '@/constants/site';
 import { getAnnouncements } from '@/api/getAnnouncements';
@@ -21,8 +21,11 @@ import {
 const SiteHeader = () => {
   const pathname = usePathname();
   const mounted = useHasMounted();
-  const announcements = getAnnouncements();
-  const showNoticeDot = mounted && hasNewAnnouncement(announcements);
+  const announcements = useMemo(() => getAnnouncements(), []);
+  const showNoticeDot = useMemo(
+    () => mounted && hasNewAnnouncement(announcements),
+    [mounted, announcements]
+  );
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 

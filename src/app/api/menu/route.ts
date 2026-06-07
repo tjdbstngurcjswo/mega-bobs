@@ -17,7 +17,8 @@ const json = (body: unknown, status: number) =>
  */
 export async function GET(req: NextRequest) {
   const apiKey = req.headers.get('x-api-key');
-  if (apiKey !== process.env.API_KEY)
+  const API_KEY = process.env.API_KEY;
+  if (!API_KEY || apiKey !== API_KEY)
     return json({ message: 'Unauthorized' }, 401);
 
   const { searchParams } = new URL(req.url);

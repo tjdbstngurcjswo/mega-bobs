@@ -82,6 +82,7 @@ export const POST = async (req: NextRequest) => {
         })
       : await supabaseServer.rpc('cancel_vote', {
           p_voter_id: voterId,
+          p_menu_key: menu_key,
           p_date: date,
         });
 

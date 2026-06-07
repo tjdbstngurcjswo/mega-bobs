@@ -26,10 +26,15 @@ export const usePick = (date: string, { enabled = true } = {}) => {
     let cancelled = false;
 
     const fetchPick = async () => {
+      const voterId = getVoterId();
+      if (!voterId) {
+        setIsLoading(false);
+        return;
+      }
       setIsLoading(true);
       try {
         const res = await fetch(`/api/picks?date=${date}`, {
-          headers: { 'x-voter-id': getVoterId() },
+          headers: { 'x-voter-id': voterId },
         });
         if (!res.ok || cancelled) return;
         const data: PickResult = await res.json();
@@ -50,7 +55,8 @@ export const usePick = (date: string, { enabled = true } = {}) => {
 
   const submitPick = useCallback(
     async (pick_type: PickType) => {
-      if (isSubmitting) return;
+      const voterId = getVoterId();
+      if (!voterId || isSubmitting) return;
       const isSame = myPick === pick_type;
       const prev = myPick;
       const prevCounts = { ...counts };
@@ -70,7 +76,7 @@ export const usePick = (date: string, { enabled = true } = {}) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'x-voter-id': getVoterId(),
+            'x-voter-id': voterId,
           },
           body: JSON.stringify({ date, pick_type: isSame ? null : pick_type }),
         });
