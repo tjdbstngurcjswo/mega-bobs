@@ -9,7 +9,7 @@
 - **누구를 위한가:** 과천 지식정보타운 메가존 직원. 점심 직전 "오늘 뭐 먹지"를 30초 안에 해결하려는 사람.
 - **공간/업종:** 사내 유틸리티. 식단표(메뉴판)가 1차 정체성.
 - **프로젝트 타입:** 모바일 우선 반응형 웹앱(App UI). 마케팅 사이트 아님.
-- **기억에 남길 한 가지:** 토스 느낌의 쿨 팔레트 — near-black + clean white + cool blue-tint, 경계선 없는 shadow-only 카드.
+- **기억에 남길 한 가지:** 쿨 팔레트 — near-black + clean white + cool blue-tint, 경계선 없는 shadow-only 카드.
 
 ## Aesthetic Direction
 
