@@ -3,7 +3,7 @@
 import { dateClass, labelClass } from './DayBar.styles';
 import { cn } from '@/utils/cn';
 
-import { DOW } from './constants';
+import { DOW } from './DayBar.constants';
 import { DayChipProps } from './DayBar.types';
 
 import { chipButtonClass } from './DayChip.styles';

@@ -1,4 +1,4 @@
-import { BOARD_EMPTY_COPY } from './constants';
+import { BOARD_EMPTY_COPY } from './BoardEmpty.constants';
 import { BoardEmptyProps } from './BoardEmpty.types';
 
 const BoardEmpty = ({ variant, date, isToday, isPast }: BoardEmptyProps) => {
