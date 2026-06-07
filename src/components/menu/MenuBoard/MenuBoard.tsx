@@ -89,15 +89,19 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
               key={menu.category}
               menu={menu}
               index={i}
-              showVote={showVote}
-              voteResult={voteMap[menuKey]}
-              onVote={(type) => submitVote(menuKey, type)}
-              isSubmitting={isSubmitting}
-              showPick={showPick}
-              pickCount={counts[menu.category]}
-              isPicked={myPick === menu.category}
-              onPick={() => submitPick(menu.category)}
-              isSubmittingPick={isSubmittingPick}
+              vote={{
+                show: showVote,
+                result: voteMap[menuKey],
+                onVote: (type) => submitVote(menuKey, type),
+                isSubmitting,
+              }}
+              pick={{
+                show: showPick,
+                count: counts[menu.category],
+                isPicked: myPick === menu.category,
+                onPick: () => submitPick(menu.category),
+                isSubmitting: isSubmittingPick,
+              }}
             />
           );
         })

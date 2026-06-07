@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 import { MenuCategoryLabel } from '@/constants/menu';
 import { CourseRowProps } from './CourseRow.types';
-import { VoteType } from '@/models/vote';
 
 import {
   downVoteButtonClass,
@@ -18,28 +17,16 @@ import {
 const TOOLTIP =
   "pointer-events-none invisible absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-2 py-1 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-['']";
 
-const CourseRow = ({
-  menu,
-  index = 0,
-  showVote,
-  voteResult,
-  onVote,
-  isSubmitting = false,
-  showPick = false,
-  pickCount = 0,
-  isPicked = false,
-  onPick,
-  isSubmittingPick = false,
-}: CourseRowProps) => {
-  const [animating, setAnimating] = useState<VoteType | null>(null);
+const CourseRow = ({ menu, index = 0, vote, pick }: CourseRowProps) => {
+  const [animating, setAnimating] = useState<'up' | 'down' | null>(null);
 
   const total = menu.items.reduce((sum, item) => sum + (item.kcal ?? 0), 0);
-  const myVote = voteResult?.myVote ?? null;
+  const myVote = vote?.result?.myVote ?? null;
 
-  const handleVote = (type: VoteType) => {
-    if (!onVote || isSubmitting) return;
+  const handleVote = (type: 'up' | 'down') => {
+    if (!vote?.onVote || vote?.isSubmitting) return;
     setAnimating(type);
-    onVote(type);
+    vote.onVote(type);
     setTimeout(() => setAnimating(null), 300);
   };
 
@@ -67,25 +54,25 @@ const CourseRow = ({
             {total} kcal
           </span>
         )}
-        {showPick && (
+        {pick?.show && (
           <button
             type="button"
-            onClick={onPick}
-            disabled={isSubmittingPick}
-            aria-pressed={isPicked}
+            onClick={pick.onPick}
+            disabled={pick.isSubmitting}
+            aria-pressed={pick.isPicked ?? false}
             aria-label={`${MenuCategoryLabel[menu.category].ko} 오늘 먹을 예정`}
-            className={pickButtonClass(isPicked)}
+            className={pickButtonClass(pick.isPicked ?? false)}
           >
             <Users size={10} strokeWidth={2.5} />
-            {pickCount}명이 선택했어요
+            {pick.count ?? 0}명이 선택했어요
           </button>
         )}
-        {showVote && (
+        {vote?.show && (
           <div className="ml-auto flex gap-1">
             <button
               type="button"
               onClick={() => handleVote('up')}
-              disabled={isSubmitting}
+              disabled={vote.isSubmitting}
               aria-pressed={myVote === 'up'}
               aria-label="맛있어요"
               className={upVoteButtonClass(myVote)}
@@ -93,13 +80,15 @@ const CourseRow = ({
               <span className={upVoteIconClass(animating)}>
                 <ThumbsUp size={11} strokeWidth={2.5} />
               </span>
-              <span className="tabular-nums">{voteResult?.up_count ?? 0}</span>
+              <span className="tabular-nums">
+                {vote.result?.up_count ?? 0}
+              </span>
               <span className={TOOLTIP}>맛있었어요</span>
             </button>
             <button
               type="button"
               onClick={() => handleVote('down')}
-              disabled={isSubmitting}
+              disabled={vote.isSubmitting}
               aria-pressed={myVote === 'down'}
               aria-label="별로예요"
               className={downVoteButtonClass(myVote)}
@@ -108,7 +97,7 @@ const CourseRow = ({
                 <ThumbsDown size={11} strokeWidth={2.5} />
               </span>
               <span className="tabular-nums">
-                {voteResult?.down_count ?? 0}
+                {vote.result?.down_count ?? 0}
               </span>
               <span className={TOOLTIP}>별로였어요</span>
             </button>
