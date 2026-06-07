@@ -33,12 +33,18 @@ const MenuBoardEmpty = ({
       <div className={emptyLabelClass}>{copy.label}</div>
       <h3 className={emptyTitleClass}>{closedTitle}</h3>
       {showPlane && (
-        <div className="relative mt-4 h-6 w-full overflow-hidden" aria-hidden>
+        <div className="relative mt-4 h-12 w-full overflow-hidden" aria-hidden>
           <span
             className="absolute left-1/2 top-1/2 -translate-y-1/2 text-muted"
-            style={{ animation: 'planeFly 5s ease-in-out 0.5s infinite' }}
+            style={{ animation: 'planeFly 7s linear infinite' }}
           >
             <Plane size={15} strokeWidth={1.5} />
+          </span>
+          <span
+            className="absolute left-1/2 top-1/2 -translate-y-1/2 text-muted opacity-50"
+            style={{ animation: 'planeFly 7s linear -3.5s infinite' }}
+          >
+            <Plane size={12} strokeWidth={1.5} />
           </span>
         </div>
       )}

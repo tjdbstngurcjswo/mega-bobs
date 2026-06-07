@@ -134,21 +134,20 @@
 }
 
 @keyframes planeFly {
-  0%,
-  52%,
-  100% {
-    opacity: 0;
-    transform: translateX(-64px) rotate(45deg);
+  0% {
+    transform: translateX(-55vw) translateY(0px) rotate(40deg);
   }
-  10% {
-    opacity: 0.5;
-  }
-  42% {
-    opacity: 0.5;
+  25% {
+    transform: translateX(-18vw) translateY(-10px) rotate(26deg);
   }
   50% {
-    opacity: 0;
-    transform: translateX(64px) rotate(40deg);
+    transform: translateX(0vw) translateY(10px) rotate(57deg);
+  }
+  75% {
+    transform: translateX(18vw) translateY(-10px) rotate(26deg);
+  }
+  100% {
+    transform: translateX(55vw) translateY(0px) rotate(40deg);
   }
 }
 

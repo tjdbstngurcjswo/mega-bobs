@@ -1,6 +1,5 @@
 'use client';
 
-import { useRef } from 'react';
 import toast from 'react-hot-toast';
 
 import { useHasMounted } from '@/hooks/useHasMounted';
@@ -25,7 +24,6 @@ const MenuBoardDayBar = () => {
     goToNextWeek,
   } = useDateStore();
   const mounted = useHasMounted();
-  const directionRef = useRef<'prev' | 'next'>('next');
 
   const canGoPrev = !mounted || currentWeek[0].isAfter(minDate, 'day');
   const canGoNext = !mounted || currentWeek[6].isBefore(maxDate, 'day');
@@ -35,7 +33,6 @@ const MenuBoardDayBar = () => {
       toast.error('지난 메뉴는 볼 수 없습니다.');
       return;
     }
-    directionRef.current = 'prev';
     goToPrevWeek();
   };
 
@@ -44,7 +41,6 @@ const MenuBoardDayBar = () => {
       toast.error('매주 목요일에 업데이트됩니다.');
       return;
     }
-    directionRef.current = 'next';
     goToNextWeek();
   };
 
@@ -62,9 +58,7 @@ const MenuBoardDayBar = () => {
         <div
           key={currentWeek[0]?.format('YYYY-MM-DD')}
           className="flex gap-1.5 overflow-hidden"
-          style={{
-            animation: `${directionRef.current === 'next' ? 'slideFromRight' : 'slideFromLeft'} 0.22s ease both`,
-          }}
+          style={{ animation: 'fadeIn 0.2s ease both' }}
         >
           {currentWeek.map((day) => (
             <MenuBoardDayChip
