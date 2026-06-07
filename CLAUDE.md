@@ -58,6 +58,7 @@ src/
 | `/api/slack` | POST | — | 슬래시 커맨드 |
 | `/api/slack/warm` | GET | — | Cron 캐시 워밍 (15:00 UTC) |
 | `/api/revalidate` | GET | `?secret=` | ISR 강제 재검증 (19:30 UTC) |
+| `/api/news/crawl` | GET | Bearer / `?secret=` | Cron 메가존 3사 뉴스 크롤 (vercel.json 23:00 UTC = 08:00 KST) |
 | `/api/mcp` | GET/POST | — | MCP Streamable HTTP |
 | `/api/votes` | GET/POST | `x-voter-id` | 코스별 맛 평가 투표 |
 | `/api/votes/cleanup` | DELETE | Bearer | 만료 투표 정리 |
@@ -102,9 +103,19 @@ NEXT_PUBLIC_SUPABASE_URL=   # Supabase 프로젝트 URL
 SUPABASE_SERVICE_ROLE_KEY=  # Supabase service role key (서버 전용)
 REVALIDATE_SECRET=          # ISR 재검증 인증 토큰 (/api/revalidate)
 API_KEY=                    # /api/menu 인증 키
-CRON_SECRET=                # Cron 인증 토큰 (/api/votes/cleanup Bearer)
+CRON_SECRET=                # Cron 인증 토큰 (/api/votes/cleanup·/api/news/crawl Bearer)
 NEXT_PUBLIC_SITE_URL=       # 배포 URL (metadataBase·sitemap에 사용)
 ```
+
+## 메가존 소식 (News)
+
+`/news` — 메가존 · 메가존클라우드 · 메가존소프트 뉴스를 매일 아침 카드로 모아보기.
+
+- **수집**: Google News RSS (API 키 불필요, 3사 정확 구문 검색). `src/lib/news/` (`sources.ts` → `fetchNews.ts` → `parseRss.ts`)
+- **저장**: Supabase `company_news` 테이블 (PK `url` 중복제거). 스키마 SQL: `docs/db/company_news.sql` (대시보드에서 1회 실행)
+- **크론**: `/api/news/crawl` (vercel.json, 23:00 UTC) → `upsert(onConflict: url)` → `revalidatePath('/news')`
+- **조회**: `src/lib/api/getNews.ts` (서버 전용) → `/news` 페이지 ISR (6h). UI: `src/components/news/NewsCard.tsx`
+- Google News RSS 는 본문 스니펫을 제공하지 않아 `summary` 는 보통 null — 카드는 제목·출처·날짜·원문 링크만 노출
 
 ## Notion MCP 설정
 

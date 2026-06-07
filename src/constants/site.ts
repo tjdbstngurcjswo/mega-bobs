@@ -6,6 +6,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: '식단표', href: '/' },
   { label: '공지사항', href: '/notice' },
   { label: '미니게임', href: '/games' },
+  { label: '메가존 소식', href: '/news' },
 ];
 
 export const FOOTER_LINKS: { label: string; href: string }[] = [
