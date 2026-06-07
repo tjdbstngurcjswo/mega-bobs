@@ -35,7 +35,7 @@ export const useDateStore = create<DateStore>((set, get) => ({
       toast.error('지난 메뉴는 볼 수 없습니다.');
       return;
     }
-    set({currentWeek: getWeekDays(prevWeekStart)});
+    set({currentWeek: getWeekDays(prevWeekStart), selectedDate: prevWeekStart});
   },
 
   goToNextWeek: () => {
@@ -45,6 +45,6 @@ export const useDateStore = create<DateStore>((set, get) => ({
       toast.error('매주 목요일에 업데이트됩니다.');
       return;
     }
-    set({currentWeek: getWeekDays(nextWeekStart)});
+    set({currentWeek: getWeekDays(nextWeekStart), selectedDate: nextWeekStart});
   },
 }));
