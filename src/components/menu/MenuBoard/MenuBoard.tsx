@@ -9,8 +9,7 @@ import { usePick } from '@/hooks/usePick';
 import { useVotes } from '@/hooks/useVote';
 import {
   isAfterClose,
-  isNextWeek,
-  isNextWeekPublished,
+  isNextWeekMenuLocked,
 } from '@/utils/menuPolicy';
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { formatYYYYMMDD } from '@/utils/date';
@@ -53,10 +52,9 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
     ).filter((m): m is NonNullable<typeof m> => Boolean(m));
   }, [menus, selectedDate]);
 
-  const emptyVariant =
-    isNextWeek(selectedDate, now) && !isNextWeekPublished(now)
-      ? 'comingUp'
-      : 'closed';
+  const emptyVariant = isNextWeekMenuLocked(selectedDate, now)
+    ? 'comingUp'
+    : 'closed';
 
   return (
     <section className="bg-surface flex flex-col shadow-[var(--shadow-card)]">
