@@ -5,17 +5,24 @@ import {useMemo} from 'react';
 
 import {MENU_CATEGORIES} from '@/constants/menu';
 import dayjs from '@/lib/dayjs';
+import {usePick} from '@/lib/hooks/usePick';
 import {useVotes} from '@/lib/hooks/useVote';
 import {isAfterClose, isNextWeek, isNextWeekPublished} from '@/lib/menu-policy';
 import {useHasMounted} from '@/lib/useHasMounted';
 import {cn, formatYYYYMMDD} from '@/lib/utils';
 import {useDateStore} from '@/store/useDateStore';
-import {MenuType} from '@/types/menu';
+import {MenuCategory, MenuType} from '@/types/menu';
+import {PickType} from '@/types/vote';
 
 import BoardEmpty from './BoardEmpty';
 import CourseRow from './CourseRow';
 import DayBar from './DayBar';
-import PreMealPick from './PreMealPick';
+
+const CATEGORY_TO_PICK: Partial<Record<MenuCategory, PickType>> = {
+  COURSE_1: 'A',
+  COURSE_2: 'B',
+  TAKE_OUT: 'takeout',
+};
 
 interface MenuBoardProps {
   /** 서버에서 페치한 ±1주 메뉴 — SSR 시점에 바로 렌더해 하이드레이션 시프트를 방지 */
@@ -27,9 +34,11 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
   const mounted = useHasMounted();
   const dateStr = formatYYYYMMDD(selectedDate);
   const {voteMap, submitVote, isSubmitting} = useVotes(dateStr);
+  const {myPick, counts, submitPick} = usePick(dateStr);
   const isPast = mounted && selectedDate.isBefore(today, 'day');
   const isToday = mounted && selectedDate.isSame(today, 'day');
   const showVote = isPast || (isToday && isAfterClose(dayjs().tz()));
+  const showPick = mounted && !showVote && !selectedDate.isBefore(today, 'day');
 
   const dayMenus = useMemo(() => {
     const key = formatYYYYMMDD(selectedDate);
@@ -68,12 +77,10 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
         </button>
       </div>
       <DayBar />
-      {dayMenus.length > 0 && !selectedDate.isBefore(today, 'day') && (
-        <PreMealPick date={dateStr} />
-      )}
       {dayMenus.length > 0 ? (
         dayMenus.map((menu, i) => {
           const menuKey = `${menu.date}_${menu.category}`;
+          const pickType = CATEGORY_TO_PICK[menu.category];
           return (
             <CourseRow
               key={menu.category}
@@ -83,6 +90,10 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
               voteResult={voteMap[menuKey]}
               onVote={(type) => submitVote(menuKey, type)}
               isSubmitting={isSubmitting}
+              showPick={showPick && !!pickType}
+              pickCount={pickType ? counts[pickType] : 0}
+              isPicked={!!pickType && myPick === pickType}
+              onPick={() => pickType && submitPick(pickType)}
             />
           );
         })

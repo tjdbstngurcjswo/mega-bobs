@@ -56,8 +56,25 @@ export const POST = async (req: NextRequest) => {
   }
 
   const {date, pick_type} = body;
-  if (!date || !pick_type || !PICK_TYPES.includes(pick_type as PickType)) {
-    return NextResponse.json({error: 'date and valid pick_type required'}, {status: 400});
+  if (!date) {
+    return NextResponse.json({error: 'date required'}, {status: 400});
+  }
+
+  // pick_type이 null이면 취소
+  if (!pick_type) {
+    try {
+      await supabaseServer
+        .from('menu_picks')
+        .delete()
+        .match({voter_id: voterId, date});
+      return NextResponse.json({ok: true});
+    } catch {
+      return NextResponse.json({error: 'internal error'}, {status: 500});
+    }
+  }
+
+  if (!PICK_TYPES.includes(pick_type as PickType)) {
+    return NextResponse.json({error: 'invalid pick_type'}, {status: 400});
   }
 
   try {

@@ -1,6 +1,6 @@
 'use client';
 
-import {ThumbsDown, ThumbsUp} from 'lucide-react';
+import {ThumbsDown, ThumbsUp, Users} from 'lucide-react';
 import {useState} from 'react';
 
 import {MenuCategoryLabel} from '@/constants/menu';
@@ -15,6 +15,10 @@ interface CourseRowProps {
   voteResult?: VoteResult;
   onVote?: (type: VoteType) => void;
   isSubmitting?: boolean;
+  showPick?: boolean;
+  pickCount?: number;
+  isPicked?: boolean;
+  onPick?: () => void;
 }
 
 const CourseRow = ({
@@ -24,6 +28,10 @@ const CourseRow = ({
   voteResult,
   onVote,
   isSubmitting = false,
+  showPick = false,
+  pickCount = 0,
+  isPicked = false,
+  onPick,
 }: CourseRowProps) => {
   const [animating, setAnimating] = useState<VoteType | null>(null);
 
@@ -51,6 +59,23 @@ const CourseRow = ({
         </span>
         {total > 0 && (
           <span className="text-muted text-[10px] font-semibold">{total} kcal</span>
+        )}
+        {showPick && (
+          <button
+            type="button"
+            onClick={onPick}
+            aria-pressed={isPicked}
+            aria-label={`${MenuCategoryLabel[menu.category].ko} 오늘 먹을 예정`}
+            className={cn(
+              'ml-auto flex items-center gap-1 border px-2 py-0.5 text-[10px] font-medium leading-none transition-colors',
+              isPicked
+                ? 'border-accent bg-accent-soft text-accent-text'
+                : 'border-line text-muted hover:border-accent/50 hover:text-ink'
+            )}
+          >
+            <Users size={10} strokeWidth={2.5} />
+            {pickCount}명이 선택했어요
+          </button>
         )}
         {showVote && (
           <div className="ml-auto flex gap-1">

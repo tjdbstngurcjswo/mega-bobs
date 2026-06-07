@@ -41,6 +41,7 @@ export const usePick = (date: string) => {
 
   const submitPick = useCallback(
     async (pick_type: PickType) => {
+      const isSame = myPick === pick_type;
       const prev = myPick;
       const prevCounts = {...counts};
 
@@ -48,10 +49,10 @@ export const usePick = (date: string) => {
       setCounts((c) => {
         const next = {...c};
         if (prev) next[prev] = Math.max(0, next[prev] - 1);
-        next[pick_type] += 1;
+        if (!isSame) next[pick_type] += 1;
         return next;
       });
-      setMyPick(pick_type);
+      setMyPick(isSame ? null : pick_type);
 
       try {
         const res = await fetch('/api/picks', {
@@ -60,11 +61,10 @@ export const usePick = (date: string) => {
             'Content-Type': 'application/json',
             'x-voter-id': getVoterId(),
           },
-          body: JSON.stringify({date, pick_type}),
+          body: JSON.stringify({date, pick_type: isSame ? null : pick_type}),
         });
         if (!res.ok) throw new Error('submit failed');
       } catch {
-        // rollback on failure
         setCounts(prevCounts);
         setMyPick(prev);
       }
