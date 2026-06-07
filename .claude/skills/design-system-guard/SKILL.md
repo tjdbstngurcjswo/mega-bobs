@@ -56,7 +56,33 @@ UI 코드를 작성하거나 리뷰하기 전에 이 절차를 따른다.
 
 위반이 없으면: "✅ 디자인 시스템 규칙 통과"
 
-## STEP 5: 코드 작성 시 토큰 참조
+## STEP 5: 레이아웃 일관성 체크 (덜컥거림 방지)
+
+### 페이지 간 공통 구조
+
+- 여러 페이지가 동일한 eyebrow → title → description → content 구조를 공유할 때는 반드시 **공통 레이아웃 컴포넌트**로 추출한다.
+- 헤더 섹션에 `min-h` 고정값을 부여해 description 유무와 관계없이 콘텐츠 영역 시작 위치를 통일한다.
+- 현재 구현: `PageLayout` (`src/components/@shared/layout/PageLayout/`)
+
+### 조건부 렌더링 요소 깜빡임
+
+- `mounted` 플래그 등 CSR에서만 표시되는 요소(투표 버튼, 상태 배지 등)는 마운트 시 `animate-[fadeIn_0.3s_ease_both]` 적용.
+- SSR→CSR 전환 중 레이아웃 시프트가 생기는 요소는 `useLayoutEffect`로 페인트 전 초기화.
+
+### 높이 변경 트랜지션
+
+- 콘텐츠 변경으로 컨테이너 높이가 달라지면 Web Animations API로 보간한다.
+  ```ts
+  el.animate([{ height: `${prev}px` }, { height: `${next}px` }], { duration: 280, easing: 'ease-in-out' });
+  ```
+- `overflow-hidden`을 함께 적용해 보간 중 콘텐츠 넘침을 방지한다.
+
+### 페이지 진입 애니메이션 금지
+
+- **페이지 로드 시 fadeUp·stagger 입장 애니메이션 금지.** 새로고침마다 콘텐츠가 "부드럽게" 나타나는 효과는 피로감을 준다.
+- 허용: 상시 루프 (`softPulse`, `planeFly`, `floatUp`) + 인터랙션 피드백 (`chipPop`, 조건부 `fadeIn`).
+
+## STEP 6: 코드 작성 시 토큰 참조
 
 새 컴포넌트/스타일 작성 시 반드시 아래 토큰 목록에서 선택한다.
 
