@@ -7,13 +7,13 @@ import {PickResult, PickType} from '@/types/vote';
 
 const DEFAULT_COUNTS: PickResult['counts'] = {A: 0, B: 0, takeout: 0, pass: 0};
 
-export const usePick = (date: string) => {
+export const usePick = (date: string, {enabled = true} = {}) => {
   const [myPick, setMyPick] = useState<PickType | null>(null);
   const [counts, setCounts] = useState<PickResult['counts']>(DEFAULT_COUNTS);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!date) return;
+    if (!date || !enabled) return;
     let cancelled = false;
 
     const fetchPick = async () => {
@@ -37,7 +37,7 @@ export const usePick = (date: string) => {
     return () => {
       cancelled = true;
     };
-  }, [date]);
+  }, [date, enabled]);
 
   const submitPick = useCallback(
     async (pick_type: PickType) => {

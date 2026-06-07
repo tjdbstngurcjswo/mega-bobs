@@ -33,8 +33,12 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
   const {today, selectedDate, setSelectedDate} = useDateStore();
   const mounted = useHasMounted();
   const dateStr = formatYYYYMMDD(selectedDate);
-  const {voteMap, submitVote, isSubmitting} = useVotes(dateStr);
-  const {myPick, counts, submitPick} = usePick(dateStr);
+  const hasMenus = useMemo(
+    () => menus.some((m) => m.date === dateStr && m.items.length > 0),
+    [menus, dateStr]
+  );
+  const {voteMap, submitVote, isSubmitting} = useVotes(dateStr, {enabled: hasMenus});
+  const {myPick, counts, submitPick} = usePick(dateStr, {enabled: hasMenus});
   const isPast = mounted && selectedDate.isBefore(today, 'day');
   const isToday = mounted && selectedDate.isSame(today, 'day');
   const showVote = isPast || (isToday && isAfterClose(dayjs().tz()));

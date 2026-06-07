@@ -5,17 +5,18 @@ import {VoteResult, VoteType} from '@/types/vote';
 
 type VoteMap = Record<string, VoteResult>;
 
-export const useVotes = (date: string) => {
+export const useVotes = (date: string, {enabled = true} = {}) => {
   const [voteMap, setVoteMap] = useState<VoteMap>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (!date) return;
+    if (!date || !enabled) return;
     const voterId = getVoterId();
     if (!voterId) return;
 
     setIsLoading(true);
+    setVoteMap({});
     fetch(`/api/votes?date=${date}`, {
       headers: {'x-voter-id': voterId},
     })
@@ -29,7 +30,7 @@ export const useVotes = (date: string) => {
       })
       .catch(() => {})
       .finally(() => setIsLoading(false));
-  }, [date]);
+  }, [date, enabled]);
 
   const submitVote = useCallback(
     async (menuKey: string, voteType: VoteType) => {

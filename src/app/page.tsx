@@ -5,14 +5,14 @@ import HeroStatus from '@/components/home/HeroStatus';
 import HomeSide from '@/components/home/HomeSide';
 import getMenu from '@/lib/api/getMenu';
 import dayjs from '@/lib/dayjs';
-import {formatYYYYMMDD} from '@/lib/utils';
+import {formatYYYYMMDD, getWeekDays} from '@/lib/utils';
 
 export const revalidate = 21600;
 
 export default async function Home() {
   const today = dayjs().tz();
-  const start = formatYYYYMMDD(today.subtract(1, 'week').startOf('week').add(1, 'day'));
-  const end = formatYYYYMMDD(today.add(1, 'week').endOf('week').add(1, 'day'));
+  const start = formatYYYYMMDD(getWeekDays(today.subtract(1, 'week'))[0]);
+  const end = formatYYYYMMDD(getWeekDays(today.add(1, 'week'))[6]);
 
   const menus = await getMenu({start, end});
 
