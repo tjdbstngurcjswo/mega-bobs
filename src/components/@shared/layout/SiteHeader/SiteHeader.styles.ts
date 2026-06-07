@@ -6,22 +6,19 @@ export const headerClass = (scrolled: boolean, menuOpen: boolean) =>
     scrolled || menuOpen ? 'bg-white/70 backdrop-blur-xl' : 'bg-transparent'
   );
 
-export const logoLinkClass = 'text-ink text-[17px] font-extrabold tracking-tight';
+export const logoLinkClass =
+  'text-ink text-[17px] font-extrabold tracking-tight';
 
 export const desktopNavClass =
   'flex flex-1 gap-0.5 overflow-x-auto whitespace-nowrap max-[640px]:hidden';
 
-export const desktopNavLinkClass = (active: boolean, disabled?: boolean) =>
+export const desktopNavLinkClass = (active: boolean) =>
   cn(
     'flex items-center gap-1.5 px-3 py-2 text-[13.5px] font-semibold',
     active
       ? 'text-ink shadow-[inset_0_-2px_0_var(--color-accent)]'
-      : 'text-muted hover:text-ink-2',
-    disabled && 'cursor-default opacity-50'
+      : 'text-muted hover:text-ink-2'
   );
-
-export const navBadgeClass =
-  'bg-down-soft text-down px-1 py-px text-[9px] font-bold';
 
 export const desktopBellLinkClass =
   'text-ink-2 relative flex size-9 items-center justify-center max-[640px]:hidden';
@@ -29,8 +26,7 @@ export const desktopBellLinkClass =
 export const bellSpanClass = (showDot: boolean) =>
   cn('origin-top', showDot && 'animate-[bellRingLoop_4s_ease-in-out_infinite]');
 
-export const bellDotClass =
-  'bg-accent absolute top-[7px] right-[6px] size-1.5';
+export const bellDotClass = 'bg-accent absolute top-[7px] right-[6px] size-1.5';
 
 export const mobileBellLinkClass =
   'text-ink-2 relative flex size-11 items-center justify-center';
@@ -48,12 +44,8 @@ export const mobileOverlayClass = (menuOpen: boolean) =>
       : 'pointer-events-none -translate-y-2 opacity-0'
   );
 
-export const mobileNavLinkClass = (active: boolean, disabled?: boolean) =>
+export const mobileNavLinkClass = (active: boolean) =>
   cn(
     'flex items-center justify-between border-b border-line/50 py-3.5 text-[15px] font-semibold',
-    active ? 'text-ink' : 'text-ink-2',
-    disabled && 'cursor-default opacity-40'
+    active ? 'text-ink' : 'text-ink-2'
   );
-
-export const mobileNavBadgeClass =
-  'bg-down-soft text-down px-1.5 py-0.5 text-[9px] font-bold';

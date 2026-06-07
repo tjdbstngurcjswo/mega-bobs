@@ -20,10 +20,8 @@ import {
   logoLinkClass,
   mobileBellLinkClass,
   mobileMenuButtonClass,
-  mobileNavBadgeClass,
   mobileNavLinkClass,
   mobileOverlayClass,
-  navBadgeClass,
 } from './SiteHeader.styles';
 
 const SiteHeader = () => {
@@ -62,21 +60,16 @@ const SiteHeader = () => {
             MegaBobs
           </Link>
 
-          {/* 데스크톱 nav */}
           <nav className={desktopNavClass}>
             {NAV_ITEMS.map((item) => {
               const active = pathname === item.href;
               return (
                 <Link
                   key={item.href}
-                  href={item.disabled ? '#' : item.href}
-                  aria-disabled={item.disabled}
-                  className={desktopNavLinkClass(active, item.disabled)}
+                  href={item.href}
+                  className={desktopNavLinkClass(active)}
                 >
                   {item.label}
-                  {item.disabled && (
-                    <span className={navBadgeClass}>준비중</span>
-                  )}
                 </Link>
               );
             })}
@@ -136,15 +129,11 @@ const SiteHeader = () => {
             return (
               <Link
                 key={item.href}
-                href={item.disabled ? '#' : item.href}
-                aria-disabled={item.disabled}
+                href={item.href}
                 onClick={() => setMenuOpen(false)}
-                className={mobileNavLinkClass(active, item.disabled)}
+                className={mobileNavLinkClass(active)}
               >
                 {item.label}
-                {item.disabled && (
-                  <span className={mobileNavBadgeClass}>준비중</span>
-                )}
               </Link>
             );
           })}

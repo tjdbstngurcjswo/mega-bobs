@@ -1,6 +1,6 @@
 import { ErrorBoundary, SiteFooter, SiteHeader } from '@/components/@shared';
 import { MenuBoard } from '@/components/menu';
-import { HeroDate, HeroStatus, HomeSide } from '@/components/home';
+import { HeroDate, HeroStatus } from '@/components/home';
 import getMenu from '@/api/getMenu';
 import dayjs from '@/lib/dayjs';
 import { formatYYYYMMDD, getWeekDays } from '@/utils/date';
@@ -29,9 +29,8 @@ export default async function Home() {
           </h1>
         </section>
         <ErrorBoundary>
-          <div className="grid grid-cols-[1fr_300px] items-stretch gap-6 pb-10 max-[920px]:grid-cols-1">
+          <div className="pb-10">
             <MenuBoard menus={menus} />
-            <HomeSide />
           </div>
         </ErrorBoundary>
       </main>
