@@ -23,11 +23,11 @@ jobs:
           check_interval: 10
 
       - name: Skip if no Vercel preview
-        if: steps.vercel-preview.outputs.url == ''
-        run: echo "Vercel preview 배포 없음 — Lighthouse 스킵"
+        if: steps.vercel-preview.outcome != 'success'
+        run: echo "Vercel preview 없음 또는 접근 불가 — Lighthouse 스킵"
 
       - name: Run Lighthouse CI
-        if: steps.vercel-preview.outputs.url != ''
+        if: steps.vercel-preview.outcome == 'success'
         uses: treosh/lighthouse-ci-action@v12
         id: lighthouse
         with:
@@ -37,7 +37,7 @@ jobs:
           configPath: .lighthouserc.json
 
       - name: Comment Lighthouse results
-        if: steps.vercel-preview.outputs.url != ''
+        if: steps.vercel-preview.outcome == 'success'
         uses: actions/github-script@v7
         with:
           script: |
