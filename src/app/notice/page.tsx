@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
-import { SiteFooter, SiteHeader } from '@/components/@shared';
+import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
+import { SITE_NAME } from '@/constants/site';
 import dayjs from '@/lib/dayjs';
 import { getAnnouncements } from '@/api/getAnnouncements';
 
@@ -12,14 +13,11 @@ import {
   articleYearClass,
   emptyNoticeClass,
   newBadgeClass,
-  noticeBadgeClass,
-  noticeDescClass,
-  noticeTitleClass,
 } from './page.styles';
 
 export const metadata: Metadata = {
-  title: '공지사항 — MegaBobs',
-  description: 'MegaBobs의 새 기능, 점검, 운영 안내',
+  title: `공지사항 — ${SITE_NAME}`,
+  description: `${SITE_NAME}의 새 기능, 점검, 운영 안내`,
 };
 
 export default function NoticePage() {
@@ -28,15 +26,11 @@ export default function NoticePage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto w-[min(880px,calc(100%-40px))] flex-1">
-        <section className="pt-8 pb-5">
-          <span className={noticeBadgeClass}>공지사항</span>
-          <h1 className={noticeTitleClass}>MegaBobs 소식</h1>
-          <p className={noticeDescClass}>
-            새 기능, 점검, 운영 안내를 여기서 알려드려요
-          </p>
-        </section>
-
+      <PageLayout
+        eyebrow="공지사항"
+        title={`${SITE_NAME} 소식`}
+        description="새 기능, 점검, 운영 안내를 여기서 알려드려요"
+      >
         {notices.length > 0 ? (
           <div className="flex flex-col">
             {notices.map((n, i) => {
@@ -68,7 +62,7 @@ export default function NoticePage() {
         ) : (
           <div className={emptyNoticeClass}>아직 등록된 공지가 없어요</div>
         )}
-      </main>
+      </PageLayout>
       <SiteFooter />
     </>
   );

@@ -3,7 +3,7 @@ import { cn } from '@/utils/cn';
 export const headerClass = (scrolled: boolean, menuOpen: boolean) =>
   cn(
     'sticky top-0 z-50 transition-all duration-300',
-    scrolled || menuOpen ? 'bg-white/70 backdrop-blur-xl' : 'bg-transparent'
+    (scrolled || menuOpen) && 'backdrop-blur-md'
   );
 
 export const logoLinkClass =
@@ -15,9 +15,7 @@ export const desktopNavClass =
 export const desktopNavLinkClass = (active: boolean) =>
   cn(
     'flex items-center gap-1.5 px-3 py-2 text-[13.5px] font-semibold',
-    active
-      ? 'text-ink shadow-[inset_0_-2px_0_var(--color-accent)]'
-      : 'text-muted hover:text-ink-2'
+    active ? 'text-ink' : 'text-muted hover:text-ink-2'
   );
 
 export const desktopBellLinkClass =

@@ -1,13 +1,5 @@
 import { cn } from '@/utils/cn';
 
-export const noticeBadgeClass =
-  'bg-accent-soft text-accent-text inline-block px-2.5 py-1 text-xs font-extrabold tracking-wide';
-
-export const noticeTitleClass =
-  'mt-3 text-[27px] font-extrabold tracking-tight';
-
-export const noticeDescClass = 'text-muted mt-2 text-[15px]';
-
 export const articleClass = (isFirst: boolean) =>
   cn(
     'border-line flex gap-5 border-b px-1 py-5',

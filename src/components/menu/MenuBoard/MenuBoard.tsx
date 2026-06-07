@@ -1,12 +1,13 @@
 'use client';
 
-import { CalendarDays, Info, MapPin } from 'lucide-react';
-import { useMemo } from 'react';
+import { CalendarDays, Clock } from 'lucide-react';
+import { useLayoutEffect, useMemo, useRef } from 'react';
 
 import { MENU_CATEGORIES } from '@/constants/menu';
 import dayjs from '@/lib/dayjs';
 import { usePick } from '@/hooks/usePick';
 import { useVotes } from '@/hooks/useVote';
+import { CAFETERIA_LABEL } from '@/constants/cafeteria';
 import {
   isAfterClose,
   isNextWeekMenuLocked,
@@ -20,10 +21,9 @@ import MenuBoardEmpty from './_MenuBoardEmpty/MenuBoardEmpty';
 import MenuBoardCourseRow from './_MenuBoardCourseRow/MenuBoardCourseRow';
 import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
 import {
-  footerNoteClass,
   menuBodyClass,
-  menuHeadingLocationClass,
   menuHeadingTitleClass,
+  menuSubheadingClass,
   sectionClass,
   todayButtonClass,
 } from './MenuBoard.styles';
@@ -46,10 +46,10 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
     isSubmitting: isSubmittingPick,
   } = usePick(dateStr, { enabled: hasMenus });
   const now = dayjs().tz();
-  const isPast = mounted && selectedDate.isBefore(now, 'day');
-  const isToday = mounted && selectedDate.isSame(now, 'day');
-  const showVote = isPast || (isToday && isAfterClose(now));
-  const showPick = mounted && !showVote && !selectedDate.isBefore(now, 'day');
+  const isToday = selectedDate.isSame(today, 'day');
+  const isPast = selectedDate.isBefore(today, 'day');
+  const showVote = mounted && (isPast || (isToday && isAfterClose(now)));
+  const showPick = mounted && !showVote && !isPast;
 
   const dayMenus = useMemo(() => {
     const key = formatYYYYMMDD(selectedDate);
@@ -63,16 +63,33 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
     ? 'comingUp'
     : 'closed';
 
+  const menuBodyRef = useRef<HTMLDivElement>(null);
+  const prevHeightRef = useRef(0);
+
+  useLayoutEffect(() => {
+    const el = menuBodyRef.current;
+    if (!el) return;
+    const next = el.scrollHeight;
+    const prev = prevHeightRef.current;
+    prevHeightRef.current = next;
+    if (!prev || prev === next) return;
+    const a = el.animate(
+      [{ height: `${prev}px` }, { height: `${next}px` }],
+      { duration: 280, easing: 'ease-in-out' }
+    );
+    return () => a.cancel();
+  }, [dateStr]);
+
   return (
     <section className={sectionClass}>
       <div className="flex items-center justify-between px-6 py-4">
-        <h2 className="flex items-center gap-2">
-          <span className={menuHeadingTitleClass}>메뉴</span>
-          <span className={menuHeadingLocationClass}>
-            <MapPin size={10} strokeWidth={2.5} />
-            메가존 구내식당
-          </span>
-        </h2>
+        <div className="flex items-center gap-2">
+          <h2 className={menuHeadingTitleClass}>식단표</h2>
+          <p className={menuSubheadingClass}>
+            <Clock size={9} strokeWidth={2.5} className="text-muted" aria-hidden />
+            <span>{CAFETERIA_LABEL}</span>
+          </p>
+        </div>
         <button
           type="button"
           onClick={() => goToToday()}
@@ -84,15 +101,14 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
         </button>
       </div>
       <MenuBoardDayBar />
-      <div className={menuBodyClass}>
+      <div ref={menuBodyRef} className={menuBodyClass}>
         {dayMenus.length > 0 ? (
-          dayMenus.map((menu, i) => {
+          dayMenus.map((menu) => {
             const menuKey = `${menu.date}_${menu.category}`;
             return (
               <MenuBoardCourseRow
                 key={menu.category}
                 menu={menu}
-                index={i}
                 vote={{
                   show: showVote,
                   result: voteMap[menuKey],
@@ -118,14 +134,7 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
           />
         )}
       </div>
-      {(showVote || showPick) && dayMenus.length > 0 && (
-        <p className={footerNoteClass}>
-          <Info size={11} strokeWidth={2} className="shrink-0" />
-          {showVote
-            ? '투표 데이터는 정확하지 않을 수 있으며, 맛평가를 위한 참고용 기능이에요.'
-            : '투표 데이터는 정확하지 않을 수 있으며, 수요 예측을 위한 참고용 기능이에요.'}
-        </p>
-      )}
+
     </section>
   );
 };

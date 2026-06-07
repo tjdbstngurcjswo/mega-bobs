@@ -125,7 +125,7 @@ src/
 ├── assets/
 │   └── fonts/            # Pretendard 셀프호스팅 폰트
 ├── components/
-│   ├── @shared/          # ErrorBoundary, SiteHeader, SiteFooter
+│   ├── @shared/          # ErrorBoundary, SiteHeader, SiteFooter, PageLayout
 │   ├── menu/             # MenuBoard (_MenuBoardEmpty, _MenuBoardCourseRow, _MenuBoardDayBar)
 │   └── home/             # HeroStatus, HeroDate
 ├── constants/

@@ -2,10 +2,10 @@
 
 import { Bell, Menu, X } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
-import { NAV_ITEMS } from '@/constants/site';
+import { NAV_ITEMS, SITE_NAME } from '@/constants/site';
 import { getAnnouncements } from '@/api/getAnnouncements';
 import { hasNewAnnouncement } from '@/utils/announcementPolicy';
 import { useHasMounted } from '@/hooks/useHasMounted';
@@ -26,6 +26,7 @@ import {
 
 const SiteHeader = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const mounted = useHasMounted();
   const announcements = useMemo(() => getAnnouncements(), []);
   const showNoticeDot = useMemo(
@@ -34,7 +35,6 @@ const SiteHeader = () => {
   );
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -57,7 +57,7 @@ const SiteHeader = () => {
       <header className={headerClass(scrolled, menuOpen)}>
         <div className="mx-auto flex h-14 w-[min(880px,calc(100%-40px))] items-center gap-7">
           <Link href="/" className={logoLinkClass}>
-            MegaBobs
+            {SITE_NAME}
           </Link>
 
           <nav className={desktopNavClass}>
@@ -67,6 +67,7 @@ const SiteHeader = () => {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onMouseEnter={() => router.prefetch(item.href)}
                   className={desktopNavLinkClass(active)}
                 >
                   {item.label}
@@ -80,6 +81,7 @@ const SiteHeader = () => {
             href="/notice"
             title="공지사항"
             aria-label="공지사항"
+            onMouseEnter={() => router.prefetch('/notice')}
             className={desktopBellLinkClass}
           >
             <span className={bellSpanClass(showNoticeDot)}>
@@ -96,6 +98,7 @@ const SiteHeader = () => {
               href="/notice"
               title="공지사항"
               aria-label="공지사항"
+              onMouseEnter={() => router.prefetch('/notice')}
               className={mobileBellLinkClass}
             >
               <span className={bellSpanClass(showNoticeDot)}>
@@ -131,6 +134,7 @@ const SiteHeader = () => {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMenuOpen(false)}
+                onMouseEnter={() => router.prefetch(item.href)}
                 className={mobileNavLinkClass(active)}
               >
                 {item.label}

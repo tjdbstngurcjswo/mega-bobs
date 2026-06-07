@@ -1,10 +1,14 @@
 import { chipBg, labelClass, dateClass } from './MenuBoardDayBar.styles';
 import { cn } from '@/utils/cn';
 
-export const chipButtonClass = (isSelected: boolean, isToday: boolean) =>
+export const chipButtonClass = (
+  isSelected: boolean,
+  justSelected: boolean
+) =>
   cn(
-    'flex min-h-[44px] flex-1 cursor-pointer flex-col items-center justify-center gap-0.5 transition-colors duration-150',
-    chipBg(isSelected, isToday)
+    'relative flex min-h-[44px] flex-1 cursor-pointer flex-col items-center justify-center gap-0.5 transition-colors duration-150 active:opacity-70',
+    chipBg(isSelected),
+    justSelected && 'animate-[chipPop_0.22s_ease-out]'
   );
 
 export const chipDowClass = (
