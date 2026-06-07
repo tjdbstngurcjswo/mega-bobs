@@ -38,6 +38,12 @@ Supabase daily_menu
 
 ```
 src/
+├── api/
+│   ├── getMenu.ts        # Supabase daily_menu 조회 함수
+│   ├── getAnnouncements.ts # env 필터링 공지 조회 함수
+│   ├── menu.types.ts     # MenuType, MenuCategory, MenuItemType
+│   ├── notice.types.ts   # NoticeData
+│   └── vote.types.ts     # VoteType, VoteResult, PickType, PickResult
 ├── app/
 │   ├── api/
 │   │   ├── menu/         # GET ?start=&end= — 날짜 범위 메뉴 조회
@@ -52,38 +58,36 @@ src/
 │   ├── globals.css       # @theme 토큰 (Tailwind v4)
 │   ├── layout.tsx        # Pretendard 폰트 셀프호스팅, @vercel/analytics
 │   └── page.tsx          # 홈 (ISR, HeroStatus 렌더)
+├── assets/
+│   └── fonts/            # Pretendard 셀프호스팅 폰트
 ├── components/
 │   ├── @shared/          # ErrorBoundary, SiteHeader, SiteFooter + index.ts
-│   ├── board/            # MenuBoard, DayBar, CourseRow, BoardEmpty, PreMealPick
+│   ├── menu/             # MenuBoard (_BoardEmpty, _CourseRow, _DayBar)
 │   └── home/             # HeroStatus, HeroDate, HomeSide
 ├── constants/
+│   ├── cafeteria.ts      # CAFETERIA 운영 시각 config (단일 소스)
 │   ├── menu.ts           # MenuCategoryLabel (코스 카테고리 한글 레이블)
 │   ├── site.ts           # NAV_ITEMS, HOME_ENTRIES, FOOTER_LINKS
 │   └── slack.ts          # Slack 커맨드 맵
 ├── data/
 │   └── announcements.ts  # 정적 공지 데이터 (TS 배열)
-├── lib/
-│   ├── api/getMenu.ts    # Supabase daily_menu 조회 함수
-│   ├── hooks/
-│   │   ├── usePick.ts    # 식전 코스 픽 클라이언트 훅
-│   │   └── useVote.ts    # 맛 평가 투표 클라이언트 훅
-│   ├── dayjs.ts          # Asia/Seoul 타임존 설정 — 항상 여기서 import
-│   ├── getAnnouncements.ts # env 필터링 공지 조회 함수
-│   ├── menu-policy.ts    # CAFETERIA 운영 시각 config (단일 소스)
-│   ├── supabase-server.ts
+├── hooks/
 │   ├── useHasMounted.ts  # SSR/CSR 하이드레이션 불일치 방지 훅
-│   ├── utils.ts          # cn(), formatYYYYMMDD(), getWeekDays()
-│   └── voterId.ts        # 익명 투표자 ID 생성·관리 (localStorage)
+│   ├── usePick.ts        # 식전 코스 픽 클라이언트 훅
+│   └── useVote.ts        # 맛 평가 투표 클라이언트 훅
+├── lib/
+│   ├── dayjs.ts          # Asia/Seoul 타임존 설정 — 항상 여기서 import
+│   └── supabaseServer.ts
 ├── mcp/
 │   ├── index.ts          # MCP 서버 진입점 (stdio transport)
 │   └── server.ts         # MCP 도구 정의
 ├── store/
 │   └── useDateStore.ts   # today, selectedDate, currentWeek, 주 이동
-└── types/
-    ├── meal.ts           # MealType
-    ├── menu.ts           # MenuType, MenuCategory, MenuItemType
-    ├── notice.ts         # NoticeData
-    └── vote.ts           # VoteType, VoteResult, PickType, PickResult
+└── utils/
+    ├── cn.ts             # cn() 클래스 병합 유틸
+    ├── date.ts           # formatYYYYMMDD(), getWeekDays()
+    ├── menuPolicy.ts     # 운영 시각 판별 함수 (isAfterClose 등)
+    └── voterId.ts        # 익명 투표자 ID 생성·관리 (localStorage)
 ```
 
 ### API Routes

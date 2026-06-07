@@ -57,12 +57,10 @@
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 REVALIDATE_SECRET=
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-SLACK_SIGNING_SECRET=
-MENU_API_KEY=
+API_KEY=
+CRON_SECRET=
 ```
 
 ### 설치 및 실행
@@ -105,6 +103,12 @@ Supabase daily_menu
 
 ```
 src/
+├── api/
+│   ├── getMenu.ts        # Supabase daily_menu 조회 함수
+│   ├── getAnnouncements.ts # env 필터링 공지 조회 함수
+│   ├── menu.types.ts     # MenuType, MenuCategory, MenuItemType
+│   ├── notice.types.ts   # NoticeData
+│   └── vote.types.ts     # VoteType, VoteResult, PickType, PickResult
 ├── app/
 │   ├── api/
 │   │   ├── menu/         # GET ?start=&end= — 날짜 범위 메뉴 조회
@@ -117,42 +121,44 @@ src/
 │   ├── notice/           # 공지사항 페이지
 │   ├── layout.tsx
 │   └── page.tsx          # 홈 (ISR, HeroStatus 렌더)
+├── assets/
+│   └── fonts/            # Pretendard 셀프호스팅 폰트
 ├── components/
-│   ├── @shared/          # SiteHeader (frosted glass + 햄버거), SiteFooter
-│   ├── board/            # MenuBoard, DayBar, CourseRow, BoardEmpty, PreMealPick
+│   ├── @shared/          # ErrorBoundary, SiteHeader, SiteFooter
+│   ├── menu/             # MenuBoard (_BoardEmpty, _CourseRow, _DayBar)
 │   └── home/             # HeroStatus, HomeSide, HeroDate
+├── constants/
+│   ├── cafeteria.ts      # CAFETERIA 운영 시각 config (단일 소스)
+│   ├── menu.ts           # 코스 카테고리 한글 레이블
+│   ├── site.ts           # NAV_ITEMS, HOME_ENTRIES, FOOTER_LINKS
+│   └── slack.ts          # Slack 커맨드 맵
 ├── data/
 │   └── announcements.ts  # 정적 공지 데이터 (TS 배열)
+├── hooks/
+│   ├── useHasMounted.ts  # SSR/CSR 하이드레이션 불일치 방지 훅
+│   ├── usePick.ts        # 식전 픽 조회·제출 훅
+│   └── useVote.ts        # 맛 평가 투표 조회·제출 훅
 ├── lib/
-│   ├── hooks/
-│   │   ├── usePick.ts    # 식전 픽 조회·제출 훅
-│   │   └── useVote.ts    # 맛 평가 투표 조회·제출 훅
-│   ├── getAnnouncements.ts # env 필터링 공지 조회 함수
-│   ├── menu-policy.ts    # CAFETERIA 운영 시각 config (단일 소스)
-│   ├── supabase-server.ts
-│   ├── api/getMenu.ts
 │   ├── dayjs.ts          # Asia/Seoul 설정
-│   ├── voterId.ts        # 익명 투표자 ID 생성·관리
-│   └── utils.ts
+│   └── supabaseServer.ts
 ├── mcp/
 │   ├── index.ts          # MCP 서버 진입점 (stdio transport)
 │   └── server.ts         # MCP 도구 정의
 ├── store/
 │   └── useDateStore.ts   # today, selectedDate, currentWeek, 주 이동
-├── types/
-│   ├── menu.ts           # MenuType, MenuCategory, MenuItemType
-│   ├── meal.ts           # MealType
-│   ├── notice.ts         # NoticeData
-│   └── vote.ts           # VoteType, VoteResult, PickType, PickResult
-└── constants/            # 메뉴 카테고리, 식사 타입, Slack 커맨드, 사이트 링크
+└── utils/
+    ├── cn.ts             # cn() 클래스 병합 유틸
+    ├── date.ts           # formatYYYYMMDD(), getWeekDays()
+    ├── menuPolicy.ts     # 운영 시각 판별 함수
+    └── voterId.ts        # 익명 투표자 ID 생성·관리
 ```
 
 ### 운영 시각 설정
 
-구내식당 운영 시간은 `src/lib/menu-policy.ts`의 `CAFETERIA` 객체 하나에서 관리합니다. 여기만 수정하면 HeroStatus · Slack 봇 · 모든 레이블에 자동 반영됩니다.
+구내식당 운영 시간은 `src/constants/cafeteria.ts`의 `CAFETERIA` 객체 하나에서 관리합니다. 여기만 수정하면 HeroStatus · Slack 봇 · 모든 레이블에 자동 반영됩니다.
 
 ```ts
-export const CAFETERIA = {
+const CAFETERIA = {
   openHour: 11,
   openMinute: 0,
   closeHour: 13,
