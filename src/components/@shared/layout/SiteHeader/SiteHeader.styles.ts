@@ -3,7 +3,7 @@ import { cn } from '@/utils/cn';
 export const headerClass = (scrolled: boolean, menuOpen: boolean) =>
   cn(
     'sticky top-0 z-50 transition-all duration-300',
-    scrolled || menuOpen ? 'bg-white/70 backdrop-blur-xl' : 'bg-transparent'
+    (scrolled || menuOpen) && 'backdrop-blur-md'
   );
 
 export const logoLinkClass =

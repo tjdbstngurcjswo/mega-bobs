@@ -1,6 +1,6 @@
 'use client';
 
-import { CalendarDays, Clock, Info, MapPin } from 'lucide-react';
+import { CalendarDays, Clock, Info } from 'lucide-react';
 import { useMemo } from 'react';
 
 import { MENU_CATEGORIES } from '@/constants/menu';
@@ -70,9 +70,6 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
         <div className="flex items-center gap-2">
           <h2 className={menuHeadingTitleClass}>식단표</h2>
           <p className={menuSubheadingClass}>
-            <MapPin size={9} strokeWidth={2.5} className="text-muted" aria-hidden />
-            <span>메가존 산학연센터 B1</span>
-            <span aria-hidden className="text-line">·</span>
             <Clock size={9} strokeWidth={2.5} className="text-muted" aria-hidden />
             <span>{CAFETERIA_LABEL}</span>
           </p>

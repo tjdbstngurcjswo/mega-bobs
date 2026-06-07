@@ -1,3 +1,5 @@
+import { Plane } from 'lucide-react';
+
 import { BOARD_EMPTY_COPY } from './MenuBoardEmpty.constants';
 import { MenuBoardEmptyProps } from './MenuBoardEmpty.types';
 import {
@@ -24,10 +26,22 @@ const MenuBoardEmpty = ({
     return `${dateStr}${copy.title}`;
   })();
 
+  const showPlane = variant === 'closed';
+
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-6 py-12 text-center">
       <div className={emptyLabelClass}>{copy.label}</div>
       <h3 className={emptyTitleClass}>{closedTitle}</h3>
+      {showPlane && (
+        <div className="relative mt-4 h-6 w-full overflow-hidden" aria-hidden>
+          <span
+            className="absolute left-1/2 top-1/2 -translate-y-1/2 text-muted"
+            style={{ animation: 'planeFly 5s ease-in-out 0.5s infinite' }}
+          >
+            <Plane size={15} strokeWidth={1.5} />
+          </span>
+        </div>
+      )}
       {copy.body && <p className={emptyBodyClass}>{copy.body}</p>}
     </div>
   );

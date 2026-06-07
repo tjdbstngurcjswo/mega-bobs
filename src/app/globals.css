@@ -133,6 +133,25 @@
   }
 }
 
+@keyframes planeFly {
+  0%,
+  52%,
+  100% {
+    opacity: 0;
+    transform: translateX(-64px) rotate(45deg);
+  }
+  10% {
+    opacity: 0.5;
+  }
+  42% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0;
+    transform: translateX(64px) rotate(40deg);
+  }
+}
+
 @keyframes bellRingLoop {
   /* 0~18% 실제 흔들림 (~0.7s @ 4s cycle), 나머지는 정지 */
   0% {
