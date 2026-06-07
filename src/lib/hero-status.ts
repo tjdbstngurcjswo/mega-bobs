@@ -9,7 +9,7 @@ import {MenuType} from '@/types/menu';
 
 export type HeroStatusState = {icon: ElementType; text: string};
 
-export const nextWorkdayKey = (from: dayjs.Dayjs): string => {
+const nextWorkdayKey = (from: dayjs.Dayjs): string => {
   const dow = from.day();
   const ahead = dow === 5 ? 3 : dow === 6 ? 2 : 1;
   return formatYYYYMMDD(from.add(ahead, 'day'));

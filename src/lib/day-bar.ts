@@ -3,7 +3,7 @@ export const chipBg = (isSelected: boolean, isToday: boolean): string => {
   return isToday ? 'bg-accent' : 'bg-ink';
 };
 
-export const dowColor = (dow: number): string | null => {
+const dowColor = (dow: number): string | null => {
   if (dow === 0) return 'text-red-500';
   if (dow === 6) return 'text-blue-500';
   return null;

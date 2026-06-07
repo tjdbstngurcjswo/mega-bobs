@@ -36,6 +36,3 @@ export interface MenuBoardProps {
   menus: MenuType[];
 }
 
-export interface PreMealPickProps {
-  date: string;
-}

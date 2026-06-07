@@ -1,6 +1,6 @@
 import {MealType} from './meal';
 
-export type MenuItemType = {
+type MenuItemType = {
   name: string;
   kcal: number;
 };

@@ -28,10 +28,3 @@ export const CATEGORY_TO_PICK: Partial<Record<MenuCategory, PickType>> = {
   COURSE_2: 'B',
   TAKE_OUT: 'takeout',
 };
-
-export const PICKS: {type: PickType; label: string}[] = [
-  {type: 'A', label: 'A코스'},
-  {type: 'B', label: 'B코스'},
-  {type: 'takeout', label: '테이크아웃'},
-  {type: 'pass', label: '패스'},
-];
