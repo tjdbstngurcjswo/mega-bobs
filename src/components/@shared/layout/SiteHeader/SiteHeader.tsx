@@ -3,7 +3,7 @@
 import { Bell, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { NAV_ITEMS, SITE_NAME } from '@/constants/site';
 import { getAnnouncements } from '@/api/getAnnouncements';
@@ -34,6 +34,21 @@ const SiteHeader = () => {
   );
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
+
+  useEffect(() => {
+    if (!mounted) return;
+    const activeIdx = NAV_ITEMS.findIndex((item) => pathname === item.href);
+    if (activeIdx < 0) { setIndicator(null); return; }
+    const link = linkRefs.current[activeIdx];
+    const nav = navRef.current;
+    if (!link || !nav) return;
+    const navRect = nav.getBoundingClientRect();
+    const linkRect = link.getBoundingClientRect();
+    setIndicator({ left: linkRect.left - navRect.left, width: linkRect.width });
+  }, [mounted, pathname]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -60,19 +75,27 @@ const SiteHeader = () => {
             {SITE_NAME}
           </Link>
 
-          <nav className={desktopNavClass}>
-            {NAV_ITEMS.map((item) => {
+          <nav ref={navRef} className={desktopNavClass}>
+            {NAV_ITEMS.map((item, i) => {
               const active = pathname === item.href;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
+                  ref={(el) => { linkRefs.current[i] = el; }}
                   className={desktopNavLinkClass(active)}
                 >
                   {item.label}
                 </Link>
               );
             })}
+            {indicator && (
+              <div
+                aria-hidden
+                className="pointer-events-none absolute bottom-0 h-0.5 bg-accent transition-all duration-250 ease-out"
+                style={{ left: indicator.left, width: indicator.width }}
+              />
+            )}
           </nav>
 
           {/* 데스크톱 벨 */}

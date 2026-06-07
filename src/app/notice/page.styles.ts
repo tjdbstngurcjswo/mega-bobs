@@ -1,10 +1,10 @@
 import { cn } from '@/utils/cn';
 
 export const noticeBadgeClass =
-  'bg-accent-soft text-accent-text inline-block px-2.5 py-1 text-xs font-extrabold tracking-wide';
+  'text-muted inline-block text-[11.5px] font-semibold tracking-[0.06em] uppercase';
 
 export const noticeTitleClass =
-  'mt-3 text-[27px] font-extrabold tracking-tight';
+  'text-ink mt-3 text-[26px] font-extrabold tracking-[-0.02em] max-[560px]:text-[20px]';
 
 export const noticeDescClass = 'text-muted mt-2 text-[15px]';
 

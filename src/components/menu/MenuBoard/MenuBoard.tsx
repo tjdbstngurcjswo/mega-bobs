@@ -1,7 +1,7 @@
 'use client';
 
 import { CalendarDays, Clock, Info } from 'lucide-react';
-import { useMemo } from 'react';
+import { useLayoutEffect, useMemo, useRef } from 'react';
 
 import { MENU_CATEGORIES } from '@/constants/menu';
 import dayjs from '@/lib/dayjs';
@@ -64,6 +64,23 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
     ? 'comingUp'
     : 'closed';
 
+  const menuBodyRef = useRef<HTMLDivElement>(null);
+  const prevHeightRef = useRef(0);
+
+  useLayoutEffect(() => {
+    const el = menuBodyRef.current;
+    if (!el) return;
+    const next = el.scrollHeight;
+    const prev = prevHeightRef.current;
+    prevHeightRef.current = next;
+    if (!prev || prev === next) return;
+    const a = el.animate(
+      [{ height: `${prev}px` }, { height: `${next}px` }],
+      { duration: 280, easing: 'ease-in-out' }
+    );
+    return () => a.cancel();
+  }, [dateStr]);
+
   return (
     <section className={sectionClass}>
       <div className="flex items-center justify-between px-6 py-4">
@@ -85,15 +102,14 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
         </button>
       </div>
       <MenuBoardDayBar />
-      <div className={menuBodyClass}>
+      <div ref={menuBodyRef} className={menuBodyClass}>
         {dayMenus.length > 0 ? (
-          dayMenus.map((menu, i) => {
+          dayMenus.map((menu) => {
             const menuKey = `${menu.date}_${menu.category}`;
             return (
               <MenuBoardCourseRow
                 key={menu.category}
                 menu={menu}
-                index={i}
                 vote={{
                   show: showVote,
                   result: voteMap[menuKey],

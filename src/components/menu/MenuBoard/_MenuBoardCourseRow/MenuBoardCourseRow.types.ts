@@ -18,7 +18,6 @@ interface PickProps {
 
 export interface MenuBoardCourseRowProps {
   menu: MenuType;
-  index?: number;
   vote?: VoteProps;
   pick?: PickProps;
 }

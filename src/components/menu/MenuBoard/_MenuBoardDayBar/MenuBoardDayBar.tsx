@@ -30,7 +30,7 @@ const MenuBoardDayBar = () => {
 
   const handlePrev = () => {
     if (!canGoPrev) {
-      toast.error('지난 주 메뉴는 볼 수 없어요');
+      toast.error('제공하지 않는 날짜예요');
       return;
     }
     goToPrevWeek();

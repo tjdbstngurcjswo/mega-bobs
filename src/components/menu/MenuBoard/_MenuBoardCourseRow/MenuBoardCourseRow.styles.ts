@@ -13,7 +13,7 @@ export const courseLabelClass =
 
 export const kcalClass = 'text-muted text-[11px] font-semibold';
 
-export const voteGroupClass = 'ml-auto flex gap-1';
+export const voteGroupClass = 'ml-auto flex gap-1 animate-[fadeIn_0.3s_ease_both]';
 
 export const itemsTextClass =
   'mt-2 flex flex-wrap gap-x-0.5 text-ink text-[14.5px] leading-relaxed font-semibold';
@@ -29,7 +29,7 @@ export const tabularNumsClass = 'tabular-nums';
 
 export const pickButtonClass = (isPicked: boolean) =>
   cn(
-    'ml-auto flex items-center gap-1 border px-2 py-0.5 text-[10px] font-medium leading-none transition-colors',
+    'ml-auto flex items-center gap-1 border px-2 py-0.5 text-[10px] font-medium leading-none transition-colors animate-[fadeIn_0.3s_ease_both]',
     isPicked
       ? 'border-accent bg-accent-soft text-accent-text'
       : 'border-line text-muted hover:border-accent/50 hover:text-ink'

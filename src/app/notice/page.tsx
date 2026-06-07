@@ -30,7 +30,7 @@ export default function NoticePage() {
     <>
       <SiteHeader />
       <main className="mx-auto w-[min(880px,calc(100%-40px))] flex-1">
-        <section className="pt-8 pb-5">
+        <section className="pt-12 pb-6">
           <span className={noticeBadgeClass}>공지사항</span>
           <h1 className={noticeTitleClass}>{SITE_NAME} 소식</h1>
           <p className={noticeDescClass}>

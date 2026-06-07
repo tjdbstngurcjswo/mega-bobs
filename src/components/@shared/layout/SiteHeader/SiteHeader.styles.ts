@@ -10,14 +10,12 @@ export const logoLinkClass =
   'text-ink text-[17px] font-extrabold tracking-tight';
 
 export const desktopNavClass =
-  'flex flex-1 gap-0.5 overflow-x-auto whitespace-nowrap max-[640px]:hidden';
+  'relative flex flex-1 gap-0.5 overflow-x-auto whitespace-nowrap max-[640px]:hidden';
 
 export const desktopNavLinkClass = (active: boolean) =>
   cn(
     'flex items-center gap-1.5 px-3 py-2 text-[13.5px] font-semibold',
-    active
-      ? 'text-ink shadow-[inset_0_-2px_0_var(--color-accent)]'
-      : 'text-muted hover:text-ink-2'
+    active ? 'text-ink' : 'text-muted hover:text-ink-2'
   );
 
 export const desktopBellLinkClass =
