@@ -38,7 +38,7 @@ const MenuBoardDayBar = () => {
 
   const handleNext = () => {
     if (!canGoNext) {
-      toast.error('매주 목요일에 업데이트됩니다.');
+      toast.error('아직 준비 중이에요');
       return;
     }
     goToNextWeek();
