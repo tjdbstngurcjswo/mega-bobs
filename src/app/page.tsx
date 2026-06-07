@@ -1,5 +1,5 @@
 import {ErrorBoundary, SiteFooter, SiteHeader} from '@/components/@shared';
-import {MenuBoard} from '@/components/board';
+import {MenuBoard} from '@/components/menu';
 import {HeroDate, HeroStatus, HomeSide} from '@/components/home';
 import getMenu from '@/lib/api/getMenu';
 import dayjs from '@/lib/dayjs';
