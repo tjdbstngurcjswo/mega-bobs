@@ -1,7 +1,7 @@
-import {BOARD_EMPTY_COPY} from './constants';
-import {BoardEmptyProps} from './BoardEmpty.types';
+import { BOARD_EMPTY_COPY } from './constants';
+import { BoardEmptyProps } from './BoardEmpty.types';
 
-const BoardEmpty = ({variant, date, isToday, isPast}: BoardEmptyProps) => {
+const BoardEmpty = ({ variant, date, isToday, isPast }: BoardEmptyProps) => {
   const copy = BOARD_EMPTY_COPY[variant];
 
   const closedTitle = (() => {

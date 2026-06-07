@@ -8,8 +8,10 @@ const CAFETERIA = {
   closeMinute: 15,
 } as const;
 
-export const CAFETERIA_OPEN_MIN = CAFETERIA.openHour * 60 + CAFETERIA.openMinute;
+export const CAFETERIA_OPEN_MIN =
+  CAFETERIA.openHour * 60 + CAFETERIA.openMinute;
 
-export const CAFETERIA_CLOSE_MIN = CAFETERIA.closeHour * 60 + CAFETERIA.closeMinute;
+export const CAFETERIA_CLOSE_MIN =
+  CAFETERIA.closeHour * 60 + CAFETERIA.closeMinute;
 
 export const CAFETERIA_LABEL = `${pad(CAFETERIA.openHour)}:${pad(CAFETERIA.openMinute)} – ${pad(CAFETERIA.closeHour)}:${pad(CAFETERIA.closeMinute)}`;

@@ -1,6 +1,6 @@
 'use client';
 
-import {useLayoutEffect, useState} from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 /**
  * 클라이언트 마운트 여부.

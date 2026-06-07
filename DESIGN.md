@@ -41,22 +41,22 @@
 - **규칙 1:** 옐로우 배경 위 텍스트는 **잉크(#111)**, 화이트 금지.
 - **규칙 2:** 라이트 배경 위 옐로우 텍스트는 `--accent-text #997400` 사용(대비 확보용).
 
-| 토큰 | Hex | 용도 |
-|---|---|---|
-| `--color-bg` | `#f3f6fb` | 페이지 배경 (cool blue-tint) |
-| `--color-surface` | `#ffffff` | 카드 배경 |
-| `--color-surface-warm` | `#eaf0f8` | 섹션 구분용 cool tint |
-| `--color-board` / `--color-board-2` | `#111720` / `#1a2333` | 다크 카드 (cool deep navy-black) / 활성 탭 면 |
-| `--color-ink` / `--color-ink-2` | `#111720` / `#455060` | 본문 / 보조 텍스트 (cool) |
-| `--color-muted` | `#7e8fa0` | 캡션/메타 **한정** (본문 대비 미달 — 본문 사용 금지) |
-| `--color-line` | `#d8e0ea` | 헤어라인 (cool blue-grey) |
-| `--color-cream` / `--color-cream-2` | `#dde5f0` / `#8fa4bc` | 다크 위 텍스트 / 다크 위 보조 |
-| `--color-accent` | `#e2c04c` | 키컬러 (유일한 액센트) |
-| `--color-accent-deep` | `#c2a02e` | 키컬러 딥 |
-| `--color-accent-soft` | `#faf3d6` | 키컬러 연한 면 |
-| `--color-accent-text` | `#836000` | 라이트 위 옐로우 텍스트 |
-| `--color-highlight` | `#eedfa0` | 헤드라인 형광펜 (코스 카테고리 레이블) |
-| `--color-down` / `--color-down-soft` | `#6e8094` / `#e4eaf3` | 비활성/보조 버튼 그레이 |
+| 토큰                                 | Hex                   | 용도                                                 |
+| ------------------------------------ | --------------------- | ---------------------------------------------------- |
+| `--color-bg`                         | `#f3f6fb`             | 페이지 배경 (cool blue-tint)                         |
+| `--color-surface`                    | `#ffffff`             | 카드 배경                                            |
+| `--color-surface-warm`               | `#eaf0f8`             | 섹션 구분용 cool tint                                |
+| `--color-board` / `--color-board-2`  | `#111720` / `#1a2333` | 다크 카드 (cool deep navy-black) / 활성 탭 면        |
+| `--color-ink` / `--color-ink-2`      | `#111720` / `#455060` | 본문 / 보조 텍스트 (cool)                            |
+| `--color-muted`                      | `#7e8fa0`             | 캡션/메타 **한정** (본문 대비 미달 — 본문 사용 금지) |
+| `--color-line`                       | `#d8e0ea`             | 헤어라인 (cool blue-grey)                            |
+| `--color-cream` / `--color-cream-2`  | `#dde5f0` / `#8fa4bc` | 다크 위 텍스트 / 다크 위 보조                        |
+| `--color-accent`                     | `#e2c04c`             | 키컬러 (유일한 액센트)                               |
+| `--color-accent-deep`                | `#c2a02e`             | 키컬러 딥                                            |
+| `--color-accent-soft`                | `#faf3d6`             | 키컬러 연한 면                                       |
+| `--color-accent-text`                | `#836000`             | 라이트 위 옐로우 텍스트                              |
+| `--color-highlight`                  | `#eedfa0`             | 헤드라인 형광펜 (코스 카테고리 레이블)               |
+| `--color-down` / `--color-down-soft` | `#6e8094` / `#e4eaf3` | 비활성/보조 버튼 그레이                              |
 
 - **테마: 라이트 단일 확정.** 다크모드 없음(`next-themes` 미사용).
 - **하드코딩 금지:** 토큰 밖 그레이(`#B5B5B2` 등)는 토큰으로 흡수할 것.

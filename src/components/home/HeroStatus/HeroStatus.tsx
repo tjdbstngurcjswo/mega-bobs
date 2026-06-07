@@ -1,14 +1,16 @@
 'use client';
 
-import {Utensils} from 'lucide-react';
-import {useEffect, useState} from 'react';
+import { Utensils } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import dayjs from '@/lib/dayjs';
-import {getHeroStatus, HeroStatusState} from './HeroStatus.utils';
-import {MenuType} from '@/models/menu';
+import { getHeroStatus, HeroStatusState } from './HeroStatus.utils';
+import { MenuType } from '@/models/menu';
 
-const HeroStatus = ({menus}: {menus: MenuType[]}) => {
-  const [status, setStatus] = useState<HeroStatusState>(() => getHeroStatus(menus, dayjs().tz()));
+const HeroStatus = ({ menus }: { menus: MenuType[] }) => {
+  const [status, setStatus] = useState<HeroStatusState>(() =>
+    getHeroStatus(menus, dayjs().tz())
+  );
 
   useEffect(() => {
     const update = () => setStatus(getHeroStatus(menus, dayjs().tz()));
@@ -36,7 +38,7 @@ const HeroStatus = ({menus}: {menus: MenuType[]}) => {
             : 'fadeUp 0.35s ease both',
         }}
       />
-      <span style={{animation: 'fadeUp 0.4s ease 0.08s both'}}>
+      <span style={{ animation: 'fadeUp 0.4s ease 0.08s both' }}>
         {status.text}
       </span>
     </span>

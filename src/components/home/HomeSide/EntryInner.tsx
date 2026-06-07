@@ -1,8 +1,10 @@
-import {EntryInnerProps} from './HomeSide.types';
+import { EntryInnerProps } from './HomeSide.types';
 
-const EntryInner = ({no, label, desc, disabled}: EntryInnerProps) => (
+const EntryInner = ({ no, label, desc, disabled }: EntryInnerProps) => (
   <>
-    <span className="w-[26px] text-[13px] font-black text-accent-text">{no}</span>
+    <span className="text-accent-text w-[26px] text-[13px] font-black">
+      {no}
+    </span>
     <span className="flex-1">
       <b className="block text-sm font-extrabold">
         {label}
@@ -12,7 +14,7 @@ const EntryInner = ({no, label, desc, disabled}: EntryInnerProps) => (
           </i>
         )}
       </b>
-      <span className="mt-0.5 block text-[10.5px] text-muted">{desc}</span>
+      <span className="text-muted mt-0.5 block text-[10.5px]">{desc}</span>
     </span>
     <span aria-hidden className="text-line">
       ›

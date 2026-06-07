@@ -1,12 +1,12 @@
 'use client';
 
-import {useRef} from 'react';
+import { useRef } from 'react';
 
-import {useHasMounted} from '@/hooks/useHasMounted';
-import {useDateStore} from '@/store/useDateStore';
+import { useHasMounted } from '@/hooks/useHasMounted';
+import { useDateStore } from '@/store/useDateStore';
 
 import DayChip from './DayChip';
-import {navButtonClass} from './DayBar.styles';
+import { navButtonClass } from './DayBar.styles';
 
 const DayBar = () => {
   const {
@@ -44,13 +44,15 @@ const DayBar = () => {
         aria-label="지난주 메뉴 보기"
         className={navButtonClass(canGoPrev)}
       >
-        <span className="text-[16px] font-light leading-none">‹</span>
+        <span className="text-[16px] leading-none font-light">‹</span>
       </button>
       <div className="flex flex-1 flex-col">
         <div
           key={currentWeek[0]?.format('YYYY-MM-DD')}
           className="flex gap-1.5 overflow-hidden"
-          style={{animation: `${directionRef.current === 'next' ? 'slideFromRight' : 'slideFromLeft'} 0.22s ease both`}}
+          style={{
+            animation: `${directionRef.current === 'next' ? 'slideFromRight' : 'slideFromLeft'} 0.22s ease both`,
+          }}
         >
           {currentWeek.map((day) => (
             <DayChip
@@ -71,7 +73,7 @@ const DayBar = () => {
         aria-label="다음 주 메뉴 보기"
         className={navButtonClass(canGoNext)}
       >
-        <span className="text-[16px] font-light leading-none">›</span>
+        <span className="text-[16px] leading-none font-light">›</span>
       </button>
     </div>
   );

@@ -1,8 +1,8 @@
 import toast from 'react-hot-toast';
-import {create} from 'zustand';
+import { create } from 'zustand';
 
 import dayjs from '@/lib/dayjs';
-import {getWeekDays} from '@/utils/date';
+import { getWeekDays } from '@/utils/date';
 
 interface DateStore {
   today: dayjs.Dayjs;
@@ -26,25 +26,31 @@ export const useDateStore = create<DateStore>((set, get) => ({
   selectedDate: today,
   currentWeek: getWeekDays(today),
 
-  setSelectedDate: (date) => set({selectedDate: date}),
+  setSelectedDate: (date) => set({ selectedDate: date }),
 
   goToPrevWeek: () => {
-    const {currentWeek, minDate} = get();
+    const { currentWeek, minDate } = get();
     const prevWeekStart = currentWeek[0].subtract(7, 'day');
     if (prevWeekStart.isBefore(minDate, 'day')) {
       toast.error('지난 메뉴는 볼 수 없습니다.');
       return;
     }
-    set({currentWeek: getWeekDays(prevWeekStart), selectedDate: prevWeekStart});
+    set({
+      currentWeek: getWeekDays(prevWeekStart),
+      selectedDate: prevWeekStart,
+    });
   },
 
   goToNextWeek: () => {
-    const {currentWeek, maxDate} = get();
+    const { currentWeek, maxDate } = get();
     const nextWeekStart = currentWeek[6].add(1, 'day');
     if (nextWeekStart.isAfter(maxDate, 'day')) {
       toast.error('매주 목요일에 업데이트됩니다.');
       return;
     }
-    set({currentWeek: getWeekDays(nextWeekStart), selectedDate: nextWeekStart});
+    set({
+      currentWeek: getWeekDays(nextWeekStart),
+      selectedDate: nextWeekStart,
+    });
   },
 }));

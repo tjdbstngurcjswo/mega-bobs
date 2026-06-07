@@ -1,1 +1,1 @@
-export {default} from './HeroStatus';
+export { default } from './HeroStatus';

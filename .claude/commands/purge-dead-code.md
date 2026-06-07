@@ -1,5 +1,5 @@
 ---
-description: "[데드코드 제거] knip으로 미사용 파일·export·의존성을 탐지하고 안전하게 제거"
+description: '[데드코드 제거] knip으로 미사용 파일·export·의존성을 탐지하고 안전하게 제거'
 allowed-tools: Bash(npx knip*), Bash(node:*), Bash(rm:*), Bash(rmdir:*), Read, Edit, Bash(find:*), Bash(grep:*)
 ---
 
@@ -23,14 +23,15 @@ find src -type d -empty 2>/dev/null
 
 탐지 결과를 아래 4가지로 분류한다:
 
-| 카테고리 | 설명 | 처리 방침 |
-|---|---|---|
-| **미사용 파일** | import 되지 않는 파일 전체 | 삭제 |
-| **미사용 export** | export는 됐지만 외부에서 import되지 않는 심볼 | barrel에서 export 라인 제거 |
-| **미사용 의존성** | package.json에 있으나 코드에서 쓰이지 않는 패키지 | `pnpm remove`로 제거 |
-| **빈 디렉토리** | 파일이 없는 디렉토리 | 삭제 |
+| 카테고리          | 설명                                              | 처리 방침                   |
+| ----------------- | ------------------------------------------------- | --------------------------- |
+| **미사용 파일**   | import 되지 않는 파일 전체                        | 삭제                        |
+| **미사용 export** | export는 됐지만 외부에서 import되지 않는 심볼     | barrel에서 export 라인 제거 |
+| **미사용 의존성** | package.json에 있으나 코드에서 쓰이지 않는 패키지 | `pnpm remove`로 제거        |
+| **빈 디렉토리**   | 파일이 없는 디렉토리                              | 삭제                        |
 
 **False positive 판단 기준:**
+
 - knip이 `server-only`, `@vercel/analytics` 등 런타임 사이드이펙트 패키지를 미사용으로 표시하면 → 무시
 - `vitest.config.ts`가 삭제된 테스트 파일을 참조하는 경우 → `vitest.config.ts` 자체 삭제 검토
 - Next.js App Router `page.tsx` / `layout.tsx` / `route.ts`는 진입점이므로 knip이 미사용으로 표시해도 → 무시

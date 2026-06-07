@@ -1,11 +1,11 @@
 'use client';
 
-import {ThumbsDown, ThumbsUp, Users} from 'lucide-react';
-import {useState} from 'react';
+import { ThumbsDown, ThumbsUp, Users } from 'lucide-react';
+import { useState } from 'react';
 
-import {MenuCategoryLabel} from '@/constants/menu';
-import {CourseRowProps} from './CourseRow.types';
-import {VoteType} from '@/models/vote';
+import { MenuCategoryLabel } from '@/constants/menu';
+import { CourseRowProps } from './CourseRow.types';
+import { VoteType } from '@/models/vote';
 
 import {
   downVoteButtonClass,
@@ -16,7 +16,7 @@ import {
 } from './CourseRow.styles';
 
 const TOOLTIP =
-  'pointer-events-none invisible absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-2 py-1 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-[\'\']';
+  "pointer-events-none invisible absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-2 py-1 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-['']";
 
 const CourseRow = ({
   menu,
@@ -46,17 +46,26 @@ const CourseRow = ({
   return (
     <div
       className="px-5 py-6"
-      style={{animation: 'fadeUp 0.28s ease both', animationDelay: `${index * 70}ms`}}
+      style={{
+        animation: 'fadeUp 0.28s ease both',
+        animationDelay: `${index * 70}ms`,
+      }}
     >
       <div className="mb-1.5 flex items-end gap-2">
         <span
           className="text-accent-text text-[13px] font-extrabold tracking-wider"
-          style={{background: 'linear-gradient(transparent 40%, var(--color-highlight) 40%)', paddingInline: '2px'}}
+          style={{
+            background:
+              'linear-gradient(transparent 40%, var(--color-highlight) 40%)',
+            paddingInline: '2px',
+          }}
         >
           {MenuCategoryLabel[menu.category].ko}
         </span>
         {total > 0 && (
-          <span className="text-muted text-[11px] font-semibold">{total} kcal</span>
+          <span className="text-muted text-[11px] font-semibold">
+            {total} kcal
+          </span>
         )}
         {showPick && (
           <button
@@ -98,7 +107,9 @@ const CourseRow = ({
               <span className={downVoteIconClass(animating)}>
                 <ThumbsDown size={11} strokeWidth={2.5} />
               </span>
-              <span className="tabular-nums">{voteResult?.down_count ?? 0}</span>
+              <span className="tabular-nums">
+                {voteResult?.down_count ?? 0}
+              </span>
               <span className={TOOLTIP}>별로였어요</span>
             </button>
           </div>
@@ -114,7 +125,7 @@ const CourseRow = ({
               </i>
             )}
             {i < menu.items.length - 1 && (
-              <span className="mx-1.5 text-line">·</span>
+              <span className="text-line mx-1.5">·</span>
             )}
           </span>
         ))}

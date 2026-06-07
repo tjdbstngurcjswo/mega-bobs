@@ -1,6 +1,6 @@
 ---
-description: "[PR 자동 생성] diff 분석 → Walkthrough 요약 / 파일 그룹 Changes 테이블 / Mermaid 시퀀스 / 테스트 플랜 포함 PR 본문 생성 후 gh pr create"
-argument-hint: "[target-branch] (선택, 기본 dev) 또는 draft"
+description: '[PR 자동 생성] diff 분석 → Walkthrough 요약 / 파일 그룹 Changes 테이블 / Mermaid 시퀀스 / 테스트 플랜 포함 PR 본문 생성 후 gh pr create'
+argument-hint: '[target-branch] (선택, 기본 dev) 또는 draft'
 allowed-tools: Bash(git:*), Bash(gh:*), Read, Grep
 ---
 
@@ -270,12 +270,12 @@ PR 생성 완료:
 
 ## 머지 전략 참조 (MegaBobs 브랜치 전략)
 
-| 머지 방향                  | 전략             | 비고             |
-| -------------------------- | ---------------- | ---------------- |
-| `feature/*` → `dev`        | Squash and Merge | 기능 개발 통합   |
-| `dev` → `main`             | Merge Commit     | 운영 배포(Vercel)|
-| `hotfix/*` → `main`        | Squash and Merge | 긴급 수정        |
-| `hotfix/*` → `dev`         | Merge Commit     | hotfix 후 동기화 |
+| 머지 방향           | 전략             | 비고              |
+| ------------------- | ---------------- | ----------------- |
+| `feature/*` → `dev` | Squash and Merge | 기능 개발 통합    |
+| `dev` → `main`      | Merge Commit     | 운영 배포(Vercel) |
+| `hotfix/*` → `main` | Squash and Merge | 긴급 수정         |
+| `hotfix/*` → `dev`  | Merge Commit     | hotfix 후 동기화  |
 
 ## 주의사항
 

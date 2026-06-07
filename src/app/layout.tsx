@@ -1,7 +1,7 @@
-import {Analytics} from '@vercel/analytics/next';
-import type {Metadata} from 'next';
+import { Analytics } from '@vercel/analytics/next';
+import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import {Toaster} from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 import './globals.css';
 
@@ -36,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={pretendard.variable}>
-      <body className="flex min-h-[100dvh] flex-col bg-bg text-ink">
+      <body className="bg-bg text-ink flex min-h-[100dvh] flex-col">
         {children}
         <Toaster
           position="bottom-center"

@@ -1,7 +1,7 @@
-import {revalidatePath, revalidateTag} from 'next/cache';
-import {NextRequest, NextResponse} from 'next/server';
+import { revalidatePath, revalidateTag } from 'next/cache';
+import { NextRequest, NextResponse } from 'next/server';
 
-import {WARM_KEYWORDS} from '@/constants/slack';
+import { WARM_KEYWORDS } from '@/constants/slack';
 
 /**
  * @route GET /api/slack/warm
@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
 
       const res = await fetch(`${origin}/api/slack`, {
         method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: body.toString(),
         cache: 'no-store',
       });
@@ -39,5 +39,5 @@ export async function GET(req: NextRequest) {
   );
 
   const hasError = results.some((r) => !r.ok);
-  return NextResponse.json({results}, {status: hasError ? 500 : 200});
+  return NextResponse.json({ results }, { status: hasError ? 500 : 200 });
 }

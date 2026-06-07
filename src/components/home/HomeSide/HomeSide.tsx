@@ -1,22 +1,22 @@
 import Link from 'next/link';
 
-import {HOME_ENTRIES} from '@/constants/site';
+import { HOME_ENTRIES } from '@/constants/site';
 
 import EntryInner from './EntryInner';
-import {entryClass} from './HomeSide.styles';
+import { entryClass } from './HomeSide.styles';
 
 const HomeSide = () => (
   <aside className="flex flex-col gap-4">
     <div className="bg-surface p-6 shadow-[var(--shadow-card)]">
-      <h3 className="text-[14px] font-bold text-ink-2">오늘 뭐 먹지?</h3>
-      <p className="mt-1.5 text-[12.5px] leading-relaxed text-ink-2">
+      <h3 className="text-ink-2 text-[14px] font-bold">오늘 뭐 먹지?</h3>
+      <p className="text-ink-2 mt-1.5 text-[12.5px] leading-relaxed">
         구내식당과 지정타 맛집 중에서
         <br />
         점심 메뉴를 골라드려요
       </p>
       <button
         disabled
-        className="mt-4 w-full cursor-default bg-down-soft py-2.5 text-[12.5px] font-semibold text-muted disabled:opacity-60"
+        className="bg-down-soft text-muted mt-4 w-full cursor-default py-2.5 text-[12.5px] font-semibold disabled:opacity-60"
       >
         랜덤 추천 받기 (준비 중)
       </button>
@@ -25,7 +25,11 @@ const HomeSide = () => (
       <div className="flex flex-1 flex-col gap-2.5">
         {HOME_ENTRIES.map((entry) =>
           entry.disabled ? (
-            <div key={entry.no} aria-disabled="true" className={`${entryClass} cursor-default`}>
+            <div
+              key={entry.no}
+              aria-disabled="true"
+              className={`${entryClass} cursor-default`}
+            >
               <EntryInner {...entry} />
             </div>
           ) : (

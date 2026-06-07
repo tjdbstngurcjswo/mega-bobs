@@ -1,14 +1,14 @@
 'use client';
 
-import {Bell, Menu, X} from 'lucide-react';
+import { Bell, Menu, X } from 'lucide-react';
 import Link from 'next/link';
-import {usePathname} from 'next/navigation';
-import {useEffect, useState} from 'react';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import {NAV_ITEMS} from '@/constants/site';
-import {getAnnouncements} from '@/api/getAnnouncements';
-import {hasNewAnnouncement} from '@/utils/announcementPolicy';
-import {useHasMounted} from '@/hooks/useHasMounted';
+import { NAV_ITEMS } from '@/constants/site';
+import { getAnnouncements } from '@/api/getAnnouncements';
+import { hasNewAnnouncement } from '@/utils/announcementPolicy';
+import { useHasMounted } from '@/hooks/useHasMounted';
 
 import {
   bellSpanClass,
@@ -28,7 +28,7 @@ const SiteHeader = () => {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
-    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -47,7 +47,10 @@ const SiteHeader = () => {
     <>
       <header className={headerClass(scrolled, menuOpen)}>
         <div className="mx-auto flex h-14 w-[min(880px,calc(100%-40px))] items-center gap-7">
-          <Link href="/" className="text-[17px] font-extrabold tracking-tight text-ink">
+          <Link
+            href="/"
+            className="text-ink text-[17px] font-extrabold tracking-tight"
+          >
             MegaBobs
           </Link>
 
@@ -78,13 +81,16 @@ const SiteHeader = () => {
             href="/notice"
             title="공지사항"
             aria-label="공지사항"
-            className="relative flex size-9 items-center justify-center text-ink-2 max-[640px]:hidden"
+            className="text-ink-2 relative flex size-9 items-center justify-center max-[640px]:hidden"
           >
             <span className={bellSpanClass(showNoticeDot)}>
               <Bell size={17} strokeWidth={2.2} />
             </span>
             {showNoticeDot && (
-              <span aria-hidden className="absolute top-[7px] right-[6px] size-1.5 bg-accent" />
+              <span
+                aria-hidden
+                className="bg-accent absolute top-[7px] right-[6px] size-1.5"
+              />
             )}
           </Link>
 
@@ -94,7 +100,7 @@ const SiteHeader = () => {
               href="/notice"
               title="공지사항"
               aria-label="공지사항"
-              className="relative flex size-11 items-center justify-center text-ink-2"
+              className="text-ink-2 relative flex size-11 items-center justify-center"
             >
               <span className={bellSpanClass(showNoticeDot)}>
                 <Bell size={17} strokeWidth={2.2} />
@@ -102,7 +108,7 @@ const SiteHeader = () => {
               {showNoticeDot && (
                 <span
                   aria-hidden
-                  className="absolute top-[7px] right-[6px] size-1.5 bg-accent"
+                  className="bg-accent absolute top-[7px] right-[6px] size-1.5"
                 />
               )}
             </Link>
@@ -110,9 +116,13 @@ const SiteHeader = () => {
               type="button"
               aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
               onClick={() => setMenuOpen((v) => !v)}
-              className="flex size-11 items-center justify-center text-ink-2"
+              className="text-ink-2 flex size-11 items-center justify-center"
             >
-              {menuOpen ? <X size={20} strokeWidth={2} /> : <Menu size={20} strokeWidth={2} />}
+              {menuOpen ? (
+                <X size={20} strokeWidth={2} />
+              ) : (
+                <Menu size={20} strokeWidth={2} />
+              )}
             </button>
           </div>
         </div>
@@ -120,7 +130,7 @@ const SiteHeader = () => {
 
       {/* 모바일 메뉴 — header 밖 fixed, stacking context 영향 없음 */}
       <div className={mobileOverlayClass(menuOpen)}>
-        <nav className="mx-auto flex w-[min(880px,calc(100%-40px))] flex-col pb-4 pt-1">
+        <nav className="mx-auto flex w-[min(880px,calc(100%-40px))] flex-col pt-1 pb-4">
           {NAV_ITEMS.map((item) => {
             const active = pathname === item.href;
             return (

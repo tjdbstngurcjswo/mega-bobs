@@ -18,20 +18,21 @@ description: Use when creating, editing, or reviewing any component file (.tsx).
 
 컴포넌트 파일에 있어선 안 되는 것:
 
-| 금지 항목 | 이동 대상 |
-|---|---|
-| `interface XxxProps` / `type Xxx` (컴포넌트 전용) | `<ComponentFolder>/ComponentName.types.ts` |
-| 상수 (컴포넌트 전용) | `<ComponentFolder>/constants.ts` |
-| 유틸리티 함수 (`const calcTotal = ...`) | `src/lib/<feature>.ts` |
-| 도메인 로직 함수 (`const getStatus = ...`) | `src/lib/<feature>.ts` |
-| 커스텀 훅 | `src/lib/hooks/use<Name>.ts` |
-| 스타일 상수 (아래 기준 충족 시) | `<ComponentFolder>/ComponentName.styles.ts` |
+| 금지 항목                                         | 이동 대상                                   |
+| ------------------------------------------------- | ------------------------------------------- |
+| `interface XxxProps` / `type Xxx` (컴포넌트 전용) | `<ComponentFolder>/ComponentName.types.ts`  |
+| 상수 (컴포넌트 전용)                              | `<ComponentFolder>/constants.ts`            |
+| 유틸리티 함수 (`const calcTotal = ...`)           | `src/lib/<feature>.ts`                      |
+| 도메인 로직 함수 (`const getStatus = ...`)        | `src/lib/<feature>.ts`                      |
+| 커스텀 훅                                         | `src/lib/hooks/use<Name>.ts`                |
+| 스타일 상수 (아래 기준 충족 시)                   | `<ComponentFolder>/ComponentName.styles.ts` |
 
 > 여러 컴포넌트에서 공유되는 타입·상수는 `src/types/`, `src/constants/`에 둔다.
 
 ## 분리 기준 상세
 
 ### Props 타입
+
 ```ts
 // ❌ CourseRow/CourseRow.tsx 안에
 interface CourseRowProps { menu: MenuType; index?: number; ... }
@@ -44,6 +45,7 @@ import {CourseRowProps} from './CourseRow.types';
 ```
 
 ### 도메인 로직 함수
+
 ```ts
 // ❌ HeroStatus.tsx 안에
 const getStatus = (menus: MenuType[], now: dayjs.Dayjs): Status => { ... }
@@ -56,9 +58,9 @@ export const getStatus = (menus: MenuType[], now: dayjs.Dayjs): Status => { ... 
 
 다음 중 하나라도 해당하면 `.styles.ts`로 분리한다:
 
-| 기준 | 설명 |
-|---|---|
-| **2줄 이상** | className 값이 여러 줄에 걸친 `cn()` 호출 |
+| 기준              | 설명                                                             |
+| ----------------- | ---------------------------------------------------------------- |
+| **2줄 이상**      | className 값이 여러 줄에 걸친 `cn()` 호출                        |
 | **5회 이상 반복** | 동일하거나 유사한 className 패턴이 컴포넌트 내에서 5회 이상 등장 |
 
 ```ts
@@ -80,23 +82,23 @@ export const itemClass = (active: boolean) =>
 
 ## Import 경로 규칙
 
-| 상황 | 규칙 | 예시 |
-|---|---|---|
-| **같은 폴더** 내 파일 | 상대경로 `./ ` 허용 | `'./ComponentName.types'` |
-| **다른 폴더** 참조 | **반드시 `@/` 절대경로** | `'@/lib/utils'`, `'@/types/vote'` |
-| `../` 상대경로 | **금지** | ❌ `'../lib/utils'` |
+| 상황                  | 규칙                     | 예시                              |
+| --------------------- | ------------------------ | --------------------------------- |
+| **같은 폴더** 내 파일 | 상대경로 `./ ` 허용      | `'./ComponentName.types'`         |
+| **다른 폴더** 참조    | **반드시 `@/` 절대경로** | `'@/lib/utils'`, `'@/types/vote'` |
+| `../` 상대경로        | **금지**                 | ❌ `'../lib/utils'`               |
 
 ```ts
 // ✅ 같은 폴더 — 상대경로 OK
-import {MenuBoardProps} from './MenuBoard.types';
-import {todayButtonClass} from './MenuBoard.styles';
+import { MenuBoardProps } from './MenuBoard.types';
+import { todayButtonClass } from './MenuBoard.styles';
 
 // ✅ 다른 폴더 — @/ 절대경로
-import {cn} from '@/lib/utils';
-import {MenuCategory} from '@/types/menu';
+import { cn } from '@/lib/utils';
+import { MenuCategory } from '@/types/menu';
 
 // ❌ 절대 금지
-import {supabaseServer} from '../lib/supabase-server';
+import { supabaseServer } from '../lib/supabase-server';
 ```
 
 ## 체크리스트 (컴포넌트 작성·수정 후 실행)

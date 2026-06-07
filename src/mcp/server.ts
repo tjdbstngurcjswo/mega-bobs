@@ -1,10 +1,10 @@
-import {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import {z} from 'zod';
+import { z } from 'zod';
 
-import {supabaseServer} from '@/lib/supabaseServer';
+import { supabaseServer } from '@/lib/supabaseServer';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -32,7 +32,7 @@ const MEAL_LABELS: Record<string, string> = {
   DINNER: '석식',
 };
 
-type MenuItemType = {name: string; kcal: number};
+type MenuItemType = { name: string; kcal: number };
 
 type MenuType = {
   category: string;
@@ -42,7 +42,7 @@ type MenuType = {
 };
 
 const getMenu = async (start: string, end: string): Promise<MenuType[]> => {
-  const {data, error} = await supabaseServer
+  const { data, error } = await supabaseServer
     .from('daily_menu')
     .select('*')
     .gte('date', start)
@@ -112,7 +112,7 @@ const createMcpServer = () => {
           '메뉴 카테고리 필터. COURSE_1(코스1), COURSE_2(코스2), TAKE_OUT(테이크아웃)'
         ),
     },
-    async ({query, end_date, category}) => {
+    async ({ query, end_date, category }) => {
       try {
         let startDate: string;
         let endDate: string;
@@ -137,7 +137,7 @@ const createMcpServer = () => {
         }
 
         return {
-          content: [{type: 'text' as const, text: formatMenu(menus)}],
+          content: [{ type: 'text' as const, text: formatMenu(menus) }],
         };
       } catch (error) {
         return {

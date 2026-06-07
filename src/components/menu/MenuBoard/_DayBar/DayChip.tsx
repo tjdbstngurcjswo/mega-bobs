@@ -1,14 +1,20 @@
 'use client';
 
-import {dateClass, labelClass} from './DayBar.utils';
-import {cn} from '@/utils/cn';
+import { dateClass, labelClass } from './DayBar.utils';
+import { cn } from '@/utils/cn';
 
-import {DOW} from './constants';
-import {DayChipProps} from './DayBar.types';
+import { DOW } from './constants';
+import { DayChipProps } from './DayBar.types';
 
-import {chipButtonClass} from './DayChip.styles';
+import { chipButtonClass } from './DayChip.styles';
 
-const DayChip = ({day, today, selectedDate, onSelect, mounted}: DayChipProps) => {
+const DayChip = ({
+  day,
+  today,
+  selectedDate,
+  onSelect,
+  mounted,
+}: DayChipProps) => {
   const isToday = mounted && day.isSame(today, 'day');
   const isSelected = mounted && day.isSame(selectedDate, 'day');
 
@@ -21,13 +27,19 @@ const DayChip = ({day, today, selectedDate, onSelect, mounted}: DayChipProps) =>
     >
       <span
         suppressHydrationWarning
-        className={cn('text-[10px] font-bold', labelClass(isSelected, isToday, day.day()))}
+        className={cn(
+          'text-[10px] font-bold',
+          labelClass(isSelected, isToday, day.day())
+        )}
       >
         {isToday ? '오늘' : DOW[day.day()]}
       </span>
       <span
         suppressHydrationWarning
-        className={cn('text-[13.5px] font-extrabold', dateClass(isSelected, isToday, day.day()))}
+        className={cn(
+          'text-[13.5px] font-extrabold',
+          dateClass(isSelected, isToday, day.day())
+        )}
       >
         {day.date()}
       </span>

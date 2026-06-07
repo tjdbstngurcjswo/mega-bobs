@@ -1,7 +1,7 @@
-import {dirname} from 'path';
-import {fileURLToPath} from 'url';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-import {FlatCompat} from '@eslint/eslintrc';
+import { FlatCompat } from '@eslint/eslintrc';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const __filename = fileURLToPath(import.meta.url);
@@ -86,8 +86,8 @@ const eslintConfig = [
       // 코드 스타일 관련 규칙 (가독성 중시)
       // =============================================
 
-      'max-lines': ['warn', {max: 300, skipComments: true}], // 파일 최대 300줄 (주석 제외)
-      'max-lines-per-function': ['warn', {max: 80, skipComments: true}], // 함수 최대 80줄 (주석 제외)
+      'max-lines': ['warn', { max: 300, skipComments: true }], // 파일 최대 300줄 (주석 제외)
+      'max-lines-per-function': ['warn', { max: 80, skipComments: true }], // 함수 최대 80줄 (주석 제외)
       complexity: ['warn', 10], // 순환 복잡도 최대 10 (if, for, while 등의 중첩 제한)
       'max-depth': ['warn', 3], // 중첩 블록 최대 3단계 (가독성 향상)
       'max-params': ['warn', 4], // 함수 매개변수 최대 4개 (객체로 전달 권장)

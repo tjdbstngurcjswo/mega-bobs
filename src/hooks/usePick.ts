@@ -1,13 +1,18 @@
 'use client';
 
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import {getVoterId} from '@/utils/voterId';
-import {PickResult, PickType} from '@/models/vote';
+import { getVoterId } from '@/utils/voterId';
+import { PickResult, PickType } from '@/models/vote';
 
-const DEFAULT_COUNTS: PickResult['counts'] = {COURSE_1: 0, COURSE_2: 0, TAKE_OUT: 0, pass: 0};
+const DEFAULT_COUNTS: PickResult['counts'] = {
+  COURSE_1: 0,
+  COURSE_2: 0,
+  TAKE_OUT: 0,
+  pass: 0,
+};
 
-export const usePick = (date: string, {enabled = true} = {}) => {
+export const usePick = (date: string, { enabled = true } = {}) => {
   const [myPick, setMyPick] = useState<PickType | null>(null);
   const [counts, setCounts] = useState<PickResult['counts']>(DEFAULT_COUNTS);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +29,7 @@ export const usePick = (date: string, {enabled = true} = {}) => {
       setIsLoading(true);
       try {
         const res = await fetch(`/api/picks?date=${date}`, {
-          headers: {'x-voter-id': getVoterId()},
+          headers: { 'x-voter-id': getVoterId() },
         });
         if (!res.ok || cancelled) return;
         const data: PickResult = await res.json();
@@ -48,11 +53,11 @@ export const usePick = (date: string, {enabled = true} = {}) => {
       if (isSubmitting) return;
       const isSame = myPick === pick_type;
       const prev = myPick;
-      const prevCounts = {...counts};
+      const prevCounts = { ...counts };
 
       // optimistic update
       setCounts((c) => {
-        const next = {...c};
+        const next = { ...c };
         if (prev) next[prev] = Math.max(0, next[prev] - 1);
         if (!isSame) next[pick_type] += 1;
         return next;
@@ -67,7 +72,7 @@ export const usePick = (date: string, {enabled = true} = {}) => {
             'Content-Type': 'application/json',
             'x-voter-id': getVoterId(),
           },
-          body: JSON.stringify({date, pick_type: isSame ? null : pick_type}),
+          body: JSON.stringify({ date, pick_type: isSame ? null : pick_type }),
         });
         if (!res.ok) throw new Error('submit failed');
       } catch {
@@ -80,5 +85,5 @@ export const usePick = (date: string, {enabled = true} = {}) => {
     [date, myPick, counts, isSubmitting]
   );
 
-  return {myPick, counts, isLoading, isSubmitting, submitPick};
+  return { myPick, counts, isLoading, isSubmitting, submitPick };
 };

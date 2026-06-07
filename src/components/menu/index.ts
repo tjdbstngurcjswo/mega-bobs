@@ -1,1 +1,1 @@
-export {default as MenuBoard} from './MenuBoard';
+export { default as MenuBoard } from './MenuBoard';

@@ -93,20 +93,21 @@ src/
 
 ### API Routes
 
-| 경로 | 메서드 | 인증 | 용도 |
-|---|---|---|---|
-| `/api/menu` | GET | `x-api-key` | `?start=&end=` 날짜 범위 메뉴 조회 |
-| `/api/slack` | POST | — | 슬래시 커맨드 (오늘/내일/모레/글피) |
-| `/api/slack/warm` | GET | — | Cron 캐시 워밍 (vercel.json 15:00 UTC) |
-| `/api/revalidate` | GET | `?secret=` | ISR 강제 재검증 |
-| `/api/mcp` | GET/POST | — | MCP Streamable HTTP |
-| `/api/votes` | GET/POST | `x-voter-id` | 코스별 맛 평가 투표 조회·제출 |
-| `/api/votes/cleanup` | DELETE | Bearer | 만료 투표 데이터 정리 |
-| `/api/picks` | GET/POST | `x-voter-id` | 식전 코스 픽 조회·제출 |
+| 경로                 | 메서드   | 인증         | 용도                                   |
+| -------------------- | -------- | ------------ | -------------------------------------- |
+| `/api/menu`          | GET      | `x-api-key`  | `?start=&end=` 날짜 범위 메뉴 조회     |
+| `/api/slack`         | POST     | —            | 슬래시 커맨드 (오늘/내일/모레/글피)    |
+| `/api/slack/warm`    | GET      | —            | Cron 캐시 워밍 (vercel.json 15:00 UTC) |
+| `/api/revalidate`    | GET      | `?secret=`   | ISR 강제 재검증                        |
+| `/api/mcp`           | GET/POST | —            | MCP Streamable HTTP                    |
+| `/api/votes`         | GET/POST | `x-voter-id` | 코스별 맛 평가 투표 조회·제출          |
+| `/api/votes/cleanup` | DELETE   | Bearer       | 만료 투표 데이터 정리                  |
+| `/api/picks`         | GET/POST | `x-voter-id` | 식전 코스 픽 조회·제출                 |
 
 ### State Management
 
 `useDateStore` (Zustand v5) — 클라이언트 날짜 상태 단일 소스:
+
 - `today`, `selectedDate`, `currentWeek` (Dayjs[])
 - `minDate` (1주 전 월요일), `maxDate` (1주 후 일요일)
 - `setSelectedDate`, `goToPrevWeek`, `goToNextWeek`
@@ -129,19 +130,19 @@ src/
 
 ### Prettier
 
-| 옵션 | 값 |
-|---|---|
-| `singleQuote` | `true` |
-| `semi` | `true` |
-| `trailingComma` | `"es5"` |
-| `printWidth` | `80` |
-| `tabWidth` | `2` |
-| `useTabs` | `false` |
-| `bracketSpacing` | `false` (`{foo}`) |
-| `bracketSameLine` | `false` |
-| `arrowParens` | `"always"` |
-| `endOfLine` | `"lf"` |
-| `plugins` | `prettier-plugin-tailwindcss` |
+| 옵션              | 값                            |
+| ----------------- | ----------------------------- |
+| `singleQuote`     | `true`                        |
+| `semi`            | `true`                        |
+| `trailingComma`   | `"es5"`                       |
+| `printWidth`      | `80`                          |
+| `tabWidth`        | `2`                           |
+| `useTabs`         | `false`                       |
+| `bracketSpacing`  | `true` (`{ foo }`)            |
+| `bracketSameLine` | `false`                       |
+| `arrowParens`     | `"always"`                    |
+| `endOfLine`       | `"lf"`                        |
+| `plugins`         | `prettier-plugin-tailwindcss` |
 
 ### Styling
 
@@ -166,13 +167,13 @@ CRON_SECRET=                # Cron 인증 토큰 (/api/votes/cleanup Bearer)
 
 사용자 요청이 아래 조건에 해당하면 **반드시** 해당 스킬을 `Skill` 도구로 먼저 호출한 뒤 진행한다. 직접 `gh`/`git` 명령으로 건너뛰지 말 것.
 
-| 트리거 키워드 | 스킬 | 경로 |
-|---|---|---|
-| "PR 만들어", "PR 생성", "PR 올려", "pr 내줘", `/pr` | `create-pr` | `.claude/skills/create-pr/` |
-| 컴포넌트·페이지·훅 신규 생성, "만들어", "추가해" (UI 파일) | `component-scaffold` | `.claude/skills/component-scaffold/` |
-| **컴포넌트 파일 작성·수정 시 항상** (component-scaffold 내부에서 자동 호출) | `lean-component` | `.claude/skills/lean-component/` |
-| UI·스타일 코드 작성 또는 리뷰, DESIGN.md 관련 | `design-system-guard` | `.claude/skills/design-system-guard/` |
-| `src/app/api/*` 추가, "API 만들어", "엔드포인트 추가" | `api-route-pattern` | `.claude/skills/api-route-pattern/` |
-| Supabase 테이블·마이그레이션·RLS·타입 작업 | `supabase-schema` | `.claude/skills/supabase-schema/` |
-| "작업 시작", "티켓 따서", "MEGA-XX 작업", 티켓 번호 언급 + 작업 착수 | `start-ticket` | `.claude/skills/start-ticket/` |
-| "README 확인", "README 업데이트", "README 최신화" (단독 호출 시) | `readme-sync` | `.claude/skills/readme-sync/` |
+| 트리거 키워드                                                               | 스킬                  | 경로                                  |
+| --------------------------------------------------------------------------- | --------------------- | ------------------------------------- |
+| "PR 만들어", "PR 생성", "PR 올려", "pr 내줘", `/pr`                         | `create-pr`           | `.claude/skills/create-pr/`           |
+| 컴포넌트·페이지·훅 신규 생성, "만들어", "추가해" (UI 파일)                  | `component-scaffold`  | `.claude/skills/component-scaffold/`  |
+| **컴포넌트 파일 작성·수정 시 항상** (component-scaffold 내부에서 자동 호출) | `lean-component`      | `.claude/skills/lean-component/`      |
+| UI·스타일 코드 작성 또는 리뷰, DESIGN.md 관련                               | `design-system-guard` | `.claude/skills/design-system-guard/` |
+| `src/app/api/*` 추가, "API 만들어", "엔드포인트 추가"                       | `api-route-pattern`   | `.claude/skills/api-route-pattern/`   |
+| Supabase 테이블·마이그레이션·RLS·타입 작업                                  | `supabase-schema`     | `.claude/skills/supabase-schema/`     |
+| "작업 시작", "티켓 따서", "MEGA-XX 작업", 티켓 번호 언급 + 작업 착수        | `start-ticket`        | `.claude/skills/start-ticket/`        |
+| "README 확인", "README 업데이트", "README 최신화" (단독 호출 시)            | `readme-sync`         | `.claude/skills/readme-sync/`         |

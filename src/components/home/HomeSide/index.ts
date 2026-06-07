@@ -1,1 +1,1 @@
-export {default} from './HomeSide';
+export { default } from './HomeSide';

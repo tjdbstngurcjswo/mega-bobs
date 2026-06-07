@@ -1,15 +1,19 @@
-import {unstable_cache} from 'next/cache';
+import { unstable_cache } from 'next/cache';
 
-import {MENU_CATEGORIES, MenuCategoryLabel} from '@/constants/menu';
-import {CommandKeyword, DAY_OFFSET_MAP, DEFAULT_KEYWORD} from '@/constants/slack';
+import { MENU_CATEGORIES, MenuCategoryLabel } from '@/constants/menu';
+import {
+  CommandKeyword,
+  DAY_OFFSET_MAP,
+  DEFAULT_KEYWORD,
+} from '@/constants/slack';
 import getMenu from '@/api/getMenu';
-import dayjs, {SEOUL_TIMEZONE} from '@/lib/dayjs';
-import {MenuCategory, MenuType} from '@/models/menu';
+import dayjs, { SEOUL_TIMEZONE } from '@/lib/dayjs';
+import { MenuCategory, MenuType } from '@/models/menu';
 
 export const getCachedMenu = unstable_cache(
-  (date: string) => getMenu({start: date, end: date}),
+  (date: string) => getMenu({ start: date, end: date }),
   ['slack-menu'],
-  {tags: ['menu'], revalidate: 86400}
+  { tags: ['menu'], revalidate: 86400 }
 );
 
 export const toDateInfo = (text: string | null) => {
@@ -18,14 +22,14 @@ export const toDateInfo = (text: string | null) => {
 
   if (!keyword) {
     const date = base.format('YYYY-MM-DD');
-    return {keyword: DEFAULT_KEYWORD, date};
+    return { keyword: DEFAULT_KEYWORD, date };
   }
 
   const offset = DAY_OFFSET_MAP[keyword];
   if (offset === undefined) return null;
 
   const date = base.add(offset, 'day').format('YYYY-MM-DD');
-  return {keyword, date};
+  return { keyword, date };
 };
 
 export const toCategoryLabel = (category: MenuCategory) => {
@@ -33,7 +37,11 @@ export const toCategoryLabel = (category: MenuCategory) => {
   return MenuCategoryLabel[category].ko;
 };
 
-export const toSlackFormat = (records: MenuType[], keyword: string, date: string) => {
+export const toSlackFormat = (
+  records: MenuType[],
+  keyword: string,
+  date: string
+) => {
   const header = `🍚 MegaBobs *${keyword} 메뉴 (${date})* 🍚`;
 
   const sections = MENU_CATEGORIES.map((category) => {

@@ -1,1 +1,1 @@
-export {default} from './HeroDate';
+export { default } from './HeroDate';

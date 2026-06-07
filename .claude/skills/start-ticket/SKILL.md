@@ -39,24 +39,29 @@ mcp__notion-local__API-query-data-source 로 database_id 조회
 ## 작업 계획
 
 ### 목표
+
 [한 줄 — 이 작업이 완료되면 무엇이 달라지는가]
 
 ### 구현 범위
+
 - [ ] 항목 1 (파일명 명시)
 - [ ] 항목 2
 - ...
 
 ### 영향 파일
-| 파일 | 변경 유형 | 비고 |
-|---|---|---|
-| src/... | 신규/수정/삭제 | |
+
+| 파일    | 변경 유형      | 비고 |
+| ------- | -------------- | ---- |
+| src/... | 신규/수정/삭제 |      |
 
 ### 기술 결정
+
 - 방식: ...
 - 사용 라이브러리: ...
 - 주의사항: ...
 
 ### 완료 기준 (Definition of Done)
+
 - [ ] 기능 동작 확인
 - [ ] 디자인 시스템 위반 없음
 - [ ] 타입 에러 없음 (`pnpm build` 통과)
@@ -78,12 +83,12 @@ mcp__notion-local__API-query-data-source 로 database_id 조회
 
 ### 브랜치명 규칙
 
-| 티켓 유형 | 접두사 | 예시 |
-|---|---|---|
-| 신규 기능 | `feat/` | `feat/MEGA-50-notice-board` |
-| 버그 수정 | `fix/` | `fix/MEGA-61-menu-date-overflow` |
-| 리팩터링 | `refactor/` | `refactor/MEGA-72-hero-status` |
-| 문서/설정 | `chore/` | `chore/MEGA-80-env-cleanup` |
+| 티켓 유형 | 접두사      | 예시                             |
+| --------- | ----------- | -------------------------------- |
+| 신규 기능 | `feat/`     | `feat/MEGA-50-notice-board`      |
+| 버그 수정 | `fix/`      | `fix/MEGA-61-menu-date-overflow` |
+| 리팩터링  | `refactor/` | `refactor/MEGA-72-hero-status`   |
+| 문서/설정 | `chore/`    | `chore/MEGA-80-env-cleanup`      |
 
 - 슬러그: `MEGA-{번호}-{제목-kebab-case}` (영문, 최대 40자)
 - 기준 브랜치: **반드시 `dev`**

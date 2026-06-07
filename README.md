@@ -18,16 +18,16 @@
 
 ## 기술 스택
 
-| 분류 | 기술 |
-|---|---|
-| 프레임워크 | Next.js 15 (App Router, Turbopack) |
-| UI | React 19, Tailwind CSS v4, Lucide React |
-| 상태 관리 | Zustand |
-| 데이터베이스 | Supabase (PostgreSQL) |
-| 날짜 처리 | dayjs (`Asia/Seoul` timezone) |
-| 배포 | Vercel |
-| 테스트 | Vitest, Testing Library |
-| 포맷 | ESLint, Prettier (+ `prettier-plugin-tailwindcss`) |
+| 분류         | 기술                                               |
+| ------------ | -------------------------------------------------- |
+| 프레임워크   | Next.js 15 (App Router, Turbopack)                 |
+| UI           | React 19, Tailwind CSS v4, Lucide React            |
+| 상태 관리    | Zustand                                            |
+| 데이터베이스 | Supabase (PostgreSQL)                              |
+| 날짜 처리    | dayjs (`Asia/Seoul` timezone)                      |
+| 배포         | Vercel                                             |
+| 테스트       | Vitest, Testing Library                            |
+| 포맷         | ESLint, Prettier (+ `prettier-plugin-tailwindcss`) |
 
 ---
 
@@ -35,13 +35,13 @@
 
 자세한 토큰 · 타이포 · 컬러 · 간격 규칙은 [DESIGN.md](DESIGN.md)를 참고하세요.
 
-| 토큰 | 값 | 용도 |
-|---|---|---|
-| `--color-bg` | `#f3f6fb` | 페이지 배경 (cool blue-tint) |
-| `--color-surface` | `#ffffff` | 카드 배경 |
-| `--color-ink` | `#111720` | 본문 텍스트 |
-| `--color-accent` | `#e2c04c` | 브랜드 키컬러 |
-| `--shadow-card` | `0 1px 3px … 0 4px 20px …` | 카드 elevation (border 없음) |
+| 토큰              | 값                         | 용도                         |
+| ----------------- | -------------------------- | ---------------------------- |
+| `--color-bg`      | `#f3f6fb`                  | 페이지 배경 (cool blue-tint) |
+| `--color-surface` | `#ffffff`                  | 카드 배경                    |
+| `--color-ink`     | `#111720`                  | 본문 텍스트                  |
+| `--color-accent`  | `#e2c04c`                  | 브랜드 키컬러                |
+| `--shadow-card`   | `0 1px 3px … 0 4px 20px …` | 카드 elevation (border 없음) |
 
 - **경계선 없음** — 카드 구분은 그림자(`--shadow-card`)만 사용
 - **애니메이션** — `fadeUp`, `fadeIn`, `softPulse` keyframe (globals.css)
@@ -172,9 +172,9 @@ const CAFETERIA = {
 
 프로젝트 작업을 돕는 Claude 스킬이 [`.claude/`](.claude/)에 있습니다.
 
-| 커맨드 | 설명 |
-|---|---|
-| `/pr` | diff 분석 → PR 본문(요약 · Changes · Mermaid · 테스트 계획) 생성 후 `gh pr create` |
-| `README 확인` / `README 최신화` | README 갭 분석 → 누락 항목 수정 후 커밋 |
+| 커맨드                          | 설명                                                                               |
+| ------------------------------- | ---------------------------------------------------------------------------------- |
+| `/pr`                           | diff 분석 → PR 본문(요약 · Changes · Mermaid · 테스트 계획) 생성 후 `gh pr create` |
+| `README 확인` / `README 최신화` | README 갭 분석 → 누락 항목 수정 후 커밋                                            |
 
 전체 스킬 목록과 발동 조건은 [`.claude/skills/README.md`](.claude/skills/README.md) 참고.

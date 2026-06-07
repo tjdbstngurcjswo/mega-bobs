@@ -1,11 +1,11 @@
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import {getVoterId} from '@/utils/voterId';
-import {VoteResult, VoteType} from '@/models/vote';
+import { getVoterId } from '@/utils/voterId';
+import { VoteResult, VoteType } from '@/models/vote';
 
 type VoteMap = Record<string, VoteResult>;
 
-export const useVotes = (date: string, {enabled = true} = {}) => {
+export const useVotes = (date: string, { enabled = true } = {}) => {
   const [voteMap, setVoteMap] = useState<VoteMap>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -18,7 +18,7 @@ export const useVotes = (date: string, {enabled = true} = {}) => {
     setIsLoading(true);
     setVoteMap({});
     fetch(`/api/votes?date=${date}`, {
-      headers: {'x-voter-id': voterId},
+      headers: { 'x-voter-id': voterId },
     })
       .then((res) => res.json())
       .then((results: VoteResult[]) => {
@@ -53,7 +53,7 @@ export const useVotes = (date: string, {enabled = true} = {}) => {
 
       // Optimistic update
       setVoteMap((prev) => {
-        const next = {...prev};
+        const next = { ...prev };
 
         // 이전 투표 메뉴 count 감소
         if (prevVotedKey && next[prevVotedKey]) {
@@ -80,8 +80,7 @@ export const useVotes = (date: string, {enabled = true} = {}) => {
             ...c,
             myVote: null,
             up_count: voteType === 'up' ? c.up_count - 1 : c.up_count,
-            down_count:
-              voteType === 'down' ? c.down_count - 1 : c.down_count,
+            down_count: voteType === 'down' ? c.down_count - 1 : c.down_count,
           };
         } else {
           // 신규 or 같은 메뉴 vote_type 변경
@@ -117,7 +116,7 @@ export const useVotes = (date: string, {enabled = true} = {}) => {
       } catch {
         // 실패 시 서버 상태로 재동기화
         fetch(`/api/votes?date=${date}`, {
-          headers: {'x-voter-id': voterId},
+          headers: { 'x-voter-id': voterId },
         })
           .then((r) => r.json())
           .then((results: VoteResult[]) => {
@@ -133,5 +132,5 @@ export const useVotes = (date: string, {enabled = true} = {}) => {
     [voteMap, isSubmitting, date]
   );
 
-  return {voteMap, isLoading, isSubmitting, submitVote};
+  return { voteMap, isLoading, isSubmitting, submitVote };
 };

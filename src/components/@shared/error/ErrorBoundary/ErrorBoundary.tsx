@@ -2,18 +2,21 @@
 
 import React from 'react';
 
-import {ErrorBoundaryProps, ErrorBoundaryState} from './ErrorBoundary.types';
+import { ErrorBoundaryProps, ErrorBoundaryState } from './ErrorBoundary.types';
 
 import ErrorFallback from './ErrorFallback';
 
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
-    this.state = {hasError: false, error: null};
+    this.state = { hasError: false, error: null };
   }
 
   static getDerivedStateFromError(error: Error) {
-    return {hasError: true, error};
+    return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {

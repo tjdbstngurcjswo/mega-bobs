@@ -1,8 +1,8 @@
-import {NextRequest, NextResponse} from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-import {MenuType} from '@/models/menu';
+import { MenuType } from '@/models/menu';
 
-import {getCachedMenu, toDateInfo, toSlackFormat} from './_utils';
+import { getCachedMenu, toDateInfo, toSlackFormat } from './_utils';
 
 /**
  * @route POST /api/slack
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const {keyword, date} = dateInfo;
+  const { keyword, date } = dateInfo;
 
   let menus: MenuType[];
   try {

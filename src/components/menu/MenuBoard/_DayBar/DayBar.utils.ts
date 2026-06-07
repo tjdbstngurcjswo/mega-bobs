@@ -9,12 +9,20 @@ const dowColor = (dow: number): string | null => {
   return null;
 };
 
-export const labelClass = (isSelected: boolean, isToday: boolean, dow: number): string => {
+export const labelClass = (
+  isSelected: boolean,
+  isToday: boolean,
+  dow: number
+): string => {
   if (isSelected) return isToday ? 'text-ink/55' : 'text-white/60';
   return dowColor(dow) ?? 'text-muted';
 };
 
-export const dateClass = (isSelected: boolean, isToday: boolean, dow: number): string => {
+export const dateClass = (
+  isSelected: boolean,
+  isToday: boolean,
+  dow: number
+): string => {
   if (isSelected) return isToday ? 'text-ink' : 'text-white';
   return dowColor(dow) ?? 'text-ink';
 };
