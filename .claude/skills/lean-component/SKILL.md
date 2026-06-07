@@ -24,10 +24,10 @@ description: Use when creating, editing, or reviewing any component file (.tsx).
 | 상수 (컴포넌트 전용)                              | `<ComponentFolder>/ComponentName.constants.ts` |
 | 유틸리티 함수 (`const calcTotal = ...`)           | `src/lib/<feature>.ts`                      |
 | 도메인 로직 함수 (`const getStatus = ...`)        | `src/lib/<feature>.ts`                      |
-| 커스텀 훅                                         | `src/lib/hooks/use<Name>.ts`                |
+| 커스텀 훅                                         | `src/hooks/use<Name>.ts`                    |
 | 스타일 상수 (아래 기준 충족 시)                   | `<ComponentFolder>/ComponentName.styles.ts` |
 
-> 여러 컴포넌트에서 공유되는 타입·상수는 `src/types/`, `src/constants/`에 둔다.
+> 여러 컴포넌트에서 공유되는 타입·상수는 `src/models/`, `src/constants/`에 둔다.
 
 ## 분리 기준 상세
 
@@ -132,10 +132,10 @@ import { supabaseServer } from '../lib/supabase-server';
 
 ```
 src/
-├── types/          ← 여러 컴포넌트가 공유하는 타입 (menu, vote 등)
+├── models/         ← 여러 컴포넌트가 공유하는 타입 (menu, vote 등)
 ├── constants/      ← 여러 컴포넌트가 공유하는 상수
+├── hooks/          ← 커스텀 훅
 ├── lib/            ← 유틸 함수, 도메인 로직
-│   └── hooks/      ← 커스텀 훅
 └── components/
     └── menu/
         └── MenuBoard/           ← 컴포넌트마다 전용 폴더
