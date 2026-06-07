@@ -6,7 +6,8 @@ import {usePathname} from 'next/navigation';
 import {useEffect, useState} from 'react';
 
 import {NAV_ITEMS} from '@/constants/site';
-import {getAnnouncements, hasNewAnnouncement} from '@/api/getAnnouncements';
+import {getAnnouncements} from '@/api/getAnnouncements';
+import {hasNewAnnouncement} from '@/utils/announcementPolicy';
 import {useHasMounted} from '@/hooks/useHasMounted';
 
 import {

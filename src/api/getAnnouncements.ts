@@ -9,8 +9,3 @@ export const getAnnouncements = (): Notice[] => {
     (n) => n.env.includes(env) && !dayjs(n.publishedAt).isAfter(now),
   );
 };
-
-export const hasNewAnnouncement = (announcements: Notice[]): boolean =>
-  announcements.some(
-    (n) => dayjs().tz().diff(dayjs.tz(n.publishedAt), 'day') < 7,
-  );
