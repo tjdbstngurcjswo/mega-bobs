@@ -1,14 +1,14 @@
 import { MenuType } from '@/models/menu';
 import { VoteResult, VoteType } from '@/models/vote';
 
-export interface VoteProps {
+interface VoteProps {
   show?: boolean;
   result?: VoteResult;
   onVote?: (type: VoteType) => void;
   isSubmitting?: boolean;
 }
 
-export interface PickProps {
+interface PickProps {
   show?: boolean;
   count?: number;
   isPicked?: boolean;

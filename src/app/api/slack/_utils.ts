@@ -32,7 +32,7 @@ export const toDateInfo = (text: string | null) => {
   return { keyword, date };
 };
 
-export const toCategoryLabel = (category: MenuCategory) => {
+const toCategoryLabel = (category: MenuCategory) => {
   if (!category) return '';
   return MenuCategoryLabel[category].ko;
 };

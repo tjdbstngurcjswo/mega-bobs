@@ -1,5 +1,5 @@
 /** 식사 시간대 */
-export type MealType = 'BREAKFAST' | 'LUNCH' | 'DINNER';
+type MealType = 'BREAKFAST' | 'LUNCH' | 'DINNER';
 
 /** 코스 카테고리 */
 export type MenuCategory = 'COURSE_1' | 'COURSE_2' | 'TAKE_OUT';
