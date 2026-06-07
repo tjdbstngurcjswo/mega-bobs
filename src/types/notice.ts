@@ -1,9 +1,11 @@
+export type NoticeEnv = 'development' | 'production';
+
 export type Notice = {
   id: string;
   title: string;
   body: string;
   publishedAt: string;
-  isNew: boolean;
+  env: NoticeEnv[];
 };
 
 export type Maker = {

@@ -78,6 +78,16 @@
   100% { transform: translateY(0)    scale(1)   rotate(0deg); }
 }
 
+@keyframes bellRingLoop {
+  /* 0~18% 실제 흔들림 (~0.7s @ 4s cycle), 나머지는 정지 */
+  0%   { transform: rotate(0deg); }
+  4%   { transform: rotate(-16deg); }
+  9%   { transform: rotate(14deg); }
+  13%  { transform: rotate(-8deg); }
+  16%  { transform: rotate(6deg); }
+  18%, 100% { transform: rotate(0deg); }
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-ink);
