@@ -7,10 +7,6 @@
     {
       "path": "/api/votes/cleanup",
       "schedule": "0 0 * * *"
-    },
-    {
-      "path": "/api/news/crawl",
-      "schedule": "0 23 * * *"
     }
   ]
 }

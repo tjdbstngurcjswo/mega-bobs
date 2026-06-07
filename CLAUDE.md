@@ -58,7 +58,7 @@ src/
 | `/api/slack` | POST | — | 슬래시 커맨드 |
 | `/api/slack/warm` | GET | — | Cron 캐시 워밍 (15:00 UTC) |
 | `/api/revalidate` | GET | `?secret=` | ISR 강제 재검증 (19:30 UTC) |
-| `/api/news/crawl` | GET | Bearer / `?secret=` | Cron 메가존 3사 뉴스 크롤 (vercel.json 23:00 UTC = 08:00 KST) |
+| `/api/news/crawl` | GET | Bearer / `?secret=` | 메가존 3사 뉴스 크롤 (GitHub Actions 스케줄 23:00 UTC = 08:00 KST) |
 | `/api/mcp` | GET/POST | — | MCP Streamable HTTP |
 | `/api/votes` | GET/POST | `x-voter-id` | 코스별 맛 평가 투표 |
 | `/api/votes/cleanup` | DELETE | Bearer | 만료 투표 정리 |
@@ -113,7 +113,7 @@ NEXT_PUBLIC_SITE_URL=       # 배포 URL (metadataBase·sitemap에 사용)
 
 - **수집**: Google News RSS (API 키 불필요, 3사 정확 구문 검색). `src/lib/news/` (`sources.ts` → `fetchNews.ts` → `parseRss.ts`)
 - **저장**: Supabase `company_news` 테이블 (PK `url` 중복제거). 스키마 SQL: `docs/db/company_news.sql` (대시보드에서 1회 실행)
-- **크론**: `/api/news/crawl` (vercel.json, 23:00 UTC) → `upsert(onConflict: url)` → `revalidatePath('/news')`
+- **스케줄**: GitHub Actions `.github/workflows/news-crawl.yml` (23:00 UTC = 08:00 KST) 가 Bearer 인증으로 `/api/news/crawl` 호출 → `upsert(onConflict: url)` → `revalidatePath('/news')`. Vercel Hobby cron 제약(하루 1회·최대 2개) 회피. 필요 설정: secret `CRON_SECRET`, variable `SITE_URL`
 - **조회**: `src/lib/api/getNews.ts` (서버 전용) → `/news` 페이지 ISR (6h). UI: `src/components/news/NewsCard.tsx`
 - Google News RSS 는 본문 스니펫을 제공하지 않아 `summary` 는 보통 null — 카드는 제목·출처·날짜·원문 링크만 노출
 
