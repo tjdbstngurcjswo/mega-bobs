@@ -25,7 +25,7 @@ const SiteFooter = () => (
               {l.label}
             </Link>
           ))}
-          <span className={footerCopyrightClass}>© 2026 megabobs</span>
+          <span className={footerCopyrightClass}>© 2026 MegaBobs</span>
         </div>
       </div>
     </div>

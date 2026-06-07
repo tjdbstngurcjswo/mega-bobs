@@ -46,10 +46,10 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
     isSubmitting: isSubmittingPick,
   } = usePick(dateStr, { enabled: hasMenus });
   const now = dayjs().tz();
-  const isPast = mounted && selectedDate.isBefore(now, 'day');
-  const isToday = mounted && selectedDate.isSame(now, 'day');
-  const showVote = isPast || (isToday && isAfterClose(now));
-  const showPick = mounted && !showVote && !selectedDate.isBefore(now, 'day');
+  const isToday = selectedDate.isSame(today, 'day');
+  const isPast = selectedDate.isBefore(today, 'day');
+  const showVote = mounted && (isPast || (isToday && isAfterClose(now)));
+  const showPick = mounted && !showVote && !isPast;
 
   const dayMenus = useMemo(() => {
     const key = formatYYYYMMDD(selectedDate);

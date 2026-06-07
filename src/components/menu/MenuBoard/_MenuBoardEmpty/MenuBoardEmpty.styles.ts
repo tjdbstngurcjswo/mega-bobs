@@ -1,5 +1,5 @@
 export const emptyLabelClass =
-  'text-accent-text text-[13px] font-black tracking-[0.3em]';
+  'text-accent-text text-[13px] font-black tracking-wider';
 
 export const emptyTitleClass = 'mt-3 text-[17px] font-extrabold';
 
