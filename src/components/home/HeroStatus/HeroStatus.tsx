@@ -63,13 +63,15 @@ const HeroStatus = ({ menus }: { menus: MenuType[] }) => {
       <span style={{ animation: 'fadeUp 0.4s ease 0.08s both' }}>
         {status.text}
       </span>
-      <span
-        className={`inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-bold ${tag.tagClass}`}
-        style={{ animation: 'fadeUp 0.3s ease 0.1s both' }}
-      >
-        <span aria-hidden className={`size-1.5 shrink-0 rounded-full ${tag.dotClass}`} />
-        {tag.label}
-      </span>
+      {status.variant !== 'closed' && (
+        <span
+          className={`inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-bold ${tag.tagClass}`}
+          style={{ animation: 'fadeUp 0.3s ease 0.1s both' }}
+        >
+          <span aria-hidden className={`size-1.5 shrink-0 rounded-full ${tag.dotClass}`} />
+          {tag.label}
+        </span>
+      )}
     </span>
   );
 };
