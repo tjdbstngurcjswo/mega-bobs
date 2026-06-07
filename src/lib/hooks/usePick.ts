@@ -11,9 +11,13 @@ export const usePick = (date: string, {enabled = true} = {}) => {
   const [myPick, setMyPick] = useState<PickType | null>(null);
   const [counts, setCounts] = useState<PickResult['counts']>(DEFAULT_COUNTS);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (!date || !enabled) return;
+    if (!date || !enabled) {
+      setIsLoading(false);
+      return;
+    }
     let cancelled = false;
 
     const fetchPick = async () => {
@@ -41,6 +45,7 @@ export const usePick = (date: string, {enabled = true} = {}) => {
 
   const submitPick = useCallback(
     async (pick_type: PickType) => {
+      if (isSubmitting) return;
       const isSame = myPick === pick_type;
       const prev = myPick;
       const prevCounts = {...counts};
@@ -54,6 +59,7 @@ export const usePick = (date: string, {enabled = true} = {}) => {
       });
       setMyPick(isSame ? null : pick_type);
 
+      setIsSubmitting(true);
       try {
         const res = await fetch('/api/picks', {
           method: 'POST',
@@ -67,10 +73,12 @@ export const usePick = (date: string, {enabled = true} = {}) => {
       } catch {
         setCounts(prevCounts);
         setMyPick(prev);
+      } finally {
+        setIsSubmitting(false);
       }
     },
-    [date, myPick, counts]
+    [date, myPick, counts, isSubmitting]
   );
 
-  return {myPick, counts, isLoading, submitPick};
+  return {myPick, counts, isLoading, isSubmitting, submitPick};
 };

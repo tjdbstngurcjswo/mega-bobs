@@ -19,6 +19,7 @@ interface CourseRowProps {
   pickCount?: number;
   isPicked?: boolean;
   onPick?: () => void;
+  isSubmittingPick?: boolean;
 }
 
 const CourseRow = ({
@@ -32,6 +33,7 @@ const CourseRow = ({
   pickCount = 0,
   isPicked = false,
   onPick,
+  isSubmittingPick = false,
 }: CourseRowProps) => {
   const [animating, setAnimating] = useState<VoteType | null>(null);
 
@@ -64,6 +66,7 @@ const CourseRow = ({
           <button
             type="button"
             onClick={onPick}
+            disabled={isSubmittingPick}
             aria-pressed={isPicked}
             aria-label={`${MenuCategoryLabel[menu.category].ko} 오늘 먹을 예정`}
             className={cn(

@@ -63,10 +63,11 @@ export const POST = async (req: NextRequest) => {
   // pick_type이 null이면 취소
   if (!pick_type) {
     try {
-      await supabaseServer
+      const {error} = await supabaseServer
         .from('menu_picks')
         .delete()
         .match({voter_id: voterId, date});
+      if (error) return NextResponse.json({error: error.message}, {status: 500});
       return NextResponse.json({ok: true});
     } catch {
       return NextResponse.json({error: 'internal error'}, {status: 500});

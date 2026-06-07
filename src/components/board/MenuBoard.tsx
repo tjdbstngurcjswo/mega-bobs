@@ -38,7 +38,7 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
     [menus, dateStr]
   );
   const {voteMap, submitVote, isSubmitting} = useVotes(dateStr, {enabled: hasMenus});
-  const {myPick, counts, submitPick} = usePick(dateStr, {enabled: hasMenus});
+  const {myPick, counts, submitPick, isSubmitting: isSubmittingPick} = usePick(dateStr, {enabled: hasMenus});
   const isPast = mounted && selectedDate.isBefore(today, 'day');
   const isToday = mounted && selectedDate.isSame(today, 'day');
   const showVote = isPast || (isToday && isAfterClose(dayjs().tz()));
@@ -98,6 +98,7 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
               pickCount={pickType ? counts[pickType] : 0}
               isPicked={!!pickType && myPick === pickType}
               onPick={() => pickType && submitPick(pickType)}
+              isSubmittingPick={isSubmittingPick}
             />
           );
         })

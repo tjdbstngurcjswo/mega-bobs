@@ -101,7 +101,7 @@ export const useVotes = (date: string, {enabled = true} = {}) => {
 
       setIsSubmitting(true);
       try {
-        await fetch('/api/votes', {
+        const res = await fetch('/api/votes', {
           method: 'POST',
           headers: {
             'content-type': 'application/json',
@@ -113,6 +113,7 @@ export const useVotes = (date: string, {enabled = true} = {}) => {
             date: menuKey.split('_')[0],
           }),
         });
+        if (!res.ok) throw new Error('vote failed');
       } catch {
         // 실패 시 서버 상태로 재동기화
         fetch(`/api/votes?date=${date}`, {

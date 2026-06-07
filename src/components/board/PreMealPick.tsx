@@ -22,14 +22,15 @@ const PICKS: {type: PickType; label: string}[] = [
 const PreMealPick = ({date}: PreMealPickProps) => {
   const mounted = useHasMounted();
   const {today} = useDateStore();
-  const {myPick, counts, isLoading, submitPick} = usePick(date);
-
-  if (!mounted) return null;
 
   const dateObj = dayjs(date);
-  const isToday = dateObj.isSame(today, 'day');
-  if (isToday && isAfterClose(dayjs().tz())) return null;
-  if (dateObj.isBefore(today, 'day')) return null;
+  const isToday = mounted && dateObj.isSame(today, 'day');
+  const isPast = mounted && dateObj.isBefore(today, 'day');
+  const enabled = mounted && !isPast && !(isToday && isAfterClose(dayjs().tz()));
+
+  const {myPick, counts, isLoading, submitPick} = usePick(date, {enabled});
+
+  if (!mounted || !enabled) return null;
 
   return (
     <div className="border-b border-line px-6 py-4">
