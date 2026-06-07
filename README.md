@@ -105,10 +105,11 @@ Supabase daily_menu
 src/
 ├── api/
 │   ├── getMenu.ts        # Supabase daily_menu 조회 함수
-│   ├── getAnnouncements.ts # env 필터링 공지 조회 함수
-│   ├── menu.types.ts     # MenuType, MenuCategory, MenuItemType
-│   ├── notice.types.ts   # NoticeData
-│   └── vote.types.ts     # VoteType, VoteResult, PickType, PickResult
+│   └── getAnnouncements.ts # env 필터링 공지 조회 함수
+├── models/
+│   ├── menu.ts           # MenuType, MenuCategory, MealType, MenuItemType
+│   ├── notice.ts         # Notice
+│   └── vote.ts           # VoteType, VoteResult, PickType, PickResult
 ├── app/
 │   ├── api/
 │   │   ├── menu/         # GET ?start=&end= — 날짜 범위 메뉴 조회
@@ -147,6 +148,7 @@ src/
 ├── store/
 │   └── useDateStore.ts   # today, selectedDate, currentWeek, 주 이동
 └── utils/
+    ├── announcementPolicy.ts # 신규 공지 여부 판별 함수
     ├── cn.ts             # cn() 클래스 병합 유틸
     ├── date.ts           # formatYYYYMMDD(), getWeekDays()
     ├── menuPolicy.ts     # 운영 시각 판별 함수
