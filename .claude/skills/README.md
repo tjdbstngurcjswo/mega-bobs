@@ -14,6 +14,7 @@ MegaBobs Phase 1 구현을 돕는 프로젝트 레벨 Claude 스킬 모음입니
 | `api-route-pattern` | `api-route-pattern/` | Next.js Route Handler + Supabase + 인증/캐시 패턴으로 새 API 엔드포인트 생성 | `src/app/api/*` 추가 시 |
 | `supabase-schema` | `supabase-schema/` | 테이블 SQL·RLS 정책·TypeScript 타입·쿼리 함수를 일관되게 작성 | 새 테이블/스키마 변경 시 |
 | `start-ticket` | `start-ticket/` | Notion 티켓 조회 → 작업 계획 기입 → dev 기준 브랜치 생성까지 작업 착수 절차 전체 처리 | "작업 시작", "MEGA-XX 시작", 티켓 기반 작업 착수 시 |
+| `readme-sync` | `readme-sync/` | diff 분석 → README.md 누락 항목 확인 → 필요 시 수정·커밋. `create-pr` STEP 0으로 자동 실행 | PR 생성 전 자동 호출 (직접 호출도 가능) |
 
 ## 작성 가이드
 

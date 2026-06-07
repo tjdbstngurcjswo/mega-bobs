@@ -8,6 +8,13 @@ allowed-tools: Bash(git:*), Bash(gh:*), Read, Grep
 
 PR 생성 요청 시 아래 절차를 **순서대로** 실행합니다.
 
+## STEP 0: README 최신화 확인
+
+`.claude/skills/readme-sync/SKILL.md` 를 **Read** 로 읽고, 그 안의 절차를 순서대로 실행합니다.
+
+- README 수정이 발생하면 커밋 후 STEP 1로 진행합니다.
+- 최신 상태이면 결과 보고 후 바로 STEP 1로 진행합니다.
+
 ## STEP 1: 정보 수집
 
 다음 명령을 **병렬**로 실행하여 정보를 수집합니다:

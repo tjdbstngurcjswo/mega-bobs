@@ -7,8 +7,11 @@
 ## 주요 기능
 
 - **날짜별 메뉴 조회** — 주간 캘린더로 날짜를 선택해 코스1 · 코스2 · 테이크아웃 메뉴 확인
+- **맛 평가 투표** — 코스별 👍 / 👎 실시간 투표 (Supabase `menu_votes`)
+- **식전 픽** — 오늘 뭐 먹을지 코스A / 코스B / 테이크아웃 / 패스 선택 (Supabase `menu_picks`)
+- **공지사항** — 정적 TS 기반 공지 시스템, 헤더 벨 아이콘 애니메이션
 - **Slack 봇** — `/밥` 슬래시 커맨드로 오늘 · 내일 · 모레 · 글피 식단 조회
-- **반응형 햄버거 메뉴** — 640px 이하에서 풀스크린 드롭다운 메뉴 전환
+- **MCP 서버** — Claude Desktop 연동용 Streamable HTTP 엔드포인트 (`/api/mcp`)
 - **ISR 캐싱** — 6시간 재검증 + 매일 19:30 강제 revalidate + 15:00 캐시 워밍
 
 ---
@@ -80,7 +83,8 @@ pnpm lint:fix       # ESLint 자동 수정
 pnpm format         # Prettier 포맷
 pnpm format:check   # Prettier 검사
 pnpm test           # Vitest 단위 테스트
-pnpm mcp            # MCP 서버 실행
+pnpm mcp            # MCP 서버 실행 (stdio transport)
+pnpm test:watch     # Vitest watch 모드
 ```
 
 ---
@@ -104,23 +108,42 @@ src/
 ├── app/
 │   ├── api/
 │   │   ├── menu/         # GET ?start=&end= — 날짜 범위 메뉴 조회
+│   │   ├── votes/        # GET/POST — 코스별 맛 평가 투표 (menu_votes)
+│   │   │   └── cleanup/  # DELETE — 만료 투표 데이터 정리
+│   │   ├── picks/        # GET/POST — 식전 코스 픽 (menu_picks)
+│   │   ├── mcp/          # GET/POST — MCP Streamable HTTP
 │   │   ├── slack/        # POST — 슬래시 커맨드, GET warm — 캐시 워밍
 │   │   └── revalidate/   # GET ?secret= — ISR 강제 재검증
+│   ├── notice/           # 공지사항 페이지
 │   ├── layout.tsx
 │   └── page.tsx          # 홈 (ISR, HeroStatus 렌더)
 ├── components/
 │   ├── @shared/          # SiteHeader (frosted glass + 햄버거), SiteFooter
-│   ├── board/            # MenuBoard, DayBar, CourseRow, BoardEmpty
+│   ├── board/            # MenuBoard, DayBar, CourseRow, BoardEmpty, PreMealPick
 │   └── home/             # HeroStatus, HomeSide, HeroDate
+├── data/
+│   └── announcements.ts  # 정적 공지 데이터 (TS 배열)
 ├── lib/
+│   ├── hooks/
+│   │   ├── usePick.ts    # 식전 픽 조회·제출 훅
+│   │   └── useVote.ts    # 맛 평가 투표 조회·제출 훅
+│   ├── getAnnouncements.ts # env 필터링 공지 조회 함수
 │   ├── menu-policy.ts    # CAFETERIA 운영 시각 config (단일 소스)
 │   ├── supabase-server.ts
 │   ├── api/getMenu.ts
 │   ├── dayjs.ts          # Asia/Seoul 설정
+│   ├── voterId.ts        # 익명 투표자 ID 생성·관리
 │   └── utils.ts
+├── mcp/
+│   ├── index.ts          # MCP 서버 진입점 (stdio transport)
+│   └── server.ts         # MCP 도구 정의
 ├── store/
 │   └── useDateStore.ts   # today, selectedDate, currentWeek, 주 이동
-├── types/                # MenuType, MenuCategory, MealType, MenuItemType
+├── types/
+│   ├── menu.ts           # MenuType, MenuCategory, MenuItemType
+│   ├── meal.ts           # MealType
+│   ├── notice.ts         # NoticeData
+│   └── vote.ts           # VoteType, VoteResult, PickType, PickResult
 └── constants/            # 메뉴 카테고리, 식사 타입, Slack 커맨드, 사이트 링크
 ```
 
@@ -143,5 +166,9 @@ export const CAFETERIA = {
 
 프로젝트 작업을 돕는 Claude 스킬이 [`.claude/`](.claude/)에 있습니다.
 
-- **`/pr`** — diff 분석 후 PR 본문(요약 · Changes · 테스트 계획)을 생성하고 `gh pr create` 실행
-- 스킬 목록은 [`.claude/skills/README.md`](.claude/skills/README.md) 참고
+| 커맨드 | 설명 |
+|---|---|
+| `/pr` | diff 분석 → PR 본문(요약 · Changes · Mermaid · 테스트 계획) 생성 후 `gh pr create` |
+| `README 확인` / `README 최신화` | README 갭 분석 → 누락 항목 수정 후 커밋 |
+
+전체 스킬 목록과 발동 조건은 [`.claude/skills/README.md`](.claude/skills/README.md) 참고.
