@@ -153,17 +153,6 @@ Tailwind CSS v4 — 토큰은 `src/app/globals.css`의 `@theme` 블록에서 관
 
 UI·스타일 작업 전 반드시 `DESIGN.md` (repo root)를 읽는다. 토큰·타이포·컬러·간격·shape·접근성 규칙이 모두 정의되어 있다. 명시적 승인 없이 이탈 금지.
 
-## Skill Routing
-
-When a user request matches these triggers, invoke the listed skill **before** taking any action.
-
-| Trigger | Skill |
-|---------|-------|
-| New `page.tsx` created, new public route added, "SEO", "메타데이터", "검색 최적화" | `seo-optimize` |
-| PR 만들어, PR 생성, PR 올려, `/pr` | `create-pr` |
-| UI/style code written or reviewed, DESIGN.md related | `design-system-guard` |
-| Supabase table/migration/RLS/type work | `supabase-schema` |
-
 ## Environment Variables
 
 ```bash
