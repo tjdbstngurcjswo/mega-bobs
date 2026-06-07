@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from 'next/server';
 
 import dayjs from '@/lib/dayjs';
-import {supabaseServer} from '@/lib/supabase-server';
+import {supabaseServer} from '@/lib/supabaseServer';
 
 export const GET = async (req: NextRequest) => {
   const authHeader = req.headers.get('authorization');

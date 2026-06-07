@@ -1,6 +1,6 @@
 import 'server-only';
 
-import {supabaseServer} from '@/lib/supabase-server';
+import {supabaseServer} from '@/lib/supabaseServer';
 import {MenuType} from '@/types/menu';
 
 const getMenu = async (args: {start: string; end: string}) => {

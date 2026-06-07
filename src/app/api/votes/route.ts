@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from 'next/server';
 
-import {supabaseServer} from '@/lib/supabase-server';
+import {supabaseServer} from '@/lib/supabaseServer';
 import {VoteResult, VoteType} from '@/types/vote';
 
 export const GET = async (req: NextRequest) => {

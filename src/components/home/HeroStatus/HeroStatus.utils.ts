@@ -4,7 +4,7 @@ import {Clock, Moon, Sun, Utensils} from 'lucide-react';
 
 import dayjs from '@/lib/dayjs';
 import {CAFETERIA_CLOSE_MIN, CAFETERIA_LABEL, CAFETERIA_OPEN_MIN} from '@/constants/cafeteria';
-import {formatYYYYMMDD} from '@/utils/utils';
+import {formatYYYYMMDD} from '@/utils/date';
 import {MenuType} from '@/types/menu';
 
 export type HeroStatusState = {icon: ElementType; text: string};

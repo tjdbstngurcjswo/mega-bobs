@@ -3,7 +3,7 @@ import {MenuBoard} from '@/components/menu';
 import {HeroDate, HeroStatus, HomeSide} from '@/components/home';
 import getMenu from '@/api/getMenu';
 import dayjs from '@/lib/dayjs';
-import {formatYYYYMMDD, getWeekDays} from '@/utils/utils';
+import {formatYYYYMMDD, getWeekDays} from '@/utils/date';
 
 export const revalidate = 21600;
 

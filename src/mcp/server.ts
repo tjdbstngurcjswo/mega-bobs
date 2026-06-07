@@ -4,7 +4,7 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import {z} from 'zod';
 
-import {supabaseServer} from '@/lib/supabase-server';
+import {supabaseServer} from '@/lib/supabaseServer';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);

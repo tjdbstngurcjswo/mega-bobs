@@ -1,8 +1,4 @@
-import clsx, {type ClassValue} from 'clsx';
-
 import dayjs from '@/lib/dayjs';
-
-export const cn = (...inputs: ClassValue[]) => clsx(...inputs);
 
 export const formatYYYYMMDD = (date: dayjs.Dayjs) => date.format('YYYY-MM-DD');
 

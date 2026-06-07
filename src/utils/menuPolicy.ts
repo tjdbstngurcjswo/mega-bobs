@@ -1,6 +1,6 @@
 import dayjs from '@/lib/dayjs';
 import {CAFETERIA_CLOSE_MIN} from '@/constants/cafeteria';
-import {getWeekDays} from '@/utils/utils';
+import {getWeekDays} from '@/utils/date';
 
 /** 월요일 시작 주의 첫날 — getWeekDays(로케일 비의존)와 동일 기준 */
 const startOfWeekMon = (d: dayjs.Dayjs) => getWeekDays(d)[0];

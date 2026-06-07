@@ -7,9 +7,9 @@ import {MENU_CATEGORIES} from '@/constants/menu';
 import dayjs from '@/lib/dayjs';
 import {usePick} from '@/hooks/usePick';
 import {useVotes} from '@/hooks/useVote';
-import {isAfterClose, isNextWeek, isNextWeekPublished} from '@/utils/menu-policy';
+import {isAfterClose, isNextWeek, isNextWeekPublished} from '@/utils/menuPolicy';
 import {useHasMounted} from '@/hooks/useHasMounted';
-import {formatYYYYMMDD} from '@/utils/utils';
+import {formatYYYYMMDD} from '@/utils/date';
 import {useDateStore} from '@/store/useDateStore';
 import {MenuBoardProps} from './MenuBoard.types';
 

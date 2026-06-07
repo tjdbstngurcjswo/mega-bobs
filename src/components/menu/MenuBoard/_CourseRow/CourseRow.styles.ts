@@ -1,4 +1,4 @@
-import {cn} from '@/utils/utils';
+import {cn} from '@/utils/cn';
 import {VoteType} from '@/types/vote';
 
 export const pickButtonClass = (isPicked: boolean) =>
