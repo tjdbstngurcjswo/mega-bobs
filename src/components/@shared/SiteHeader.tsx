@@ -10,11 +10,10 @@ import {getAnnouncements, hasNewAnnouncement} from '@/lib/getAnnouncements';
 import {useHasMounted} from '@/lib/useHasMounted';
 import {cn} from '@/lib/utils';
 
-const announcements = getAnnouncements();
-
 const SiteHeader = () => {
   const pathname = usePathname();
   const mounted = useHasMounted();
+  const announcements = getAnnouncements();
   const showNoticeDot = mounted && hasNewAnnouncement(announcements);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);

@@ -5,22 +5,8 @@ import {useState} from 'react';
 
 import {MenuCategoryLabel} from '@/constants/menu';
 import {cn} from '@/lib/utils';
-import {MenuType} from '@/types/menu';
-import {VoteResult, VoteType} from '@/types/vote';
-
-interface CourseRowProps {
-  menu: MenuType;
-  index?: number;
-  showVote?: boolean;
-  voteResult?: VoteResult;
-  onVote?: (type: VoteType) => void;
-  isSubmitting?: boolean;
-  showPick?: boolean;
-  pickCount?: number;
-  isPicked?: boolean;
-  onPick?: () => void;
-  isSubmittingPick?: boolean;
-}
+import {CourseRowProps} from '@/types/board';
+import {VoteType} from '@/types/vote';
 
 const CourseRow = ({
   menu,

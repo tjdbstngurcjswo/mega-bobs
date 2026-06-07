@@ -3,7 +3,7 @@
 import {CalendarDays, Info, MapPin} from 'lucide-react';
 import {useMemo} from 'react';
 
-import {MENU_CATEGORIES} from '@/constants/menu';
+import {CATEGORY_TO_PICK, MENU_CATEGORIES} from '@/constants/menu';
 import dayjs from '@/lib/dayjs';
 import {usePick} from '@/lib/hooks/usePick';
 import {useVotes} from '@/lib/hooks/useVote';
@@ -11,23 +11,11 @@ import {isAfterClose, isNextWeek, isNextWeekPublished} from '@/lib/menu-policy';
 import {useHasMounted} from '@/lib/useHasMounted';
 import {cn, formatYYYYMMDD} from '@/lib/utils';
 import {useDateStore} from '@/store/useDateStore';
-import {MenuCategory, MenuType} from '@/types/menu';
-import {PickType} from '@/types/vote';
+import {MenuBoardProps} from '@/types/board';
 
 import BoardEmpty from './BoardEmpty';
 import CourseRow from './CourseRow';
 import DayBar from './DayBar';
-
-const CATEGORY_TO_PICK: Partial<Record<MenuCategory, PickType>> = {
-  COURSE_1: 'A',
-  COURSE_2: 'B',
-  TAKE_OUT: 'takeout',
-};
-
-interface MenuBoardProps {
-  /** 서버에서 페치한 ±1주 메뉴 — SSR 시점에 바로 렌더해 하이드레이션 시프트를 방지 */
-  menus: MenuType[];
-}
 
 const MenuBoard = ({menus}: MenuBoardProps) => {
   const {today, selectedDate, setSelectedDate} = useDateStore();

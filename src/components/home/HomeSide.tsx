@@ -2,27 +2,8 @@ import Link from 'next/link';
 
 import {HOME_ENTRIES} from '@/constants/site';
 
-const EntryInner = ({no, label, desc, disabled}: {no: string; label: string; desc: string; disabled?: boolean}) => (
-  <>
-    <span className="w-[26px] text-[13px] font-black text-accent-text">{no}</span>
-    <span className="flex-1">
-      <b className="block text-sm font-extrabold">
-        {label}
-        {disabled && (
-          <i className="bg-down-soft text-down ml-1.5 px-1.5 py-0.5 align-[2px] text-[9px] font-extrabold not-italic">
-            준비 중
-          </i>
-        )}
-      </b>
-      <span className="mt-0.5 block text-[10.5px] text-muted">{desc}</span>
-    </span>
-    <span aria-hidden className="text-line">
-      ›
-    </span>
-  </>
-);
-
-const ENTRY_CLASS = 'flex min-h-[62px] flex-1 items-center gap-3.5 bg-surface px-4 shadow-[var(--shadow-card)]';
+import EntryInner from './EntryInner';
+import {entryClass} from './HomeSide.styles';
 
 const HomeSide = () => (
   <aside className="flex flex-col gap-4">
@@ -44,11 +25,11 @@ const HomeSide = () => (
       <div className="flex flex-1 flex-col gap-2.5">
         {HOME_ENTRIES.map((entry) =>
           entry.disabled ? (
-            <div key={entry.no} aria-disabled="true" className={`${ENTRY_CLASS} cursor-default`}>
+            <div key={entry.no} aria-disabled="true" className={`${entryClass} cursor-default`}>
               <EntryInner {...entry} />
             </div>
           ) : (
-            <Link key={entry.no} href={entry.href} className={ENTRY_CLASS}>
+            <Link key={entry.no} href={entry.href} className={entryClass}>
               <EntryInner {...entry} />
             </Link>
           )

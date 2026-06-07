@@ -1,23 +1,13 @@
 'use client';
 
+import {PICKS} from '@/constants/menu';
 import dayjs from '@/lib/dayjs';
 import {usePick} from '@/lib/hooks/usePick';
 import {isAfterClose} from '@/lib/menu-policy';
 import {useHasMounted} from '@/lib/useHasMounted';
 import {cn} from '@/lib/utils';
 import {useDateStore} from '@/store/useDateStore';
-import {PickType} from '@/types/vote';
-
-interface PreMealPickProps {
-  date: string;
-}
-
-const PICKS: {type: PickType; label: string}[] = [
-  {type: 'A', label: 'A코스'},
-  {type: 'B', label: 'B코스'},
-  {type: 'takeout', label: '테이크아웃'},
-  {type: 'pass', label: '패스'},
-];
+import {PreMealPickProps} from '@/types/board';
 
 const PreMealPick = ({date}: PreMealPickProps) => {
   const mounted = useHasMounted();
