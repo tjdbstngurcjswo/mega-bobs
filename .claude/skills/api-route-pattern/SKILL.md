@@ -28,7 +28,7 @@ description: Next.js App Router Route Handler + Supabase + 인증/캐시 패턴�
 ```ts
 import {NextRequest, NextResponse} from 'next/server';
 
-import {createClient} from '@/lib/supabase-server';
+import {supabaseServer} from '@/lib/supabase-server';
 
 export const GET = async (req: NextRequest) => {
   const {searchParams} = req.nextUrl;
@@ -39,8 +39,7 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json({error: 'start, end required'}, {status: 400});
   }
 
-  const supabase = createClient();
-  const {data, error} = await supabase
+  const {data, error} = await supabaseServer
     .from('daily_menu')
     .select('*')
     .gte('date', start)
@@ -79,7 +78,7 @@ export const GET = async (req: NextRequest) => {
 
 ## STEP 4: 규칙
 
-- **서버 전용 Supabase**: `createClient()` from `@/lib/supabase-server` — 클라이언트용 import 금지
+- **서버 전용 Supabase**: `supabaseServer` from `@/lib/supabase-server` — 클라이언트용 import 금지
 - **환경변수 직접 노출 금지**: `NEXT_PUBLIC_` 접두사 없는 변수는 서버에서만
 - **에러 응답 일관성**: `{error: string}` + HTTP 상태 코드
 - **GET 핸들러명**: `export const GET = async (req: NextRequest) =>` (named export)

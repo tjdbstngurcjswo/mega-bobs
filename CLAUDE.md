@@ -42,8 +42,11 @@ src/
 │   ├── api/
 │   │   ├── menu/         # GET ?start=&end= — 날짜 범위 메뉴 조회
 │   │   ├── mcp/          # MCP Streamable HTTP 엔드포인트
+│   │   ├── picks/        # GET/POST — 식전 코스 픽 (menu_picks)
 │   │   ├── slack/        # POST — 슬래시 커맨드 핸들러
 │   │   │   └── warm/     # GET — Cron 캐시 워밍 (매일 15:00 UTC)
+│   │   ├── votes/        # GET/POST — 코스별 맛 평가 투표 (menu_votes)
+│   │   │   └── cleanup/  # DELETE — 만료 투표 데이터 정리
 │   │   └── revalidate/   # GET ?secret= — ISR 강제 재검증 (매일 19:30 UTC)
 │   ├── notice/           # 공지사항 페이지
 │   ├── globals.css       # @theme 토큰 (Tailwind v4)
@@ -51,19 +54,26 @@ src/
 │   └── page.tsx          # 홈 (ISR, HeroStatus 렌더)
 ├── components/
 │   ├── @shared/          # ErrorBoundary, SiteHeader, SiteFooter + index.ts
-│   ├── board/            # MenuBoard, DayBar, CourseRow, BoardEmpty
-│   └── home/             # HeroDate, HomeSide
+│   ├── board/            # MenuBoard, DayBar, CourseRow, BoardEmpty, PreMealPick
+│   └── home/             # HeroStatus, HeroDate, HomeSide
 ├── constants/
 │   ├── menu.ts           # MenuCategoryLabel (코스 카테고리 한글 레이블)
 │   ├── site.ts           # NAV_ITEMS, HOME_ENTRIES, FOOTER_LINKS
 │   └── slack.ts          # Slack 커맨드 맵
+├── data/
+│   └── announcements.ts  # 정적 공지 데이터 (TS 배열)
 ├── lib/
 │   ├── api/getMenu.ts    # Supabase daily_menu 조회 함수
+│   ├── hooks/
+│   │   ├── usePick.ts    # 식전 코스 픽 클라이언트 훅
+│   │   └── useVote.ts    # 맛 평가 투표 클라이언트 훅
 │   ├── dayjs.ts          # Asia/Seoul 타임존 설정 — 항상 여기서 import
+│   ├── getAnnouncements.ts # env 필터링 공지 조회 함수
 │   ├── menu-policy.ts    # CAFETERIA 운영 시각 config (단일 소스)
 │   ├── supabase-server.ts
 │   ├── useHasMounted.ts  # SSR/CSR 하이드레이션 불일치 방지 훅
-│   └── utils.ts          # cn(), formatYYYYMMDD(), getWeekDays()
+│   ├── utils.ts          # cn(), formatYYYYMMDD(), getWeekDays()
+│   └── voterId.ts        # 익명 투표자 ID 생성·관리 (localStorage)
 ├── mcp/
 │   ├── index.ts          # MCP 서버 진입점 (stdio transport)
 │   └── server.ts         # MCP 도구 정의
@@ -72,7 +82,8 @@ src/
 └── types/
     ├── meal.ts           # MealType
     ├── menu.ts           # MenuType, MenuCategory, MenuItemType
-    └── notice.ts         # NoticeData
+    ├── notice.ts         # NoticeData
+    └── vote.ts           # VoteType, VoteResult, PickType, PickResult
 ```
 
 ### API Routes
@@ -84,6 +95,9 @@ src/
 | `/api/slack/warm` | GET | Bearer | Cron 캐시 워밍 (vercel.json 15:00 UTC) |
 | `/api/revalidate` | GET | `?secret=` | ISR 강제 재검증 |
 | `/api/mcp` | GET/POST | — | MCP Streamable HTTP |
+| `/api/votes` | GET/POST | `x-voter-id` | 코스별 맛 평가 투표 조회·제출 |
+| `/api/votes/cleanup` | DELETE | Bearer | 만료 투표 데이터 정리 |
+| `/api/picks` | GET/POST | `x-voter-id` | 식전 코스 픽 조회·제출 |
 
 ### State Management
 

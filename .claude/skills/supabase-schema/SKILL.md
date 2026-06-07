@@ -68,12 +68,11 @@ export interface VoteSummary {
 
 ```ts
 // src/lib/api/getVotes.ts
-import {createClient} from '@/lib/supabase-server';
+import {supabaseServer} from '@/lib/supabase-server';
 import {VoteSummary} from '@/types/vote';
 
 export const getVoteSummary = async (date: string): Promise<VoteSummary[]> => {
-  const supabase = createClient();
-  const {data, error} = await supabase
+  const {data, error} = await supabaseServer
     .from('votes')
     .select('category, count:id.count()')
     .eq('date', date);

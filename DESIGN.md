@@ -91,7 +91,7 @@
 
 ## Accessibility (규칙 — QA 시 위반 플래그)
 
-- **대비:** 본문 텍스트 ≥ 4.5:1. `ink #111 on bg #F5F5F3 ≈ 17:1` OK. `muted #8A8A8A`는 캡션 한정(본문 대비 미달). 라이트 위 옐로우는 `#997400`.
+- **대비:** 본문 텍스트 ≥ 4.5:1. `ink #111720 on bg #f3f6fb ≈ 16:1` OK. `muted #7e8fa0`는 캡션 한정(본문 대비 미달). 라이트 위 옐로우는 `#836000`(`--color-accent-text`).
 - **터치 타깃:** 모바일 인터랙티브 요소 ≥ 44px.
 - **포커스:** 키보드 내비 가능 + 보이는 `focus-visible` 링 제공. 슬롯 등 게임은 스페이스바 지원.
 - **상태 표시:** `aria-pressed`/`aria-disabled`/`aria-label`/`aria-hidden`(장식) 일관 적용.
