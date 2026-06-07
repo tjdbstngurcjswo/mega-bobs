@@ -2,7 +2,7 @@
 
 import { Bell, Menu, X } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
 import { NAV_ITEMS, SITE_NAME } from '@/constants/site';
@@ -26,6 +26,7 @@ import {
 
 const SiteHeader = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const mounted = useHasMounted();
   const announcements = useMemo(() => getAnnouncements(), []);
   const showNoticeDot = useMemo(
@@ -66,6 +67,7 @@ const SiteHeader = () => {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onMouseEnter={() => router.prefetch(item.href)}
                   className={desktopNavLinkClass(active)}
                 >
                   {item.label}
@@ -79,6 +81,7 @@ const SiteHeader = () => {
             href="/notice"
             title="공지사항"
             aria-label="공지사항"
+            onMouseEnter={() => router.prefetch('/notice')}
             className={desktopBellLinkClass}
           >
             <span className={bellSpanClass(showNoticeDot)}>
@@ -95,6 +98,7 @@ const SiteHeader = () => {
               href="/notice"
               title="공지사항"
               aria-label="공지사항"
+              onMouseEnter={() => router.prefetch('/notice')}
               className={mobileBellLinkClass}
             >
               <span className={bellSpanClass(showNoticeDot)}>
@@ -130,6 +134,7 @@ const SiteHeader = () => {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMenuOpen(false)}
+                onMouseEnter={() => router.prefetch(item.href)}
                 className={mobileNavLinkClass(active)}
               >
                 {item.label}
