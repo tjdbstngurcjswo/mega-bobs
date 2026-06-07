@@ -46,6 +46,16 @@
   50%       { opacity: 0.55; }
 }
 
+@keyframes slideFromRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideFromLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
 @keyframes voteBounce {
   0%, 100% { transform: scale(1); }
   40%       { transform: scale(1.25); }

@@ -59,7 +59,7 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
 
   return (
     <section className="bg-surface flex flex-col shadow-[var(--shadow-card)]">
-      <div className="flex items-center justify-between px-6 py-4 border-b border-line">
+      <div className="flex items-center justify-between px-6 py-4">
         <h2 className="flex items-center gap-2">
           <span className="text-[14px] font-extrabold tracking-wide text-ink">메뉴</span>
           <span className="flex items-center gap-1 text-[11px] font-medium text-muted">
