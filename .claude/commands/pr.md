@@ -1,12 +1,30 @@
 ---
-description: "[PR 자동 생성] diff 분석 → Walkthrough 요약 / 파일 그룹 Changes 테이블 / Mermaid 시퀀스 / 테스트 플랜 포함 PR 본문 생성 후 gh pr create"
-argument-hint: "[target-branch] (선택, 기본 dev) 또는 draft"
+description: '[PR 자동 생성] diff 분석 → Walkthrough 요약 / 파일 그룹 Changes 테이블 / Mermaid 시퀀스 / 테스트 플랜 포함 PR 본문 생성 후 gh pr create'
+argument-hint: '[target-branch] (선택, 기본 dev) 또는 draft'
 allowed-tools: Bash(git:*), Bash(gh:*), Read, Grep
 ---
 
 # PR 생성 커맨드
 
 PR 생성 요청 시 아래 절차를 **순서대로** 실행합니다.
+
+## STEP 0: 사전 정리
+
+다음 두 작업을 **순서대로** 실행합니다.
+
+### 0-1. 데드코드 제거
+
+`.claude/commands/purge-dead-code.md` 를 **Read** 로 읽고, 그 안의 절차를 순서대로 실행합니다.
+
+- 제거할 항목이 있으면 정리 후 커밋합니다.
+- 없으면 "데드코드 없음" 보고 후 0-2로 진행합니다.
+
+### 0-2. README 최신화 확인
+
+`.claude/skills/readme-sync/SKILL.md` 를 **Read** 로 읽고, 그 안의 절차를 순서대로 실행합니다.
+
+- README 수정이 발생하면 커밋 후 STEP 1로 진행합니다.
+- 최신 상태이면 결과 보고 후 바로 STEP 1로 진행합니다.
 
 ## STEP 1: 정보 수집
 
@@ -26,16 +44,22 @@ git diff <target-branch>...HEAD --stat
 # 4. 타겟 브랜치 대비 전체 diff
 git diff <target-branch>...HEAD
 
-# 5. 리모트 브랜치 존재 여부
+# 5. 리모트 브랜치 존재 여부 + 포크 감지
 git branch -r | grep <current-branch>
+git remote get-url upstream 2>/dev/null && echo "FORKED" || echo "DIRECT"
 ```
+
+**포크 감지 규칙:**
+
+- `upstream` 리모트가 존재하면 → **포크된 레포** (STEP 5에서 upstream 경로 사용)
+- `upstream` 리모트가 없으면 → **직접 레포** (기존 origin 경로 사용)
 
 **타겟 브랜치 결정 규칙:**
 
 - 사용자가 명시한 경우 → 해당 브랜치
 - 명시하지 않은 경우 → `dev` (기본값)
 - 현재 브랜치가 `dev` 자체이거나 핫픽스(`hotfix/*`)면 → `main`
-- `origin/<target>` 우선, 없으면 로컬 `<target>`
+- 포크된 레포: `upstream/<target>` 기준, 직접 레포: `origin/<target>` 기준
 
 ## STEP 2: 변경 분석
 
@@ -169,20 +193,54 @@ type: [기능명]한줄 설명 (50자 이내, 끝에 마침표 금지)
 
 ## STEP 5: 푸시 및 PR 생성
 
+**포크 여부에 따라 경로가 다릅니다. STEP 1에서 감지한 결과를 따릅니다.**
+
+### 포크된 레포 (upstream 리모트 존재)
+
 ```bash
-# 1. 리모트 브랜치가 없으면 푸시
-git push -u origin <current-branch>
+# 1. upstream에 브랜치 푸시
+git push upstream <current-branch>
 
-# 2. Assignee 자동 설정 (기본: PR 생성자 본인)
+# 2. upstream repo slug 파싱 (https·ssh 양쪽 지원)
+UPSTREAM_URL=$(git remote get-url upstream)
+UPSTREAM_REPO=$(echo "$UPSTREAM_URL" \
+  | sed 's|.*github\.com[:/]\(.*\)\.git|\1|' \
+  | sed 's|.*github\.com[:/]\(.*\)|\1|')
+
+# 3. Assignee / Draft 설정
 ASSIGNEE="$(gh api user -q .login)"
-
-# 3. Draft 플래그 결정
-#    - 사용자가 "draft", "초안", "임시", "작업중" 등으로 draft 요청 시 → "--draft"
-#    - 그 외 → 빈 문자열
 DRAFT_FLAG=""   # 또는 "--draft"
 
-# 4. PR 생성 (HEREDOC으로 body 전달)
-gh pr create --base <target-branch> --title "<제목>" --assignee "$ASSIGNEE" $DRAFT_FLAG --body "$(cat <<'EOF'
+# 4. upstream repo에 PR 생성 (브랜치가 upstream에 있으므로 --repo만 지정)
+gh pr create \
+  --repo "$UPSTREAM_REPO" \
+  --base <target-branch> \
+  --title "<제목>" \
+  --assignee "$ASSIGNEE" \
+  $DRAFT_FLAG \
+  --body "$(cat <<'EOF'
+<본문>
+EOF
+)"
+```
+
+### 직접 레포 (upstream 리모트 없음)
+
+```bash
+# 1. origin에 브랜치 푸시
+git push -u origin <current-branch>
+
+# 2. Assignee / Draft 설정
+ASSIGNEE="$(gh api user -q .login)"
+DRAFT_FLAG=""   # 또는 "--draft"
+
+# 3. PR 생성
+gh pr create \
+  --base <target-branch> \
+  --title "<제목>" \
+  --assignee "$ASSIGNEE" \
+  $DRAFT_FLAG \
+  --body "$(cat <<'EOF'
 <본문>
 EOF
 )"
@@ -204,19 +262,20 @@ PR 생성 후 아래 형식으로 보고합니다:
 ```
 PR 생성 완료:
 - **URL**: {PR URL}
-- **방향**: {source} → {target}
+- **방향**: {source-branch} → {upstream or origin}/{target-branch}
+- **푸시 대상**: upstream (포크) / origin (직접)
 - **상태**: {Draft / Ready for review}
 - **Assignees**: {assignee1, assignee2}
 ```
 
 ## 머지 전략 참조 (MegaBobs 브랜치 전략)
 
-| 머지 방향                  | 전략             | 비고             |
-| -------------------------- | ---------------- | ---------------- |
-| `feature/*` → `dev`        | Squash and Merge | 기능 개발 통합   |
-| `dev` → `main`             | Merge Commit     | 운영 배포(Vercel)|
-| `hotfix/*` → `main`        | Squash and Merge | 긴급 수정        |
-| `hotfix/*` → `dev`         | Merge Commit     | hotfix 후 동기화 |
+| 머지 방향           | 전략             | 비고              |
+| ------------------- | ---------------- | ----------------- |
+| `feature/*` → `dev` | Squash and Merge | 기능 개발 통합    |
+| `dev` → `main`      | Merge Commit     | 운영 배포(Vercel) |
+| `hotfix/*` → `main` | Squash and Merge | 긴급 수정         |
+| `hotfix/*` → `dev`  | Merge Commit     | hotfix 후 동기화  |
 
 ## 주의사항
 

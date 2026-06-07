@@ -1,16 +1,18 @@
-import {Analytics} from '@vercel/analytics/next';
-import type {Metadata} from 'next';
+import { Analytics } from '@vercel/analytics/next';
+import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import {Toaster} from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 import './globals.css';
+
+import { bodyClass } from './layout.styles';
 
 /**
  * Pretendard 가변 폰트를 self-host — next/font가 size-adjust된 폴백을 자동 생성해
  * 폰트 스왑(FOUT) 시 발생하던 레이아웃 시프트를 제거한다.
  */
 const pretendard = localFont({
-  src: './fonts/PretendardVariable.woff2',
+  src: '../assets/fonts/PretendardVariable.woff2',
   display: 'swap',
   weight: '45 920',
   variable: '--font-pretendard',
@@ -36,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={pretendard.variable}>
-      <body className="flex min-h-[100dvh] flex-col bg-bg text-ink">
+      <body className={bodyClass}>
         {children}
         <Toaster
           position="bottom-center"

@@ -1,63 +1,15 @@
-import {unstable_cache} from 'next/cache';
-import {NextRequest, NextResponse} from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-import {MENU_CATEGORIES, MenuCategoryLabel} from '@/constants/menu';
-import {
-  CommandKeyword,
-  DAY_OFFSET_MAP,
-  DEFAULT_KEYWORD,
-} from '@/constants/slack';
-import getMenu from '@/lib/api/getMenu';
-import dayjs, {SEOUL_TIMEZONE} from '@/lib/dayjs';
-import {MenuCategory, MenuType} from '@/types/menu';
+import { MenuType } from '@/models/menu';
 
-const getCachedMenu = unstable_cache(
-  (date: string) => getMenu({start: date, end: date}),
-  ['slack-menu'],
-  {tags: ['menu'], revalidate: 86400}
-);
+import { getCachedMenu, toDateInfo, toSlackFormat } from './_utils';
 
-const toDateInfo = (text: string | null) => {
-  const keyword = (text || '').trim() as CommandKeyword;
-  const base = dayjs().tz(SEOUL_TIMEZONE); // 현재 시간을 서울 타임존으로 변환
-
-  if (!keyword) {
-    const date = base.format('YYYY-MM-DD');
-    return {keyword: DEFAULT_KEYWORD, date};
-  }
-
-  const offset = DAY_OFFSET_MAP[keyword];
-  if (offset === undefined) return null;
-
-  const date = base.add(offset, 'day').format('YYYY-MM-DD');
-  return {keyword, date};
-};
-
-const toCategoryLabel = (category: MenuCategory) => {
-  if (!category) return '';
-  return MenuCategoryLabel[category].ko;
-};
-
-const toSlackFormat = (records: MenuType[], keyword: string, date: string) => {
-  const header = `🍚 MegaBobs *${keyword} 메뉴 (${date})* 🍚`;
-
-  const sections = MENU_CATEGORIES.map((category) => {
-    const label = toCategoryLabel(category);
-    const record = records.find((r) => r.category === category);
-    const items = record?.items ?? [];
-
-    if (!items.length) return `_${label}: 메뉴 없음_`;
-
-    const lines = items.map((item) =>
-      item.kcal ? `• ${item.name} (${item.kcal} kcal)` : `• ${item.name}`
-    );
-    return [`*${label}*`, ...lines].join('\n');
-  }).join('\n\n');
-
-  return sections ? [header, sections].join('\n\n') : header;
-};
-
-export async function POST(req: NextRequest) {
+/**
+ * @route POST /api/slack
+ * @body FormData `text` — '오늘' | '내일' | '모레' | '글피' (없으면 오늘)
+ * @returns Slack 메시지 응답 (in_channel 또는 ephemeral)
+ */
+export const POST = async (req: NextRequest) => {
   const form = await req.formData();
   const text = form.get('text') as string | null;
 
@@ -70,7 +22,7 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const {keyword, date} = dateInfo;
+  const { keyword, date } = dateInfo;
 
   let menus: MenuType[];
   try {
@@ -85,7 +37,7 @@ export async function POST(req: NextRequest) {
   const textResponse = toSlackFormat(menus, keyword, date);
 
   return NextResponse.json({
-    response_type: 'in_channel', // 채널 전체에 보이게
+    response_type: 'in_channel',
     text: textResponse,
   });
 }

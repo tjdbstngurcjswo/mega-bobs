@@ -14,8 +14,16 @@ allowed-tools: Bash(git:*), Bash(gh:*), Read, Grep
 
 1. `.claude/commands/pr.md` 를 **Read** 로 읽는다.
 2. 그 안의 STEP 1~6 을 순서대로 그대로 실행한다.
-   - 정보 수집(git log/diff) → 변경 분석 → 템플릿대로 PR 본문 작성 → 제목 결정 → 푸시 & `gh pr create` → 결과 보고
+   - 정보 수집(git log/diff) + **포크 감지** → 변경 분석 → 템플릿대로 PR 본문 작성 → 제목 결정 → 푸시 & `gh pr create` → 결과 보고
 3. 타겟 브랜치 기본값은 `dev`, draft 키워드 감지 시 `--draft`.
 4. PR 생성 전 본문을 사용자에게 보여주고 **승인 후** 진행한다.
+
+## 포크 레포 동작
+
+`upstream` 리모트가 있으면 **자동으로** 포크 경로를 사용한다:
+
+- 푸시 대상: `upstream` (origin 아님)
+- PR 생성: `gh pr create --repo <upstream-slug>` → upstream 브랜치 → upstream 타겟 브랜치
+- `upstream` 리모트가 없으면 기존 origin 경로로 동작
 
 > 커맨드 본문과 이 스킬이 어긋나면 `.claude/commands/pr.md` 를 우선한다. 절차를 중복 작성하지 말고 항상 그 파일을 읽어 따른다.
