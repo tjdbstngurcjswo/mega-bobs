@@ -10,7 +10,7 @@ export const logoLinkClass =
   'text-ink text-[17px] font-extrabold tracking-tight';
 
 export const desktopNavClass =
-  'relative flex flex-1 gap-0.5 overflow-x-auto whitespace-nowrap max-[640px]:hidden';
+  'flex flex-1 gap-0.5 overflow-x-auto whitespace-nowrap max-[640px]:hidden';
 
 export const desktopNavLinkClass = (active: boolean) =>
   cn(

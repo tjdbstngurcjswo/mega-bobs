@@ -1,6 +1,6 @@
 'use client';
 
-import { CalendarDays, Clock, Info } from 'lucide-react';
+import { CalendarDays, Clock } from 'lucide-react';
 import { useLayoutEffect, useMemo, useRef } from 'react';
 
 import { MENU_CATEGORIES } from '@/constants/menu';
@@ -21,7 +21,6 @@ import MenuBoardEmpty from './_MenuBoardEmpty/MenuBoardEmpty';
 import MenuBoardCourseRow from './_MenuBoardCourseRow/MenuBoardCourseRow';
 import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
 import {
-  footerNoteClass,
   menuBodyClass,
   menuHeadingTitleClass,
   menuSubheadingClass,
@@ -135,14 +134,7 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
           />
         )}
       </div>
-      {(showVote || showPick) && dayMenus.length > 0 && (
-        <p className={footerNoteClass}>
-          <Info size={11} strokeWidth={2} className="shrink-0" />
-          {showVote
-            ? '투표 데이터는 정확하지 않을 수 있으며, 맛 평가를 위한 참고용 기능이에요'
-            : '투표 데이터는 정확하지 않을 수 있으며, 수요 예측을 위한 참고용 기능이에요'}
-        </p>
-      )}
+
     </section>
   );
 };
