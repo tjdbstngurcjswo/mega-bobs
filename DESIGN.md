@@ -99,24 +99,10 @@
 
 ### 현재 알려진 위반 (수정 대상)
 
-| 항목 | 위치 | 비고 |
+| 항목 | 위치 | 조치 |
 |---|---|---|
-| © `#6E6E6E` on `#111` ≈ 3.7:1 (미달) | [SiteFooter.tsx:15](src/components/site/SiteFooter.tsx#L15) | `--color-cream-2`(#9A9A9A, ~6.7:1)로 교체 |
-| `muted #8A8A8A` 본문 사용 ~3.5:1 | CourseRow, BoardEmpty, HomeSide | 본문은 `ink-2`, 메타만 muted |
-| 10.5px 이하 초소형 본문 | [HomeSide.tsx:47](src/components/home/HomeSide.tsx#L47) 등 | 본문 13px↑, 메타 한정 |
-| 터치 타깃 <44px (종 36px, 데이 칩) | SiteHeader, DayBar | 모바일에서 44px 확보 |
-| 명시적 `focus-visible` 없음 | 전역 | 키컬러 아웃라인 링 추가 |
-| 하드코딩 그레이 `#C9C9C6`/`#B5B5B2` | CourseRow:34, DayBar | 토큰화 |
-
-## Decisions Log
-
-| Date | Decision | Rationale |
-|------|----------|-----------|
-| 2026-06-05 | DESIGN.md를 SSOT로 신설 | globals.css 토큰 정리, a11y 규칙 명문화 |
-| 2026-06-05 | 풀 스퀘어 + 옐로우 단일 키컬러 + Pretendard 단일 + 라이트 단일 | 사내 유틸리티 무드, 다크모드 미지원 확정 |
-| 2026-06-06 | 쿨 팔레트로 전환 (bg `#f3f6fb`, ink `#111720`) | 웜톤 대비 전문적이고 쿨한 느낌 |
-| 2026-06-06 | border 전면 제거 → shadow-only elevation | `--shadow-card`/`--shadow-card-hover` 두 단계로 깊이 표현 |
-| 2026-06-06 | 투명 헤더 → scroll frosted glass | 메뉴 컨텐츠가 눈에 잘 띄도록, 헤더 강조 최소화 |
-| 2026-06-06 | 햄버거 메뉴 (640px 이하) | 좁은 뷰포트에서 nav 링크 풀스크린 드롭다운 |
-| 2026-06-06 | HeroStatus 동적 헤드라인 | 시각·요일·메뉴 유무 기반 6개 베리에이션, `softPulse` 운영 중 표시 |
-| 2026-06-06 | 코스 카테고리 레이블 형광펜 효과 | `linear-gradient(transparent 40%, --color-highlight 40%)` |
+| `muted` 본문 텍스트 사용 | [BoardEmpty.tsx:41](src/components/board/BoardEmpty.tsx#L41), [HomeSide.tsx:31](src/components/home/HomeSide.tsx#L31) | 본문·설명 텍스트는 `ink-2`로 교체. `muted`는 캡션·메타 한정 |
+| 10px 이하 본문 (`kcal` 표기) | [CourseRow.tsx:63](src/components/board/CourseRow.tsx#L63) | 메타 한정이나 가독성 위해 11px↑ 권장 |
+| 하드코딩 그레이 `#C9C9C6` | [CourseRow.tsx:142](src/components/board/CourseRow.tsx#L142) | `--color-line` 또는 `--color-muted` 토큰으로 교체 |
+| 터치 타깃 <44px (벨 아이콘, DayBar 칩) | SiteHeader, DayBar | 모바일에서 min 44×44px 확보 |
+| 명시적 `focus-visible` 없음 | 전역 | `focus-visible:outline` 링 추가 (키컬러 기준) |
