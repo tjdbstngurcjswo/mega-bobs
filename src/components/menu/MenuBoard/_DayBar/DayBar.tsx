@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import toast from 'react-hot-toast';
 
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { useDateStore } from '@/store/useDateStore';
@@ -26,11 +27,19 @@ const DayBar = () => {
   const canGoNext = !mounted || currentWeek[6].isBefore(maxDate, 'day');
 
   const handlePrev = () => {
+    if (!canGoPrev) {
+      toast.error('지난 메뉴는 볼 수 없습니다.');
+      return;
+    }
     directionRef.current = 'prev';
     goToPrevWeek();
   };
 
   const handleNext = () => {
+    if (!canGoNext) {
+      toast.error('매주 목요일에 업데이트됩니다.');
+      return;
+    }
     directionRef.current = 'next';
     goToNextWeek();
   };

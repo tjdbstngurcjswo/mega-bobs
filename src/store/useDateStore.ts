@@ -1,4 +1,3 @@
-import toast from 'react-hot-toast';
 import { create } from 'zustand';
 
 import dayjs from '@/lib/dayjs';
@@ -32,10 +31,7 @@ export const useDateStore = create<DateStore>((set, get) => {
     goToPrevWeek: () => {
       const { currentWeek, minDate } = get();
       const prevWeekStart = currentWeek[0].subtract(7, 'day');
-      if (prevWeekStart.isBefore(minDate, 'day')) {
-        toast.error('지난 메뉴는 볼 수 없습니다.');
-        return;
-      }
+      if (prevWeekStart.isBefore(minDate, 'day')) return;
       set({
         currentWeek: getWeekDays(prevWeekStart),
         selectedDate: prevWeekStart,
@@ -45,10 +41,7 @@ export const useDateStore = create<DateStore>((set, get) => {
     goToNextWeek: () => {
       const { currentWeek, maxDate } = get();
       const nextWeekStart = currentWeek[6].add(1, 'day');
-      if (nextWeekStart.isAfter(maxDate, 'day')) {
-        toast.error('매주 목요일에 업데이트됩니다.');
-        return;
-      }
+      if (nextWeekStart.isAfter(maxDate, 'day')) return;
       set({
         currentWeek: getWeekDays(nextWeekStart),
         selectedDate: nextWeekStart,
