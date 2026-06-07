@@ -12,6 +12,34 @@ allowed-tools: Bash(git:*), Bash(gh:*), Read, Grep
 
 ## 절차
 
+### STEP 0: 코드 리뷰 + QA (PR 생성 전 필수)
+
+PR을 생성하기 전에 **반드시** 아래 두 단계를 순서대로 실행한다.
+
+#### 0-1. 코드 리뷰
+
+`git diff <target-branch>...HEAD --name-only` 로 변경 파일 목록을 수집한 뒤, 아래 항목을 검사한다:
+
+1. **디자인 시스템 위반** — `design-system-guard` 스킬의 STEP 2~4 절차를 따른다.
+   - 변경된 스타일 파일(`.styles.ts`, `.css`)과 컴포넌트 파일을 대상으로 실행.
+   - 위반이 발견되면 즉시 수정하고 `fix(review): <설명>` 커밋.
+2. **타입/빌드 검사** — `pnpm tsc --noEmit` 실행. 에러 있으면 수정 후 커밋.
+3. **린트 검사** — `pnpm lint` 실행. 자동 수정 가능한 항목은 `pnpm lint:fix` 후 커밋.
+
+> 위반/에러가 없으면 "코드 리뷰 통과" 보고 후 0-2로 진행.
+
+#### 0-2. QA
+
+`/qa` 스킬을 호출해 변경된 페이지·기능을 브라우저에서 검증한다.
+
+- diff-aware 모드로 변경된 컴포넌트·페이지만 테스트한다.
+- 발견된 버그는 즉시 수정하고 `fix(qa): ISSUE-NNN — <설명>` 커밋.
+- QA 완료 후 "QA 통과" 보고 후 STEP 1로 진행.
+
+---
+
+### STEP 1~6: PR 생성
+
 1. `.claude/commands/pr.md` 를 **Read** 로 읽는다.
 2. 그 안의 STEP 1~6 을 순서대로 그대로 실행한다.
    - 정보 수집(git log/diff) + **포크 감지** → 변경 분석 → 템플릿대로 PR 본문 작성 → 제목 결정 → 푸시 & `gh pr create` → 결과 보고

@@ -17,8 +17,7 @@ export const chipBg = (isSelected: boolean): string => {
 };
 
 const dowColor = (dow: number): string | null => {
-  if (dow === 0) return 'text-red-500';
-  if (dow === 6) return 'text-blue-500';
+  if (dow === 0 || dow === 6) return 'text-muted';
   return null;
 };
 
@@ -27,7 +26,7 @@ export const labelClass = (
   isToday: boolean,
   dow: number
 ): string => {
-  if (isSelected) return isToday ? 'text-ink/55' : 'text-white/60';
+  if (isSelected) return isToday ? 'text-ink/55' : 'text-cream-2';
   return dowColor(dow) ?? 'text-muted';
 };
 
@@ -36,6 +35,6 @@ export const dateClass = (
   isToday: boolean,
   dow: number
 ): string => {
-  if (isSelected) return isToday ? 'text-ink' : 'text-white';
+  if (isSelected) return isToday ? 'text-ink' : 'text-cream';
   return dowColor(dow) ?? 'text-ink';
 };
