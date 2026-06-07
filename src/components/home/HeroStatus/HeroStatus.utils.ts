@@ -37,8 +37,9 @@ export const getHeroStatus = (
   const todayKey = formatYYYYMMDD(now);
   if (!hasMenu(todayKey)) {
     const nwKey = nextWorkdayKey(now);
+    const nextLabel = dow === 5 ? '월요일에 만나요!' : '내일 만나요!';
     return hasMenu(nwKey)
-      ? { icon: Sun, text: '오늘은 공휴일이에요. 내일 만나요!' }
+      ? { icon: Sun, text: `오늘은 공휴일이에요. ${nextLabel}` }
       : { icon: Sun, text: '오늘은 공휴일이에요.' };
   }
 
