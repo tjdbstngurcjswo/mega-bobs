@@ -93,7 +93,7 @@ const eslintConfig = [
       'max-params': ['warn', 4], // 함수 매개변수 최대 4개 (객체로 전달 권장)
       'prefer-template': 'warn', // 문자열 연결 시 템플릿 리터럴 사용 강제
       'object-shorthand': 'warn', // 객체 축약 표현 사용 강제 ({ name: name } → { name })
-      'object-curly-spacing': ['error', 'never'], // 객체 중괄호 안에 공백 없음 ({foo: bar})
+      'object-curly-spacing': ['error', 'always'], // 객체/import 중괄호 안 공백 강제 ({ foo: bar })
 
       // =============================================
       // Next.js 관련 규칙
