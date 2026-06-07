@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
-import { getVoterId } from '@/utils/voterId';
+import { getOrCreateVoterId } from '@/utils/voterId';
 import { PickResult, PickType } from '@/models/vote';
 
 const DEFAULT_COUNTS: PickResult['counts'] = {
@@ -26,7 +26,7 @@ export const usePick = (date: string, { enabled = true } = {}) => {
     let cancelled = false;
 
     const fetchPick = async () => {
-      const voterId = getVoterId();
+      const voterId = getOrCreateVoterId();
       if (!voterId) {
         setIsLoading(false);
         return;
@@ -55,7 +55,7 @@ export const usePick = (date: string, { enabled = true } = {}) => {
 
   const submitPick = useCallback(
     async (pick_type: PickType) => {
-      const voterId = getVoterId();
+      const voterId = getOrCreateVoterId();
       if (!voterId || isSubmitting) return;
       const isSame = myPick === pick_type;
       const prev = myPick;

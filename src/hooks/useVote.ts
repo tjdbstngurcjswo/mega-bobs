@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { getVoterId } from '@/utils/voterId';
+import { getOrCreateVoterId } from '@/utils/voterId';
 import { VoteResult, VoteType } from '@/models/vote';
 
 type VoteMap = Record<string, VoteResult>;
@@ -12,7 +12,7 @@ export const useVotes = (date: string, { enabled = true } = {}) => {
 
   useEffect(() => {
     if (!date || !enabled) return;
-    const voterId = getVoterId();
+    const voterId = getOrCreateVoterId();
     if (!voterId) return;
 
     setIsLoading(true);
@@ -34,7 +34,7 @@ export const useVotes = (date: string, { enabled = true } = {}) => {
 
   const submitVote = useCallback(
     async (menuKey: string, voteType: VoteType) => {
-      const voterId = getVoterId();
+      const voterId = getOrCreateVoterId();
       if (!voterId || isSubmitting) return;
 
       const current = voteMap[menuKey] ?? {
