@@ -34,7 +34,7 @@ export const getHeroStatus = (
 
   if (dow === 0 || dow === 6) {
     return hasMenu(nextWorkdayKey(now))
-      ? { icon: Sun, text: '주말이에요, 월요일에 만나요!', variant: 'closed' }
+      ? { icon: Sun, text: '주말이에요. 월요일에 만나요!', variant: 'closed' }
       : { icon: Sun, text: '편안한 주말 되세요!', variant: 'closed' };
   }
 

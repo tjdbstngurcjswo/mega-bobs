@@ -133,6 +133,25 @@
   }
 }
 
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.7);
+  }
+  20% {
+    opacity: 0.55;
+    transform: translateY(-10px) scale(1);
+  }
+  80% {
+    opacity: 0.45;
+    transform: translateY(-26px) scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-34px) scale(0.7);
+  }
+}
+
 @keyframes planeFly {
   0% {
     transform: translateX(-55vw) translateY(0px) rotate(40deg);

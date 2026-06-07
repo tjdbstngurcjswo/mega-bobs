@@ -123,7 +123,7 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
         <p className={footerNoteClass}>
           <Info size={11} strokeWidth={2} className="shrink-0" />
           {showVote
-            ? '투표 데이터는 정확하지 않을 수 있으며, 맛평가를 위한 참고용 기능이에요'
+            ? '투표 데이터는 정확하지 않을 수 있으며, 맛 평가를 위한 참고용 기능이에요'
             : '투표 데이터는 정확하지 않을 수 있으며, 수요 예측을 위한 참고용 기능이에요'}
         </p>
       )}
