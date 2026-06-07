@@ -155,6 +155,7 @@ MENU_API_KEY=                    # /api/menu 인증 키
 |---|---|---|
 | "PR 만들어", "PR 생성", "PR 올려", "pr 내줘", `/pr` | `create-pr` | `.claude/skills/create-pr/` |
 | 컴포넌트·페이지·훅 신규 생성, "만들어", "추가해" (UI 파일) | `component-scaffold` | `.claude/skills/component-scaffold/` |
+| **컴포넌트 파일 작성·수정 시 항상** (component-scaffold 내부에서 자동 호출) | `lean-component` | `.claude/skills/lean-component/` |
 | UI·스타일 코드 작성 또는 리뷰, DESIGN.md 관련 | `design-system-guard` | `.claude/skills/design-system-guard/` |
 | `src/app/api/*` 추가, "API 만들어", "엔드포인트 추가" | `api-route-pattern` | `.claude/skills/api-route-pattern/` |
 | Supabase 테이블·마이그레이션·RLS·타입 작업 | `supabase-schema` | `.claude/skills/supabase-schema/` |
