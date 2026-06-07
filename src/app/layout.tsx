@@ -20,9 +20,37 @@ const pretendard = localFont({
   variable: '--font-pretendard',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+const siteDesc =
+  '메가존 구내식당 메뉴, 실시간 운영 상태, 투표, 내기 게임까지 — 점심을 30초 안에 결정하세요.';
+
 export const metadata: Metadata = {
-  title: `${SITE_NAME} — 메가존 구내식당 점심 허브`,
-  description: '구내식당 메뉴, 투표, 내기 게임, 지정타 맛집까지',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: `${SITE_NAME} — 메가존 구내식당 점심 허브`,
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: siteDesc,
+  keywords: ['메가존', '구내식당', '점심', '식단', '메뉴', '과천', '지식정보타운', SITE_NAME],
+  authors: [{ name: SITE_NAME }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'ko_KR',
+    url: siteUrl,
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — 메가존 구내식당 점심 허브`,
+    description: siteDesc,
+  },
+  twitter: {
+    card: 'summary',
+    title: `${SITE_NAME} — 메가존 구내식당 점심 허브`,
+    description: siteDesc,
+  },
   other: {
     'google-adsense-account': 'ca-pub-4501038602130909',
   },

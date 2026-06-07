@@ -16,8 +16,17 @@ import {
 } from './page.styles';
 
 export const metadata: Metadata = {
-  title: `공지사항 — ${SITE_NAME}`,
-  description: `${SITE_NAME}의 새 기능, 점검, 운영 안내`,
+  title: '공지사항',
+  description: `${SITE_NAME}의 새 기능, 점검, 운영 안내를 확인하세요.`,
+  openGraph: {
+    title: `공지사항 — ${SITE_NAME}`,
+    description: `${SITE_NAME}의 새 기능, 점검, 운영 안내를 확인하세요.`,
+    url: '/notice',
+  },
+  twitter: {
+    title: `공지사항 — ${SITE_NAME}`,
+    description: `${SITE_NAME}의 새 기능, 점검, 운영 안내를 확인하세요.`,
+  },
 };
 
 export default function NoticePage() {

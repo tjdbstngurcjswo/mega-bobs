@@ -153,6 +153,17 @@ Tailwind CSS v4 — 토큰은 `src/app/globals.css`의 `@theme` 블록에서 관
 
 UI·스타일 작업 전 반드시 `DESIGN.md` (repo root)를 읽는다. 토큰·타이포·컬러·간격·shape·접근성 규칙이 모두 정의되어 있다. 명시적 승인 없이 이탈 금지.
 
+## Skill Routing
+
+When a user request matches these triggers, invoke the listed skill **before** taking any action.
+
+| Trigger | Skill |
+|---------|-------|
+| New `page.tsx` created, new public route added, "SEO", "메타데이터", "검색 최적화" | `seo-optimize` |
+| PR 만들어, PR 생성, PR 올려, `/pr` | `create-pr` |
+| UI/style code written or reviewed, DESIGN.md related | `design-system-guard` |
+| Supabase table/migration/RLS/type work | `supabase-schema` |
+
 ## Environment Variables
 
 ```bash
@@ -161,6 +172,7 @@ SUPABASE_SERVICE_ROLE_KEY=  # Supabase service role key (서버 전용)
 REVALIDATE_SECRET=          # ISR 재검증 인증 토큰 (/api/revalidate)
 API_KEY=                    # /api/menu 인증 키
 CRON_SECRET=                # Cron 인증 토큰 (/api/votes/cleanup Bearer)
+NEXT_PUBLIC_SITE_URL=       # 배포 URL (Vercel 대시보드에 설정 필수 — metadataBase·sitemap에 사용)
 ```
 
 ## Skill Routing
@@ -178,3 +190,4 @@ CRON_SECRET=                # Cron 인증 토큰 (/api/votes/cleanup Bearer)
 | "작업 시작", "티켓 따서", "MEGA-XX 작업", 티켓 번호 언급 + 작업 착수        | `start-ticket`        | `.claude/skills/start-ticket/`        |
 | "README 확인", "README 업데이트", "README 최신화" (단독 호출 시)            | `readme-sync`         | `.claude/skills/readme-sync/`         |
 | UI 문구 작성·수정·검수, 톤앤매너, 마침표·어투·빈 상태 문구                  | `ux-writing`          | `.claude/skills/ux-writing/`          |
+| `page.tsx` 신규 생성, 라우트 추가, "SEO", "메타데이터", "검색 최적화"       | `seo-optimize`        | `~/.claude/skills/seo-optimize/`      |
