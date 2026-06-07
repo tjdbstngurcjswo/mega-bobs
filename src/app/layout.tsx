@@ -10,7 +10,7 @@ import './globals.css';
  * 폰트 스왑(FOUT) 시 발생하던 레이아웃 시프트를 제거한다.
  */
 const pretendard = localFont({
-  src: './fonts/PretendardVariable.woff2',
+  src: '../assets/fonts/PretendardVariable.woff2',
   display: 'swap',
   weight: '45 920',
   variable: '--font-pretendard',
