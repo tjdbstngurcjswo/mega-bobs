@@ -53,7 +53,6 @@ const MenuBoardDayBar = () => {
       <button
         type="button"
         onClick={handlePrev}
-        disabled={!canGoPrev}
         aria-label="지난주 메뉴 보기"
         className={navButtonClass(canGoPrev)}
       >
@@ -82,7 +81,6 @@ const MenuBoardDayBar = () => {
       <button
         type="button"
         onClick={handleNext}
-        disabled={!canGoNext}
         aria-label="다음 주 메뉴 보기"
         className={navButtonClass(canGoNext)}
       >

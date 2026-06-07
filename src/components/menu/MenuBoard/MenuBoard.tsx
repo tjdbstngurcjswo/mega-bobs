@@ -1,12 +1,13 @@
 'use client';
 
-import { CalendarDays, Info, MapPin } from 'lucide-react';
+import { CalendarDays, Clock, Info, MapPin } from 'lucide-react';
 import { useMemo } from 'react';
 
 import { MENU_CATEGORIES } from '@/constants/menu';
 import dayjs from '@/lib/dayjs';
 import { usePick } from '@/hooks/usePick';
 import { useVotes } from '@/hooks/useVote';
+import { CAFETERIA_LABEL } from '@/constants/cafeteria';
 import {
   isAfterClose,
   isNextWeekMenuLocked,
@@ -22,8 +23,8 @@ import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
 import {
   footerNoteClass,
   menuBodyClass,
-  menuHeadingLocationClass,
   menuHeadingTitleClass,
+  menuSubheadingClass,
   sectionClass,
   todayButtonClass,
 } from './MenuBoard.styles';
@@ -66,13 +67,16 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
   return (
     <section className={sectionClass}>
       <div className="flex items-center justify-between px-6 py-4">
-        <h2 className="flex items-center gap-2">
-          <span className={menuHeadingTitleClass}>메뉴</span>
-          <span className={menuHeadingLocationClass}>
-            <MapPin size={10} strokeWidth={2.5} />
-            메가존 구내식당
-          </span>
-        </h2>
+        <div className="flex items-center gap-2">
+          <h2 className={menuHeadingTitleClass}>식단표</h2>
+          <p className={menuSubheadingClass}>
+            <MapPin size={9} strokeWidth={2.5} className="text-muted" aria-hidden />
+            <span>메가존 산학연센터 B1</span>
+            <span aria-hidden className="text-line">·</span>
+            <Clock size={9} strokeWidth={2.5} className="text-muted" aria-hidden />
+            <span>{CAFETERIA_LABEL}</span>
+          </p>
+        </div>
         <button
           type="button"
           onClick={() => goToToday()}
