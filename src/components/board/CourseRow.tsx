@@ -47,7 +47,7 @@ const CourseRow = ({
 
   return (
     <div
-      className="px-5 py-4"
+      className="px-5 py-6"
       style={{animation: 'fadeUp 0.28s ease both', animationDelay: `${index * 70}ms`}}
     >
       <div className="mb-1.5 flex items-end gap-2">
@@ -86,14 +86,19 @@ const CourseRow = ({
               aria-pressed={myVote === 'up'}
               aria-label="맛있어요"
               className={cn(
-                'flex items-center gap-1 px-2 py-1 text-[11px] font-semibold leading-none transition-colors disabled:opacity-50',
+                'group relative flex items-center gap-1 px-2 py-1 text-[11px] font-semibold leading-none transition-colors disabled:opacity-50',
                 myVote === 'up' ? 'bg-accent-soft text-accent-text' : 'text-muted hover:text-ink',
-                animating === 'up' && 'animate-[voteBounce_0.3s_ease-out]'
               )}
             >
-              <ThumbsUp size={11} strokeWidth={2.5} />
-              <span className="tabular-nums">
-                {voteResult?.up_count ?? 0}
+              <span className={cn(
+                'inline-flex transition-transform group-hover:-translate-y-0.5',
+                animating === 'up' && 'animate-[thumbsUpBounce_0.45s_ease-out]'
+              )}>
+                <ThumbsUp size={11} strokeWidth={2.5} />
+              </span>
+              <span className="tabular-nums">{voteResult?.up_count ?? 0}</span>
+              <span className="pointer-events-none invisible absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-2 py-1 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-['']">
+                맛있었어요
               </span>
             </button>
             <button
@@ -103,14 +108,19 @@ const CourseRow = ({
               aria-pressed={myVote === 'down'}
               aria-label="별로예요"
               className={cn(
-                'flex items-center gap-1 px-2 py-1 text-[11px] font-semibold leading-none transition-colors disabled:opacity-50',
+                'group relative flex items-center gap-1 px-2 py-1 text-[11px] font-semibold leading-none transition-colors disabled:opacity-50',
                 myVote === 'down' ? 'bg-down-soft text-down' : 'text-muted hover:text-ink',
-                animating === 'down' && 'animate-[voteBounce_0.3s_ease-out]'
               )}
             >
-              <ThumbsDown size={11} strokeWidth={2.5} />
-              <span className="tabular-nums">
-                {voteResult?.down_count ?? 0}
+              <span className={cn(
+                'inline-flex transition-transform group-hover:translate-y-0.5',
+                animating === 'down' && 'animate-[thumbsDownBounce_0.45s_ease-out]'
+              )}>
+                <ThumbsDown size={11} strokeWidth={2.5} />
+              </span>
+              <span className="tabular-nums">{voteResult?.down_count ?? 0}</span>
+              <span className="pointer-events-none invisible absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-2 py-1 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-['']">
+                별로였어요
               </span>
             </button>
           </div>

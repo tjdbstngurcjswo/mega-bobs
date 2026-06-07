@@ -1,6 +1,6 @@
 'use client';
 
-import {CalendarDays, MapPin} from 'lucide-react';
+import {CalendarDays, Info, MapPin} from 'lucide-react';
 import {useMemo} from 'react';
 
 import {MENU_CATEGORIES} from '@/constants/menu';
@@ -102,7 +102,15 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
           );
         })
       ) : (
-        <BoardEmpty variant={emptyVariant} />
+        <BoardEmpty variant={emptyVariant} date={dateStr} isToday={isToday} isPast={isPast} />
+      )}
+      {(showVote || showPick) && dayMenus.length > 0 && (
+        <p className="flex items-center gap-1.5 px-5 py-2.5 text-[10px] leading-relaxed text-muted">
+          <Info size={11} strokeWidth={2} className="shrink-0" />
+          {showVote
+            ? '투표 데이터는 정확하지 않을 수 있으며, 맛평가를 위한 참고용 기능이에요.'
+            : '투표 데이터는 정확하지 않을 수 있으며, 수요 예측을 위한 참고용 기능이에요.'}
+        </p>
       )}
     </section>
   );

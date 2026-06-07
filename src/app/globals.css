@@ -62,6 +62,22 @@
   60%       { transform: scale(0.95); }
 }
 
+@keyframes thumbsUpBounce {
+  0%   { transform: translateY(0)     scale(1)   rotate(0deg); }
+  20%  { transform: translateY(-10px) scale(1.5) rotate(-15deg); }
+  50%  { transform: translateY(-5px)  scale(1.2) rotate(-6deg); }
+  70%  { transform: translateY(-8px)  scale(1.35) rotate(-11deg); }
+  100% { transform: translateY(0)     scale(1)   rotate(0deg); }
+}
+
+@keyframes thumbsDownBounce {
+  0%   { transform: translateY(0)    scale(1)   rotate(0deg); }
+  20%  { transform: translateY(10px) scale(1.5) rotate(15deg); }
+  50%  { transform: translateY(5px)  scale(1.2) rotate(6deg); }
+  70%  { transform: translateY(8px)  scale(1.35) rotate(11deg); }
+  100% { transform: translateY(0)    scale(1)   rotate(0deg); }
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-ink);

@@ -14,21 +14,20 @@ const chipBg = (isSelected: boolean, isToday: boolean) => {
   return isToday ? 'bg-accent' : 'bg-ink';
 };
 
-const dowColor = (dow: number, isPast: boolean) => {
-  if (isPast) return 'text-[#B5B5B2]';
+const dowColor = (dow: number) => {
   if (dow === 0) return 'text-red-500';
   if (dow === 6) return 'text-blue-500';
   return null;
 };
 
-const labelClass = (isSelected: boolean, isToday: boolean, isPast: boolean, dow: number) => {
+const labelClass = (isSelected: boolean, isToday: boolean, dow: number) => {
   if (isSelected) return isToday ? 'text-ink/55' : 'text-white/60';
-  return dowColor(dow, isPast) ?? 'text-muted';
+  return dowColor(dow) ?? 'text-muted';
 };
 
-const dateClass = (isSelected: boolean, isToday: boolean, isPast: boolean, dow: number) => {
+const dateClass = (isSelected: boolean, isToday: boolean, dow: number) => {
   if (isSelected) return isToday ? 'text-ink' : 'text-white';
-  return dowColor(dow, isPast) ?? 'text-ink';
+  return dowColor(dow) ?? 'text-ink';
 };
 
 interface DayChipProps {
@@ -43,7 +42,6 @@ interface DayChipProps {
 const DayChip = ({day, today, selectedDate, onSelect, mounted}: DayChipProps) => {
   const isToday = mounted && day.isSame(today, 'day');
   const isSelected = mounted && day.isSame(selectedDate, 'day');
-  const isPast = mounted && day.isBefore(today, 'day');
 
   return (
     <button
@@ -57,19 +55,13 @@ const DayChip = ({day, today, selectedDate, onSelect, mounted}: DayChipProps) =>
     >
       <span
         suppressHydrationWarning
-        className={cn(
-          'text-[10px] font-bold',
-          labelClass(isSelected, isToday, isPast, day.day())
-        )}
+        className={cn('text-[10px] font-bold', labelClass(isSelected, isToday, day.day()))}
       >
         {isToday ? '오늘' : DOW[day.day()]}
       </span>
       <span
         suppressHydrationWarning
-        className={cn(
-          'text-[13.5px] font-extrabold',
-          dateClass(isSelected, isToday, isPast, day.day())
-        )}
+        className={cn('text-[13.5px] font-extrabold', dateClass(isSelected, isToday, day.day()))}
       >
         {day.date()}
       </span>
