@@ -9,6 +9,15 @@ import {formatYYYYMMDD, getWeekDays} from '@/lib/utils';
 
 export const revalidate = 21600;
 
+/**
+ * Render the home page with current context-aware menu data and surrounding layout.
+ *
+ * Fetches menu entries for the date range spanning one week before to one week after today,
+ * then renders the page header, a hero section (date and status), the menu board with a sidebar
+ * wrapped in an error boundary, and the site footer.
+ *
+ * @returns The React element tree for the Home page.
+ */
 export default async function Home() {
   const today = dayjs().tz();
   const start = formatYYYYMMDD(getWeekDays(today.subtract(1, 'week'))[0]);

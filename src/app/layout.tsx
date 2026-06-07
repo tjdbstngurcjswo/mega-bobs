@@ -29,6 +29,12 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Renders the application's root HTML structure, applies the local font and global layout, and provides global UI utilities.
+ *
+ * @param children - The page content to render inside the document body
+ * @returns The root HTML element containing the body with global classes, a toast container, and conditional analytics injection
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
