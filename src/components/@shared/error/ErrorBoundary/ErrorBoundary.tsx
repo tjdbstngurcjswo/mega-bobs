@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {ErrorBoundaryProps, ErrorBoundaryState} from '@/types/shared';
+import {ErrorBoundaryProps, ErrorBoundaryState} from './types';
 
 import ErrorFallback from './ErrorFallback';
 

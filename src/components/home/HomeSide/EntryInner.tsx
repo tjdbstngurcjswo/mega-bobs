@@ -1,4 +1,4 @@
-import {EntryInnerProps} from '@/types/site';
+import {EntryInnerProps} from './types';
 
 const EntryInner = ({no, label, desc, disabled}: EntryInnerProps) => (
   <>

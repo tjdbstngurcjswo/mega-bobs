@@ -8,7 +8,14 @@ import {useEffect, useState} from 'react';
 import {NAV_ITEMS} from '@/constants/site';
 import {getAnnouncements, hasNewAnnouncement} from '@/lib/getAnnouncements';
 import {useHasMounted} from '@/lib/useHasMounted';
-import {cn} from '@/lib/utils';
+
+import {
+  bellSpanClass,
+  desktopNavLinkClass,
+  headerClass,
+  mobileNavLinkClass,
+  mobileOverlayClass,
+} from './SiteHeader.styles';
 
 const SiteHeader = () => {
   const pathname = usePathname();
@@ -37,12 +44,7 @@ const SiteHeader = () => {
 
   return (
     <>
-      <header
-        className={cn(
-          'sticky top-0 z-50 transition-all duration-300',
-          scrolled || menuOpen ? 'bg-white/70 backdrop-blur-xl' : 'bg-transparent',
-        )}
-      >
+      <header className={headerClass(scrolled, menuOpen)}>
         <div className="mx-auto flex h-14 w-[min(880px,calc(100%-40px))] items-center gap-7">
           <Link href="/" className="text-[17px] font-extrabold tracking-tight text-ink">
             MegaBobs
@@ -57,13 +59,7 @@ const SiteHeader = () => {
                   key={item.href}
                   href={item.disabled ? '#' : item.href}
                   aria-disabled={item.disabled}
-                  className={cn(
-                    'flex items-center gap-1.5 px-3 py-2 text-[13.5px] font-semibold',
-                    active
-                      ? 'text-ink shadow-[inset_0_-2px_0_var(--color-accent)]'
-                      : 'text-muted hover:text-ink-2',
-                    item.disabled && 'cursor-default opacity-50',
-                  )}
+                  className={desktopNavLinkClass(active, item.disabled)}
                 >
                   {item.label}
                   {item.disabled && (
@@ -83,12 +79,7 @@ const SiteHeader = () => {
             aria-label="공지사항"
             className="relative flex size-9 items-center justify-center text-ink-2 max-[640px]:hidden"
           >
-            <span
-              className={cn(
-                'origin-top',
-                showNoticeDot && 'animate-[bellRingLoop_4s_ease-in-out_infinite]',
-              )}
-            >
+            <span className={bellSpanClass(showNoticeDot)}>
               <Bell size={17} strokeWidth={2.2} />
             </span>
             {showNoticeDot && (
@@ -104,12 +95,7 @@ const SiteHeader = () => {
               aria-label="공지사항"
               className="relative flex size-11 items-center justify-center text-ink-2"
             >
-              <span
-                className={cn(
-                  'origin-top',
-                  showNoticeDot && 'animate-[bellRingLoop_4s_ease-in-out_infinite]',
-                )}
-              >
+              <span className={bellSpanClass(showNoticeDot)}>
                 <Bell size={17} strokeWidth={2.2} />
               </span>
               {showNoticeDot && (
@@ -132,16 +118,7 @@ const SiteHeader = () => {
       </header>
 
       {/* 모바일 메뉴 — header 밖 fixed, stacking context 영향 없음 */}
-      <div
-        className={cn(
-          'fixed inset-x-0 bottom-0 top-14 z-40 min-[641px]:hidden',
-          'bg-[var(--color-bg)]',
-          'transition-all duration-200 ease-in-out',
-          menuOpen
-            ? 'pointer-events-auto translate-y-0 opacity-100'
-            : 'pointer-events-none -translate-y-2 opacity-0',
-        )}
-      >
+      <div className={mobileOverlayClass(menuOpen)}>
         <nav className="mx-auto flex w-[min(880px,calc(100%-40px))] flex-col pb-4 pt-1">
           {NAV_ITEMS.map((item) => {
             const active = pathname === item.href;
@@ -151,11 +128,7 @@ const SiteHeader = () => {
                 href={item.disabled ? '#' : item.href}
                 aria-disabled={item.disabled}
                 onClick={() => setMenuOpen(false)}
-                className={cn(
-                  'flex items-center justify-between border-b border-line/50 py-3.5 text-[15px] font-semibold',
-                  active ? 'text-ink' : 'text-ink-2',
-                  item.disabled && 'cursor-default opacity-40',
-                )}
+                className={mobileNavLinkClass(active, item.disabled)}
               >
                 {item.label}
                 {item.disabled && (

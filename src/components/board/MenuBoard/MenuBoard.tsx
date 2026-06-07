@@ -11,11 +11,12 @@ import {isAfterClose, isNextWeek, isNextWeekPublished} from '@/lib/menu-policy';
 import {useHasMounted} from '@/lib/useHasMounted';
 import {cn, formatYYYYMMDD} from '@/lib/utils';
 import {useDateStore} from '@/store/useDateStore';
-import {MenuBoardProps} from '@/types/board';
+import {MenuBoardProps} from './types';
 
-import BoardEmpty from './BoardEmpty';
-import CourseRow from './CourseRow';
-import DayBar from './DayBar';
+import BoardEmpty from '../BoardEmpty';
+import CourseRow from '../CourseRow';
+import DayBar from '../DayBar';
+import {todayButtonClass} from './MenuBoard.styles';
 
 const MenuBoard = ({menus}: MenuBoardProps) => {
   const {today, selectedDate, setSelectedDate} = useDateStore();
@@ -59,10 +60,7 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
           type="button"
           onClick={() => setSelectedDate(today)}
           aria-hidden={selectedDate.isSame(today, 'day')}
-          className={cn(
-            'flex items-center gap-1.5 border border-accent/50 bg-accent-soft px-3 py-1 text-[11px] font-bold text-accent-text transition-opacity hover:opacity-70',
-            selectedDate.isSame(today, 'day') ? 'invisible' : 'visible'
-          )}
+          className={todayButtonClass(selectedDate.isSame(today, 'day'))}
         >
           <CalendarDays size={11} strokeWidth={2.5} />
           오늘

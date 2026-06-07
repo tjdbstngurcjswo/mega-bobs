@@ -3,10 +3,10 @@
 import {useRef} from 'react';
 
 import {useHasMounted} from '@/lib/useHasMounted';
-import {cn} from '@/lib/utils';
 import {useDateStore} from '@/store/useDateStore';
 
 import DayChip from './DayChip';
+import {navButtonClass} from './DayBar.styles';
 
 const DayBar = () => {
   const {
@@ -42,10 +42,7 @@ const DayBar = () => {
         onClick={handlePrev}
         disabled={!canGoPrev}
         aria-label="지난주 메뉴 보기"
-        className={cn(
-          'flex min-h-[44px] w-8 shrink-0 cursor-pointer flex-col items-center justify-center gap-0.5 transition-opacity duration-100 active:scale-75',
-          canGoPrev ? 'text-muted hover:text-ink' : 'cursor-default opacity-25',
-        )}
+        className={navButtonClass(canGoPrev)}
       >
         <span className="text-[16px] font-light leading-none">‹</span>
       </button>
@@ -72,10 +69,7 @@ const DayBar = () => {
         onClick={handleNext}
         disabled={!canGoNext}
         aria-label="다음 주 메뉴 보기"
-        className={cn(
-          'flex min-h-[44px] w-8 shrink-0 cursor-pointer flex-col items-center justify-center gap-0.5 transition-opacity duration-100 active:scale-75',
-          canGoNext ? 'text-muted hover:text-ink' : 'cursor-default opacity-25',
-        )}
+        className={navButtonClass(canGoNext)}
       >
         <span className="text-[16px] font-light leading-none">›</span>
       </button>

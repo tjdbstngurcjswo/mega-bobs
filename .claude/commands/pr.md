@@ -8,7 +8,18 @@ allowed-tools: Bash(git:*), Bash(gh:*), Read, Grep
 
 PR 생성 요청 시 아래 절차를 **순서대로** 실행합니다.
 
-## STEP 0: README 최신화 확인
+## STEP 0: 사전 정리
+
+다음 두 작업을 **순서대로** 실행합니다.
+
+### 0-1. 데드코드 제거
+
+`.claude/commands/purge-dead-code.md` 를 **Read** 로 읽고, 그 안의 절차를 순서대로 실행합니다.
+
+- 제거할 항목이 있으면 정리 후 커밋합니다.
+- 없으면 "데드코드 없음" 보고 후 0-2로 진행합니다.
+
+### 0-2. README 최신화 확인
 
 `.claude/skills/readme-sync/SKILL.md` 를 **Read** 로 읽고, 그 안의 절차를 순서대로 실행합니다.
 

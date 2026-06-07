@@ -1,9 +1,12 @@
 'use client';
 
-import {DOW} from '@/constants/date';
-import {chipBg, dateClass, labelClass} from '@/lib/day-bar';
+import {dateClass, labelClass} from '@/lib/day-bar';
 import {cn} from '@/lib/utils';
-import {DayChipProps} from '@/types/board';
+
+import {DOW} from './constants';
+import {DayChipProps} from './types';
+
+import {chipButtonClass} from './DayChip.styles';
 
 const DayChip = ({day, today, selectedDate, onSelect, mounted}: DayChipProps) => {
   const isToday = mounted && day.isSame(today, 'day');
@@ -14,10 +17,7 @@ const DayChip = ({day, today, selectedDate, onSelect, mounted}: DayChipProps) =>
       type="button"
       onClick={() => onSelect(day)}
       aria-pressed={isSelected}
-      className={cn(
-        'flex min-h-[44px] flex-1 cursor-pointer flex-col items-center justify-center gap-0.5 transition-colors duration-150',
-        chipBg(isSelected, isToday),
-      )}
+      className={chipButtonClass(isSelected, isToday)}
     >
       <span
         suppressHydrationWarning
