@@ -54,11 +54,13 @@ Props 타입 포함 모든 타입·상수·함수는 컴포넌트 파일 밖에 
 // 1. 'use client' — 클라이언트 전용일 때만
 'use client';
 
-// 2. import 순서: builtin → external → internal → parent → sibling
+// 2. import 경로 규칙
+//    - 같은 폴더 → 상대경로 './'
+//    - 다른 폴더 → 반드시 '@/' 절대경로 (../ 금지)
 import {useState} from 'react';
 
 import {cn} from '@/lib/utils';
-import {ComponentNameProps} from './ComponentName.types';  // 타입은 같은 폴더 ComponentName.types.ts 에서 import
+import {ComponentNameProps} from './ComponentName.types';
 
 // 3. arrow function + export default (파일 안에 이것만)
 const ComponentName = ({prop, optional = false}: ComponentNameProps) => {

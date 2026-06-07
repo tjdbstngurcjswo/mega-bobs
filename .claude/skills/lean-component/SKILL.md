@@ -78,6 +78,27 @@ export const itemClass = (active: boolean) =>
 
 단, 단순 한 줄 static 문자열(`'px-4 py-2 text-sm'`)은 인라인 유지해도 무방.
 
+## Import 경로 규칙
+
+| 상황 | 규칙 | 예시 |
+|---|---|---|
+| **같은 폴더** 내 파일 | 상대경로 `./ ` 허용 | `'./ComponentName.types'` |
+| **다른 폴더** 참조 | **반드시 `@/` 절대경로** | `'@/lib/utils'`, `'@/types/vote'` |
+| `../` 상대경로 | **금지** | ❌ `'../lib/utils'` |
+
+```ts
+// ✅ 같은 폴더 — 상대경로 OK
+import {MenuBoardProps} from './MenuBoard.types';
+import {todayButtonClass} from './MenuBoard.styles';
+
+// ✅ 다른 폴더 — @/ 절대경로
+import {cn} from '@/lib/utils';
+import {MenuCategory} from '@/types/menu';
+
+// ❌ 절대 금지
+import {supabaseServer} from '../lib/supabase-server';
+```
+
 ## 체크리스트 (컴포넌트 작성·수정 후 실행)
 
 - [ ] 컴포넌트 파일에 `interface` / `type` 정의가 없는가?
@@ -85,6 +106,7 @@ export const itemClass = (active: boolean) =>
 - [ ] 컴포넌트 함수 바깥에 유틸/로직 함수가 없는가?
 - [ ] 2줄 이상 `cn()` 또는 5회 이상 반복 스타일 패턴을 `.styles.ts`로 분리했는가?
 - [ ] 분리한 파일이 올바른 위치에 있고 export가 정확한가?
+- [ ] 다른 폴더 import가 `@/` 절대경로를 사용하는가? (`../` 없는가?)
 - [ ] 컴포넌트 파일이 import → 컴포넌트 → export default 구조로만 이루어졌는가?
 
 ## 파일 위치 빠른 참조
@@ -96,14 +118,14 @@ src/
 ├── lib/            ← 유틸 함수, 도메인 로직
 │   └── hooks/      ← 커스텀 훅
 └── components/
-    └── board/
-        └── CourseRow/           ← 컴포넌트마다 전용 폴더
-            ├── index.ts                 ← export {default} from './CourseRow'
-            ├── CourseRow.tsx            ← 컴포넌트 함수만
-            ├── CourseRow.types.ts       ← 이 컴포넌트 전용 타입
-            ├── CourseRow.styles.ts      ← 스타일 (필요 시)
+    └── menu/
+        └── MenuBoard/           ← 컴포넌트마다 전용 폴더
+            ├── index.ts                 ← export {default} from './MenuBoard'
+            ├── MenuBoard.tsx            ← 컴포넌트 함수만
+            ├── MenuBoard.types.ts       ← 이 컴포넌트 전용 타입
+            ├── MenuBoard.styles.ts      ← 스타일 (필요 시)
             ├── constants.ts             ← 이 컴포넌트 전용 상수 (필요 시)
-            └── SubComponent.tsx         ← 비공개 서브 컴포넌트 (필요 시)
+            └── _SubComponent/          ← 외부 비공개 서브 컴포넌트 (필요 시)
 ```
 
 ## 위반 리포트 형식
