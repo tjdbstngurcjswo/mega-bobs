@@ -1,6 +1,6 @@
 'use client';
 
-import { dateClass, labelClass } from './DayBar.utils';
+import { dateClass, labelClass } from './DayBar.styles';
 import { cn } from '@/utils/cn';
 
 import { DOW } from './constants';
