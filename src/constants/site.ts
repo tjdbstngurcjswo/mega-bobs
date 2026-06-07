@@ -7,4 +7,4 @@ export const NAV_ITEMS: NavItem[] = [
   { label: '공지사항', href: '/notice' },
 ];
 
-export const FOOTER_LINKS = [{ label: '공지사항', href: '/notice' }] as const;
+export const FOOTER_LINKS: { label: string; href: string }[] = [];
