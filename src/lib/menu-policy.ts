@@ -27,3 +27,9 @@ export const isNextWeekPublished = (now: dayjs.Dayjs) => {
   const d = now.day();
   return d === 0 || d >= 4;
 };
+
+/** 영업 종료(13:15) 이후인지 여부 */
+export const isAfterClose = (now: dayjs.Dayjs) => {
+  const nowMin = now.hour() * 60 + now.minute();
+  return nowMin >= CAFETERIA_CLOSE_MIN;
+};

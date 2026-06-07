@@ -51,7 +51,7 @@ export default function RootLayout({
             },
           }}
         />
-        <Analytics mode="production" />
+        {process.env.VERCEL_ENV && <Analytics />}
       </body>
     </html>
   );

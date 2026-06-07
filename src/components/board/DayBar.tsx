@@ -1,5 +1,7 @@
 'use client';
 
+import {useRef} from 'react';
+
 import dayjs from '@/lib/dayjs';
 import {useHasMounted} from '@/lib/useHasMounted';
 import {cn} from '@/lib/utils';
@@ -12,21 +14,20 @@ const chipBg = (isSelected: boolean, isToday: boolean) => {
   return isToday ? 'bg-accent' : 'bg-ink';
 };
 
-const dowColor = (dow: number, isPast: boolean) => {
-  if (isPast) return 'text-[#B5B5B2]';
+const dowColor = (dow: number) => {
   if (dow === 0) return 'text-red-500';
   if (dow === 6) return 'text-blue-500';
   return null;
 };
 
-const labelClass = (isSelected: boolean, isToday: boolean, isPast: boolean, dow: number) => {
+const labelClass = (isSelected: boolean, isToday: boolean, dow: number) => {
   if (isSelected) return isToday ? 'text-ink/55' : 'text-white/60';
-  return dowColor(dow, isPast) ?? 'text-muted';
+  return dowColor(dow) ?? 'text-muted';
 };
 
-const dateClass = (isSelected: boolean, isToday: boolean, isPast: boolean, dow: number) => {
+const dateClass = (isSelected: boolean, isToday: boolean, dow: number) => {
   if (isSelected) return isToday ? 'text-ink' : 'text-white';
-  return dowColor(dow, isPast) ?? 'text-ink';
+  return dowColor(dow) ?? 'text-ink';
 };
 
 interface DayChipProps {
@@ -41,7 +42,6 @@ interface DayChipProps {
 const DayChip = ({day, today, selectedDate, onSelect, mounted}: DayChipProps) => {
   const isToday = mounted && day.isSame(today, 'day');
   const isSelected = mounted && day.isSame(selectedDate, 'day');
-  const isPast = mounted && day.isBefore(today, 'day');
 
   return (
     <button
@@ -55,19 +55,13 @@ const DayChip = ({day, today, selectedDate, onSelect, mounted}: DayChipProps) =>
     >
       <span
         suppressHydrationWarning
-        className={cn(
-          'text-[10px] font-bold',
-          labelClass(isSelected, isToday, isPast, day.day())
-        )}
+        className={cn('text-[10px] font-bold', labelClass(isSelected, isToday, day.day()))}
       >
-        {DOW[day.day()]}
+        {isToday ? '오늘' : DOW[day.day()]}
       </span>
       <span
         suppressHydrationWarning
-        className={cn(
-          'text-[13.5px] font-extrabold',
-          dateClass(isSelected, isToday, isPast, day.day())
-        )}
+        className={cn('text-[13.5px] font-extrabold', dateClass(isSelected, isToday, day.day()))}
       >
         {day.date()}
       </span>
@@ -80,41 +74,71 @@ const DayBar = () => {
     today,
     selectedDate,
     currentWeek,
+    minDate,
+    maxDate,
     setSelectedDate,
     goToPrevWeek,
     goToNextWeek,
   } = useDateStore();
   const mounted = useHasMounted();
+  const directionRef = useRef<'prev' | 'next'>('next');
+
+  const canGoPrev = !mounted || currentWeek[0].isAfter(minDate, 'day');
+  const canGoNext = !mounted || currentWeek[6].isBefore(maxDate, 'day');
+
+  const handlePrev = () => {
+    directionRef.current = 'prev';
+    goToPrevWeek();
+  };
+
+  const handleNext = () => {
+    directionRef.current = 'next';
+    goToNextWeek();
+  };
 
   return (
-    <div className="border-line bg-surface flex items-center gap-2 border-b px-5 py-3">
+    <div className="bg-surface flex items-center gap-2 px-4 py-3">
       <button
         type="button"
-        onClick={goToPrevWeek}
+        onClick={handlePrev}
+        disabled={!canGoPrev}
         aria-label="지난주 메뉴 보기"
-        className="text-muted hover:text-ink flex h-11 w-7 shrink-0 cursor-pointer items-center justify-center transition-transform duration-100 active:scale-75"
+        className={cn(
+          'flex w-8 shrink-0 cursor-pointer flex-col items-center gap-0.5 transition-opacity duration-100 active:scale-75',
+          canGoPrev ? 'text-muted hover:text-ink' : 'cursor-default opacity-25'
+        )}
       >
-        ‹
+        <span className="text-[16px] font-light leading-none">‹</span>
       </button>
-      <div className="flex flex-1 gap-1.5">
-        {currentWeek.map((day) => (
-          <DayChip
-            key={day.format('YYYY-MM-DD')}
-            day={day}
-            today={today}
-            selectedDate={selectedDate}
-            onSelect={setSelectedDate}
-            mounted={mounted}
-          />
-        ))}
+      <div className="flex flex-1 flex-col">
+        <div
+          key={currentWeek[0]?.format('YYYY-MM-DD')}
+          className="flex gap-1.5 overflow-hidden"
+          style={{animation: `${directionRef.current === 'next' ? 'slideFromRight' : 'slideFromLeft'} 0.22s ease both`}}
+        >
+          {currentWeek.map((day) => (
+            <DayChip
+              key={day.format('YYYY-MM-DD')}
+              day={day}
+              today={today}
+              selectedDate={selectedDate}
+              onSelect={setSelectedDate}
+              mounted={mounted}
+            />
+          ))}
+        </div>
       </div>
       <button
         type="button"
-        onClick={goToNextWeek}
+        onClick={handleNext}
+        disabled={!canGoNext}
         aria-label="다음 주 메뉴 보기"
-        className="text-muted hover:text-ink flex h-11 w-7 shrink-0 cursor-pointer items-center justify-center transition-transform duration-100 active:scale-75"
+        className={cn(
+          'flex w-8 shrink-0 cursor-pointer flex-col items-center gap-0.5 transition-opacity duration-100 active:scale-75',
+          canGoNext ? 'text-muted hover:text-ink' : 'cursor-default opacity-25'
+        )}
       >
-        ›
+        <span className="text-[16px] font-light leading-none">›</span>
       </button>
     </div>
   );
