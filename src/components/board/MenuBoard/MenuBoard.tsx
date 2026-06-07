@@ -11,7 +11,7 @@ import {isAfterClose, isNextWeek, isNextWeekPublished} from '@/lib/menu-policy';
 import {useHasMounted} from '@/lib/useHasMounted';
 import {cn, formatYYYYMMDD} from '@/lib/utils';
 import {useDateStore} from '@/store/useDateStore';
-import {MenuBoardProps} from './types';
+import {MenuBoardProps} from './MenuBoard.types';
 
 import BoardEmpty from '../BoardEmpty';
 import CourseRow from '../CourseRow';

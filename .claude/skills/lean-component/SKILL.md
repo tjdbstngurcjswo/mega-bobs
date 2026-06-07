@@ -20,7 +20,7 @@ description: Use when creating, editing, or reviewing any component file (.tsx).
 
 | 금지 항목 | 이동 대상 |
 |---|---|
-| `interface XxxProps` / `type Xxx` (컴포넌트 전용) | `<ComponentFolder>/types.ts` |
+| `interface XxxProps` / `type Xxx` (컴포넌트 전용) | `<ComponentFolder>/ComponentName.types.ts` |
 | 상수 (컴포넌트 전용) | `<ComponentFolder>/constants.ts` |
 | 유틸리티 함수 (`const calcTotal = ...`) | `src/lib/<feature>.ts` |
 | 도메인 로직 함수 (`const getStatus = ...`) | `src/lib/<feature>.ts` |
@@ -36,11 +36,11 @@ description: Use when creating, editing, or reviewing any component file (.tsx).
 // ❌ CourseRow/CourseRow.tsx 안에
 interface CourseRowProps { menu: MenuType; index?: number; ... }
 
-// ✅ CourseRow/types.ts 에
+// ✅ CourseRow/CourseRow.types.ts 에
 export interface CourseRowProps { menu: MenuType; index?: number; ... }
 
 // ✅ CourseRow/CourseRow.tsx 에서
-import {CourseRowProps} from './types';
+import {CourseRowProps} from './CourseRow.types';
 ```
 
 ### 도메인 로직 함수
@@ -98,12 +98,12 @@ src/
 └── components/
     └── board/
         └── CourseRow/           ← 컴포넌트마다 전용 폴더
-            ├── index.ts         ← export {default} from './CourseRow'
-            ├── CourseRow.tsx    ← 컴포넌트 함수만
-            ├── CourseRow.styles.ts  ← 스타일 (필요 시)
-            ├── types.ts         ← 이 컴포넌트 전용 타입
-            ├── constants.ts     ← 이 컴포넌트 전용 상수 (필요 시)
-            └── SubComponent.tsx ← 비공개 서브 컴포넌트 (필요 시)
+            ├── index.ts                 ← export {default} from './CourseRow'
+            ├── CourseRow.tsx            ← 컴포넌트 함수만
+            ├── CourseRow.types.ts       ← 이 컴포넌트 전용 타입
+            ├── CourseRow.styles.ts      ← 스타일 (필요 시)
+            ├── constants.ts             ← 이 컴포넌트 전용 상수 (필요 시)
+            └── SubComponent.tsx         ← 비공개 서브 컴포넌트 (필요 시)
 ```
 
 ## 위반 리포트 형식

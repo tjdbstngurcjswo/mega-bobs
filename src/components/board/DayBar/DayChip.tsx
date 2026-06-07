@@ -4,7 +4,7 @@ import {dateClass, labelClass} from '@/lib/day-bar';
 import {cn} from '@/lib/utils';
 
 import {DOW} from './constants';
-import {DayChipProps} from './types';
+import {DayChipProps} from './DayBar.types';
 
 import {chipButtonClass} from './DayChip.styles';
 

@@ -4,7 +4,7 @@ import {ThumbsDown, ThumbsUp, Users} from 'lucide-react';
 import {useState} from 'react';
 
 import {MenuCategoryLabel} from '@/constants/menu';
-import {CourseRowProps} from './types';
+import {CourseRowProps} from './CourseRow.types';
 import {VoteType} from '@/types/vote';
 
 import {
