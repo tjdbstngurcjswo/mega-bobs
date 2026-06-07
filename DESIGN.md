@@ -2,7 +2,6 @@
 
 > 단일 진실 소스(SSOT). 모든 시각/UI 결정은 이 문서를 따른다.
 > 토큰 구현 기준은 [`src/app/globals.css`](src/app/globals.css)의 `@theme` 블록.
-> 화면별 상세 스펙·엣지케이스는 [`docs/design/2026-06-05-phase1-design.md`](docs/design/2026-06-05-phase1-design.md) 참조.
 
 ## Product Context
 

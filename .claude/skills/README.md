@@ -29,4 +29,4 @@ description: <언제 이 스킬을 써야 하는지 한 줄 — 호출 판단에
 <본문: 따라야 할 규칙·절차>
 ```
 
-참고 문서: [Phase 1 디자인 문서](../../docs/design/2026-06-05-phase1-design.md) · 컨벤션은 루트 `CLAUDE.md`.
+참고 문서: 컨벤션은 루트 `CLAUDE.md`.
