@@ -103,7 +103,7 @@ const SiteHeader = () => {
               href="/notice"
               title="공지사항"
               aria-label="공지사항"
-              className="relative flex size-9 items-center justify-center text-ink-2"
+              className="relative flex size-11 items-center justify-center text-ink-2"
             >
               <span
                 className={cn(
@@ -124,7 +124,7 @@ const SiteHeader = () => {
               type="button"
               aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
               onClick={() => setMenuOpen((v) => !v)}
-              className="flex size-9 items-center justify-center text-ink-2"
+              className="flex size-11 items-center justify-center text-ink-2"
             >
               {menuOpen ? <X size={20} strokeWidth={2} /> : <Menu size={20} strokeWidth={2} />}
             </button>

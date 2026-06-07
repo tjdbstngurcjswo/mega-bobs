@@ -49,7 +49,7 @@ const DayChip = ({day, today, selectedDate, onSelect, mounted}: DayChipProps) =>
       onClick={() => onSelect(day)}
       aria-pressed={isSelected}
       className={cn(
-        'flex flex-1 cursor-pointer flex-col items-center gap-0.5 py-1.5 transition-colors duration-150',
+        'flex min-h-[44px] flex-1 cursor-pointer flex-col items-center justify-center gap-0.5 transition-colors duration-150',
         chipBg(isSelected, isToday)
       )}
     >
@@ -104,7 +104,7 @@ const DayBar = () => {
         disabled={!canGoPrev}
         aria-label="지난주 메뉴 보기"
         className={cn(
-          'flex w-8 shrink-0 cursor-pointer flex-col items-center gap-0.5 transition-opacity duration-100 active:scale-75',
+          'flex min-h-[44px] w-8 shrink-0 cursor-pointer flex-col items-center justify-center gap-0.5 transition-opacity duration-100 active:scale-75',
           canGoPrev ? 'text-muted hover:text-ink' : 'cursor-default opacity-25'
         )}
       >
@@ -134,7 +134,7 @@ const DayBar = () => {
         disabled={!canGoNext}
         aria-label="다음 주 메뉴 보기"
         className={cn(
-          'flex w-8 shrink-0 cursor-pointer flex-col items-center gap-0.5 transition-opacity duration-100 active:scale-75',
+          'flex min-h-[44px] w-8 shrink-0 cursor-pointer flex-col items-center justify-center gap-0.5 transition-opacity duration-100 active:scale-75',
           canGoNext ? 'text-muted hover:text-ink' : 'cursor-default opacity-25'
         )}
       >

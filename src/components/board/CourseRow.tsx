@@ -60,7 +60,7 @@ const CourseRow = ({
           {MenuCategoryLabel[menu.category].ko}
         </span>
         {total > 0 && (
-          <span className="text-muted text-[10px] font-semibold">{total} kcal</span>
+          <span className="text-muted text-[11px] font-semibold">{total} kcal</span>
         )}
         {showPick && (
           <button
@@ -139,7 +139,7 @@ const CourseRow = ({
               </i>
             )}
             {i < menu.items.length - 1 && (
-              <span className="mx-1.5 text-[#C9C9C6]">·</span>
+              <span className="mx-1.5 text-line">·</span>
             )}
           </span>
         ))}

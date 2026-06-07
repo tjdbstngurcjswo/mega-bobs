@@ -38,7 +38,7 @@ const BoardEmpty = ({variant, date, isToday, isPast}: BoardEmptyProps) => {
       </div>
       <h3 className="mt-3 text-[17px] font-extrabold">{closedTitle}</h3>
       {copy.body && (
-        <p className="text-muted mt-1.5 text-[13.5px] leading-relaxed">
+        <p className="text-ink-2 mt-1.5 text-[13.5px] leading-relaxed">
           {copy.body}
         </p>
       )}

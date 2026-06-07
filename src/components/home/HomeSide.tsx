@@ -16,7 +16,7 @@ const EntryInner = ({no, label, desc, disabled}: {no: string; label: string; des
       </b>
       <span className="mt-0.5 block text-[10.5px] text-muted">{desc}</span>
     </span>
-    <span aria-hidden className="text-[#C9C9C6]">
+    <span aria-hidden className="text-line">
       ›
     </span>
   </>
@@ -28,7 +28,7 @@ const HomeSide = () => (
   <aside className="flex flex-col gap-4">
     <div className="bg-surface p-6 shadow-[var(--shadow-card)]">
       <h3 className="text-[14px] font-bold text-ink-2">오늘 뭐 먹지?</h3>
-      <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted">
+      <p className="mt-1.5 text-[12.5px] leading-relaxed text-ink-2">
         구내식당과 지정타 맛집 중에서
         <br />
         점심 메뉴를 골라드려요

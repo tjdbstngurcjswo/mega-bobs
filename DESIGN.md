@@ -98,10 +98,4 @@
 
 ### 현재 알려진 위반 (수정 대상)
 
-| 항목 | 위치 | 조치 |
-|---|---|---|
-| `muted` 본문 텍스트 사용 | [BoardEmpty.tsx:41](src/components/board/BoardEmpty.tsx#L41), [HomeSide.tsx:31](src/components/home/HomeSide.tsx#L31) | 본문·설명 텍스트는 `ink-2`로 교체. `muted`는 캡션·메타 한정 |
-| 10px 이하 본문 (`kcal` 표기) | [CourseRow.tsx:63](src/components/board/CourseRow.tsx#L63) | 메타 한정이나 가독성 위해 11px↑ 권장 |
-| 하드코딩 그레이 `#C9C9C6` | [CourseRow.tsx:142](src/components/board/CourseRow.tsx#L142) | `--color-line` 또는 `--color-muted` 토큰으로 교체 |
-| 터치 타깃 <44px (벨 아이콘, DayBar 칩) | SiteHeader, DayBar | 모바일에서 min 44×44px 확보 |
-| 명시적 `focus-visible` 없음 | 전역 | `focus-visible:outline` 링 추가 (키컬러 기준) |
+없음.
