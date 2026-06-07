@@ -4,7 +4,7 @@ import {MENU_CATEGORIES, MenuCategoryLabel} from '@/constants/menu';
 import {CommandKeyword, DAY_OFFSET_MAP, DEFAULT_KEYWORD} from '@/constants/slack';
 import getMenu from '@/api/getMenu';
 import dayjs, {SEOUL_TIMEZONE} from '@/lib/dayjs';
-import {MenuCategory, MenuType} from '@/api/menu.types';
+import {MenuCategory, MenuType} from '@/models/menu';
 
 export const getCachedMenu = unstable_cache(
   (date: string) => getMenu({start: date, end: date}),

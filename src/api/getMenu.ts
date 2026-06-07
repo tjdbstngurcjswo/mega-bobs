@@ -1,7 +1,7 @@
 import 'server-only';
 
 import {supabaseServer} from '@/lib/supabaseServer';
-import {MenuType} from '@/api/menu.types';
+import {MenuType} from '@/models/menu';
 
 const getMenu = async (args: {start: string; end: string}) => {
   const {data, error} = await supabaseServer

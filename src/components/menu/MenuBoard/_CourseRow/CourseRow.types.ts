@@ -1,5 +1,5 @@
-import {MenuType} from '@/api/menu.types';
-import {VoteResult, VoteType} from '@/api/vote.types';
+import {MenuType} from '@/models/menu';
+import {VoteResult, VoteType} from '@/models/vote';
 
 export interface CourseRowProps {
   menu: MenuType;

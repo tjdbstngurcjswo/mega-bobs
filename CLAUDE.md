@@ -40,10 +40,11 @@ Supabase daily_menu
 src/
 ├── api/
 │   ├── getMenu.ts        # Supabase daily_menu 조회 함수
-│   ├── getAnnouncements.ts # env 필터링 공지 조회 함수
-│   ├── menu.types.ts     # MenuType, MenuCategory, MenuItemType
-│   ├── notice.types.ts   # NoticeData
-│   └── vote.types.ts     # VoteType, VoteResult, PickType, PickResult
+│   └── getAnnouncements.ts # env 필터링 공지 조회 함수
+├── models/
+│   ├── menu.ts           # MenuType, MenuCategory, MealType, MenuItemType
+│   ├── notice.ts         # Notice
+│   └── vote.ts           # VoteType, VoteResult, PickType, PickResult
 ├── app/
 │   ├── api/
 │   │   ├── menu/         # GET ?start=&end= — 날짜 범위 메뉴 조회

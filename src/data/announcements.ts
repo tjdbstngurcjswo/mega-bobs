@@ -1,4 +1,4 @@
-import type {Notice} from '@/api/notice.types';
+import type {Notice} from '@/models/notice';
 
 export const ANNOUNCEMENTS: Notice[] = [
     {

@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from 'next/server';
 
-import {MenuType} from '@/api/menu.types';
+import {MenuType} from '@/models/menu';
 
 import {getCachedMenu, toDateInfo, toSlackFormat} from './_utils';
 

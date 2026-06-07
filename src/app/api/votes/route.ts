@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from 'next/server';
 
 import {supabaseServer} from '@/lib/supabaseServer';
-import {VoteResult, VoteType} from '@/api/vote.types';
+import {VoteResult, VoteType} from '@/models/vote';
 
 /**
  * @route GET /api/votes

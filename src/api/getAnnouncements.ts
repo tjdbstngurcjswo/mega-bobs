@@ -1,6 +1,6 @@
 import {ANNOUNCEMENTS} from '@/data/announcements';
 import dayjs from '@/lib/dayjs';
-import type {Notice} from '@/api/notice.types';
+import type {Notice} from '@/models/notice';
 
 export const getAnnouncements = (): Notice[] => {
   const now = dayjs();

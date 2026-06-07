@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
 
 import {getVoterId} from '@/utils/voterId';
-import {VoteResult, VoteType} from '@/api/vote.types';
+import {VoteResult, VoteType} from '@/models/vote';
 
 type VoteMap = Record<string, VoteResult>;
 

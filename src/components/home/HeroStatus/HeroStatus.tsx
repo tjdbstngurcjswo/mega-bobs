@@ -5,7 +5,7 @@ import {useEffect, useState} from 'react';
 
 import dayjs from '@/lib/dayjs';
 import {getHeroStatus, HeroStatusState} from './HeroStatus.utils';
-import {MenuType} from '@/api/menu.types';
+import {MenuType} from '@/models/menu';
 
 const HeroStatus = ({menus}: {menus: MenuType[]}) => {
   const [status, setStatus] = useState<HeroStatusState>(() => getHeroStatus(menus, dayjs().tz()));
