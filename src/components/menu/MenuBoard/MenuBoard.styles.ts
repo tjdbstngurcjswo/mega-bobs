@@ -15,6 +15,3 @@ export const todayButtonClass = (isActive: boolean) =>
   );
 
 export const menuBodyClass = 'flex flex-col min-h-[180px] overflow-hidden';
-
-export const footerNoteClass =
-  'text-muted flex items-center gap-1.5 px-5 py-2.5 text-[10px] leading-relaxed animate-[fadeIn_0.3s_ease_both]';
