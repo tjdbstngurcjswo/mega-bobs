@@ -12,39 +12,41 @@ allowed-tools: Bash(git:*), Bash(gh:*), Read, Grep
 
 ## 절차
 
-### STEP 0: 코드 리뷰 + QA (PR 생성 전 필수)
+PR 생성은 아래 순서대로 진행한다. 각 단계를 건너뛰지 않는다.
 
-PR을 생성하기 전에 **반드시** 아래 두 단계를 순서대로 실행한다.
-
-#### 0-1. 코드 리뷰
+### STEP 1: 코드 리뷰
 
 `git diff <target-branch>...HEAD --name-only` 로 변경 파일 목록을 수집한 뒤, 아래 항목을 검사한다:
 
-1. **디자인 시스템 위반** — `design-system-guard` 스킬의 STEP 2~4 절차를 따른다.
-   - 변경된 스타일 파일(`.styles.ts`, `.css`)과 컴포넌트 파일을 대상으로 실행.
-   - 위반이 발견되면 즉시 수정하고 `fix(review): <설명>` 커밋.
-2. **타입/빌드 검사** — `pnpm tsc --noEmit` 실행. 에러 있으면 수정 후 커밋.
-3. **린트 검사** — `pnpm lint` 실행. 자동 수정 가능한 항목은 `pnpm lint:fix` 후 커밋.
+1. **디자인 시스템 위반** — 변경된 `.styles.ts`·컴포넌트 파일에서 `design-system-guard` STEP 2~4 를 따른다.
+   - 위반 발견 시 즉시 수정 후 `fix(review): <설명>` 커밋.
+2. **타입 검사** — `pnpm tsc --noEmit`. 에러 있으면 수정 후 커밋.
+3. **린트 검사** — `pnpm lint`. 자동 수정 가능하면 `pnpm lint:fix` 후 커밋.
 
-> 위반/에러가 없으면 "코드 리뷰 통과" 보고 후 0-2로 진행.
+위반·에러 없으면 "✅ 코드 리뷰 통과" 보고 후 STEP 2 진행.
 
-#### 0-2. QA
+### STEP 2: QA
 
 `/qa` 스킬을 호출해 변경된 페이지·기능을 브라우저에서 검증한다.
 
 - diff-aware 모드로 변경된 컴포넌트·페이지만 테스트한다.
-- 발견된 버그는 즉시 수정하고 `fix(qa): ISSUE-NNN — <설명>` 커밋.
-- QA 완료 후 "QA 통과" 보고 후 STEP 1로 진행.
+- 발견된 버그는 즉시 수정 후 `fix(qa): ISSUE-NNN — <설명>` 커밋.
+- QA 완료 후 "✅ QA 통과" 보고 후 STEP 3 진행.
 
----
+### STEP 3: 사전 정리 (`.claude/commands/pr.md` STEP 0)
 
-### STEP 1~6: PR 생성
+`.claude/commands/pr.md` 를 **Read** 로 읽은 뒤 STEP 0 을 실행한다.
 
-1. `.claude/commands/pr.md` 를 **Read** 로 읽는다.
-2. 그 안의 STEP 1~6 을 순서대로 그대로 실행한다.
-   - 정보 수집(git log/diff) + **포크 감지** → 변경 분석 → 템플릿대로 PR 본문 작성 → 제목 결정 → 푸시 & `gh pr create` → 결과 보고
-3. 타겟 브랜치 기본값은 `dev`, draft 키워드 감지 시 `--draft`.
-4. PR 생성 전 본문을 사용자에게 보여주고 **승인 후** 진행한다.
+- 0-1: 데드코드 제거
+- 0-2: README 최신화 확인
+
+### STEP 4: PR 생성 (`.claude/commands/pr.md` STEP 1~6)
+
+`pr.md` 의 STEP 1~6 을 순서대로 실행한다.
+
+- 정보 수집(git log/diff) + **포크 감지** → 변경 분석 → 템플릿대로 PR 본문 작성 → 제목 결정 → 푸시 & `gh pr create` → 결과 보고
+- 타겟 브랜치 기본값: `dev`. draft 키워드 감지 시 `--draft`.
+- **PR 생성 전 본문을 사용자에게 보여주고 승인 후 진행한다.**
 
 ## 포크 레포 동작
 
@@ -54,4 +56,4 @@ PR을 생성하기 전에 **반드시** 아래 두 단계를 순서대로 실행
 - PR 생성: `gh pr create --repo <upstream-slug>` → upstream 브랜치 → upstream 타겟 브랜치
 - `upstream` 리모트가 없으면 기존 origin 경로로 동작
 
-> 커맨드 본문과 이 스킬이 어긋나면 `.claude/commands/pr.md` 를 우선한다. 절차를 중복 작성하지 말고 항상 그 파일을 읽어 따른다.
+> 커맨드 본문과 이 스킬이 어긋나면 `.claude/commands/pr.md` 를 우선한다.
