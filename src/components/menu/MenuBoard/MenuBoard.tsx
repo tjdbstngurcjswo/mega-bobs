@@ -29,7 +29,7 @@ import {
 } from './MenuBoard.styles';
 
 const MenuBoard = ({ menus }: MenuBoardProps) => {
-  const { today, selectedDate, setSelectedDate } = useDateStore();
+  const { today, selectedDate, goToToday } = useDateStore();
   const mounted = useHasMounted();
   const dateStr = formatYYYYMMDD(selectedDate);
   const hasMenus = useMemo(
@@ -75,7 +75,7 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
         </h2>
         <button
           type="button"
-          onClick={() => setSelectedDate(today)}
+          onClick={() => goToToday()}
           aria-hidden={selectedDate.isSame(today, 'day')}
           className={todayButtonClass(selectedDate.isSame(today, 'day'))}
         >
