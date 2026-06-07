@@ -1,7 +1,7 @@
 type NavItem = { label: string; href: string };
 
 export const NAV_ITEMS: NavItem[] = [
-  { label: '오늘의 메뉴', href: '/' },
+  { label: '식단표', href: '/' },
   { label: '공지사항', href: '/notice' },
 ];
 
