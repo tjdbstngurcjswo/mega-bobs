@@ -1,4 +1,4 @@
-import {MealType} from './meal';
+import { MealType } from './meal';
 
 type MenuItemType = {
   name: string;
@@ -11,4 +11,5 @@ export type MenuType = {
   items: MenuItemType[];
   meal: MealType;
 };
+
 export type MenuCategory = 'COURSE_1' | 'COURSE_2' | 'TAKE_OUT';
