@@ -197,8 +197,11 @@ type: [기능명]한줄 설명 (50자 이내, 끝에 마침표 금지)
 
 ### 포크된 레포 (upstream 리모트 존재)
 
+upstream → upstream 경로: 브랜치를 upstream에 직접 푸시하고, head에 fork prefix 없이 브랜치명만 사용한다.
+
 ```bash
-# 1. upstream에 브랜치 푸시
+# 1. HTTP 400 방지를 위해 postBuffer 설정 후 upstream에 브랜치 푸시
+git config --local http.postBuffer 157286400
 git push upstream <current-branch>
 
 # 2. upstream repo slug 파싱 (https·ssh 양쪽 지원)
@@ -211,10 +214,11 @@ UPSTREAM_REPO=$(echo "$UPSTREAM_URL" \
 ASSIGNEE="$(gh api user -q .login)"
 DRAFT_FLAG=""   # 또는 "--draft"
 
-# 4. upstream repo에 PR 생성 (브랜치가 upstream에 있으므로 --repo만 지정)
+# 4. upstream repo에 PR 생성 (--head는 브랜치명만, fork prefix 없음)
 gh pr create \
   --repo "$UPSTREAM_REPO" \
   --base <target-branch> \
+  --head <current-branch> \
   --title "<제목>" \
   --assignee "$ASSIGNEE" \
   $DRAFT_FLAG \

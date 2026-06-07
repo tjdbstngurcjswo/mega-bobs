@@ -50,10 +50,13 @@ PR 생성은 아래 순서대로 진행한다. 각 단계를 건너뛰지 않는
 
 ## 포크 레포 동작
 
-`upstream` 리모트가 있으면 **자동으로** 포크 경로를 사용한다:
+`upstream` 리모트가 있으면 **upstream → upstream** 경로를 사용한다:
 
-- 푸시 대상: `upstream` (origin 아님)
-- PR 생성: `gh pr create --repo <upstream-slug>` → upstream 브랜치 → upstream 타겟 브랜치
+- **푸시 대상**: `upstream` (origin 아님)
+  - 푸시 전 `git config --local http.postBuffer 157286400` 설정 (HTTP 400 방지)
+- **PR head**: 브랜치명 그대로 (`<branch>`, fork prefix 없음)
+- **PR 생성**: `gh pr create --repo <upstream-slug> --head <branch> --base <target>`
+- origin에는 푸시하지 않는다
 - `upstream` 리모트가 없으면 기존 origin 경로로 동작
 
 > 커맨드 본문과 이 스킬이 어긋나면 `.claude/commands/pr.md` 를 우선한다.
