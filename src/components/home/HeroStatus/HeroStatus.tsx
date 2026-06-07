@@ -4,7 +4,7 @@ import {Utensils} from 'lucide-react';
 import {useEffect, useState} from 'react';
 
 import dayjs from '@/lib/dayjs';
-import {getHeroStatus, HeroStatusState} from '@/lib/hero-status';
+import {getHeroStatus, HeroStatusState} from './hero-status';
 import {MenuType} from '@/types/menu';
 
 const HeroStatus = ({menus}: {menus: MenuType[]}) => {

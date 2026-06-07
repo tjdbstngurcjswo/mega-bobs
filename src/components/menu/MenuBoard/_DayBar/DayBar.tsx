@@ -2,7 +2,7 @@
 
 import {useRef} from 'react';
 
-import {useHasMounted} from '@/lib/useHasMounted';
+import {useHasMounted} from '@/hooks/useHasMounted';
 import {useDateStore} from '@/store/useDateStore';
 
 import DayChip from './DayChip';

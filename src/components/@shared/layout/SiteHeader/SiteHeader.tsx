@@ -6,8 +6,8 @@ import {usePathname} from 'next/navigation';
 import {useEffect, useState} from 'react';
 
 import {NAV_ITEMS} from '@/constants/site';
-import {getAnnouncements, hasNewAnnouncement} from '@/lib/getAnnouncements';
-import {useHasMounted} from '@/lib/useHasMounted';
+import {getAnnouncements, hasNewAnnouncement} from '@/api/getAnnouncements';
+import {useHasMounted} from '@/hooks/useHasMounted';
 
 import {
   bellSpanClass,

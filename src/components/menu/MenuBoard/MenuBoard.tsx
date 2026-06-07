@@ -5,10 +5,10 @@ import {useMemo} from 'react';
 
 import {MENU_CATEGORIES} from '@/constants/menu';
 import dayjs from '@/lib/dayjs';
-import {usePick} from '@/lib/hooks/usePick';
-import {useVotes} from '@/lib/hooks/useVote';
+import {usePick} from '@/hooks/usePick';
+import {useVotes} from '@/hooks/useVote';
 import {isAfterClose, isNextWeek, isNextWeekPublished} from '@/lib/menu-policy';
-import {useHasMounted} from '@/lib/useHasMounted';
+import {useHasMounted} from '@/hooks/useHasMounted';
 import {formatYYYYMMDD} from '@/lib/utils';
 import {useDateStore} from '@/store/useDateStore';
 import {MenuBoardProps} from './MenuBoard.types';

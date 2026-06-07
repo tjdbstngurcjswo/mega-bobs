@@ -2,7 +2,7 @@ import type {Metadata} from 'next';
 
 import {SiteFooter, SiteHeader} from '@/components/@shared';
 import dayjs from '@/lib/dayjs';
-import {getAnnouncements} from '@/lib/getAnnouncements';
+import {getAnnouncements} from '@/api/getAnnouncements';
 
 export const metadata: Metadata = {
   title: '공지사항 — MegaBobs',

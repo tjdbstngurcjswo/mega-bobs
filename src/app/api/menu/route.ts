@@ -1,6 +1,6 @@
 import {NextRequest} from 'next/server';
 
-import getMenu from '@/lib/api/getMenu';
+import getMenu from '@/api/getMenu';
 
 const json = (body: unknown, status: number) =>
   new Response(JSON.stringify(body), {

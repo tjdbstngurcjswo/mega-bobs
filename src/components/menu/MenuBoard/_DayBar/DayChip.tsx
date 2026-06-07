@@ -1,6 +1,6 @@
 'use client';
 
-import {dateClass, labelClass} from '@/lib/day-bar';
+import {dateClass, labelClass} from './day-bar';
 import {cn} from '@/lib/utils';
 
 import {DOW} from './constants';

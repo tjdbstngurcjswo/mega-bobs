@@ -7,7 +7,7 @@ import {
   DAY_OFFSET_MAP,
   DEFAULT_KEYWORD,
 } from '@/constants/slack';
-import getMenu from '@/lib/api/getMenu';
+import getMenu from '@/api/getMenu';
 import dayjs, {SEOUL_TIMEZONE} from '@/lib/dayjs';
 import {MenuCategory, MenuType} from '@/types/menu';
 
