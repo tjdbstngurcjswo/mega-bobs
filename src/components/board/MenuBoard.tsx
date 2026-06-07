@@ -26,7 +26,7 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
   const {today, selectedDate, setSelectedDate} = useDateStore();
   const mounted = useHasMounted();
   const dateStr = formatYYYYMMDD(selectedDate);
-  const {voteMap, submitVote} = useVotes(dateStr);
+  const {voteMap, submitVote, isSubmitting} = useVotes(dateStr);
   const isPast = mounted && selectedDate.isBefore(today, 'day');
   const isToday = mounted && selectedDate.isSame(today, 'day');
   const showVote = isPast || (isToday && isAfterClose(dayjs().tz()));
@@ -82,6 +82,7 @@ const MenuBoard = ({menus}: MenuBoardProps) => {
               showVote={showVote}
               voteResult={voteMap[menuKey]}
               onVote={(type) => submitVote(menuKey, type)}
+              isSubmitting={isSubmitting}
             />
           );
         })

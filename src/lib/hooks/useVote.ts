@@ -8,6 +8,7 @@ type VoteMap = Record<string, VoteResult>;
 export const useVotes = (date: string) => {
   const [voteMap, setVoteMap] = useState<VoteMap>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (!date) return;
@@ -31,56 +32,104 @@ export const useVotes = (date: string) => {
   }, [date]);
 
   const submitVote = useCallback(
-    (menuKey: string, voteType: VoteType) => {
+    async (menuKey: string, voteType: VoteType) => {
       const voterId = getVoterId();
-      if (!voterId) return;
+      if (!voterId || isSubmitting) return;
+
+      const current = voteMap[menuKey] ?? {
+        menuKey,
+        up_count: 0,
+        down_count: 0,
+        myVote: null,
+      };
+      const isSame = current.myVote === voteType;
+
+      // 같은 날 다른 메뉴에 이미 투표한 경우 찾기
+      const prevVotedKey =
+        Object.keys(voteMap).find(
+          (k) => k !== menuKey && voteMap[k]?.myVote !== null
+        ) ?? null;
 
       // Optimistic update
       setVoteMap((prev) => {
-        const current = prev[menuKey] ?? {
+        const next = {...prev};
+
+        // 이전 투표 메뉴 count 감소
+        if (prevVotedKey && next[prevVotedKey]) {
+          const old = next[prevVotedKey];
+          next[prevVotedKey] = {
+            ...old,
+            myVote: null,
+            up_count: old.myVote === 'up' ? old.up_count - 1 : old.up_count,
+            down_count:
+              old.myVote === 'down' ? old.down_count - 1 : old.down_count,
+          };
+        }
+
+        const c = prev[menuKey] ?? {
           menuKey,
           up_count: 0,
           down_count: 0,
           myVote: null,
         };
-        const wasUp = current.myVote === 'up';
-        const wasDown = current.myVote === 'down';
-        const isSame = current.myVote === voteType;
 
-        return {
-          ...prev,
-          [menuKey]: {
-            ...current,
-            myVote: isSame ? null : voteType,
-            up_count:
-              current.up_count +
-              (voteType === 'up' ? (isSame ? -1 : wasDown ? 1 : 1) : wasUp ? -1 : 0),
+        if (isSame) {
+          // 같은 버튼 재클릭 = 취소
+          next[menuKey] = {
+            ...c,
+            myVote: null,
+            up_count: voteType === 'up' ? c.up_count - 1 : c.up_count,
             down_count:
-              current.down_count +
-              (voteType === 'down'
-                ? isSame
-                  ? -1
-                  : wasUp
-                    ? 1
-                    : 1
-                : wasDown
-                  ? -1
-                  : 0),
-          },
-        };
+              voteType === 'down' ? c.down_count - 1 : c.down_count,
+          };
+        } else {
+          // 신규 or 같은 메뉴 vote_type 변경
+          const wasUp = c.myVote === 'up';
+          const wasDown = c.myVote === 'down';
+          next[menuKey] = {
+            ...c,
+            myVote: voteType,
+            up_count: c.up_count + (voteType === 'up' ? 1 : wasUp ? -1 : 0),
+            down_count:
+              c.down_count + (voteType === 'down' ? 1 : wasDown ? -1 : 0),
+          };
+        }
+
+        return next;
       });
 
-      fetch('/api/votes', {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          'x-voter-id': voterId,
-        },
-        body: JSON.stringify({menu_key: menuKey, vote_type: voteType}),
-      }).catch(() => {});
+      setIsSubmitting(true);
+      try {
+        await fetch('/api/votes', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            'x-voter-id': voterId,
+          },
+          body: JSON.stringify({
+            menu_key: menuKey,
+            vote_type: isSame ? null : voteType,
+            date: menuKey.split('_')[0],
+          }),
+        });
+      } catch {
+        // 실패 시 서버 상태로 재동기화
+        fetch(`/api/votes?date=${date}`, {
+          headers: {'x-voter-id': voterId},
+        })
+          .then((r) => r.json())
+          .then((results: VoteResult[]) => {
+            const map: VoteMap = {};
+            for (const r of results) map[r.menuKey] = r;
+            setVoteMap(map);
+          })
+          .catch(() => {});
+      } finally {
+        setIsSubmitting(false);
+      }
     },
-    []
+    [voteMap, isSubmitting, date]
   );
 
-  return {voteMap, isLoading, submitVote};
+  return {voteMap, isLoading, isSubmitting, submitVote};
 };

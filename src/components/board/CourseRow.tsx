@@ -14,17 +14,24 @@ interface CourseRowProps {
   showVote?: boolean;
   voteResult?: VoteResult;
   onVote?: (type: VoteType) => void;
+  isSubmitting?: boolean;
 }
 
-const CourseRow = ({menu, index = 0, showVote, voteResult, onVote}: CourseRowProps) => {
+const CourseRow = ({
+  menu,
+  index = 0,
+  showVote,
+  voteResult,
+  onVote,
+  isSubmitting = false,
+}: CourseRowProps) => {
   const [animating, setAnimating] = useState<VoteType | null>(null);
 
   const total = menu.items.reduce((sum, item) => sum + (item.kcal ?? 0), 0);
   const myVote = voteResult?.myVote ?? null;
-  const hasVoted = myVote !== null;
 
   const handleVote = (type: VoteType) => {
-    if (!onVote) return;
+    if (!onVote || isSubmitting) return;
     setAnimating(type);
     onVote(type);
     setTimeout(() => setAnimating(null), 300);
@@ -50,32 +57,34 @@ const CourseRow = ({menu, index = 0, showVote, voteResult, onVote}: CourseRowPro
             <button
               type="button"
               onClick={() => handleVote('up')}
+              disabled={isSubmitting}
               aria-pressed={myVote === 'up'}
               aria-label="맛있어요"
               className={cn(
-                'flex items-center gap-1 px-2 py-1 text-[11px] font-semibold leading-none transition-colors',
+                'flex items-center gap-1 px-2 py-1 text-[11px] font-semibold leading-none transition-colors disabled:opacity-50',
                 myVote === 'up' ? 'bg-accent-soft text-accent-text' : 'text-muted hover:text-ink',
                 animating === 'up' && 'animate-[voteBounce_0.3s_ease-out]'
               )}
             >
               <ThumbsUp size={11} strokeWidth={2.5} />
-              <span className={cn('tabular-nums', !hasVoted && 'invisible w-0 overflow-hidden')}>
+              <span className="tabular-nums">
                 {voteResult?.up_count ?? 0}
               </span>
             </button>
             <button
               type="button"
               onClick={() => handleVote('down')}
+              disabled={isSubmitting}
               aria-pressed={myVote === 'down'}
               aria-label="별로예요"
               className={cn(
-                'flex items-center gap-1 px-2 py-1 text-[11px] font-semibold leading-none transition-colors',
+                'flex items-center gap-1 px-2 py-1 text-[11px] font-semibold leading-none transition-colors disabled:opacity-50',
                 myVote === 'down' ? 'bg-down-soft text-down' : 'text-muted hover:text-ink',
                 animating === 'down' && 'animate-[voteBounce_0.3s_ease-out]'
               )}
             >
               <ThumbsDown size={11} strokeWidth={2.5} />
-              <span className={cn('tabular-nums', !hasVoted && 'invisible w-0 overflow-hidden')}>
+              <span className="tabular-nums">
                 {voteResult?.down_count ?? 0}
               </span>
             </button>
