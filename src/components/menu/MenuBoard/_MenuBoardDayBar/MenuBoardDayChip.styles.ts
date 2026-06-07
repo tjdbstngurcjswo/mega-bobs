@@ -1,4 +1,4 @@
-import { chipBg } from './DayBar.styles';
+import { chipBg } from './MenuBoardDayBar.styles';
 import { cn } from '@/utils/cn';
 
 export const chipButtonClass = (isSelected: boolean, isToday: boolean) =>

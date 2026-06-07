@@ -1,20 +1,20 @@
 'use client';
 
-import { dateClass, labelClass } from './DayBar.styles';
+import { dateClass, labelClass } from './MenuBoardDayBar.styles';
 import { cn } from '@/utils/cn';
 
-import { DOW } from './DayBar.constants';
-import { DayChipProps } from './DayBar.types';
+import { DOW } from './MenuBoardDayBar.constants';
+import { MenuBoardDayChipProps } from './MenuBoardDayBar.types';
 
-import { chipButtonClass } from './DayChip.styles';
+import { chipButtonClass } from './MenuBoardDayChip.styles';
 
-const DayChip = ({
+const MenuBoardDayChip = ({
   day,
   today,
   selectedDate,
   onSelect,
   mounted,
-}: DayChipProps) => {
+}: MenuBoardDayChipProps) => {
   const isToday = mounted && day.isSame(today, 'day');
   const isSelected = mounted && day.isSame(selectedDate, 'day');
 
@@ -47,4 +47,4 @@ const DayChip = ({
   );
 };
 
-export default DayChip;
+export default MenuBoardDayChip;

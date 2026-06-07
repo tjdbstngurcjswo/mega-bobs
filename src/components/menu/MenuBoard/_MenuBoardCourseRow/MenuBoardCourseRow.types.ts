@@ -16,7 +16,7 @@ export interface PickProps {
   isSubmitting?: boolean;
 }
 
-export interface CourseRowProps {
+export interface MenuBoardCourseRowProps {
   menu: MenuType;
   index?: number;
   vote?: VoteProps;

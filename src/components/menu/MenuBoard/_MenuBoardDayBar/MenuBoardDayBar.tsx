@@ -6,10 +6,10 @@ import toast from 'react-hot-toast';
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { useDateStore } from '@/store/useDateStore';
 
-import DayChip from './DayChip';
-import { navButtonClass } from './DayBar.styles';
+import MenuBoardDayChip from './MenuBoardDayChip';
+import { navButtonClass } from './MenuBoardDayBar.styles';
 
-const DayBar = () => {
+const MenuBoardDayBar = () => {
   const {
     today,
     selectedDate,
@@ -64,7 +64,7 @@ const DayBar = () => {
           }}
         >
           {currentWeek.map((day) => (
-            <DayChip
+            <MenuBoardDayChip
               key={day.format('YYYY-MM-DD')}
               day={day}
               today={today}
@@ -88,4 +88,4 @@ const DayBar = () => {
   );
 };
 
-export default DayBar;
+export default MenuBoardDayBar;

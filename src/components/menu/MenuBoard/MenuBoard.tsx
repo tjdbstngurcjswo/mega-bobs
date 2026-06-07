@@ -16,9 +16,9 @@ import { formatYYYYMMDD } from '@/utils/date';
 import { useDateStore } from '@/store/useDateStore';
 import { MenuBoardProps } from './MenuBoard.types';
 
-import BoardEmpty from './_BoardEmpty/BoardEmpty';
-import CourseRow from './_CourseRow/CourseRow';
-import DayBar from './_DayBar/DayBar';
+import MenuBoardEmpty from './_MenuBoardEmpty/MenuBoardEmpty';
+import MenuBoardCourseRow from './_MenuBoardCourseRow/MenuBoardCourseRow';
+import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
 import { todayButtonClass } from './MenuBoard.styles';
 
 const MenuBoard = ({ menus }: MenuBoardProps) => {
@@ -78,19 +78,19 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
           오늘
         </button>
       </div>
-      <DayBar />
+      <MenuBoardDayBar />
       {dayMenus.length > 0 ? (
         dayMenus.map((menu, i) => {
           const menuKey = `${menu.date}_${menu.category}`;
           return (
-            <CourseRow
+            <MenuBoardCourseRow
               key={menu.category}
               menu={menu}
               index={i}
               vote={{
                 show: showVote,
                 result: voteMap[menuKey],
-                onVote: (type) => submitVote(menuKey, type),
+                onVote: (type: 'up' | 'down') => submitVote(menuKey, type),
                 isSubmitting,
               }}
               pick={{
@@ -104,7 +104,7 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
           );
         })
       ) : (
-        <BoardEmpty
+        <MenuBoardEmpty
           variant={emptyVariant}
           date={dateStr}
           isToday={isToday}

@@ -21,7 +21,7 @@ description: Use when creating, editing, or reviewing any component file (.tsx).
 | 금지 항목                                         | 이동 대상                                   |
 | ------------------------------------------------- | ------------------------------------------- |
 | `interface XxxProps` / `type Xxx` (컴포넌트 전용) | `<ComponentFolder>/ComponentName.types.ts`  |
-| 상수 (컴포넌트 전용)                              | `<ComponentFolder>/constants.ts`            |
+| 상수 (컴포넌트 전용)                              | `<ComponentFolder>/ComponentName.constants.ts` |
 | 유틸리티 함수 (`const calcTotal = ...`)           | `src/lib/<feature>.ts`                      |
 | 도메인 로직 함수 (`const getStatus = ...`)        | `src/lib/<feature>.ts`                      |
 | 커스텀 훅                                         | `src/lib/hooks/use<Name>.ts`                |
@@ -127,7 +127,9 @@ src/
             ├── MenuBoard.types.ts       ← 이 컴포넌트 전용 타입
             ├── MenuBoard.styles.ts      ← 스타일 (필요 시)
             ├── constants.ts             ← 이 컴포넌트 전용 상수 (필요 시)
-            └── _SubComponent/          ← 외부 비공개 서브 컴포넌트 (필요 시)
+            └── _ParentNameSubName/     ← 외부 비공개 서브 컴포넌트 (필요 시)
+                                         이름 규칙: 상위 컴포넌트명 + 서브 컴포넌트명
+                                         예) MenuBoard → _MenuBoardEmpty/MenuBoardEmpty.tsx
 ```
 
 ## 위반 리포트 형식

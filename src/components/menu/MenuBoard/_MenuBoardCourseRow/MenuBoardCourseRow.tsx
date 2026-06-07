@@ -4,7 +4,7 @@ import { ThumbsDown, ThumbsUp, Users } from 'lucide-react';
 import { useState } from 'react';
 
 import { MenuCategoryLabel } from '@/constants/menu';
-import { CourseRowProps } from './CourseRow.types';
+import { MenuBoardCourseRowProps } from './MenuBoardCourseRow.types';
 
 import {
   downVoteButtonClass,
@@ -12,12 +12,17 @@ import {
   pickButtonClass,
   upVoteButtonClass,
   upVoteIconClass,
-} from './CourseRow.styles';
+} from './MenuBoardCourseRow.styles';
 
 const TOOLTIP =
   "pointer-events-none invisible absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-2 py-1 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-['']";
 
-const CourseRow = ({ menu, index = 0, vote, pick }: CourseRowProps) => {
+const MenuBoardCourseRow = ({
+  menu,
+  index = 0,
+  vote,
+  pick,
+}: MenuBoardCourseRowProps) => {
   const [animating, setAnimating] = useState<'up' | 'down' | null>(null);
 
   const total = menu.items.reduce((sum, item) => sum + (item.kcal ?? 0), 0);
@@ -123,4 +128,4 @@ const CourseRow = ({ menu, index = 0, vote, pick }: CourseRowProps) => {
   );
 };
 
-export default CourseRow;
+export default MenuBoardCourseRow;

@@ -33,7 +33,9 @@ src/components/<domain>/<ComponentName>/
 └── constants.ts                ← 전용 상수 (필요 시)
 ```
 
-서브 컴포넌트(외부 미노출)는 같은 폴더에 둔다. `index.ts`는 최상위 컴포넌트만 export한다.
+서브 컴포넌트(외부 미노출)는 `_ParentNameSubName/` 형식의 하위 폴더에 둔다.
+**이름 규칙**: `_` + 상위 컴포넌트명 + 서브 컴포넌트명 (예: `MenuBoard` → `_MenuBoardEmpty/MenuBoardEmpty.tsx`).
+`index.ts`는 최상위 컴포넌트만 export한다.
 
 **`src/components/` 하위 모든 디렉토리에 `index.ts`가 있어야 한다.** 새 컴포넌트를 추가하면 컴포넌트 폴더·도메인 폴더·`src/components/index.ts` 모두에 export를 추가한다.
 
@@ -98,7 +100,7 @@ export const useHookName = (param: ParamType) => {
 - 컴포넌트 폴더: `PascalCase/`
 - 컴포넌트 파일: `PascalCase.tsx`
 - 훅/유틸: `camelCase.ts`
-- 상수: `UPPER_CASE` (파일명은 `constants.ts`)
+- 상수: `UPPER_CASE` (파일명은 `ComponentName.constants.ts`)
 - 전용 타입: `ComponentName.types.ts` (폴더 내부)
 - 공유 타입: `src/types/<domain>.ts`
 

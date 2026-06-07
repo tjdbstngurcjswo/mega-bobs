@@ -1,7 +1,12 @@
-import { BOARD_EMPTY_COPY } from './BoardEmpty.constants';
-import { BoardEmptyProps } from './BoardEmpty.types';
+import { BOARD_EMPTY_COPY } from './MenuBoardEmpty.constants';
+import { MenuBoardEmptyProps } from './MenuBoardEmpty.types';
 
-const BoardEmpty = ({ variant, date, isToday, isPast }: BoardEmptyProps) => {
+const MenuBoardEmpty = ({
+  variant,
+  date,
+  isToday,
+  isPast,
+}: MenuBoardEmptyProps) => {
   const copy = BOARD_EMPTY_COPY[variant];
 
   const closedTitle = (() => {
@@ -29,4 +34,4 @@ const BoardEmpty = ({ variant, date, isToday, isPast }: BoardEmptyProps) => {
   );
 };
 
-export default BoardEmpty;
+export default MenuBoardEmpty;

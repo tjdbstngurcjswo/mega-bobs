@@ -1,6 +1,6 @@
 import type { Dayjs } from 'dayjs';
 
-export interface DayChipProps {
+export interface MenuBoardDayChipProps {
   day: Dayjs;
   today: Dayjs;
   selectedDate: Dayjs;
