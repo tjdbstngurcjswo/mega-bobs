@@ -14,5 +14,7 @@ export const todayButtonClass = (isActive: boolean) =>
     isActive ? 'invisible' : 'visible'
   );
 
+export const menuBodyClass = 'flex flex-col min-h-[300px]';
+
 export const footerNoteClass =
   'text-muted flex items-center gap-1.5 px-5 py-2.5 text-[10px] leading-relaxed';

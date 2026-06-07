@@ -21,6 +21,7 @@ import MenuBoardCourseRow from './_MenuBoardCourseRow/MenuBoardCourseRow';
 import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
 import {
   footerNoteClass,
+  menuBodyClass,
   menuHeadingLocationClass,
   menuHeadingTitleClass,
   sectionClass,
@@ -83,38 +84,40 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
         </button>
       </div>
       <MenuBoardDayBar />
-      {dayMenus.length > 0 ? (
-        dayMenus.map((menu, i) => {
-          const menuKey = `${menu.date}_${menu.category}`;
-          return (
-            <MenuBoardCourseRow
-              key={menu.category}
-              menu={menu}
-              index={i}
-              vote={{
-                show: showVote,
-                result: voteMap[menuKey],
-                onVote: (type: 'up' | 'down') => submitVote(menuKey, type),
-                isSubmitting,
-              }}
-              pick={{
-                show: showPick,
-                count: counts[menu.category],
-                isPicked: myPick === menu.category,
-                onPick: () => submitPick(menu.category),
-                isSubmitting: isSubmittingPick,
-              }}
-            />
-          );
-        })
-      ) : (
-        <MenuBoardEmpty
-          variant={emptyVariant}
-          date={dateStr}
-          isToday={isToday}
-          isPast={isPast}
-        />
-      )}
+      <div className={menuBodyClass}>
+        {dayMenus.length > 0 ? (
+          dayMenus.map((menu, i) => {
+            const menuKey = `${menu.date}_${menu.category}`;
+            return (
+              <MenuBoardCourseRow
+                key={menu.category}
+                menu={menu}
+                index={i}
+                vote={{
+                  show: showVote,
+                  result: voteMap[menuKey],
+                  onVote: (type: 'up' | 'down') => submitVote(menuKey, type),
+                  isSubmitting,
+                }}
+                pick={{
+                  show: showPick,
+                  count: counts[menu.category],
+                  isPicked: myPick === menu.category,
+                  onPick: () => submitPick(menu.category),
+                  isSubmitting: isSubmittingPick,
+                }}
+              />
+            );
+          })
+        ) : (
+          <MenuBoardEmpty
+            variant={emptyVariant}
+            date={dateStr}
+            isToday={isToday}
+            isPast={isPast}
+          />
+        )}
+      </div>
       {(showVote || showPick) && dayMenus.length > 0 && (
         <p className={footerNoteClass}>
           <Info size={11} strokeWidth={2} className="shrink-0" />
