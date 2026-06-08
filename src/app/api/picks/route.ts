@@ -70,23 +70,28 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ error: 'date required' }, { status: 400 });
   }
 
-  const { error: delError } = await supabaseServer
-    .from('menu_picks')
-    .delete()
-    .match({ voter_id: voterId, date });
-  if (delError)
-    return NextResponse.json({ error: delError.message }, { status: 500 });
-
-  if (!pickType) return NextResponse.json({ ok: true });
+  if (!pickType) {
+    // 취소: 행 제거
+    const { error } = await supabaseServer
+      .from('menu_picks')
+      .delete()
+      .match({ voter_id: voterId, date });
+    if (error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ ok: true });
+  }
 
   if (!PICK_TYPES.includes(pickType as PickType)) {
     return NextResponse.json({ error: 'invalid pick_type' }, { status: 400 });
   }
 
-  // 기존 픽 삭제 후 새 픽 삽입 — 하루 단일 선택 보장
+  // upsert — INSERT ... ON CONFLICT DO UPDATE: 원자적, delete+insert gap 없음
   const { error } = await supabaseServer
     .from('menu_picks')
-    .insert({ voter_id: voterId, date, pick_type: pickType });
+    .upsert(
+      { voter_id: voterId, date, pick_type: pickType },
+      { onConflict: 'voter_id,date' }
+    );
   if (error)
     return NextResponse.json({ error: error.message }, { status: 500 });
 
