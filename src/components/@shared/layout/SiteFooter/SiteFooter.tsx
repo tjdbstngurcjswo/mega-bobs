@@ -12,14 +12,12 @@ import {
 const SiteFooter = () => (
   <footer className="mt-16">
     <div className="mx-auto w-[min(880px,calc(100%-40px))] py-6">
-      <div className="flex items-center justify-between gap-x-6 gap-y-3 max-[560px]:flex-col max-[560px]:items-center">
-        <div className="flex items-center gap-5 max-[560px]:flex-col max-[560px]:items-center max-[560px]:gap-1">
-          <span className={footerBrandNameClass}>{SITE_NAME}</span>
-          <p className={footerDescClass}>
-            메가존 임직원을 위한 구내식당 메뉴 서비스
-          </p>
-        </div>
+      <div className="flex flex-col gap-3 min-[560px]:flex-row min-[560px]:items-center min-[560px]:justify-between">
         <div className="flex items-center gap-5">
+          <span className={footerBrandNameClass}>{SITE_NAME}</span>
+          <p className={footerDescClass}>메가존 직원을 위한 구내식당 메뉴 서비스</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
           {FOOTER_LINKS.map((l) => (
             <Link key={l.label} href={l.href} className={footerLinkClass}>
               {l.label}
