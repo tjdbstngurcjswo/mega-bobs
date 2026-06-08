@@ -121,18 +121,23 @@ src/
 │   │   ├── slack/        # POST — 슬래시 커맨드, GET warm — 캐시 워밍
 │   │   └── revalidate/   # GET ?secret= — ISR 강제 재검증
 │   ├── notice/           # 공지사항 페이지
+│   ├── terms/            # 이용약관 페이지
+│   ├── privacy/          # 개인정보처리방침 페이지
+│   ├── contact/          # 문의 페이지
+│   ├── sitemap.ts        # 동적 sitemap.xml
+│   ├── robots.ts         # robots.txt
 │   ├── layout.tsx
 │   └── page.tsx          # 홈 (ISR, HeroStatus 렌더)
 ├── assets/
 │   └── fonts/            # Pretendard 셀프호스팅 폰트
 ├── components/
-│   ├── @shared/          # ErrorBoundary, SiteHeader, SiteFooter, PageLayout
+│   ├── @shared/          # ErrorBoundary, SiteHeader, SiteFooter, PageLayout, LegalPageLayout
 │   ├── menu/             # MenuBoard (_MenuBoardEmpty, _MenuBoardCourseRow, _MenuBoardDayBar)
 │   └── home/             # HeroStatus, HeroDate
 ├── constants/
 │   ├── cafeteria.ts      # CAFETERIA 운영 시각 config (단일 소스)
 │   ├── menu.ts           # 코스 카테고리 한글 레이블
-│   ├── site.ts           # NAV_ITEMS, FOOTER_LINKS
+│   ├── site.ts           # NAV_ITEMS, FOOTER_LINKS, CONTACTS
 │   └── slack.ts          # Slack 커맨드 맵
 ├── data/
 │   └── announcements.ts  # 정적 공지 데이터 (TS 배열)
