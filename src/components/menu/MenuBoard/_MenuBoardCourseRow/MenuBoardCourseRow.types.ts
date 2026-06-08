@@ -12,6 +12,7 @@ interface PickProps {
   show?: boolean;
   count?: number;
   isPicked?: boolean;
+  hasAnyPick?: boolean;
   onPick?: () => void;
   isSubmitting?: boolean;
 }

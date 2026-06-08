@@ -119,6 +119,7 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
                   show: showPick,
                   count: counts[menu.category],
                   isPicked: myPick === menu.category,
+                  hasAnyPick: myPick !== null,
                   onPick: () => submitPick(menu.category),
                   isSubmitting: isSubmittingPick,
                 }}
