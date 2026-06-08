@@ -5,12 +5,6 @@ import { PickResult, PickType } from '@/models/vote';
 
 const PICK_TYPES: PickType[] = ['COURSE_1', 'COURSE_2', 'TAKE_OUT', 'pass'];
 
-/**
- * @route GET /api/picks
- * @header x-voter-id - 익명 투표자 ID
- * @query date - 조회할 날짜 (YYYY-MM-DD)
- * @returns 해당 날짜의 코스 픽 집계 및 내 선택
- */
 export const GET = async (req: NextRequest) => {
   const date = req.nextUrl.searchParams.get('date');
   if (!date) {
@@ -41,9 +35,14 @@ export const GET = async (req: NextRequest) => {
     };
     let myPick: PickType | null = null;
 
+    // voter_id별 최신 1개만 집계 — 중복 행 방어
+    const seen = new Set<string>();
     for (const row of data ?? []) {
       const pt = row.pick_type as PickType;
-      if (PICK_TYPES.includes(pt)) counts[pt] += 1;
+      if (!PICK_TYPES.includes(pt)) continue;
+      if (seen.has(row.voter_id)) continue;
+      seen.add(row.voter_id);
+      counts[pt] += 1;
       if (row.voter_id === voterId) myPick = pt;
     }
 
@@ -53,12 +52,6 @@ export const GET = async (req: NextRequest) => {
   }
 };
 
-/**
- * @route POST /api/picks
- * @header x-voter-id - 익명 투표자 ID
- * @body `{ date, pick_type }` — pick_type이 null이면 기존 픽 취소
- * @returns `{ ok: true }`
- */
 export const POST = async (req: NextRequest) => {
   const voterId = req.headers.get('x-voter-id') ?? '';
   if (!voterId) {
@@ -72,43 +65,35 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ error: 'invalid json' }, { status: 400 });
   }
 
-  const { date, pick_type } = body;
+  const { date, pick_type: pickType } = body;
   if (!date) {
     return NextResponse.json({ error: 'date required' }, { status: 400 });
   }
 
-  // pick_type이 null이면 취소
-  if (!pick_type) {
-    try {
-      const { error } = await supabaseServer
-        .from('menu_picks')
-        .delete()
-        .match({ voter_id: voterId, date });
-      if (error)
-        return NextResponse.json({ error: error.message }, { status: 500 });
-      return NextResponse.json({ ok: true });
-    } catch {
-      return NextResponse.json({ error: 'internal error' }, { status: 500 });
-    }
+  if (!pickType) {
+    // 취소: 행 제거
+    const { error } = await supabaseServer
+      .from('menu_picks')
+      .delete()
+      .match({ voter_id: voterId, date });
+    if (error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ ok: true });
   }
 
-  if (!PICK_TYPES.includes(pick_type as PickType)) {
+  if (!PICK_TYPES.includes(pickType as PickType)) {
     return NextResponse.json({ error: 'invalid pick_type' }, { status: 400 });
   }
 
-  try {
-    const { error } = await supabaseServer
-      .from('menu_picks')
-      .upsert(
-        { voter_id: voterId, date, pick_type },
-        { onConflict: 'voter_id,date' }
-      );
+  // upsert — INSERT ... ON CONFLICT DO UPDATE: 원자적, delete+insert gap 없음
+  const { error } = await supabaseServer
+    .from('menu_picks')
+    .upsert(
+      { voter_id: voterId, date, pick_type: pickType },
+      { onConflict: 'voter_id,date' }
+    );
+  if (error)
+    return NextResponse.json({ error: error.message }, { status: 500 });
 
-    if (error)
-      return NextResponse.json({ error: error.message }, { status: 500 });
-
-    return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: 'internal error' }, { status: 500 });
-  }
+  return NextResponse.json({ ok: true });
 };

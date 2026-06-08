@@ -1,5 +1,5 @@
-import { cn } from '@/utils/cn';
 import { VoteType } from '@/models/vote';
+import { cn } from '@/utils/cn';
 
 export const TOOLTIP =
   "pointer-events-none invisible absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-2 py-1 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-['']";
@@ -27,12 +27,14 @@ export const itemSeparatorClass = 'text-line mx-1.5 select-none';
 
 export const tabularNumsClass = 'tabular-nums';
 
-export const pickButtonClass = (isPicked: boolean) =>
+export const pickButtonClass = (isPicked: boolean, hasAnyPick: boolean) =>
   cn(
     'ml-auto flex items-center gap-1 border px-2 py-0.5 text-[10px] font-medium leading-none transition-colors animate-[fadeIn_0.3s_ease_both]',
     isPicked
       ? 'border-accent bg-accent-soft text-accent-text'
-      : 'border-line text-muted hover:border-accent/50 hover:text-ink'
+      : hasAnyPick
+        ? 'border-line text-muted opacity-60 hover:border-accent/50 hover:text-ink hover:opacity-100'
+        : 'border-line text-muted hover:border-accent/50 hover:text-ink'
   );
 
 export const upVoteButtonClass = (myVote: VoteType | null) =>
