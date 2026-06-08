@@ -65,47 +65,30 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ error: 'invalid json' }, { status: 400 });
   }
 
-  const { date, pick_type } = body;
+  const { date, pick_type: pickType } = body;
   if (!date) {
     return NextResponse.json({ error: 'date required' }, { status: 400 });
   }
 
-  if (!pick_type) {
-    try {
-      const { error } = await supabaseServer
-        .from('menu_picks')
-        .delete()
-        .match({ voter_id: voterId, date });
-      if (error)
-        return NextResponse.json({ error: error.message }, { status: 500 });
-      return NextResponse.json({ ok: true });
-    } catch {
-      return NextResponse.json({ error: 'internal error' }, { status: 500 });
-    }
-  }
+  const { error: delError } = await supabaseServer
+    .from('menu_picks')
+    .delete()
+    .match({ voter_id: voterId, date });
+  if (delError)
+    return NextResponse.json({ error: delError.message }, { status: 500 });
 
-  if (!PICK_TYPES.includes(pick_type as PickType)) {
+  if (!pickType) return NextResponse.json({ ok: true });
+
+  if (!PICK_TYPES.includes(pickType as PickType)) {
     return NextResponse.json({ error: 'invalid pick_type' }, { status: 400 });
   }
 
-  try {
-    // 기존 픽 삭제 후 새 픽 삽입 — 하루 단일 선택 보장
-    // ⚠️ Supabase 대시보드에서 menu_picks(voter_id, date) unique constraint 추가 권장
-    const { error: delError } = await supabaseServer
-      .from('menu_picks')
-      .delete()
-      .match({ voter_id: voterId, date });
-    if (delError)
-      return NextResponse.json({ error: delError.message }, { status: 500 });
+  // 기존 픽 삭제 후 새 픽 삽입 — 하루 단일 선택 보장
+  const { error } = await supabaseServer
+    .from('menu_picks')
+    .insert({ voter_id: voterId, date, pick_type: pickType });
+  if (error)
+    return NextResponse.json({ error: error.message }, { status: 500 });
 
-    const { error } = await supabaseServer
-      .from('menu_picks')
-      .insert({ voter_id: voterId, date, pick_type });
-    if (error)
-      return NextResponse.json({ error: error.message }, { status: 500 });
-
-    return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: 'internal error' }, { status: 500 });
-  }
+  return NextResponse.json({ ok: true });
 };

@@ -4,7 +4,6 @@ import { ThumbsDown, ThumbsUp, Users } from 'lucide-react';
 import { useState } from 'react';
 
 import { MenuCategoryLabel } from '@/constants/menu';
-import { MenuBoardCourseRowProps } from './MenuBoardCourseRow.types';
 
 import {
   TOOLTIP,
@@ -24,6 +23,8 @@ import {
   upVoteIconClass,
   voteGroupClass,
 } from './MenuBoardCourseRow.styles';
+import { MenuBoardCourseRowProps } from './MenuBoardCourseRow.types';
+
 
 const MenuBoardCourseRow = ({
   menu,

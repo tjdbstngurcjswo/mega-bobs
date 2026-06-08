@@ -3,23 +3,22 @@
 import { CalendarDays, Clock } from 'lucide-react';
 import { useLayoutEffect, useMemo, useRef } from 'react';
 
+import { CAFETERIA_LABEL } from '@/constants/cafeteria';
 import { MENU_CATEGORIES } from '@/constants/menu';
-import dayjs from '@/lib/dayjs';
+import { useHasMounted } from '@/hooks/useHasMounted';
 import { usePick } from '@/hooks/usePick';
 import { useVotes } from '@/hooks/useVote';
-import { CAFETERIA_LABEL } from '@/constants/cafeteria';
+import dayjs from '@/lib/dayjs';
+import { useDateStore } from '@/store/useDateStore';
+import { formatYYYYMMDD } from '@/utils/date';
 import {
   isAfterClose,
   isNextWeekMenuLocked,
 } from '@/utils/menuPolicy';
-import { useHasMounted } from '@/hooks/useHasMounted';
-import { formatYYYYMMDD } from '@/utils/date';
-import { useDateStore } from '@/store/useDateStore';
-import { MenuBoardProps } from './MenuBoard.types';
 
-import MenuBoardEmpty from './_MenuBoardEmpty/MenuBoardEmpty';
 import MenuBoardCourseRow from './_MenuBoardCourseRow/MenuBoardCourseRow';
 import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
+import MenuBoardEmpty from './_MenuBoardEmpty/MenuBoardEmpty';
 import {
   menuBodyClass,
   menuHeadingTitleClass,
@@ -27,6 +26,7 @@ import {
   sectionClass,
   todayButtonClass,
 } from './MenuBoard.styles';
+import { MenuBoardProps } from './MenuBoard.types';
 
 const MenuBoard = ({ menus }: MenuBoardProps) => {
   const { today, selectedDate, goToToday } = useDateStore();
