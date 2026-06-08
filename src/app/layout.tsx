@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import './globals.css';
 
 import { SITE_NAME } from '@/constants/site';
+import { SITE_DESC } from '@/utils/jsonLd';
 
 import { bodyClass } from './layout.styles';
 
@@ -20,9 +21,58 @@ const pretendard = localFont({
   variable: '--font-pretendard',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+const siteDesc = SITE_DESC;
+
 export const metadata: Metadata = {
-  title: `${SITE_NAME} — 메가존 구내식당 점심 허브`,
-  description: '구내식당 메뉴, 투표, 내기 게임, 지정타 맛집까지',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: `${SITE_NAME} — 메가존 구내식당 점심 허브`,
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: siteDesc,
+  keywords: [
+    '메가존',
+    '메가존 클라우드',
+    '구내식당',
+    '구내식당 메뉴',
+    '점심',
+    '점심 메뉴',
+    '오늘의 점심',
+    '식단',
+    '식단표',
+    '주간 식단',
+    '메뉴',
+    '과천',
+    '과천 점심',
+    '지식정보타운',
+    '코스1',
+    '코스2',
+    '테이크아웃',
+    '맛 평가',
+    '식전 픽',
+    '운영 시간',
+    SITE_NAME,
+  ],
+  authors: [{ name: SITE_NAME }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'ko_KR',
+    url: siteUrl,
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — 메가존 구내식당 점심 허브`,
+    description: siteDesc,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${SITE_NAME} — 메가존 구내식당 점심 허브`,
+    description: siteDesc,
+  },
   other: {
     'google-adsense-account': 'ca-pub-4501038602130909',
   },
@@ -35,6 +85,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={pretendard.variable}>
+      <head>
+        {process.env.NEXT_PUBLIC_SUPABASE_URL && (
+          <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} />
+        )}
+      </head>
       <body className={bodyClass}>
         {children}
         <Toaster
