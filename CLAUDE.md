@@ -161,6 +161,7 @@ SUPABASE_SERVICE_ROLE_KEY=  # Supabase service role key (서버 전용)
 REVALIDATE_SECRET=          # ISR 재검증 인증 토큰 (/api/revalidate)
 API_KEY=                    # /api/menu 인증 키
 CRON_SECRET=                # Cron 인증 토큰 (/api/votes/cleanup Bearer)
+NEXT_PUBLIC_SITE_URL=       # 배포 URL (Vercel 대시보드에 설정 필수 — metadataBase·sitemap에 사용)
 ```
 
 ## Skill Routing
@@ -178,3 +179,4 @@ CRON_SECRET=                # Cron 인증 토큰 (/api/votes/cleanup Bearer)
 | "작업 시작", "티켓 따서", "MEGA-XX 작업", 티켓 번호 언급 + 작업 착수        | `start-ticket`        | `.claude/skills/start-ticket/`        |
 | "README 확인", "README 업데이트", "README 최신화" (단독 호출 시)            | `readme-sync`         | `.claude/skills/readme-sync/`         |
 | UI 문구 작성·수정·검수, 톤앤매너, 마침표·어투·빈 상태 문구                  | `ux-writing`          | `.claude/skills/ux-writing/`          |
+| `page.tsx` 신규 생성, 라우트 추가, "SEO", "메타데이터", "검색 최적화"       | `seo-optimize`        | `~/.claude/skills/seo-optimize/`      |
