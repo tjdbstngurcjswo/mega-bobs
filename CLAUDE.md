@@ -162,6 +162,7 @@ REVALIDATE_SECRET=          # ISR 재검증 인증 토큰 (/api/revalidate)
 API_KEY=                    # /api/menu 인증 키
 CRON_SECRET=                # Cron 인증 토큰 (/api/votes/cleanup Bearer)
 NEXT_PUBLIC_SITE_URL=       # 배포 URL (Vercel 대시보드에 설정 필수 — metadataBase·sitemap에 사용)
+SLACK_SIGNING_SECRET=       # Slack 앱 서명 시크릿 (/api/slack 요청 검증 — 없으면 dev 환경에서 검증 생략)
 ```
 
 ## Skill Routing

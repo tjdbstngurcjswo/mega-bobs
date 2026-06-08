@@ -1,21 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+import { z } from 'zod';
 
+import { err, ok } from '@/lib/apiResponse';
+import { rateLimit } from '@/lib/rateLimit';
 import { supabaseServer } from '@/lib/supabaseServer';
 import { VoteResult, VoteType } from '@/models/vote';
 
-/**
- * @route GET /api/votes
- * @header x-voter-id - 익명 투표자 ID
- * @query date - 조회할 날짜 (YYYY-MM-DD)
- * @returns 해당 날짜의 코스별 투표 집계 목록
- */
+const PostSchema = z.object({
+  menu_key: z.string().min(1),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  vote_type: z.enum(['up', 'down']).nullable(),
+});
+
 export const GET = async (req: NextRequest) => {
   const date = req.nextUrl.searchParams.get('date');
   const voterId = req.headers.get('x-voter-id') ?? '';
 
-  if (!date) {
-    return NextResponse.json({ error: 'date required' }, { status: 400 });
-  }
+  if (!date) return err('date required', 400);
 
   try {
     const { data, error } = await supabaseServer
@@ -23,9 +24,7 @@ export const GET = async (req: NextRequest) => {
       .select('menu_key, vote_type, voter_id')
       .eq('date', date);
 
-    if (error) {
-      return NextResponse.json([] as VoteResult[]);
-    }
+    if (error) return ok([] as VoteResult[]);
 
     const grouped: Record<string, VoteResult> = {};
     for (const row of data ?? []) {
@@ -44,33 +43,34 @@ export const GET = async (req: NextRequest) => {
       }
     }
 
-    return NextResponse.json(Object.values(grouped) as VoteResult[]);
+    return ok(Object.values(grouped) as VoteResult[]);
   } catch {
-    return NextResponse.json([] as VoteResult[]);
+    return ok([] as VoteResult[]);
   }
 };
 
-/**
- * @route POST /api/votes
- * @header x-voter-id - 익명 투표자 ID
- * @body `{ menu_key, date, vote_type }` — vote_type이 null이면 투표 취소
- * @returns `{ ok: true }`
- */
 export const POST = async (req: NextRequest) => {
   const voterId = req.headers.get('x-voter-id') ?? '';
 
-  let body: { menu_key?: string; vote_type?: VoteType | null; date?: string };
+  if (!rateLimit(`vote:${voterId}`, 10, 60_000)) {
+    return err('Too many requests', 429);
+  }
+
+  let body: unknown;
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: 'invalid json' }, { status: 400 });
+    return err('Invalid JSON', 400);
   }
 
-  const { menu_key, vote_type, date } = body;
-
-  if (!menu_key || !date || !voterId) {
-    return NextResponse.json({ error: 'invalid payload' }, { status: 400 });
+  const parsed = PostSchema.safeParse(body);
+  if (!parsed.success) {
+    return err('Invalid request', 400, parsed.error.issues);
   }
+
+  const { menu_key, vote_type, date } = parsed.data;
+
+  if (!voterId) return err('x-voter-id required', 400);
 
   try {
     const { error } = vote_type
@@ -86,11 +86,10 @@ export const POST = async (req: NextRequest) => {
           p_date: date,
         });
 
-    if (error)
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return err(error.message, 500);
 
-    return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: 'server error' }, { status: 500 });
+    return ok({ ok: true });
+  } catch (error: unknown) {
+    return err(error instanceof Error ? error.message : 'server error', 500);
   }
 };

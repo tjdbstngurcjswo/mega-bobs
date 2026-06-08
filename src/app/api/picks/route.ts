@@ -1,21 +1,24 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+import { z } from 'zod';
 
+import { err, ok } from '@/lib/apiResponse';
+import { rateLimit } from '@/lib/rateLimit';
 import { supabaseServer } from '@/lib/supabaseServer';
 import { PickResult, PickType } from '@/models/vote';
 
 const PICK_TYPES: PickType[] = ['COURSE_1', 'COURSE_2', 'TAKE_OUT', 'pass'];
 
-/**
- * @route GET /api/picks
- * @header x-voter-id - 익명 투표자 ID
- * @query date - 조회할 날짜 (YYYY-MM-DD)
- * @returns 해당 날짜의 코스 픽 집계 및 내 선택
- */
+const PostSchema = z.object({
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  pick_type: z
+    .enum(['COURSE_1', 'COURSE_2', 'TAKE_OUT', 'pass'])
+    .nullable()
+    .optional(),
+});
+
 export const GET = async (req: NextRequest) => {
   const date = req.nextUrl.searchParams.get('date');
-  if (!date) {
-    return NextResponse.json({ error: 'date required' }, { status: 400 });
-  }
+  if (!date) return err('date required', 400);
 
   const voterId = req.headers.get('x-voter-id') ?? '';
 
@@ -31,7 +34,7 @@ export const GET = async (req: NextRequest) => {
       .select('pick_type, voter_id')
       .eq('date', date);
 
-    if (error) return NextResponse.json(empty, { status: 200 });
+    if (error) return ok(empty);
 
     const counts: Record<PickType, number> = {
       COURSE_1: 0,
@@ -41,74 +44,74 @@ export const GET = async (req: NextRequest) => {
     };
     let myPick: PickType | null = null;
 
+    // voter_id별 최신 1개만 집계 — 중복 행 방어
+    const seen = new Set<string>();
     for (const row of data ?? []) {
       const pt = row.pick_type as PickType;
-      if (PICK_TYPES.includes(pt)) counts[pt] += 1;
+      if (!PICK_TYPES.includes(pt)) continue;
+      if (seen.has(row.voter_id)) continue;
+      seen.add(row.voter_id);
+      counts[pt] += 1;
       if (row.voter_id === voterId) myPick = pt;
     }
 
-    return NextResponse.json({ date, counts, myPick } satisfies PickResult);
+    return ok({ date, counts, myPick } satisfies PickResult);
   } catch {
-    return NextResponse.json(empty, { status: 200 });
+    return ok(empty);
   }
 };
 
-/**
- * @route POST /api/picks
- * @header x-voter-id - 익명 투표자 ID
- * @body `{ date, pick_type }` — pick_type이 null이면 기존 픽 취소
- * @returns `{ ok: true }`
- */
 export const POST = async (req: NextRequest) => {
   const voterId = req.headers.get('x-voter-id') ?? '';
-  if (!voterId) {
-    return NextResponse.json({ error: 'x-voter-id required' }, { status: 400 });
+  if (!voterId) return err('x-voter-id required', 400);
+
+  if (!rateLimit(`pick:${voterId}`, 5, 60_000)) {
+    return err('Too many requests', 429);
   }
 
-  let body: { date?: string; pick_type?: string };
+  let body: unknown;
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: 'invalid json' }, { status: 400 });
+    return err('Invalid JSON', 400);
   }
 
-  const { date, pick_type } = body;
-  if (!date) {
-    return NextResponse.json({ error: 'date required' }, { status: 400 });
+  const parsed = PostSchema.safeParse(body);
+  if (!parsed.success) {
+    return err('Invalid request', 400, parsed.error.issues);
   }
 
-  // pick_type이 null이면 취소
+  const { date, pick_type } = parsed.data;
+
   if (!pick_type) {
     try {
       const { error } = await supabaseServer
         .from('menu_picks')
         .delete()
         .match({ voter_id: voterId, date });
-      if (error)
-        return NextResponse.json({ error: error.message }, { status: 500 });
-      return NextResponse.json({ ok: true });
-    } catch {
-      return NextResponse.json({ error: 'internal error' }, { status: 500 });
+      if (error) return err(error.message, 500);
+      return ok({ ok: true });
+    } catch (error: unknown) {
+      return err(error instanceof Error ? error.message : 'internal error', 500);
     }
   }
 
-  if (!PICK_TYPES.includes(pick_type as PickType)) {
-    return NextResponse.json({ error: 'invalid pick_type' }, { status: 400 });
-  }
-
   try {
+    // 기존 픽 삭제 후 새 픽 삽입 — 하루 단일 선택 보장
+    // ⚠️ Supabase 대시보드에서 menu_picks(voter_id, date) unique constraint 추가 권장
+    const { error: delError } = await supabaseServer
+      .from('menu_picks')
+      .delete()
+      .match({ voter_id: voterId, date });
+    if (delError) return err(delError.message, 500);
+
     const { error } = await supabaseServer
       .from('menu_picks')
-      .upsert(
-        { voter_id: voterId, date, pick_type },
-        { onConflict: 'voter_id,date' }
-      );
+      .insert({ voter_id: voterId, date, pick_type });
+    if (error) return err(error.message, 500);
 
-    if (error)
-      return NextResponse.json({ error: error.message }, { status: 500 });
-
-    return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: 'internal error' }, { status: 500 });
+    return ok({ ok: true });
+  } catch (error: unknown) {
+    return err(error instanceof Error ? error.message : 'internal error', 500);
   }
 };

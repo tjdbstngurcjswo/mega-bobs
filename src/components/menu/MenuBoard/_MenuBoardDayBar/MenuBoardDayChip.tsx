@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 import { DOW } from './MenuBoardDayBar.constants';
 import { MenuBoardDayChipProps } from './MenuBoardDayBar.types';
-
 import {
   chipButtonClass,
   chipDateClass,
@@ -34,6 +33,7 @@ const MenuBoardDayChip = ({
       type="button"
       onClick={() => onSelect(day)}
       aria-pressed={isSelected}
+      aria-label={`${isToday ? '오늘' : DOW[day.day()]} ${day.format('M월 D일')}`}
       className={chipButtonClass(isSelected, justSelected)}
     >
       <span

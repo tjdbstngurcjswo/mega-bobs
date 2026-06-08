@@ -1,36 +1,22 @@
 import { NextRequest } from 'next/server';
 
 import getMenu from '@/api/getMenu';
+import { err, ok } from '@/lib/apiResponse';
 
-const json = (body: unknown, status: number) =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: { 'Content-Type': 'application/json' },
-  });
-
-/**
- * @route GET /api/menu
- * @header x-api-key - API 인증 키 (env: API_KEY)
- * @query start - 조회 시작일 (YYYY-MM-DD)
- * @query end - 조회 종료일 (YYYY-MM-DD)
- * @returns 날짜 범위 내 메뉴 목록
- */
 export const GET = async (req: NextRequest) => {
   const apiKey = req.headers.get('x-api-key');
   const API_KEY = process.env.API_KEY;
-  if (!API_KEY || apiKey !== API_KEY)
-    return json({ error: 'Unauthorized' }, 401);
+  if (!API_KEY || apiKey !== API_KEY) return err('Unauthorized', 401);
 
   const { searchParams } = new URL(req.url);
   const start = searchParams.get('start');
   const end = searchParams.get('end');
-  if (!start || !end) return json({ error: 'Invalid params' }, 400);
+  if (!start || !end) return err('Invalid params', 400);
 
   try {
     const data = await getMenu({ start, end });
-    return json(data, 200);
-  } catch (err) {
-    const error = err instanceof Error ? err.message : 'Internal error';
-    return json({ error }, 500);
+    return ok(data);
+  } catch (error: unknown) {
+    return err(error instanceof Error ? error.message : 'Internal error', 500);
   }
-}
+};
