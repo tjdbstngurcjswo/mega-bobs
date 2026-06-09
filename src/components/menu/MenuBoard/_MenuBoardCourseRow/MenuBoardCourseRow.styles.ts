@@ -13,7 +13,8 @@ export const courseLabelClass =
 
 export const kcalClass = 'text-muted text-[11px] font-semibold';
 
-export const voteGroupClass = 'ml-auto flex gap-1 animate-[fadeIn_0.3s_ease_both]';
+export const voteGroupClass =
+  'ml-auto flex gap-1 animate-[fadeIn_0.3s_ease_both]';
 
 export const itemsTextClass =
   'mt-2 flex flex-wrap gap-x-0.5 text-ink text-[14.5px] leading-relaxed font-semibold';

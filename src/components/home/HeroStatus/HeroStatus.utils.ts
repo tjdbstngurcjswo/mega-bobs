@@ -43,12 +43,20 @@ export const getHeroStatus = (
     const nwKey = nextWorkdayKey(now);
     const nextLabel = dow === 5 ? '월요일에 만나요!' : '내일 만나요!';
     return hasMenu(nwKey)
-      ? { icon: Sun, text: `오늘은 공휴일이에요. ${nextLabel}`, variant: 'closed' }
+      ? {
+          icon: Sun,
+          text: `오늘은 공휴일이에요. ${nextLabel}`,
+          variant: 'closed',
+        }
       : { icon: Sun, text: '오늘은 공휴일이에요', variant: 'closed' };
   }
 
   if (min < CAFETERIA_OPEN_MIN)
-    return { icon: Clock, text: '잠시 후 운영 시작이에요', variant: 'upcoming' };
+    return {
+      icon: Clock,
+      text: '잠시 후 운영 시작이에요',
+      variant: 'upcoming',
+    };
   if (min < CAFETERIA_CLOSE_MIN)
     return {
       icon: Utensils,
@@ -58,12 +66,20 @@ export const getHeroStatus = (
 
   if (dow === 5) {
     return hasMenu(nextWorkdayKey(now))
-      ? { icon: Moon, text: '오늘 점심은 끝났어요. 월요일에 만나요!', variant: 'closed' }
+      ? {
+          icon: Moon,
+          text: '오늘 점심은 끝났어요. 월요일에 만나요!',
+          variant: 'closed',
+        }
       : { icon: Sun, text: '즐거운 주말 되세요!', variant: 'closed' };
   }
 
   const tomorrowKey = formatYYYYMMDD(now.add(1, 'day'));
   return hasMenu(tomorrowKey)
-    ? { icon: Moon, text: '오늘 점심은 끝났어요. 내일 만나요!', variant: 'closed' }
+    ? {
+        icon: Moon,
+        text: '오늘 점심은 끝났어요. 내일 만나요!',
+        variant: 'closed',
+      }
     : { icon: Moon, text: '오늘 점심은 끝났어요', variant: 'closed' };
 };

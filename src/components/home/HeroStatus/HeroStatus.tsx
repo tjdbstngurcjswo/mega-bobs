@@ -55,17 +55,20 @@ const HeroStatus = ({ menus }: { menus: MenuType[] }) => {
         strokeWidth={2}
         className="shrink-0"
         style={{
-          animation: isOperating ? 'softPulse 2.4s ease-in-out infinite' : undefined,
+          animation: isOperating
+            ? 'softPulse 2.4s ease-in-out infinite'
+            : undefined,
         }}
       />
-      <span>
-        {status.text}
-      </span>
+      <span>{status.text}</span>
       {status.variant !== 'closed' && (
         <span
           className={`inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-bold ${tag.tagClass}`}
         >
-          <span aria-hidden className={`size-1.5 shrink-0 rounded-full ${tag.dotClass}`} />
+          <span
+            aria-hidden
+            className={`size-1.5 shrink-0 rounded-full ${tag.dotClass}`}
+          />
           {tag.label}
         </span>
       )}

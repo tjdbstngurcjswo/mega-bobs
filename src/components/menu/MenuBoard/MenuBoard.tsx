@@ -11,10 +11,7 @@ import { useVotes } from '@/hooks/useVote';
 import dayjs from '@/lib/dayjs';
 import { useDateStore } from '@/store/useDateStore';
 import { formatYYYYMMDD } from '@/utils/date';
-import {
-  isAfterClose,
-  isNextWeekMenuLocked,
-} from '@/utils/menuPolicy';
+import { isAfterClose, isNextWeekMenuLocked } from '@/utils/menuPolicy';
 
 import MenuBoardCourseRow from './_MenuBoardCourseRow/MenuBoardCourseRow';
 import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
@@ -73,10 +70,10 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
     const prev = prevHeightRef.current;
     prevHeightRef.current = next;
     if (!prev || prev === next) return;
-    const a = el.animate(
-      [{ height: `${prev}px` }, { height: `${next}px` }],
-      { duration: 280, easing: 'ease-in-out' }
-    );
+    const a = el.animate([{ height: `${prev}px` }, { height: `${next}px` }], {
+      duration: 280,
+      easing: 'ease-in-out',
+    });
     return () => a.cancel();
   }, [dateStr]);
 
@@ -86,7 +83,12 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
         <div className="flex items-center gap-2">
           <h2 className={menuHeadingTitleClass}>식단표</h2>
           <p className={menuSubheadingClass}>
-            <Clock size={9} strokeWidth={2.5} className="text-muted" aria-hidden />
+            <Clock
+              size={9}
+              strokeWidth={2.5}
+              className="text-muted"
+              aria-hidden
+            />
             <span>{CAFETERIA_LABEL}</span>
           </p>
         </div>
@@ -135,7 +137,6 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
           />
         )}
       </div>
-
     </section>
   );
 };

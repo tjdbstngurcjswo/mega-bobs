@@ -1,6 +1,11 @@
 import type { Metadata } from 'next';
 
-import { ErrorBoundary, PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
+import {
+  ErrorBoundary,
+  PageLayout,
+  SiteFooter,
+  SiteHeader,
+} from '@/components/@shared';
 import { MenuBoard } from '@/components/menu';
 import { HeroDate, HeroStatus } from '@/components/home';
 import getMenu from '@/api/getMenu';
@@ -18,7 +23,6 @@ export const metadata: Metadata = {
   openGraph: { url: '/' },
   alternates: { canonical: '/' },
 };
-
 
 export default async function Home() {
   const today = dayjs().tz();
@@ -39,13 +43,12 @@ export default async function Home() {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(getCafeteriaJsonLd()) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getCafeteriaJsonLd()),
+        }}
       />
       <SiteHeader />
-      <PageLayout
-        eyebrow={<HeroDate />}
-        title={<HeroStatus menus={menus} />}
-      >
+      <PageLayout eyebrow={<HeroDate />} title={<HeroStatus menus={menus} />}>
         <ErrorBoundary>
           <MenuBoard menus={menus} />
         </ErrorBoundary>

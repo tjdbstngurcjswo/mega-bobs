@@ -73,9 +73,7 @@ export default function NoticePage() {
                   <div className="flex-1">
                     <h3 className={articleTitleClass}>
                       {n.title}
-                      {isNew && (
-                        <span className={newBadgeClass}>NEW</span>
-                      )}
+                      {isNew && <span className={newBadgeClass}>NEW</span>}
                     </h3>
                     <p className={articleBodyClass}>{n.body}</p>
                   </div>

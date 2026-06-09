@@ -6,8 +6,7 @@ export const errorCodeClass =
 
 export const errorTitleClass = 'mt-3 text-[17px] font-extrabold';
 
-export const errorBodyClass =
-  'text-muted mt-1.5 text-[13.5px] leading-relaxed';
+export const errorBodyClass = 'text-muted mt-1.5 text-[13.5px] leading-relaxed';
 
 export const reloadButtonClass =
   'border-line text-ink hover:bg-surface mt-5 border px-4 py-2 text-sm font-bold';

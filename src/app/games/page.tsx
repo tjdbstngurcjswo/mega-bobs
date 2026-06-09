@@ -6,14 +6,14 @@ import { GAMES } from '@/constants/games';
 import { SITE_NAME } from '@/constants/site';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 
-const gamesDesc = `${SITE_NAME} 사내 구성원을 위한 소소한 게임 모음`;
+const gamesDesc = `${SITE_NAME} 사내 구성원을 위한 소소한 미니게임 모음`;
 
 export const metadata: Metadata = {
-  title: '게임',
+  title: '미니게임',
   description: gamesDesc,
   alternates: { canonical: '/games' },
   openGraph: {
-    title: `게임 — ${SITE_NAME}`,
+    title: `미니게임 — ${SITE_NAME}`,
     description: gamesDesc,
     url: '/games',
   },
@@ -28,16 +28,16 @@ export default function GamesPage() {
           __html: JSON.stringify(
             getBreadcrumbJsonLd([
               { name: '홈', path: '/' },
-              { name: '게임', path: '/games' },
+              { name: '미니게임', path: '/games' },
             ])
           ),
         }}
       />
       <SiteHeader />
       <PageLayout
-        eyebrow="게임"
-        title={`${SITE_NAME} 게임`}
-        description="사내 구성원을 위한 소소한 게임 모음"
+        eyebrow="미니게임"
+        title={`${SITE_NAME} 미니게임`}
+        description="사내 구성원을 위한 소소한 미니게임 모음"
       >
         <div className="flex flex-col gap-3">
           {GAMES.map((game) => (

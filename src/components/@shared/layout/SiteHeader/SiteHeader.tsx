@@ -87,9 +87,7 @@ const SiteHeader = () => {
             <span className={bellSpanClass(showNoticeDot)}>
               <Bell size={17} strokeWidth={2.2} />
             </span>
-            {showNoticeDot && (
-              <span aria-hidden className={bellDotClass} />
-            )}
+            {showNoticeDot && <span aria-hidden className={bellDotClass} />}
           </Link>
 
           {/* 모바일 우측 */}
@@ -104,9 +102,7 @@ const SiteHeader = () => {
               <span className={bellSpanClass(showNoticeDot)}>
                 <Bell size={17} strokeWidth={2.2} />
               </span>
-              {showNoticeDot && (
-                <span aria-hidden className={bellDotClass} />
-              )}
+              {showNoticeDot && <span aria-hidden className={bellDotClass} />}
             </Link>
             <button
               type="button"

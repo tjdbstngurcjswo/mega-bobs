@@ -39,10 +39,10 @@ const PrivacyPage = () => (
       <section id="collected-info" className={legalSectionClass}>
         <h2 className={legalSectionTitleClass}>1. 수집하는 정보</h2>
         <p className={legalSectionBodyClass}>
-          {SITE_NAME}는 개인정보를 수집하지 않습니다. 맛 평가 투표 및 식전
-          픽 기능의 중복 방지를 위해 브라우저의 localStorage에 익명
-          식별자(투표자 ID)를 자동 생성하여 저장합니다. 이 식별자는 개인을
-          특정할 수 없는 무작위 값(UUID)이며, 서버에 저장되지 않습니다.
+          {SITE_NAME}는 개인정보를 수집하지 않습니다. 맛 평가 투표 및 식전 픽
+          기능의 중복 방지를 위해 브라우저의 localStorage에 익명 식별자(투표자
+          ID)를 자동 생성하여 저장합니다. 이 식별자는 개인을 특정할 수 없는
+          무작위 값(UUID)이며, 서버에 저장되지 않습니다.
         </p>
       </section>
 
@@ -64,9 +64,9 @@ const PrivacyPage = () => (
         <h2 className={legalSectionTitleClass}>3. 보관 기간 및 파기</h2>
         <p className={legalSectionBodyClass}>
           데이터베이스에 저장된 투표 및 픽 데이터는 생성일로부터
-          <b> 2주 후 자동 삭제</b>됩니다. 브라우저 localStorage에 저장된
-          익명 식별자는 이용자가 직접 브라우저 설정에서 삭제할 수 있으며,
-          삭제 후에도 서비스 이용은 가능합니다.
+          <b> 2주 후 자동 삭제</b>됩니다. 브라우저 localStorage에 저장된 익명
+          식별자는 이용자가 직접 브라우저 설정에서 삭제할 수 있으며, 삭제 후에도
+          서비스 이용은 가능합니다.
         </p>
       </section>
 
@@ -88,9 +88,7 @@ const PrivacyPage = () => (
             <tr>
               <td className={legalSectionTdClass}>Supabase</td>
               <td className={legalSectionTdClass}>데이터베이스</td>
-              <td className={legalSectionTdClass}>
-                식단 데이터, 투표·픽 저장
-              </td>
+              <td className={legalSectionTdClass}>식단 데이터, 투표·픽 저장</td>
             </tr>
             <tr>
               <td className={legalSectionTdClass}>Vercel</td>
@@ -111,8 +109,8 @@ const PrivacyPage = () => (
       <section id="user-rights" className={legalSectionClass}>
         <h2 className={legalSectionTitleClass}>5. 이용자 권리</h2>
         <p className={legalSectionBodyClass}>
-          이용자는 브라우저 설정에서 사이트 데이터(localStorage)를 삭제하여
-          익명 식별자를 제거할 수 있습니다. 삭제 후 재접속 시 새로운 식별자가
+          이용자는 브라우저 설정에서 사이트 데이터(localStorage)를 삭제하여 익명
+          식별자를 제거할 수 있습니다. 삭제 후 재접속 시 새로운 식별자가
           자동으로 생성되며, 이전 투표·픽 이력은 복구되지 않습니다.
         </p>
       </section>

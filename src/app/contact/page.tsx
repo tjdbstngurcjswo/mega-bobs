@@ -1,7 +1,6 @@
 import { Mail } from 'lucide-react';
 import type { Metadata } from 'next';
 
-
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { CONTACTS, SITE_NAME } from '@/constants/site';
 
