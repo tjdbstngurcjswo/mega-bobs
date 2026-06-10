@@ -1,6 +1,6 @@
 ---
 name: readme-sync
-description: PR 생성 전 README.md가 현재 코드 변경사항을 반영하는지 확인하고, 누락된 내용이 있으면 수정 후 커밋한다. create-pr 스킬에서 STEP 0으로 자동 호출된다.
+description: Use when checking or updating README.md to reflect current code changes. Detects gaps and commits fixes. Invoke via /readme-sync or manually before PR.
 allowed-tools: Bash(git:*), Read, Edit, Grep
 ---
 
