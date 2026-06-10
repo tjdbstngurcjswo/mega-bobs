@@ -18,14 +18,14 @@ description: Use when creating, editing, or reviewing any component file (.tsx).
 
 컴포넌트 파일에 있어선 안 되는 것:
 
-| 금지 항목                                         | 이동 대상                                   |
-| ------------------------------------------------- | ------------------------------------------- |
-| `interface XxxProps` / `type Xxx` (컴포넌트 전용) | `<ComponentFolder>/ComponentName.types.ts`  |
+| 금지 항목                                         | 이동 대상                                      |
+| ------------------------------------------------- | ---------------------------------------------- |
+| `interface XxxProps` / `type Xxx` (컴포넌트 전용) | `<ComponentFolder>/ComponentName.types.ts`     |
 | 상수 (컴포넌트 전용)                              | `<ComponentFolder>/ComponentName.constants.ts` |
-| 유틸리티 함수 (`const calcTotal = ...`)           | `src/lib/<feature>.ts`                      |
-| 도메인 로직 함수 (`const getStatus = ...`)        | `src/lib/<feature>.ts`                      |
-| 커스텀 훅                                         | `src/hooks/use<Name>.ts`                    |
-| 스타일 상수 (아래 기준 충족 시)                   | `<ComponentFolder>/ComponentName.styles.ts` |
+| 유틸리티 함수 (`const calcTotal = ...`)           | `src/lib/<feature>.ts`                         |
+| 도메인 로직 함수 (`const getStatus = ...`)        | `src/lib/<feature>.ts`                         |
+| 커스텀 훅                                         | `src/hooks/use<Name>.ts`                       |
+| 스타일 상수 (아래 기준 충족 시)                   | `<ComponentFolder>/ComponentName.styles.ts`    |
 
 > 여러 컴포넌트에서 공유되는 타입·상수는 `src/models/`, `src/constants/`에 둔다.
 
@@ -58,20 +58,20 @@ export const getStatus = (menus: MenuType[], now: dayjs.Dayjs): Status => { ... 
 
 `className`에 **비레이아웃 클래스**가 하나라도 포함되면 `.styles.ts`로 분리한다.
 
-| 레이아웃 클래스 — JSX 인라인 유지 가능                            | 비레이아웃 클래스 — 반드시 `.styles.ts` 분리                |
-| ----------------------------------------------------------------- | ----------------------------------------------------------- |
-| `flex`, `grid`, `block`, `inline-flex`, `hidden`, `contents`      | `text-*` (색상·크기·굵기·정렬·데코), `font-*`              |
-| `flex-*`, `grid-*`, `col-*`, `row-*`                              | `tracking-*`, `leading-*`, `whitespace-*`, `truncate`       |
-| `w-*`, `h-*`, `size-*`, `min-w-*`, `max-w-*`, `min-h-*`, `max-h-*` | `bg-*`                                                    |
-| `p-*`, `px-*`, `py-*`, `pt-*`, `pb-*`, `pl-*`, `pr-*`            | `border-*`, `rounded-*`, `divide-*`, `outline-*`, `ring-*`  |
-| `m-*`, `mx-*`, `my-*`, `mt-*`, `mb-*`, `ml-*`, `mr-*`            | `shadow-*`                                                  |
-| `gap-*`, `space-*`                                                | `opacity-*`                                                 |
-| `items-*`, `justify-*`, `content-*`, `self-*`, `place-*`         | `transition-*`, `duration-*`, `ease-*`, `delay-*`           |
-| `absolute`, `relative`, `fixed`, `sticky`, `static`              | `animate-*`, `scale-*`, `rotate-*`, `translate-*`           |
-| `top-*`, `right-*`, `bottom-*`, `left-*`, `inset-*`, `z-*`       | `cursor-*`, `pointer-events-*`, `select-*`, `appearance-*`  |
-| `overflow-*`, `shrink-*`, `grow-*`, `basis-*`, `order-*`         | `hover:*`, `active:*`, `group-hover:*` (비레이아웃 대상 시) |
-| `aspect-*`                                                        | `sr-only`, `visible`, `invisible`                           |
-| 위 레이아웃 클래스에 대한 반응형 접두사 (`max-[920px]:grid-cols-1`) | 비레이아웃에 대한 반응형 접두사 (`max-[640px]:text-sm`)    |
+| 레이아웃 클래스 — JSX 인라인 유지 가능                              | 비레이아웃 클래스 — 반드시 `.styles.ts` 분리                |
+| ------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `flex`, `grid`, `block`, `inline-flex`, `hidden`, `contents`        | `text-*` (색상·크기·굵기·정렬·데코), `font-*`               |
+| `flex-*`, `grid-*`, `col-*`, `row-*`                                | `tracking-*`, `leading-*`, `whitespace-*`, `truncate`       |
+| `w-*`, `h-*`, `size-*`, `min-w-*`, `max-w-*`, `min-h-*`, `max-h-*`  | `bg-*`                                                      |
+| `p-*`, `px-*`, `py-*`, `pt-*`, `pb-*`, `pl-*`, `pr-*`               | `border-*`, `rounded-*`, `divide-*`, `outline-*`, `ring-*`  |
+| `m-*`, `mx-*`, `my-*`, `mt-*`, `mb-*`, `ml-*`, `mr-*`               | `shadow-*`                                                  |
+| `gap-*`, `space-*`                                                  | `opacity-*`                                                 |
+| `items-*`, `justify-*`, `content-*`, `self-*`, `place-*`            | `transition-*`, `duration-*`, `ease-*`, `delay-*`           |
+| `absolute`, `relative`, `fixed`, `sticky`, `static`                 | `animate-*`, `scale-*`, `rotate-*`, `translate-*`           |
+| `top-*`, `right-*`, `bottom-*`, `left-*`, `inset-*`, `z-*`          | `cursor-*`, `pointer-events-*`, `select-*`, `appearance-*`  |
+| `overflow-*`, `shrink-*`, `grow-*`, `basis-*`, `order-*`            | `hover:*`, `active:*`, `group-hover:*` (비레이아웃 대상 시) |
+| `aspect-*`                                                          | `sr-only`, `visible`, `invisible`                           |
+| 위 레이아웃 클래스에 대한 반응형 접두사 (`max-[920px]:grid-cols-1`) | 비레이아웃에 대한 반응형 접두사 (`max-[640px]:text-sm`)     |
 
 ```ts
 // ✅ 순수 레이아웃만 — 인라인 유지

@@ -73,7 +73,10 @@ UI 코드를 작성하거나 리뷰하기 전에 이 절차를 따른다.
 
 - 콘텐츠 변경으로 컨테이너 높이가 달라지면 Web Animations API로 보간한다.
   ```ts
-  el.animate([{ height: `${prev}px` }, { height: `${next}px` }], { duration: 280, easing: 'ease-in-out' });
+  el.animate([{ height: `${prev}px` }, { height: `${next}px` }], {
+    duration: 280,
+    easing: 'ease-in-out',
+  });
   ```
 - `overflow-hidden`을 함께 적용해 보간 중 콘텐츠 넘침을 방지한다.
 
