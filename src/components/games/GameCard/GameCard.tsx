@@ -56,7 +56,14 @@ const GameCard = ({ slug, name, description, status }: GameDef) => {
 
   if (isComingSoon) {
     return (
-      <div className={cardWrapperClass(true)} onClick={handleComingSoonClick}>
+      <div
+        className={cardWrapperClass(true)}
+        role="button"
+        tabIndex={0}
+        aria-label={`${name} — 준비 중`}
+        onClick={handleComingSoonClick}
+        onKeyDown={(e) => e.key === 'Enter' && handleComingSoonClick()}
+      >
         {innerContent}
         {toastVisible && (
           <div className={cardToastClass(isEasterEgg)}>

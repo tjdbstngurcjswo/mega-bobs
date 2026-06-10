@@ -12,4 +12,4 @@ export const reloadButtonClass =
   'border-line text-ink hover:bg-surface mt-5 border px-4 py-2 text-sm font-bold';
 
 export const errorPreClass =
-  'mt-4 max-w-md overflow-auto rounded bg-red-50 p-2 text-left text-xs text-red-700';
+  'mt-4 max-w-md overflow-auto bg-down-soft p-2 text-left text-xs text-down';
