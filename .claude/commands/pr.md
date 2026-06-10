@@ -1,6 +1,6 @@
 ---
 description: '[PR 자동 생성] diff 분석 → Walkthrough 요약 / 파일 그룹 Changes 테이블 / Mermaid 시퀀스 / 테스트 플랜 포함 PR 본문 생성 후 gh pr create'
-argument-hint: '[target-branch] (선택, 기본 dev) 또는 draft'
+argument-hint: '[target-branch] (선택, 기본 dev)'
 allowed-tools: Bash(git:*), Bash(gh:*), Read, Grep
 ---
 
@@ -210,9 +210,8 @@ UPSTREAM_REPO=$(echo "$UPSTREAM_URL" \
   | sed 's|.*github\.com[:/]\(.*\)\.git|\1|' \
   | sed 's|.*github\.com[:/]\(.*\)|\1|')
 
-# 3. Assignee / Draft 설정
+# 3. Assignee 설정
 ASSIGNEE="$(gh api user -q .login)"
-DRAFT_FLAG=""   # 또는 "--draft"
 
 # 4. upstream repo에 PR 생성 (--head는 브랜치명만, fork prefix 없음)
 gh pr create \
@@ -221,7 +220,6 @@ gh pr create \
   --head <current-branch> \
   --title "<제목>" \
   --assignee "$ASSIGNEE" \
-  $DRAFT_FLAG \
   --body "$(cat <<'EOF'
 <본문>
 EOF
@@ -234,30 +232,19 @@ EOF
 # 1. origin에 브랜치 푸시
 git push -u origin <current-branch>
 
-# 2. Assignee / Draft 설정
+# 2. Assignee 설정
 ASSIGNEE="$(gh api user -q .login)"
-DRAFT_FLAG=""   # 또는 "--draft"
 
 # 3. PR 생성
 gh pr create \
   --base <target-branch> \
   --title "<제목>" \
   --assignee "$ASSIGNEE" \
-  $DRAFT_FLAG \
   --body "$(cat <<'EOF'
 <본문>
 EOF
 )"
 ```
-
-### Draft 모드 판단 규칙
-
-사용자 요청에서 아래 키워드가 감지되면 `--draft`로 생성합니다:
-
-- 한글/영문: `draft`, `초안`, `임시`, `작업중`, `WIP`
-- 예: "draft로 PR 만들어줘", "초안으로 올려줘", "작업중인 상태로 PR"
-
-Draft 모드로 생성된 경우 STEP 6 보고에 `**상태**: Draft` 표기. 이후 ready 전환은 `gh pr ready <PR번호>` 로 수행 가능함을 안내.
 
 ## STEP 6: 결과 보고
 
@@ -268,7 +255,6 @@ PR 생성 완료:
 - **URL**: {PR URL}
 - **방향**: {source-branch} → {upstream or origin}/{target-branch}
 - **푸시 대상**: upstream (포크) / origin (직접)
-- **상태**: {Draft / Ready for review}
 - **Assignees**: {assignee1, assignee2}
 ```
 
