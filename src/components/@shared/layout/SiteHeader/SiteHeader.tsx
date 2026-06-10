@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
-import { NAV_ITEMS, SITE_NAME } from '@/constants/site';
 import { getAnnouncements } from '@/api/getAnnouncements';
-import { hasNewAnnouncement } from '@/utils/announcementPolicy';
+import { NAV_ITEMS, SITE_NAME } from '@/constants/site';
 import { useHasMounted } from '@/hooks/useHasMounted';
+import { hasNewAnnouncement } from '@/utils/announcementPolicy';
 
 import {
   bellDotClass,

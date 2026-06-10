@@ -1,5 +1,6 @@
 import { unstable_cache } from 'next/cache';
 
+import getMenu from '@/api/getMenu';
 import { MENU_CATEGORIES, MenuCategoryLabel } from '@/constants/menu';
 import { SITE_NAME } from '@/constants/site';
 import {
@@ -7,7 +8,6 @@ import {
   DAY_OFFSET_MAP,
   DEFAULT_KEYWORD,
 } from '@/constants/slack';
-import getMenu from '@/api/getMenu';
 import dayjs, { SEOUL_TIMEZONE } from '@/lib/dayjs';
 import { MenuCategory, MenuType } from '@/models/menu';
 

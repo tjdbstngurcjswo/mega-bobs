@@ -1,10 +1,10 @@
 'use client';
 
-import {useState} from 'react';
+import { Clock, Dices, Shuffle, Wrench, Zap } from 'lucide-react';
 import Link from 'next/link';
-import {Clock, Dices, Shuffle, Wrench, Zap} from 'lucide-react';
+import { useState } from 'react';
 
-import type {GameDef} from '@/constants/games';
+import type { GameDef } from '@/constants/games';
 
 import {
   cardBadgeClass,
@@ -24,7 +24,7 @@ const ICON_MAP = {
 
 const EASTER_EGG_THRESHOLD = 5;
 
-const GameCard = ({slug, name, description, status}: GameDef) => {
+const GameCard = ({ slug, name, description, status }: GameDef) => {
   const isComingSoon = status === 'coming_soon';
   const [clickCount, setClickCount] = useState(0);
   const [toastVisible, setToastVisible] = useState(false);

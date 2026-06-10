@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 
+import { getAnnouncements } from '@/api/getAnnouncements';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { SITE_NAME } from '@/constants/site';
 import dayjs from '@/lib/dayjs';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
-import { getAnnouncements } from '@/api/getAnnouncements';
 
 import {
   articleBodyClass,

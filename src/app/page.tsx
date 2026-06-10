@@ -1,21 +1,21 @@
 import type { Metadata } from 'next';
 
+import getMenu from '@/api/getMenu';
 import {
   ErrorBoundary,
   PageLayout,
   SiteFooter,
   SiteHeader,
 } from '@/components/@shared';
-import { MenuBoard } from '@/components/menu';
 import { HeroDate, HeroStatus } from '@/components/home';
-import getMenu from '@/api/getMenu';
+import { MenuBoard } from '@/components/menu';
 import dayjs from '@/lib/dayjs';
+import { formatYYYYMMDD, getWeekDays } from '@/utils/date';
 import {
   getCafeteriaJsonLd,
   getOrgJsonLd,
   getWebsiteJsonLd,
 } from '@/utils/jsonLd';
-import { formatYYYYMMDD, getWeekDays } from '@/utils/date';
 
 export const revalidate = 21600;
 

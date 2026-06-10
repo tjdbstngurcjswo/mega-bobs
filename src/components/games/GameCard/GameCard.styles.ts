@@ -1,4 +1,4 @@
-import {cn} from '@/utils/cn';
+import { cn } from '@/utils/cn';
 
 export const cardWrapperClass = (isComingSoon: boolean) =>
   cn(

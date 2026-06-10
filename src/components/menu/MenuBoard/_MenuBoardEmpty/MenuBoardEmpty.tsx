@@ -3,12 +3,12 @@
 import { Plane, Sparkles } from 'lucide-react';
 
 import { BOARD_EMPTY_COPY } from './MenuBoardEmpty.constants';
-import { MenuBoardEmptyProps } from './MenuBoardEmpty.types';
 import {
   emptyBodyClass,
   emptyLabelClass,
   emptyTitleClass,
 } from './MenuBoardEmpty.styles';
+import { MenuBoardEmptyProps } from './MenuBoardEmpty.types';
 
 const SPARKLE_POSITIONS = [
   { left: '18%', bottom: '22%', size: 13, delay: '0s' },

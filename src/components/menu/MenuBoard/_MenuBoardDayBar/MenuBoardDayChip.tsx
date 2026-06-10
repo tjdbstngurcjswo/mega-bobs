@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 import { DOW } from './MenuBoardDayBar.constants';
 import { MenuBoardDayChipProps } from './MenuBoardDayBar.types';
-
 import {
   chipButtonClass,
   chipDateClass,
