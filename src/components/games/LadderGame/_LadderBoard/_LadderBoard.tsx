@@ -1,0 +1,232 @@
+'use client';
+
+import { motion } from 'motion/react';
+import { useMemo } from 'react';
+
+import { AVATAR_KEYS, getAvatarIcon } from '@/constants/iconAvatars';
+import { cn } from '@/utils/cn';
+import type { LadderData } from '@/utils/ladder';
+
+import type { LadderPhase } from '../LadderGame.types';
+
+const SVG_W = 300;
+const SVG_H = 150;
+const PAD_Y = 8;
+const RAIL_COLOR = 'var(--color-ink-2)';
+const TRACE_COLOR = 'var(--color-accent-deep)';
+
+// Each column center at (i + 0.5) / n of SVG_W — matches flex-1 chip centers
+const getXs = (n: number): number[] =>
+  Array.from({ length: n }, (_, i) => SVG_W * (i + 0.5) / n);
+
+const getYs = (rungRows: number): number[] => {
+  const range = SVG_H - PAD_Y * 2;
+  return Array.from({ length: rungRows }, (_, r) =>
+    PAD_Y + ((r + 1) * range) / (rungRows + 1)
+  );
+};
+
+const buildPaths = (data: LadderData, xs: number[], ys: number[]): string[] =>
+  Array.from({ length: data.n }, (_, p) => {
+    let col = p;
+    const pts: [number, number][] = [[xs[col], PAD_Y]];
+    for (let row = 0; row < data.rungRows; row++) {
+      const rKey = `${row}:${col}`;
+      const lKey = col > 0 ? `${row}:${col - 1}` : '';
+      if (data.rungSet.has(rKey)) {
+        pts.push([xs[col], ys[row]], [xs[col + 1], ys[row]]);
+        col += 1;
+      } else if (lKey && data.rungSet.has(lKey)) {
+        pts.push([xs[col], ys[row]], [xs[col - 1], ys[row]]);
+        col -= 1;
+      }
+    }
+    pts.push([xs[col], SVG_H - PAD_Y]);
+    return pts
+      .map(([x, y], i) => `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`)
+      .join(' ');
+  });
+
+type Ease = [number, number, number, number];
+const EASE_IN_OUT: Ease = [0.4, 0, 0.2, 1];
+
+// ── Sub-components ────────────────────────────────────────────────────────────
+
+interface AvatarRowProps {
+  names: string[];
+  disabled: boolean;
+  onCycle: (i: number) => void;
+  onRemove: (i: number) => void;
+}
+
+const AvatarRow = ({ names, disabled, onCycle, onRemove }: AvatarRowProps) => {
+  const canRemove = !disabled && names.length > 2;
+  return (
+    // gap-[1px] for 1px separator — negligible alignment impact (~0.5px)
+    <div className="flex gap-[1px] px-3 pt-3 pb-0">
+      {names.map((key, i) => {
+        const Icon = getAvatarIcon(key);
+        return (
+          <div key={i} className="flex-1 min-w-0 relative">
+            {canRemove && (
+              <button
+                type="button"
+                className="absolute -top-1 -right-0.5 z-10 w-4 h-4 bg-surface shadow-[var(--shadow-flat)] text-muted text-[10px] flex items-center justify-center cursor-pointer hover:text-ink leading-none"
+                onClick={() => onRemove(i)}
+                aria-label={`참여자 ${i + 1} 제거`}
+              >×</button>
+            )}
+            <button
+              type="button"
+              onClick={() => !disabled && onCycle(i)}
+              className={cn(
+                'w-full bg-surface-warm flex flex-col items-center justify-center gap-0.5 py-2 text-ink-2',
+                disabled ? 'cursor-default' : 'cursor-pointer hover:bg-line hover:text-ink active:scale-95 transition-all'
+              )}
+              aria-label={`참여자 ${i + 1}${disabled ? '' : ' — 탭하여 변경'}`}
+              disabled={disabled}
+            >
+              <Icon size={18} strokeWidth={1.8} aria-hidden="true" />
+              <span className="text-[9px] text-muted leading-none">{i + 1}</span>
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+interface ItemsRowProps {
+  items: string[];
+  disabled: boolean;
+  results: number[];
+  showTraces: boolean;
+  animateTraces: boolean;
+  onEdit: (i: number, v: string) => void;
+}
+
+const ItemsRow = ({ items, disabled, results, showTraces, animateTraces, onEdit }: ItemsRowProps) => (
+  <div className="flex gap-[1px] px-3 pt-0 pb-3">
+    {items.map((item, i) => {
+      const isHit = showTraces && !animateTraces && results.includes(i);
+      return (
+        <div key={i} className="flex-1 min-w-0 bg-surface-warm">
+          <input
+            value={item}
+            onChange={(e) => onEdit(i, e.target.value)}
+            readOnly={disabled}
+            className={cn(
+              'w-full text-center bg-transparent text-[9px] font-bold outline-none px-0.5 py-1.5',
+              'border-b-2 border-transparent focus-visible:border-accent transition-colors truncate',
+              isHit ? 'text-accent-text font-extrabold' : 'text-ink-2',
+              disabled && 'cursor-default'
+            )}
+            aria-label={`항목 ${i + 1}`}
+            maxLength={8}
+            placeholder={`항목 ${i + 1}`}
+          />
+        </div>
+      );
+    })}
+  </div>
+);
+
+interface SvgContentProps {
+  xs: number[];
+  ys: number[];
+  paths: string[];
+  rungs: { row: number; col: number }[];
+  results: number[];
+  showTraces: boolean;
+  animateTraces: boolean;
+}
+
+const SvgContent = ({ xs, ys, paths, rungs, results, showTraces, animateTraces }: SvgContentProps) => {
+  const botY = SVG_H - PAD_Y;
+  const traceTrans = animateTraces ? { duration: 1.5, ease: EASE_IN_OUT } : { duration: 0 };
+  return (
+    // px-3 wrapper aligns SVG content with avatar/item rows above/below
+    <div className="px-3">
+      <svg viewBox={`0 0 ${SVG_W} ${SVG_H}`} width="100%" style={{ maxHeight: 200 }} aria-hidden="true" className="block">
+        {xs.map((x, i) => (
+          <line key={`v-${i}`} x1={x} y1={PAD_Y} x2={x} y2={botY} stroke={RAIL_COLOR} strokeWidth={1.5} />
+        ))}
+        {rungs.map(({ row, col }) => (
+          <line key={`h-${row}-${col}`} x1={xs[col]} y1={ys[row]} x2={xs[col + 1]} y2={ys[row]} stroke={RAIL_COLOR} strokeWidth={1.5} />
+        ))}
+        {showTraces && paths.map((d, i) => (
+          <motion.path key={`trace-${i}-${animateTraces ? 'a' : 's'}`}
+            d={d} fill="none" stroke={TRACE_COLOR}
+            strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"
+            initial={{ pathLength: animateTraces ? 0 : 1 }}
+            animate={{ pathLength: 1 }}
+            transition={traceTrans}
+          />
+        ))}
+        {showTraces && !animateTraces && results.map((itemIdx, pi) => (
+          <motion.circle key={`dot-${pi}`}
+            cx={xs[itemIdx]} cy={botY} r={5} fill={TRACE_COLOR}
+            initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: pi * 0.06, type: 'spring', stiffness: 400 }}
+          />
+        ))}
+      </svg>
+    </div>
+  );
+};
+
+// ── Main component ─────────────────────────────────────────────────────────────
+
+export interface LadderBoardProps {
+  participants: string[];
+  items: string[];
+  data: LadderData | null;
+  phase: LadderPhase;
+  onParticipantsChange: (v: string[]) => void;
+  onItemsChange: (v: string[]) => void;
+}
+
+const LadderBoardView = ({ participants, items, data, phase, onParticipantsChange, onItemsChange }: LadderBoardProps) => {
+  const disabled = phase !== 'input';
+  const showTraces = phase !== 'input';
+  const animateTraces = phase === 'animating';
+
+  const xs = useMemo(() => (data ? getXs(data.n) : []), [data]);
+  const ys = useMemo(() => (data ? getYs(data.rungRows) : []), [data]);
+  const paths = useMemo(() => (data ? buildPaths(data, xs, ys) : []), [data, xs, ys]);
+  const rungs = useMemo(
+    () => data ? Array.from(data.rungSet).map((k) => { const [r, c] = k.split(':').map(Number); return { row: r, col: c }; }) : [],
+    [data]
+  );
+
+  const cycleAvatar = (i: number) => {
+    const used = new Set(participants.filter((_, idx) => idx !== i));
+    const cur = AVATAR_KEYS.indexOf(participants[i] as (typeof AVATAR_KEYS)[number]);
+    let next = (cur + 1) % AVATAR_KEYS.length;
+    while (used.has(AVATAR_KEYS[next]) && next !== cur) next = (next + 1) % AVATAR_KEYS.length;
+    const nextP = [...participants]; nextP[i] = AVATAR_KEYS[next]; onParticipantsChange(nextP);
+  };
+
+  const removePerson = (i: number) => {
+    const nextP = participants.filter((_, idx) => idx !== i);
+    onParticipantsChange(nextP);
+    onItemsChange(items.slice(0, nextP.length));
+  };
+
+  const editItem = (i: number, val: string) => {
+    const next = [...items]; next[i] = val; onItemsChange(next);
+  };
+
+  return (
+    <div className="bg-surface shadow-[var(--shadow-card)]">
+      <AvatarRow names={participants} disabled={disabled} onCycle={cycleAvatar} onRemove={removePerson} />
+      {data
+        ? <SvgContent xs={xs} ys={ys} paths={paths} rungs={rungs} results={data.results} showTraces={showTraces} animateTraces={animateTraces} />
+        : <div className="aspect-[300/150] px-3" />
+      }
+      <ItemsRow items={items} disabled={disabled} results={data?.results ?? []} showTraces={showTraces} animateTraces={animateTraces} onEdit={editItem} />
+    </div>
+  );
+};
+
+export default LadderBoardView;
