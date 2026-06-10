@@ -12,7 +12,7 @@ export const GAMES: GameDef[] = [
     slug: 'ladder',
     name: '사다리게임',
     description: '내가 걸릴 리 없어… 정말?',
-    status: 'coming_soon',
+    status: 'open',
   },
   {
     slug: 'slot',
