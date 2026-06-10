@@ -40,4 +40,4 @@ export const POST = async (req: NextRequest) => {
     response_type: 'in_channel',
     text: textResponse,
   });
-}
+};

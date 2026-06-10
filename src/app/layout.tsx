@@ -97,7 +97,7 @@ export default function RootLayout({
           toastOptions={{
             duration: 2000,
             style: {
-              background: '#111111',
+              background: '#111720',
               color: '#fff',
               fontSize: '14px',
               fontWeight: '500',

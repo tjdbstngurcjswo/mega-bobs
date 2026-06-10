@@ -1,4 +1,3 @@
-import { LegalPageLayoutProps } from './LegalPageLayout.types';
 import {
   legalContainerClass,
   legalContentClass,
@@ -11,6 +10,7 @@ import {
   tocTitleClass,
   tocWrapClass,
 } from './LegalPageLayout.styles';
+import { LegalPageLayoutProps } from './LegalPageLayout.types';
 
 const LegalPageLayout = ({
   title,

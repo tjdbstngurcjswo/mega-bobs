@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
-import { NAV_ITEMS, SITE_NAME } from '@/constants/site';
 import { getAnnouncements } from '@/api/getAnnouncements';
-import { hasNewAnnouncement } from '@/utils/announcementPolicy';
+import { NAV_ITEMS, SITE_NAME } from '@/constants/site';
 import { useHasMounted } from '@/hooks/useHasMounted';
+import { hasNewAnnouncement } from '@/utils/announcementPolicy';
 
 import {
   bellDotClass,
@@ -87,9 +87,7 @@ const SiteHeader = () => {
             <span className={bellSpanClass(showNoticeDot)}>
               <Bell size={17} strokeWidth={2.2} />
             </span>
-            {showNoticeDot && (
-              <span aria-hidden className={bellDotClass} />
-            )}
+            {showNoticeDot && <span aria-hidden className={bellDotClass} />}
           </Link>
 
           {/* 모바일 우측 */}
@@ -104,9 +102,7 @@ const SiteHeader = () => {
               <span className={bellSpanClass(showNoticeDot)}>
                 <Bell size={17} strokeWidth={2.2} />
               </span>
-              {showNoticeDot && (
-                <span aria-hidden className={bellDotClass} />
-              )}
+              {showNoticeDot && <span aria-hidden className={bellDotClass} />}
             </Link>
             <button
               type="button"

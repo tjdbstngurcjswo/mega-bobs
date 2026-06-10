@@ -9,6 +9,7 @@
 - **날짜별 메뉴 조회** — 주간 캘린더로 날짜를 선택해 코스1 · 코스2 · 테이크아웃 메뉴 확인
 - **맛 평가 투표** — 코스별 👍 / 👎 실시간 투표 (Supabase `menu_votes`)
 - **식전 픽** — 오늘 뭐 먹을지 코스A / 코스B / 테이크아웃 / 패스 선택 (Supabase `menu_picks`)
+- **미니게임 허브** — 사다리게임·슬롯머신·풍선터뜨리기 카드 목록 (`/games`)
 - **공지사항** — 정적 TS 기반 공지 시스템, 헤더 벨 아이콘 애니메이션
 - **Slack 봇** — `/밥` 슬래시 커맨드로 오늘 · 내일 · 모레 · 글피 식단 조회
 - **MCP 서버** — Claude Desktop 연동용 Streamable HTTP 엔드포인트 (`/api/mcp`)
@@ -120,6 +121,7 @@ src/
 │   │   ├── mcp/          # GET/POST — MCP Streamable HTTP
 │   │   ├── slack/        # POST — 슬래시 커맨드, GET warm — 캐시 워밍
 │   │   └── revalidate/   # GET ?secret= — ISR 강제 재검증
+│   ├── games/            # 미니게임 허브 페이지
 │   ├── notice/           # 공지사항 페이지
 │   ├── terms/            # 이용약관 페이지
 │   ├── privacy/          # 개인정보처리방침 페이지
@@ -132,10 +134,12 @@ src/
 │   └── fonts/            # Pretendard 셀프호스팅 폰트
 ├── components/
 │   ├── @shared/          # ErrorBoundary, SiteHeader, SiteFooter, PageLayout, LegalPageLayout
+│   ├── games/            # GameCard 컴포넌트
 │   ├── menu/             # MenuBoard (_MenuBoardEmpty, _MenuBoardCourseRow, _MenuBoardDayBar)
 │   └── home/             # HeroStatus, HeroDate
 ├── constants/
 │   ├── cafeteria.ts      # CAFETERIA 운영 시각 config (단일 소스)
+│   ├── games.ts          # 미니게임 목록 상수
 │   ├── menu.ts           # 코스 카테고리 한글 레이블
 │   ├── site.ts           # NAV_ITEMS, FOOTER_LINKS, CONTACTS
 │   └── slack.ts          # Slack 커맨드 맵

@@ -1,5 +1,4 @@
-export const footerBrandNameClass =
-  'text-ink text-[13px] font-extrabold';
+export const footerBrandNameClass = 'text-ink text-[13px] font-extrabold';
 
 export const footerDescClass = 'text-muted text-[12px]';
 

@@ -25,12 +25,7 @@ import {
 } from './MenuBoardCourseRow.styles';
 import { MenuBoardCourseRowProps } from './MenuBoardCourseRow.types';
 
-
-const MenuBoardCourseRow = ({
-  menu,
-  vote,
-  pick,
-}: MenuBoardCourseRowProps) => {
+const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
   const [animating, setAnimating] = useState<'up' | 'down' | null>(null);
 
   const total = menu.items.reduce((sum, item) => sum + (item.kcal ?? 0), 0);
@@ -44,9 +39,7 @@ const MenuBoardCourseRow = ({
   };
 
   return (
-    <div
-      className={courseRowClass}
-    >
+    <div className={courseRowClass}>
       <div className={courseRowHeaderClass}>
         <span
           className={courseLabelClass}
@@ -58,9 +51,7 @@ const MenuBoardCourseRow = ({
         >
           {MenuCategoryLabel[menu.category].ko}
         </span>
-        {total > 0 && (
-          <span className={kcalClass}>{total} kcal</span>
-        )}
+        {total > 0 && <span className={kcalClass}>{total} kcal</span>}
         {pick?.show && (
           <button
             type="button"
@@ -68,7 +59,10 @@ const MenuBoardCourseRow = ({
             disabled={pick.isSubmitting}
             aria-pressed={pick.isPicked ?? false}
             aria-label={`${MenuCategoryLabel[menu.category].ko} ${pick.isPicked ? '선택됨 — 클릭하면 취소' : pick.hasAnyPick ? '다른 코스로 변경' : '오늘 먹을 예정'}`}
-            className={pickButtonClass(pick.isPicked ?? false, pick.hasAnyPick ?? false)}
+            className={pickButtonClass(
+              pick.isPicked ?? false,
+              pick.hasAnyPick ?? false
+            )}
           >
             <Users size={10} strokeWidth={2.5} />
             {pick.count ?? 0}명이 선택했어요
