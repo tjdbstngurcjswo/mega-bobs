@@ -1,11 +1,11 @@
 'use client';
 
-import { Utensils } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import dayjs from '@/lib/dayjs';
-import { getHeroStatus, HeroStatusState } from './HeroStatus.utils';
 import { MenuType } from '@/models/menu';
+
+import { getHeroStatus, HeroStatusState } from './HeroStatus.utils';
 
 const STATUS_TAG: Record<
   HeroStatusState['variant'],
