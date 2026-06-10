@@ -1,5 +1,5 @@
-import dayjs from '@/lib/dayjs';
 import { CAFETERIA_CLOSE_MIN } from '@/constants/cafeteria';
+import dayjs from '@/lib/dayjs';
 import { getWeekDays } from '@/utils/date';
 
 /** 매주 목요일부터 다음 주 메뉴 공개 (0=일, 4=목) */

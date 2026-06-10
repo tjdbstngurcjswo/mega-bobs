@@ -1,10 +1,8 @@
-import { chipBg, labelClass, dateClass } from './MenuBoardDayBar.styles';
 import { cn } from '@/utils/cn';
 
-export const chipButtonClass = (
-  isSelected: boolean,
-  justSelected: boolean
-) =>
+import { chipBg, labelClass, dateClass } from './MenuBoardDayBar.styles';
+
+export const chipButtonClass = (isSelected: boolean, justSelected: boolean) =>
   cn(
     'relative flex min-h-[44px] flex-1 cursor-pointer flex-col items-center justify-center gap-0.5 transition-colors duration-150 active:opacity-70',
     chipBg(isSelected),

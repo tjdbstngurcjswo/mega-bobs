@@ -3,12 +3,12 @@
 import { Plane, Sparkles } from 'lucide-react';
 
 import { BOARD_EMPTY_COPY } from './MenuBoardEmpty.constants';
-import { MenuBoardEmptyProps } from './MenuBoardEmpty.types';
 import {
   emptyBodyClass,
   emptyLabelClass,
   emptyTitleClass,
 } from './MenuBoardEmpty.styles';
+import { MenuBoardEmptyProps } from './MenuBoardEmpty.types';
 
 const SPARKLE_POSITIONS = [
   { left: '18%', bottom: '22%', size: 13, delay: '0s' },
@@ -40,13 +40,13 @@ const MenuBoardEmpty = ({
       {variant === 'closed' && (
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <span
-            className="absolute left-1/2 top-1/2 -translate-y-1/2 text-muted"
+            className="text-muted absolute top-1/2 left-1/2 -translate-y-1/2"
             style={{ animation: 'planeFly 7s linear infinite' }}
           >
             <Plane size={15} strokeWidth={1.5} />
           </span>
           <span
-            className="absolute left-1/2 top-1/2 -translate-y-1/2 text-muted opacity-50"
+            className="text-muted absolute top-1/2 left-1/2 -translate-y-1/2 opacity-50"
             style={{ animation: 'planeFly 7s linear -3.5s infinite' }}
           >
             <Plane size={12} strokeWidth={1.5} />
@@ -58,7 +58,7 @@ const MenuBoardEmpty = ({
           {SPARKLE_POSITIONS.map((s, i) => (
             <span
               key={i}
-              className="absolute text-accent"
+              className="text-accent absolute"
               style={{
                 left: s.left,
                 bottom: s.bottom,

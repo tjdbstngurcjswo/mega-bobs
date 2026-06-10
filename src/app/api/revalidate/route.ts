@@ -17,4 +17,4 @@ export const GET = async (request: NextRequest) => {
   revalidateTag('menu');
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
-}
+};

@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 
+import { getAnnouncements } from '@/api/getAnnouncements';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { SITE_NAME } from '@/constants/site';
 import dayjs from '@/lib/dayjs';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
-import { getAnnouncements } from '@/api/getAnnouncements';
 
 import {
   articleBodyClass,
@@ -73,9 +73,7 @@ export default function NoticePage() {
                   <div className="flex-1">
                     <h3 className={articleTitleClass}>
                       {n.title}
-                      {isNew && (
-                        <span className={newBadgeClass}>NEW</span>
-                      )}
+                      {isNew && <span className={newBadgeClass}>NEW</span>}
                     </h3>
                     <p className={articleBodyClass}>{n.body}</p>
                   </div>

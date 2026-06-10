@@ -3,7 +3,6 @@
 import React from 'react';
 
 import { ErrorBoundaryProps, ErrorBoundaryState } from './ErrorBoundary.types';
-
 import ErrorFallback from './ErrorFallback';
 
 class ErrorBoundary extends React.Component<

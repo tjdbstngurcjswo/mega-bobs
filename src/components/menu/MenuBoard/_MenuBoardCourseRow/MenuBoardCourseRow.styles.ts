@@ -2,7 +2,7 @@ import { VoteType } from '@/models/vote';
 import { cn } from '@/utils/cn';
 
 export const TOOLTIP =
-  "pointer-events-none invisible absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-2 py-1 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-['']";
+  "pointer-events-none invisible absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap bg-ink px-2 py-1 text-[10px] font-medium text-cream opacity-0 transition-opacity pointer-events-none group-hover:visible group-hover:opacity-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-['']";
 
 export const courseRowClass = 'px-5 py-6';
 
@@ -13,7 +13,8 @@ export const courseLabelClass =
 
 export const kcalClass = 'text-muted text-[11px] font-semibold';
 
-export const voteGroupClass = 'ml-auto flex gap-1 animate-[fadeIn_0.3s_ease_both]';
+export const voteGroupClass =
+  'ml-auto flex gap-1 animate-[fadeIn_0.3s_ease_both]';
 
 export const itemsTextClass =
   'mt-2 flex flex-wrap gap-x-0.5 text-ink text-[14.5px] leading-relaxed font-semibold';

@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
-import { getOrCreateVoterId } from '@/utils/voterId';
 import { PickResult, PickType } from '@/models/vote';
+import { getOrCreateVoterId } from '@/utils/voterId';
 
 const DEFAULT_COUNTS: PickResult['counts'] = {
   COURSE_1: 0,

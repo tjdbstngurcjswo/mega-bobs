@@ -5,12 +5,12 @@ import toast from 'react-hot-toast';
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { useDateStore } from '@/store/useDateStore';
 
-import MenuBoardDayChip from './MenuBoardDayChip';
 import {
   dayBarContainerClass,
   navArrowClass,
   navButtonClass,
 } from './MenuBoardDayBar.styles';
+import MenuBoardDayChip from './MenuBoardDayChip';
 
 const MenuBoardDayBar = () => {
   const {

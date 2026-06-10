@@ -1,6 +1,7 @@
 import { cn } from '@/utils/cn';
 
-export const sectionClass = 'bg-surface flex flex-col shadow-[var(--shadow-card)]';
+export const sectionClass =
+  'bg-surface flex flex-col shadow-[var(--shadow-card)]';
 
 export const menuHeadingTitleClass =
   'text-ink text-[14px] font-extrabold tracking-wide';

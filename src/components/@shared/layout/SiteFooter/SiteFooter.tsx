@@ -15,7 +15,9 @@ const SiteFooter = () => (
       <div className="flex flex-col gap-3 min-[560px]:flex-row min-[560px]:items-center min-[560px]:justify-between">
         <div className="flex items-center gap-5">
           <span className={footerBrandNameClass}>{SITE_NAME}</span>
-          <p className={footerDescClass}>메가존 직원을 위한 구내식당 메뉴 서비스</p>
+          <p className={footerDescClass}>
+            메가존 직원을 위한 구내식당 메뉴 서비스
+          </p>
         </div>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
           {FOOTER_LINKS.map((l) => (
