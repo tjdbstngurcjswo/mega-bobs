@@ -164,6 +164,19 @@ CRON_SECRET=                # Cron 인증 토큰 (/api/votes/cleanup Bearer)
 NEXT_PUBLIC_SITE_URL=       # 배포 URL (Vercel 대시보드에 설정 필수 — metadataBase·sitemap에 사용)
 ```
 
+## Notion MCP 설정
+
+Notion 스킬(`start-ticket` 등)은 Notion MCP 도구를 사용한다. 도구 prefix는 환경마다 다르다.
+
+| 환경 예시 | prefix |
+| --------- | ------ |
+| 로컬 MCP 서버 | `mcp__notion-local` |
+| Notion 데스크탑 앱 | `mcp__notion-desktop` |
+| 기타 커스텀 설정 | 각자 다름 |
+
+**권장:** 첫 작업 전 Claude Code에서 ToolSearch로 `notion retrieve` 검색해 본인 환경의 prefix를 확인해 둔다.  
+**Fallback:** 설정 없이도 스킬이 ToolSearch로 사용 가능한 Notion 도구를 자동 탐색한다.
+
 ## Skill Routing
 
 사용자 요청이 아래 조건에 해당하면 **반드시** 해당 스킬을 `Skill` 도구로 먼저 호출한 뒤 진행한다. 직접 `gh`/`git` 명령으로 건너뛰지 말 것.

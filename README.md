@@ -181,6 +181,17 @@ const CAFETERIA = {
 
 ---
 
+## Notion 문서
+
+> 스킬에서 Notion API 호출 시 아래 ID를 참조한다. 링크가 변경되면 이 섹션만 수정하면 된다.
+
+| 문서 | 링크 | Notion ID |
+| ---- | ---- | --------- |
+| 기획문서 (Phase 1) | [Phase-1](https://app.notion.com/p/pionari/Phase-1-376cb4f84b7f81ba8a2cc6c54aa75fd1) | `376cb4f8-4b7f-81ba-8a2c-c6c54aa75fd1` |
+| 티켓 보드 (DB) | — | `377cb4f8-4b7f-8012-ad8c-ca1ca0bfad59` |
+
+---
+
 ## Claude 스킬
 
 프로젝트 작업을 돕는 Claude 스킬이 [`.claude/`](.claude/)에 있습니다.

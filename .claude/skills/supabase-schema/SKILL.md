@@ -6,7 +6,6 @@ description: Supabase 테이블 신규 생성·마이그레이션·RLS 정책·T
 # Supabase Schema
 
 새 테이블이나 스키마 변경 시 이 절차를 따른다.
-작업 티켓은 https://app.notion.com/p/pionari/377cb4f84b7f8012ad8cca1ca0bfad59 에서 관리한다.
 
 ## STEP 1: 기존 패턴 참조
 
