@@ -1,3 +1,8 @@
+---
+name: ux-writing
+description: Use when writing, editing, or reviewing Korean UI copy — buttons, labels, empty states, toasts, error messages. Triggers on tone, punctuation, spacing, or wording decisions in any UI text.
+---
+
 # UX Writing
 
 한국어 UI 문구를 작성하거나 검수할 때 이 규칙을 따른다.
