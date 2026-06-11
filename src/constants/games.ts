@@ -18,7 +18,7 @@ export const GAMES: GameDef[] = [
     slug: 'slot',
     name: '슬롯머신',
     description: '이름을 넣고 돌리면 딱 한 명이 뽑혀요',
-    status: 'coming_soon',
+    status: 'open',
   },
   {
     slug: 'balloon',
