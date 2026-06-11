@@ -8,7 +8,7 @@ import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 
 export const revalidate = 3600;
 
-const newsDesc = `${SITE_NAME} 메가존클라우드 관련 최신 언론 기사 모음`;
+const newsDesc = `${SITE_NAME} 메가존 관련 최신 언론 기사 모음`;
 
 export const metadata: Metadata = {
   title: '소식',
@@ -40,8 +40,8 @@ export default async function NewsPage() {
       <SiteHeader />
       <PageLayout
         eyebrow="메가존 소식"
-        title="메가존클라우드 뉴스"
-        description="메가존클라우드 관련 최신 언론 기사를 모아봤어요"
+        title="메가존 뉴스"
+        description="메가존 관련 최신 언론 기사를 모아봤어요"
       >
         <NewsList items={items} />
       </PageLayout>
