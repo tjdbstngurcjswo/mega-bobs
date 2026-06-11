@@ -1,6 +1,5 @@
 'use client';
 
-import { AnimatePresence, motion } from 'motion/react';
 import { useMemo, useState } from 'react';
 
 import { getNextEmoji } from '@/constants/emojiAvatars';
@@ -8,7 +7,6 @@ import { DEFAULT_ITEMS, useLadderSession } from '@/hooks/useLadderSession';
 import { type LadderData, buildLadder } from '@/utils/ladder';
 
 import { _LadderBoard } from './_LadderBoard';
-import { _LadderResult } from './_LadderResult';
 import { addPersonButtonClass, ctaButtonClass, gameWrapClass } from './LadderGame.styles';
 import type { LadderPhase } from './LadderGame.types';
 
@@ -19,9 +17,7 @@ const autoFillItems = (items: string[], targetLen: number): string[] => {
   if (items.length >= targetLen) return items;
   const result = [...items];
   while (result.length < targetLen) {
-    const idx = result.length;
-    const def = DEFAULT_ITEMS[idx] ?? `항목 ${idx + 1}`;
-    result.push(result.includes(def) ? `항목 ${idx + 1}` : def);
+    result.push(DEFAULT_ITEMS[result.length] ?? '꽝');
   }
   return result;
 };
@@ -51,6 +47,8 @@ const useLadderGame = () => {
     setItems(autoFillItems(items, nextP.length));
   };
 
+  const canAddPerson = participants.length < MAX && phase === 'input';
+
   const canPlay =
     participants.length >= 2 &&
     items.length >= 2 &&
@@ -72,52 +70,36 @@ const useLadderGame = () => {
 
   const retry = () => { setPhase('input'); setSeed((s) => s + 1); };
 
-  return { participants, items, loaded, phase, seed, ladderData, playedData, canPlay, changeParticipants, addPerson, setItems, play, retry };
+  return { participants, items, loaded, phase, seed, ladderData, playedData, canPlay, canAddPerson, changeParticipants, addPerson, setItems, play, retry };
 };
 
 const LadderGame = () => {
-  const { participants, items, loaded, phase, seed, ladderData, playedData, canPlay, changeParticipants, addPerson, setItems, play, retry } = useLadderGame();
+  const { participants, items, loaded, phase, seed, ladderData, playedData, canPlay, canAddPerson, changeParticipants, addPerson, setItems, play, retry } = useLadderGame();
 
   if (!loaded) return null;
 
   const hint = getHint(loaded, canPlay, phase, participants.length);
-  const ctaLabel = phase === 'animating' ? '확인 중…' : '결과 확인 →';
-  const canAddPerson = participants.length < MAX && phase === 'input';
+  const isDone = phase === 'result';
+  const ctaLabel = phase === 'animating' ? '확인 중…' : isDone ? '↺ 다시하기' : '결과 확인 →';
+  const ctaDisabled = isDone ? false : !canPlay || phase === 'animating';
 
   return (
-    <AnimatePresence mode="wait">
-      {phase !== 'result' ? (
-        <GameView
-          participants={participants}
-          items={items}
-          phase={phase}
-          seed={seed}
-          ladderData={ladderData}
-          hint={hint}
-          ctaLabel={ctaLabel}
-          ctaDisabled={!canPlay || phase === 'animating'}
-          canAddPerson={canAddPerson}
-          onParticipantsChange={changeParticipants}
-          onItemsChange={setItems}
-          onPlay={play}
-          onAddPerson={addPerson}
-        />
-      ) : playedData ? (
-        <motion.div
-          key="result"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.22 }}
-        >
-          <_LadderResult
-            participants={participants}
-            items={items}
-            data={playedData}
-            onRetry={retry}
-          />
-        </motion.div>
-      ) : null}
-    </AnimatePresence>
+    <GameView
+      participants={participants}
+      items={items}
+      phase={phase}
+      seed={seed}
+      ladderData={isDone && playedData ? playedData : ladderData}
+      playedData={isDone ? playedData : null}
+      hint={hint}
+      ctaLabel={ctaLabel}
+      ctaDisabled={ctaDisabled}
+      canAddPerson={canAddPerson}
+      onParticipantsChange={changeParticipants}
+      onItemsChange={setItems}
+      onPlay={isDone ? retry : play}
+      onAddPerson={addPerson}
+    />
   );
 };
 
@@ -127,6 +109,7 @@ interface GameViewProps {
   phase: LadderPhase;
   seed: number;
   ladderData: LadderData | null;
+  playedData: LadderData | null;
   hint: string | null;
   ctaLabel: string;
   ctaDisabled: boolean;
@@ -137,48 +120,58 @@ interface GameViewProps {
   onAddPerson: () => void;
 }
 
+const InlineResult = ({ participants, items, data }: { participants: string[]; items: string[]; data: LadderData }) => {
+  const winnerItem = items[0];
+  return (
+    <div className="flex flex-col gap-1 animate-[fadeIn_0.3s_ease_both]">
+      {participants.map((name, i) => {
+        const item = items[data.results[i]];
+        const isWinner = item === winnerItem && participants.length > 1;
+        return (
+          <div key={i} className={`flex items-center gap-2.5 px-4 py-2.5 ${isWinner ? 'bg-board' : 'bg-surface'}`}>
+            <span className="font-emoji text-lg leading-none select-none">{name}</span>
+            <span className={`text-[11px] ${isWinner ? 'text-cream-2' : 'text-muted'}`}>→</span>
+            <span className={`text-[13px] font-bold ${isWinner ? 'text-accent font-extrabold' : 'text-ink'}`}>{item}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 const GameView = ({
-  participants, items, phase, seed, ladderData, hint,
+  participants, items, phase, seed, ladderData, playedData, hint,
   ctaLabel, ctaDisabled, canAddPerson,
   onParticipantsChange, onItemsChange, onPlay, onAddPerson,
 }: GameViewProps) => (
-  <motion.div
-    key="game"
-    className={gameWrapClass}
-    exit={{ opacity: 0, y: -4 }}
-    transition={{ duration: 0.18 }}
-  >
+  <div className={gameWrapClass}>
     <_LadderBoard
       key={`board-${seed}`}
       participants={participants}
       items={items}
       data={ladderData}
       phase={phase}
+      canAddPerson={canAddPerson}
       onParticipantsChange={onParticipantsChange}
       onItemsChange={onItemsChange}
+      onAddPerson={onAddPerson}
     />
 
-    <div className="flex gap-2">
-      {canAddPerson && (
-        <button
-          type="button"
-          className={addPersonButtonClass(false)}
-          onClick={onAddPerson}
-          aria-label="인원 추가"
-        >+ 인원 추가</button>
-      )}
-      <button
-        type="button"
-        className={ctaButtonClass(ctaDisabled)}
-        onClick={onPlay}
-        disabled={ctaDisabled}
-        aria-disabled={ctaDisabled}
-        aria-label="사다리 결과 확인"
-      >{ctaLabel}</button>
-    </div>
+    {playedData && (
+      <InlineResult participants={participants} items={items} data={playedData} />
+    )}
+
+    <button
+      type="button"
+      className={ctaButtonClass(ctaDisabled)}
+      onClick={onPlay}
+      disabled={ctaDisabled}
+      aria-disabled={ctaDisabled}
+      aria-label="사다리 결과 확인"
+    >{ctaLabel}</button>
 
     {hint && <p className="text-center text-[12px] text-muted">{hint}</p>}
-  </motion.div>
+  </div>
 );
 
 export default LadderGame;

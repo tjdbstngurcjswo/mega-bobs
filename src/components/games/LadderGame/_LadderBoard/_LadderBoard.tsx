@@ -3,7 +3,6 @@
 import { motion } from 'motion/react';
 import { useMemo } from 'react';
 
-import { EMOJI_AVATARS } from '@/constants/emojiAvatars';
 import { cn } from '@/utils/cn';
 import type { LadderData } from '@/utils/ladder';
 
@@ -56,14 +55,13 @@ const EASE_IN_OUT: Ease = [0.4, 0, 0.2, 1];
 interface AvatarRowProps {
   names: string[];
   disabled: boolean;
-  onCycle: (i: number) => void;
   onRemove: (i: number) => void;
 }
 
-const AvatarRow = ({ names, disabled, onCycle, onRemove }: AvatarRowProps) => {
+const AvatarRow = ({ names, disabled, onRemove }: AvatarRowProps) => {
   const canRemove = !disabled && names.length > 2;
   return (
-    <div className="flex gap-1.5 px-3 pt-3 pb-0">
+    <div className="flex gap-1.5 px-3 pt-1.5 pb-0">
       {names.map((emoji, i) => (
         <div key={i} className="flex-1 min-w-0 relative">
           {canRemove && (
@@ -74,19 +72,9 @@ const AvatarRow = ({ names, disabled, onCycle, onRemove }: AvatarRowProps) => {
               aria-label={`참여자 ${i + 1} 제거`}
             >×</button>
           )}
-          <button
-            type="button"
-            onClick={() => !disabled && onCycle(i)}
-            title={disabled ? undefined : `${emoji} — 탭하여 변경`}
-            className={cn(
-              'w-full bg-surface-warm flex flex-col items-center justify-center py-2',
-              disabled ? 'cursor-default' : 'cursor-pointer hover:bg-line active:scale-90 transition-all duration-100'
-            )}
-            aria-label={`참여자 ${i + 1}${disabled ? '' : ' — 탭하여 변경'}`}
-            disabled={disabled}
-          >
+          <div className="w-full bg-surface-warm flex items-center justify-center py-2">
             <span className="font-emoji text-xl leading-none select-none">{emoji}</span>
-          </button>
+          </div>
         </div>
       ))}
     </div>
@@ -179,11 +167,13 @@ export interface LadderBoardProps {
   items: string[];
   data: LadderData | null;
   phase: LadderPhase;
+  canAddPerson?: boolean;
   onParticipantsChange: (v: string[]) => void;
   onItemsChange: (v: string[]) => void;
+  onAddPerson?: () => void;
 }
 
-const LadderBoardView = ({ participants, items, data, phase, onParticipantsChange, onItemsChange }: LadderBoardProps) => {
+const LadderBoardView = ({ participants, items, data, phase, canAddPerson, onParticipantsChange, onItemsChange, onAddPerson }: LadderBoardProps) => {
   const disabled = phase !== 'input';
   const showTraces = phase !== 'input';
   const animateTraces = phase === 'animating';
@@ -195,14 +185,6 @@ const LadderBoardView = ({ participants, items, data, phase, onParticipantsChang
     () => data ? Array.from(data.rungSet).map((k) => { const [r, c] = k.split(':').map(Number); return { row: r, col: c }; }) : [],
     [data]
   );
-
-  const cycleAvatar = (i: number) => {
-    const used = new Set(participants.filter((_, idx) => idx !== i));
-    const cur = EMOJI_AVATARS.indexOf(participants[i] as (typeof EMOJI_AVATARS)[number]);
-    let next = (cur + 1) % EMOJI_AVATARS.length;
-    while (used.has(EMOJI_AVATARS[next]) && next !== cur) next = (next + 1) % EMOJI_AVATARS.length;
-    const nextP = [...participants]; nextP[i] = EMOJI_AVATARS[next]; onParticipantsChange(nextP);
-  };
 
   const removePerson = (i: number) => {
     const nextP = participants.filter((_, idx) => idx !== i);
@@ -216,7 +198,17 @@ const LadderBoardView = ({ participants, items, data, phase, onParticipantsChang
 
   return (
     <div className="bg-surface shadow-[var(--shadow-card)]">
-      <AvatarRow names={participants} disabled={disabled} onCycle={cycleAvatar} onRemove={removePerson} />
+      {canAddPerson && onAddPerson && (
+        <div className="flex justify-end px-3 pt-2">
+          <button
+            type="button"
+            onClick={onAddPerson}
+            className="text-[11px] text-muted cursor-pointer hover:text-ink"
+            aria-label="인원 추가"
+          >+ 인원 추가</button>
+        </div>
+      )}
+      <AvatarRow names={participants} disabled={disabled} onRemove={removePerson} />
       {data
         ? <SvgContent xs={xs} ys={ys} paths={paths} rungs={rungs} results={data.results} showTraces={showTraces} animateTraces={animateTraces} />
         : <div className="aspect-[3/1] px-3" />
