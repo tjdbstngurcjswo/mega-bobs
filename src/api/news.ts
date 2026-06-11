@@ -19,6 +19,7 @@ export const getNews = async (): Promise<NewsResult> => {
           'X-Naver-Client-Id': clientId,
           'X-Naver-Client-Secret': clientSecret,
         },
+        signal: AbortSignal.timeout(5000),
         next: { revalidate: 3600 },
       }
     );
