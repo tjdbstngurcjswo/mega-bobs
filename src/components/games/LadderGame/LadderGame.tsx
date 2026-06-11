@@ -8,7 +8,7 @@ import { cn } from '@/utils/cn';
 import { type LadderData, buildLadder } from '@/utils/ladder';
 
 import { _LadderBoard } from './_LadderBoard';
-import { addPersonButtonClass, ctaButtonClass, gameWrapClass } from './LadderGame.styles';
+import { ctaButtonClass, gameWrapClass } from './LadderGame.styles';
 import type { LadderPhase } from './LadderGame.types';
 
 const ANIM_MS = 2000;
@@ -91,7 +91,6 @@ const LadderGame = () => {
       phase={phase}
       seed={seed}
       ladderData={isDone && playedData ? playedData : ladderData}
-      playedData={isDone ? playedData : null}
       hint={hint}
       ctaLabel={ctaLabel}
       ctaDisabled={ctaDisabled}
@@ -110,7 +109,6 @@ interface GameViewProps {
   phase: LadderPhase;
   seed: number;
   ladderData: LadderData | null;
-  playedData: LadderData | null;
   hint: string | null;
   ctaLabel: string;
   ctaDisabled: boolean;
@@ -121,27 +119,8 @@ interface GameViewProps {
   onAddPerson: () => void;
 }
 
-const InlineResult = ({ participants, items, data }: { participants: string[]; items: string[]; data: LadderData }) => {
-  const winnerItem = items[0];
-  return (
-    <div className="flex flex-col gap-1 animate-[fadeIn_0.3s_ease_both]">
-      {participants.map((name, i) => {
-        const item = items[data.results[i]];
-        const isWinner = item === winnerItem && participants.length > 1;
-        return (
-          <div key={i} className={`flex items-center gap-2.5 px-4 py-2.5 ${isWinner ? 'bg-board' : 'bg-surface'}`}>
-            <span className="font-emoji text-lg leading-none select-none">{name}</span>
-            <span className={`text-[11px] ${isWinner ? 'text-cream-2' : 'text-muted'}`}>→</span>
-            <span className={`text-[13px] font-bold ${isWinner ? 'text-accent font-extrabold' : 'text-ink'}`}>{item}</span>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
 const GameView = ({
-  participants, items, phase, seed, ladderData, playedData, hint,
+  participants, items, phase, seed, ladderData, hint,
   ctaLabel, ctaDisabled, canAddPerson,
   onParticipantsChange, onItemsChange, onPlay, onAddPerson,
 }: GameViewProps) => (
@@ -164,15 +143,9 @@ const GameView = ({
       items={items}
       data={ladderData}
       phase={phase}
-      canAddPerson={canAddPerson}
       onParticipantsChange={onParticipantsChange}
       onItemsChange={onItemsChange}
-      onAddPerson={onAddPerson}
     />
-
-    {playedData && (
-      <InlineResult participants={participants} items={items} data={playedData} />
-    )}
 
     <button
       type="button"
