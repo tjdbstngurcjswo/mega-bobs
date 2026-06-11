@@ -1,27 +1,28 @@
-import {revalidatePath} from 'next/cache';
-import {NextRequest, NextResponse} from 'next/server';
+import { revalidatePath } from 'next/cache';
+import { NextRequest, NextResponse } from 'next/server';
 
-import {fetchNews} from '@/lib/news/fetchNews';
-import {supabaseServer} from '@/lib/supabase-server';
+import { fetchNews } from '@/lib/news/fetchNews';
+import { supabaseServer } from '@/lib/supabaseServer';
 
+export const maxDuration = 60;
+
+// GitHub Actions(news-crawl.yml)가 Authorization: Bearer 헤더로 호출한다.
+// 수동 실행은 workflow_dispatch 또는 동일 Bearer 헤더 curl 사용.
 const isAuthorized = (req: NextRequest): boolean => {
   const secret = process.env.CRON_SECRET;
   if (!secret) return false;
-  // Vercel Cron 은 Authorization: Bearer 헤더로 호출, 수동 호출은 ?secret= 허용
-  const bearer = req.headers.get('authorization') === `Bearer ${secret}`;
-  const query = req.nextUrl.searchParams.get('secret') === secret;
-  return bearer || query;
+  return req.headers.get('authorization') === `Bearer ${secret}`;
 };
 
 export const GET = async (req: NextRequest) => {
   if (!isAuthorized(req)) {
-    return NextResponse.json({error: 'Unauthorized'}, {status: 401});
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const items = await fetchNews();
 
   if (items.length === 0) {
-    return NextResponse.json({inserted: 0, fetched: 0});
+    return NextResponse.json({ fetched: 0, upserted: 0 });
   }
 
   const rows = items.map((item) => ({
@@ -33,13 +34,16 @@ export const GET = async (req: NextRequest) => {
     published_at: item.publishedAt,
   }));
 
-  const {error} = await supabaseServer
+  const { error } = await supabaseServer
     .from('company_news')
-    .upsert(rows, {onConflict: 'url'});
+    .upsert(rows, { onConflict: 'url' });
 
-  if (error) return NextResponse.json({error: error.message}, {status: 500});
+  if (error) {
+    console.error('[news/crawl] upsert 실패:', error.message);
+    return NextResponse.json({ error: 'Upsert failed' }, { status: 500 });
+  }
 
   revalidatePath('/news');
 
-  return NextResponse.json({fetched: items.length, upserted: rows.length});
+  return NextResponse.json({ fetched: items.length, upserted: rows.length });
 };

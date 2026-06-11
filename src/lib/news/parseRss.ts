@@ -1,13 +1,6 @@
-import type {NewsCompany} from '@/types/news';
+import type { CompanyNews, NewsCompany } from '@/models/news';
 
-export type ParsedItem = {
-  url: string;
-  title: string;
-  summary: string | null;
-  source: string | null;
-  company: NewsCompany;
-  publishedAt: string; // ISO 8601
-};
+export type ParsedItem = CompanyNews;
 
 const NAMED_ENTITIES: Record<string, string> = {
   amp: '&',
@@ -15,7 +8,6 @@ const NAMED_ENTITIES: Record<string, string> = {
   gt: '>',
   quot: '"',
   apos: "'",
-  '#39': "'",
   nbsp: ' ',
 };
 
@@ -23,10 +15,13 @@ const decodeEntities = (raw: string): string =>
   raw.replace(/&(#x?[0-9a-fA-F]+|[a-zA-Z]+);/g, (match, code: string) => {
     if (code[0] === '#') {
       const num =
-        code[1] === 'x' || code[1] === 'X'
+        code[1] === 'x'
           ? parseInt(code.slice(2), 16)
           : parseInt(code.slice(1), 10);
-      return Number.isNaN(num) ? match : String.fromCodePoint(num);
+      // 0x10FFFF 초과 코드 포인트는 fromCodePoint 가 RangeError 를 던진다
+      return Number.isNaN(num) || num > 0x10ffff
+        ? match
+        : String.fromCodePoint(num);
     }
     return NAMED_ENTITIES[code] ?? match;
   });
@@ -54,7 +49,9 @@ const stripSourceSuffix = (title: string, source: string | null): string => {
 
 /**
  * Google News RSS XML 파싱. 외부 의존성 없이 안정적인 RSS 구조만 처리한다.
- * (Google News RSS 는 기사 본문 스니펫을 제공하지 않으므로 summary 는 null 일 수 있다.)
+ * pubDate 가 없거나 파싱 불가한 item 은 건너뛴다 — 크롤 시각으로 대체하면
+ * 매일 upsert 가 published_at 을 갱신해 피드 최상단에 영구 고정되기 때문.
+ * (Google News RSS 는 기사 본문 스니펫을 제공하지 않으므로 summary 는 항상 null.)
  */
 export const parseRss = (xml: string, company: NewsCompany): ParsedItem[] => {
   const blocks = xml.match(/<item>[\s\S]*?<\/item>/gi) ?? [];
@@ -64,9 +61,11 @@ export const parseRss = (xml: string, company: NewsCompany): ParsedItem[] => {
     const rawTitle = clean(tagContent(block, 'title'));
     if (!url || !rawTitle) return [];
 
-    const source = clean(tagContent(block, 'source')) || null;
     const pubDate = clean(tagContent(block, 'pubDate'));
     const published = pubDate ? new Date(pubDate) : null;
+    if (!published || Number.isNaN(published.getTime())) return [];
+
+    const source = clean(tagContent(block, 'source')) || null;
 
     return [
       {
@@ -75,10 +74,7 @@ export const parseRss = (xml: string, company: NewsCompany): ParsedItem[] => {
         summary: null,
         source,
         company,
-        publishedAt:
-          published && !Number.isNaN(published.getTime())
-            ? published.toISOString()
-            : new Date().toISOString(),
+        publishedAt: published.toISOString(),
       },
     ];
   });
