@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { NewsCard } from '../NewsCard';
+
 import {
   emptyDescClass,
   emptyStateClass,

@@ -27,8 +27,10 @@ export const stripHtml = (html: string): string =>
     .replace(/&lsquo;/g, "'")
     .replace(/&rdquo;/g, '"')
     .replace(/&ldquo;/g, '"')
-    .replace(/&#x[0-9a-fA-F]+;/gi, '')
-    .replace(/&#\d+;/g, '');
+    .replace(/&#x([0-9a-fA-F]+);/gi, (_, hex) =>
+      String.fromCodePoint(parseInt(hex, 16))
+    )
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)));
 
 export const getSourceFromUrl = (url: string): string => {
   try {
