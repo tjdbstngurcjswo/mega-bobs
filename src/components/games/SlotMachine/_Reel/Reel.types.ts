@@ -1,5 +1,6 @@
 export type ReelProps = {
-  items: [string, string, string];
-  stopped: boolean;
-  isWinner: boolean;
+  names: string[];
+  scrollPos: number;
+  isSpinning: boolean;
+  winner: string | null;
 };

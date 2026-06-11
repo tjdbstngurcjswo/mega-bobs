@@ -3,73 +3,69 @@ import { useEffect, useRef, useState } from 'react';
 import {
   MAX_NAMES,
   MIN_NAMES,
+  REEL_ITEM_H,
   REEL_SPIN_DURATION,
-  SPIN_FAST_INTERVAL,
 } from '@/components/games/SlotMachine/SlotMachine.constants';
-
-const getReelItems = (
-  names: string[],
-  idx: number
-): [string, string, string] => {
-  if (names.length === 0) return ['—', '—', '—'];
-  const len = names.length;
-  return [
-    names[(idx - 1 + len) % len],
-    names[idx % len],
-    names[(idx + 1) % len],
-  ];
-};
 
 // eslint-disable-next-line max-lines-per-function
 export const useSlotMachine = () => {
   const [names, setNames] = useState<string[]>([]);
   const [input, setInput] = useState('');
   const [isSpinning, setIsSpinning] = useState(false);
-  const [reelIdx, setReelIdx] = useState(0);
-  const [reelStopped, setReelStopped] = useState(true);
+  const [scrollPos, setScrollPos] = useState(0);
   const [winner, setWinner] = useState<string | null>(null);
   const [isDuplicate, setIsDuplicate] = useState(false);
 
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rafRef = useRef<number | null>(null);
   const spinRef = useRef<() => void>(() => undefined);
 
-  const clearAll = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+  const cancelAnimation = () => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
   };
 
   const spin = () => {
     if (isSpinning || names.length < MIN_NAMES) return;
-    setIsSpinning(true);
-    setWinner(null);
-    setReelStopped(false);
 
     const picked = names[Math.floor(Math.random() * names.length)];
     const pickedIdx = names.indexOf(picked);
 
-    if (
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) {
-      setReelIdx(pickedIdx);
-      setReelStopped(true);
-      setWinner(picked);
-      setIsSpinning(false);
-      return;
-    }
+    setIsSpinning(true);
+    setWinner(null);
 
-    intervalRef.current = setInterval(() => {
-      setReelIdx(Math.floor(Math.random() * names.length));
-    }, SPIN_FAST_INTERVAL);
+    const totalH = names.length * REEL_ITEM_H;
+    const startPos = scrollPos;
+    const currentOffset = startPos % totalH;
+    const winnerOffset = pickedIdx * REEL_ITEM_H;
+    const distToWinner = ((winnerOffset - currentOffset) + totalH) % totalH;
+    // 6 full rotations + land on winner
+    const targetPos = startPos + 6 * totalH + distToWinner;
 
-    timeoutRef.current = setTimeout(() => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      setReelIdx(pickedIdx);
-      setReelStopped(true);
-      setWinner(picked);
-      setIsSpinning(false);
-    }, REEL_SPIN_DURATION);
+    let startTime: number | null = null;
+
+    const animate = (ts: number) => {
+      if (!startTime) startTime = ts;
+      const elapsed = ts - startTime;
+      const t = Math.min(elapsed / REEL_SPIN_DURATION, 1);
+      // quintic ease-out: explosive start → dramatic deceleration → stop
+      const eased = 1 - Math.pow(1 - t, 5);
+      setScrollPos(startPos + (targetPos - startPos) * eased);
+
+      if (t < 1) {
+        rafRef.current = requestAnimationFrame(animate);
+      } else {
+        // normalize to avoid floating-point drift
+        const normalized = ((targetPos % totalH) + totalH) % totalH;
+        setScrollPos(normalized);
+        setWinner(picked);
+        setIsSpinning(false);
+        rafRef.current = null;
+      }
+    };
+
+    rafRef.current = requestAnimationFrame(animate);
   };
 
   // latest-ref pattern — avoids stale closure in keydown listener
@@ -88,7 +84,7 @@ export const useSlotMachine = () => {
     return () => document.removeEventListener('keydown', handleKey);
   }, []);
 
-  useEffect(() => () => clearAll(), []);
+  useEffect(() => () => cancelAnimation(), []);
 
   const addName = () => {
     const trimmed = input.trim();
@@ -109,13 +105,6 @@ export const useSlotMachine = () => {
     if (winner === name) setWinner(null);
   };
 
-  const reset = () => {
-    clearAll();
-    setIsSpinning(false);
-    setWinner(null);
-    setReelStopped(true);
-  };
-
   return {
     names,
     input,
@@ -123,14 +112,10 @@ export const useSlotMachine = () => {
     isSpinning,
     winner,
     isDuplicate,
-    reel: {
-      items: getReelItems(names, reelIdx),
-      stopped: reelStopped,
-    },
+    scrollPos,
     canSpin: names.length >= MIN_NAMES && !isSpinning,
     addName,
     removeName,
     spin,
-    reset,
   };
 };
