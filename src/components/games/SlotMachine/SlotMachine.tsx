@@ -6,13 +6,13 @@ import { Reel } from './_Reel';
 import {
   addBtnClass,
   cabinetClass,
-  cabinetHeaderClass,
   cabinetTitleClass,
   chipClass,
   chipXClass,
   controlRowClass,
   dotClass,
   dotGroupClass,
+  gameZoneClass,
   inputClass,
   participantsLabelClass,
   reelsAreaClass,
@@ -39,15 +39,15 @@ const SlotMachine = () => {
   } = useSlotMachine();
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className={gameZoneClass}>
       <div className={cabinetClass}>
-        <div className={cabinetHeaderClass}>
+        <div className="flex items-center justify-between px-4 pt-4 pb-0">
           <div className={dotGroupClass}>
             <div className={dotClass} />
             <div className={dotClass} />
             <div className={dotClass} />
           </div>
-          <span className={cabinetTitleClass}>MEGABOBS SLOTS</span>
+          <span className={cabinetTitleClass}>SLOTS</span>
           <div className={dotGroupClass}>
             <div className={dotClass} />
             <div className={dotClass} />
