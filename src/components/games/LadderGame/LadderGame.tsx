@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 
 import { getNextEmoji } from '@/constants/emojiAvatars';
 import { DEFAULT_ITEMS, useLadderSession } from '@/hooks/useLadderSession';
+import { cn } from '@/utils/cn';
 import { type LadderData, buildLadder } from '@/utils/ladder';
 
 import { _LadderBoard } from './_LadderBoard';
@@ -145,6 +146,18 @@ const GameView = ({
   onParticipantsChange, onItemsChange, onPlay, onAddPerson,
 }: GameViewProps) => (
   <div className={gameWrapClass}>
+    <div className="flex justify-end">
+      <button
+        type="button"
+        onClick={onAddPerson}
+        disabled={!canAddPerson}
+        className={cn(
+          'text-[11px] cursor-pointer transition-opacity',
+          canAddPerson ? 'text-muted hover:text-ink' : 'invisible'
+        )}
+        aria-label="인원 추가"
+      >+ 인원 추가</button>
+    </div>
     <_LadderBoard
       key={`board-${seed}`}
       participants={participants}

@@ -61,7 +61,7 @@ interface AvatarRowProps {
 const AvatarRow = ({ names, disabled, onRemove }: AvatarRowProps) => {
   const canRemove = !disabled && names.length > 2;
   return (
-    <div className="flex gap-1.5 px-3 pt-1.5 pb-0">
+    <div className="flex gap-1.5 px-3 pt-3 pb-0">
       {names.map((emoji, i) => (
         <div key={i} className="flex-1 min-w-0 relative">
           {canRemove && (
@@ -198,18 +198,6 @@ const LadderBoardView = ({ participants, items, data, phase, canAddPerson, onPar
 
   return (
     <div className="bg-surface shadow-[var(--shadow-card)]">
-      <div className="flex justify-end px-3 pt-2">
-        <button
-          type="button"
-          onClick={onAddPerson}
-          disabled={!canAddPerson}
-          className={cn(
-            'text-[11px] cursor-pointer transition-opacity',
-            canAddPerson ? 'text-muted hover:text-ink' : 'invisible'
-          )}
-          aria-label="인원 추가"
-        >+ 인원 추가</button>
-      </div>
       <AvatarRow names={participants} disabled={disabled} onRemove={removePerson} />
       {data
         ? <SvgContent xs={xs} ys={ys} paths={paths} rungs={rungs} results={data.results} showTraces={showTraces} animateTraces={animateTraces} />
