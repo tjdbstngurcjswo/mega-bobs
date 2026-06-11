@@ -9,15 +9,27 @@ export const DEFAULT_ITEMS = ['🎉 당첨', '꽝', '꽝', '꽝'];
 
 type Session = { participants: string[]; items: string[] };
 
+const normalizeItems = (participants: string[], items: string[]): string[] => {
+  const n = participants.length;
+  if (items.length === n) return items;
+  if (items.length > n) return items.slice(0, n);
+  const filled = [...items];
+  while (filled.length < n) filled.push(DEFAULT_ITEMS[filled.length] ?? '꽝');
+  return filled;
+};
+
 const load = (): Session => {
   try {
     const raw = sessionStorage.getItem(KEY);
     if (!raw) return { participants: DEFAULT_PARTICIPANTS, items: DEFAULT_ITEMS };
     const parsed = JSON.parse(raw) as Session;
-    if (!parsed.participants.length && !parsed.items.length) {
+    if (!parsed.participants?.length) {
       return { participants: DEFAULT_PARTICIPANTS, items: DEFAULT_ITEMS };
     }
-    return parsed;
+    return {
+      participants: parsed.participants,
+      items: normalizeItems(parsed.participants, parsed.items ?? []),
+    };
   } catch {
     return { participants: DEFAULT_PARTICIPANTS, items: DEFAULT_ITEMS };
   }
