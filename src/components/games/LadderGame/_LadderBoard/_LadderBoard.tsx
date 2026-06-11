@@ -84,7 +84,7 @@ const AvatarRow = ({ names, disabled, onCycle, onRemove }: AvatarRowProps) => {
             aria-label={`참여자 ${i + 1}${disabled ? '' : ' — 탭하여 변경'}`}
             disabled={disabled}
           >
-            <span className="text-xl leading-none select-none">{emoji}</span>
+            <span className="font-emoji text-xl leading-none select-none">{emoji}</span>
             <span className="text-[9px] text-muted leading-none">{i + 1}</span>
           </button>
         </div>

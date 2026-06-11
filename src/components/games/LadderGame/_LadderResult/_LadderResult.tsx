@@ -2,7 +2,6 @@
 
 import { motion } from 'motion/react';
 
-import { getAvatarIcon } from '@/constants/iconAvatars';
 import type { LadderData } from '@/utils/ladder';
 
 import {
@@ -50,7 +49,7 @@ const _LadderResult = ({
               transition={{ delay: i * 0.07, duration: 0.25 }}
             >
               <span className={resultNameClass(isWinner)} aria-label={`참여자 ${i + 1}`}>
-                {(() => { const Icon = getAvatarIcon(name); return <Icon size={16} strokeWidth={1.8} aria-hidden="true" />; })()}
+                <span className="font-emoji text-xl leading-none select-none" aria-hidden="true">{name}</span>
               </span>
               <span className={resultArrowClass(isWinner)} aria-hidden="true">
                 →
