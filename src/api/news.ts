@@ -27,14 +27,16 @@ export const getNews = async (): Promise<NewsItem[]> => {
 
     const data = (await res.json()) as NaverNewsResponse;
 
-    return data.items.map((item) => ({
+    return (data.items ?? []).map((item) => ({
       title: stripHtml(item.title),
       description: stripHtml(item.description),
       originallink: item.originallink || item.link,
       pubDate: item.pubDate,
       source: getSourceFromUrl(item.originallink || item.link),
     }));
-  } catch {
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('[news] Failed to fetch news:', err);
     return [];
   }
 };

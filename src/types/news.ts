@@ -1,7 +1,7 @@
 // src/types/news.ts
 export type NaverNewsItem = {
   title: string;
-  originallink: string;
+  originallink: string | undefined;
   link: string;
   description: string;
   pubDate: string;
