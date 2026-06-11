@@ -4,7 +4,6 @@ import dayjs from '@/lib/dayjs';
 
 import {
   cardDescClass,
-  cardLinkClass,
   cardMetaClass,
   cardTitleClass,
   cardWrapperClass,
@@ -30,7 +29,6 @@ const NewsCard = ({
       <span>{source}</span>
       <span aria-hidden>·</span>
       <span>{dayjs(pubDate).tz().format('YYYY.MM.DD')}</span>
-      <span className={cardLinkClass}>원문 →</span>
     </div>
   </Link>
 );
