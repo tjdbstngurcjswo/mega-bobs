@@ -1,3 +1,3 @@
 import type { NewsItem } from '@/types/news';
 
-export type NewsListProps = { items: NewsItem[] };
+export type NewsListProps = { items: NewsItem[]; error?: boolean };

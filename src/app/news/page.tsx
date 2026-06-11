@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 };
 
 export default async function NewsPage() {
-  const items = await getNews();
+  const { items, error } = await getNews();
 
   return (
     <>
@@ -43,7 +43,7 @@ export default async function NewsPage() {
         title="메가존 뉴스"
         description="메가존 관련 최신 언론 기사를 모아봤어요"
       >
-        <NewsList items={items} />
+        <NewsList items={items} error={error} />
       </PageLayout>
       <SiteFooter />
     </>

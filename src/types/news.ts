@@ -18,3 +18,5 @@ export type NewsItem = {
   pubDate: string;
   source: string;
 };
+
+export type NewsResult = { items: NewsItem[]; error: boolean };
