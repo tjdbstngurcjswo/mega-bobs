@@ -109,7 +109,7 @@ export const useVotes = (date: string, { enabled = true } = {}) => {
           body: JSON.stringify({
             menu_key: menuKey,
             vote_type: isSame ? null : voteType,
-            date: menuKey.split('_')[0],
+            date,
           }),
         });
         if (!res.ok) throw new Error('vote failed');

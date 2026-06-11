@@ -72,6 +72,10 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ error: 'invalid payload' }, { status: 400 });
   }
 
+  if (vote_type && !(['up', 'down'] as const).includes(vote_type as VoteType)) {
+    return NextResponse.json({ error: 'invalid vote_type' }, { status: 400 });
+  }
+
   try {
     const { error } = vote_type
       ? await supabaseServer.rpc('vote_or_switch', {
