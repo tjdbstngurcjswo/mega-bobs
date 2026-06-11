@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 import dayjs from '@/lib/dayjs';
-import type { NewsItem } from '@/types/news';
 
 import {
   cardDescClass,
@@ -10,11 +9,7 @@ import {
   cardTitleClass,
   cardWrapperClass,
 } from './NewsCard.styles';
-
-type Props = Pick<
-  NewsItem,
-  'title' | 'description' | 'originallink' | 'pubDate' | 'source'
->;
+import type { NewsCardProps } from './NewsCard.types';
 
 const NewsCard = ({
   title,
@@ -22,24 +17,22 @@ const NewsCard = ({
   originallink,
   pubDate,
   source,
-}: Props) => (
-  <article className={cardWrapperClass}>
+}: NewsCardProps) => (
+  <Link
+    href={originallink}
+    target="_blank"
+    rel="noopener noreferrer"
+    className={cardWrapperClass}
+  >
     <p className={cardTitleClass}>{title}</p>
     <p className={cardDescClass}>{description}</p>
     <div className={cardMetaClass}>
       <span>{source}</span>
       <span aria-hidden>·</span>
       <span>{dayjs(pubDate).tz().format('YYYY.MM.DD')}</span>
-      <Link
-        href={originallink}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={cardLinkClass}
-      >
-        원문 →
-      </Link>
+      <span className={cardLinkClass}>원문 →</span>
     </div>
-  </article>
+  </Link>
 );
 
 export default NewsCard;

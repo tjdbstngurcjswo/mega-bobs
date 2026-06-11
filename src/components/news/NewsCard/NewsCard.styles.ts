@@ -2,7 +2,7 @@ import { cn } from '@/utils/cn';
 
 export const cardWrapperClass = cn(
   'bg-surface shadow-[var(--shadow-card)] flex flex-col gap-2 px-5 py-4',
-  'transition-shadow hover:shadow-[var(--shadow-card-hover)]'
+  'cursor-pointer transition-shadow hover:shadow-[var(--shadow-card-hover)]'
 );
 
 export const cardTitleClass =
