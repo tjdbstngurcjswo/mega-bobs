@@ -21,7 +21,8 @@
   --color-down: #6e8094;
   --color-down-soft: #e4eaf3;
 
-  --font-sans: var(--font-pretendard), -apple-system, sans-serif;
+  --font-sans: var(--font-pretendard), -apple-system, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
 
   /* 풀 스퀘어 — radius 사용 금지 (물리적 원형 제외) */
   --radius-none: 0;

@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useMemo, useState } from 'react';
 
-import { getNextAvatarKey } from '@/constants/iconAvatars';
+import { getNextEmoji } from '@/constants/emojiAvatars';
 import { DEFAULT_ITEMS, useLadderSession } from '@/hooks/useLadderSession';
 import { type LadderData, buildLadder } from '@/utils/ladder';
 
@@ -46,7 +46,7 @@ const useLadderGame = () => {
 
   const addPerson = () => {
     if (participants.length >= MAX || phase !== 'input') return;
-    const nextP = [...participants, getNextAvatarKey(participants)];
+    const nextP = [...participants, getNextEmoji(participants)];
     setParticipants(nextP);
     setItems(autoFillItems(items, nextP.length));
   };

@@ -3,7 +3,7 @@
 import { motion } from 'motion/react';
 import { useMemo } from 'react';
 
-import { AVATAR_KEYS, getAvatarIcon } from '@/constants/iconAvatars';
+import { EMOJI_AVATARS } from '@/constants/emojiAvatars';
 import { cn } from '@/utils/cn';
 import type { LadderData } from '@/utils/ladder';
 
@@ -64,34 +64,31 @@ const AvatarRow = ({ names, disabled, onCycle, onRemove }: AvatarRowProps) => {
   const canRemove = !disabled && names.length > 2;
   return (
     <div className="flex px-3 pt-3 pb-0">
-      {names.map((key, i) => {
-        const Icon = getAvatarIcon(key);
-        return (
-          <div key={i} className="flex-1 min-w-0 relative">
-            {canRemove && (
-              <button
-                type="button"
-                className="absolute -top-1 -right-0.5 z-10 w-4 h-4 bg-surface shadow-[var(--shadow-flat)] text-muted text-[10px] flex items-center justify-center cursor-pointer hover:text-ink leading-none"
-                onClick={() => onRemove(i)}
-                aria-label={`참여자 ${i + 1} 제거`}
-              >×</button>
-            )}
+      {names.map((emoji, i) => (
+        <div key={i} className="flex-1 min-w-0 relative">
+          {canRemove && (
             <button
               type="button"
-              onClick={() => !disabled && onCycle(i)}
-              className={cn(
-                'w-full bg-surface-warm flex flex-col items-center justify-center gap-0.5 py-2 text-ink-2',
-                disabled ? 'cursor-default' : 'cursor-pointer hover:bg-line hover:text-ink active:scale-95 transition-all'
-              )}
-              aria-label={`참여자 ${i + 1}${disabled ? '' : ' — 탭하여 변경'}`}
-              disabled={disabled}
-            >
-              <Icon size={18} strokeWidth={1.8} aria-hidden="true" />
-              <span className="text-[9px] text-muted leading-none">{i + 1}</span>
-            </button>
-          </div>
-        );
-      })}
+              className="absolute -top-1 -right-0.5 z-10 w-4 h-4 bg-surface shadow-[var(--shadow-flat)] text-muted text-[10px] flex items-center justify-center cursor-pointer hover:text-ink leading-none"
+              onClick={() => onRemove(i)}
+              aria-label={`참여자 ${i + 1} 제거`}
+            >×</button>
+          )}
+          <button
+            type="button"
+            onClick={() => !disabled && onCycle(i)}
+            className={cn(
+              'w-full bg-surface-warm flex flex-col items-center justify-center gap-0.5 py-2',
+              disabled ? 'cursor-default' : 'cursor-pointer hover:bg-line active:scale-90 transition-all duration-100'
+            )}
+            aria-label={`참여자 ${i + 1}${disabled ? '' : ' — 탭하여 변경'}`}
+            disabled={disabled}
+          >
+            <span className="text-xl leading-none select-none">{emoji}</span>
+            <span className="text-[9px] text-muted leading-none">{i + 1}</span>
+          </button>
+        </div>
+      ))}
     </div>
   );
 };
@@ -201,10 +198,10 @@ const LadderBoardView = ({ participants, items, data, phase, onParticipantsChang
 
   const cycleAvatar = (i: number) => {
     const used = new Set(participants.filter((_, idx) => idx !== i));
-    const cur = AVATAR_KEYS.indexOf(participants[i] as (typeof AVATAR_KEYS)[number]);
-    let next = (cur + 1) % AVATAR_KEYS.length;
-    while (used.has(AVATAR_KEYS[next]) && next !== cur) next = (next + 1) % AVATAR_KEYS.length;
-    const nextP = [...participants]; nextP[i] = AVATAR_KEYS[next]; onParticipantsChange(nextP);
+    const cur = EMOJI_AVATARS.indexOf(participants[i] as (typeof EMOJI_AVATARS)[number]);
+    let next = (cur + 1) % EMOJI_AVATARS.length;
+    while (used.has(EMOJI_AVATARS[next]) && next !== cur) next = (next + 1) % EMOJI_AVATARS.length;
+    const nextP = [...participants]; nextP[i] = EMOJI_AVATARS[next]; onParticipantsChange(nextP);
   };
 
   const removePerson = (i: number) => {
