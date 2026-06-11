@@ -54,29 +54,44 @@ const EASE_IN_OUT: Ease = [0.4, 0, 0.2, 1];
 
 interface AvatarRowProps {
   names: string[];
-  disabled: boolean;
+  phase: LadderPhase;
+  revealedSet: Set<number>;
   onRemove: (i: number) => void;
+  onParticipantClick?: (i: number) => void;
 }
 
-const AvatarRow = ({ names, disabled, onRemove }: AvatarRowProps) => {
-  const canRemove = !disabled && names.length > 2;
+const AvatarRow = ({ names, phase, revealedSet, onRemove, onParticipantClick }: AvatarRowProps) => {
+  const canRemove = phase === 'input' && names.length > 2;
   return (
     <div className="flex gap-1.5 px-3 pt-3 pb-0">
-      {names.map((emoji, i) => (
-        <div key={i} className="flex-1 min-w-0 relative">
-          {canRemove && (
-            <button
-              type="button"
-              className="absolute top-0.5 right-0.5 z-10 w-4 h-4 text-muted text-[10px] flex items-center justify-center cursor-pointer hover:text-ink leading-none"
-              onClick={() => onRemove(i)}
-              aria-label={`참여자 ${i + 1} 제거`}
-            >×</button>
-          )}
-          <div className="w-full bg-surface-warm flex items-center justify-center py-2">
-            <span className="font-emoji text-xl leading-none select-none">{emoji}</span>
+      {names.map((emoji, i) => {
+        const isRevealed = revealedSet.has(i);
+        const isClickable = onParticipantClick && (
+          phase === 'input' || (phase === 'result' && !isRevealed)
+        );
+        return (
+          <div key={i} className="flex-1 min-w-0 relative">
+            {canRemove && (
+              <button
+                type="button"
+                className="absolute top-0.5 right-0.5 z-10 w-4 h-4 text-muted text-[10px] flex items-center justify-center cursor-pointer hover:text-ink leading-none"
+                onClick={() => onRemove(i)}
+                aria-label={`참여자 ${i + 1} 제거`}
+              >×</button>
+            )}
+            <div
+              className={cn(
+                'w-full bg-surface-warm flex items-center justify-center py-2 transition-opacity',
+                isClickable && 'cursor-pointer hover:opacity-75',
+                phase === 'result' && !isRevealed && 'opacity-40',
+              )}
+              onClick={isClickable ? () => onParticipantClick(i) : undefined}
+            >
+              <span className="font-emoji text-xl leading-none select-none">{emoji}</span>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
@@ -88,25 +103,32 @@ interface ItemsRowProps {
   results: number[];
   showTraces: boolean;
   animateTraces: boolean;
+  revealedSet: Set<number>;
   onEdit: (i: number, v: string) => void;
 }
 
-const ItemsRow = ({ items, participants, disabled, results, showTraces, animateTraces, onEdit }: ItemsRowProps) => {
+const ItemsRow = ({ items, participants, disabled, results, showTraces, animateTraces, revealedSet, onEdit }: ItemsRowProps) => {
   const isResult = showTraces && !animateTraces;
+
   const itemToEmoji: Record<number, string> = {};
   if (isResult) {
-    results.forEach((itemIdx, pIdx) => { itemToEmoji[itemIdx] = participants[pIdx]; });
+    results.forEach((itemIdx, pIdx) => {
+      if (revealedSet.has(pIdx)) itemToEmoji[itemIdx] = participants[pIdx];
+    });
   }
+
+  const winnerPIdx = isResult ? results.findIndex((v) => v === 0) : -1;
+  const isWinnerRevealed = winnerPIdx >= 0 && revealedSet.has(winnerPIdx) && participants.length > 1;
 
   return (
     <div className="flex gap-1.5 px-3 pt-0 pb-3">
       {items.map((item, i) => {
         const emoji = isResult ? itemToEmoji[i] : undefined;
-        const isWinner = isResult && i === 0 && participants.length > 1;
+        const isWinnerCell = i === 0 && isWinnerRevealed;
         return (
           <div key={i} className={cn(
             'flex-1 min-w-0 flex flex-col items-center',
-            isWinner ? 'bg-board' : 'bg-surface-warm'
+            isWinnerCell ? 'bg-board' : 'bg-surface-warm'
           )}>
             {emoji && (
               <span className="font-emoji text-base leading-none pt-1.5 pb-0.5 select-none animate-[fadeIn_0.3s_ease_both]">
@@ -120,7 +142,7 @@ const ItemsRow = ({ items, participants, disabled, results, showTraces, animateT
               className={cn(
                 'w-full text-center bg-transparent text-[9px] font-bold outline-none px-0.5 py-1.5',
                 'border-b-2 border-transparent focus-visible:border-accent transition-colors truncate',
-                isWinner ? 'text-accent font-extrabold' : 'text-ink-2',
+                isWinnerCell ? 'text-accent font-extrabold' : 'text-ink-2',
                 disabled && 'cursor-default'
               )}
               aria-label={`항목 ${i + 1}`}
@@ -185,11 +207,13 @@ export interface LadderBoardProps {
   items: string[];
   data: LadderData | null;
   phase: LadderPhase;
+  revealedSet: Set<number>;
   onParticipantsChange: (v: string[]) => void;
   onItemsChange: (v: string[]) => void;
+  onParticipantClick?: (i: number) => void;
 }
 
-const LadderBoardView = ({ participants, items, data, phase, onParticipantsChange, onItemsChange }: LadderBoardProps) => {
+const LadderBoardView = ({ participants, items, data, phase, revealedSet, onParticipantsChange, onItemsChange, onParticipantClick }: LadderBoardProps) => {
   const disabled = phase !== 'input';
   const showTraces = phase !== 'input';
   const animateTraces = phase === 'animating';
@@ -214,12 +238,12 @@ const LadderBoardView = ({ participants, items, data, phase, onParticipantsChang
 
   return (
     <div className="bg-surface shadow-[var(--shadow-card)]">
-      <AvatarRow names={participants} disabled={disabled} onRemove={removePerson} />
+      <AvatarRow names={participants} phase={phase} revealedSet={revealedSet} onRemove={removePerson} onParticipantClick={onParticipantClick} />
       {data
         ? <SvgContent xs={xs} ys={ys} paths={paths} rungs={rungs} results={data.results} showTraces={showTraces} animateTraces={animateTraces} />
         : <div className="aspect-[3/1] px-3" />
       }
-      <ItemsRow items={items} participants={participants} disabled={disabled} results={data?.results ?? []} showTraces={showTraces} animateTraces={animateTraces} onEdit={editItem} />
+      <ItemsRow items={items} participants={participants} disabled={disabled} results={data?.results ?? []} showTraces={showTraces} animateTraces={animateTraces} revealedSet={revealedSet} onEdit={editItem} />
     </div>
   );
 };

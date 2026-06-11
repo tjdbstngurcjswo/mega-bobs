@@ -23,11 +23,6 @@ const autoFillItems = (items: string[], targetLen: number): string[] => {
   return result;
 };
 
-const getHint = (loaded: boolean, canPlay: boolean, phase: LadderPhase, pLen: number) => {
-  if (!loaded || canPlay || phase !== 'input') return null;
-  if (pLen < 2) return '참여자를 2명 이상 입력하세요';
-  return `참여자(${pLen})와 항목 수를 맞춰주세요`;
-};
 
 const useLadderGame = () => {
   const { participants, items, setParticipants, setItems, loaded } =
@@ -35,6 +30,7 @@ const useLadderGame = () => {
   const [phase, setPhase] = useState<LadderPhase>('input');
   const [seed, setSeed] = useState(0);
   const [playedData, setPlayedData] = useState<LadderData | null>(null);
+  const [revealedSet, setRevealedSet] = useState<Set<number>>(new Set());
 
   const changeParticipants = (next: string[]) => {
     setParticipants(next);
@@ -62,27 +58,47 @@ const useLadderGame = () => {
     [participants.length, items.length, seed]
   );
 
-  const play = () => {
+  const startGame = (revealed: Set<number>) => {
     if (!canPlay || !ladderData || phase !== 'input') return;
     setPlayedData(ladderData);
     setPhase('animating');
-    setTimeout(() => setPhase('result'), ANIM_MS);
+    setTimeout(() => { setPhase('result'); setRevealedSet(revealed); }, ANIM_MS);
   };
 
-  const retry = () => { setPhase('input'); setSeed((s) => s + 1); };
+  const playAll = () =>
+    startGame(new Set(Array.from({ length: participants.length }, (_, i) => i)));
 
-  return { participants, items, loaded, phase, seed, ladderData, playedData, canPlay, canAddPerson, changeParticipants, addPerson, setItems, play, retry };
+  const playOne = (i: number) => startGame(new Set([i]));
+
+  const revealOne = (i: number) =>
+    setRevealedSet((prev) => new Set([...prev, i]));
+
+  const revealAll = () =>
+    setRevealedSet(new Set(Array.from({ length: participants.length }, (_, i) => i)));
+
+  const retry = () => { setPhase('input'); setSeed((s) => s + 1); setRevealedSet(new Set()); };
+
+  const onParticipantClick = (i: number) => {
+    if (phase === 'input') playOne(i);
+    else if (phase === 'result' && !revealedSet.has(i)) revealOne(i);
+  };
+
+  return { participants, items, loaded, phase, seed, ladderData, playedData, canPlay, canAddPerson, revealedSet, changeParticipants, addPerson, setItems, playAll, revealAll, retry, onParticipantClick };
 };
 
 const LadderGame = () => {
-  const { participants, items, loaded, phase, seed, ladderData, playedData, canPlay, canAddPerson, changeParticipants, addPerson, setItems, play, retry } = useLadderGame();
+  const {
+    participants, items, loaded, phase, seed, ladderData, playedData,
+    canPlay, canAddPerson, revealedSet,
+    changeParticipants, addPerson, setItems, playAll, revealAll, retry, onParticipantClick,
+  } = useLadderGame();
 
   if (!loaded) return null;
 
-  const hint = getHint(loaded, canPlay, phase, participants.length);
-  const isDone = phase === 'result';
-  const ctaLabel = phase === 'animating' ? '확인 중…' : isDone ? '↺ 다시하기' : '결과 확인 →';
-  const ctaDisabled = isDone ? false : !canPlay || phase === 'animating';
+  const allRevealed = phase === 'result' && revealedSet.size === participants.length;
+  const ctaLabel = phase === 'animating' ? '확인 중…' : allRevealed ? '↺ 다시하기' : '한번에 결과 보기';
+  const ctaDisabled = phase === 'animating' || (phase === 'input' && !canPlay);
+  const onCta = allRevealed ? retry : phase === 'input' ? playAll : revealAll;
 
   return (
     <GameView
@@ -90,15 +106,16 @@ const LadderGame = () => {
       items={items}
       phase={phase}
       seed={seed}
-      ladderData={isDone && playedData ? playedData : ladderData}
-      hint={hint}
+      ladderData={phase === 'result' && playedData ? playedData : ladderData}
+      revealedSet={revealedSet}
       ctaLabel={ctaLabel}
       ctaDisabled={ctaDisabled}
       canAddPerson={canAddPerson}
       onParticipantsChange={changeParticipants}
       onItemsChange={setItems}
-      onPlay={isDone ? retry : play}
+      onPlay={onCta}
       onAddPerson={addPerson}
+      onParticipantClick={onParticipantClick}
     />
   );
 };
@@ -109,7 +126,7 @@ interface GameViewProps {
   phase: LadderPhase;
   seed: number;
   ladderData: LadderData | null;
-  hint: string | null;
+  revealedSet: Set<number>;
   ctaLabel: string;
   ctaDisabled: boolean;
   canAddPerson: boolean;
@@ -117,12 +134,13 @@ interface GameViewProps {
   onItemsChange: (v: string[]) => void;
   onPlay: () => void;
   onAddPerson: () => void;
+  onParticipantClick: (i: number) => void;
 }
 
 const GameView = ({
-  participants, items, phase, seed, ladderData, hint,
+  participants, items, phase, seed, ladderData, revealedSet,
   ctaLabel, ctaDisabled, canAddPerson,
-  onParticipantsChange, onItemsChange, onPlay, onAddPerson,
+  onParticipantsChange, onItemsChange, onPlay, onAddPerson, onParticipantClick,
 }: GameViewProps) => (
   <div className={gameWrapClass}>
     <div className="flex justify-end">
@@ -143,8 +161,10 @@ const GameView = ({
       items={items}
       data={ladderData}
       phase={phase}
+      revealedSet={revealedSet}
       onParticipantsChange={onParticipantsChange}
       onItemsChange={onItemsChange}
+      onParticipantClick={onParticipantClick}
     />
 
     <button
@@ -156,7 +176,6 @@ const GameView = ({
       aria-label="사다리 결과 확인"
     >{ctaLabel}</button>
 
-    {hint && <p className="text-center text-[12px] text-muted">{hint}</p>}
   </div>
 );
 
