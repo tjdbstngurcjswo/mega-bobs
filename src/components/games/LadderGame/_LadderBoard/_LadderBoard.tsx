@@ -218,7 +218,7 @@ const LadderBoardView = ({ participants, items, data, phase, revealedSet, onPart
   const showTraces = phase !== 'input';
   const animateTraces = phase === 'animating';
 
-  const xs = useMemo(() => (data ? getXs(data.n) : []), [data]);
+  const xs = useMemo(() => getXs(participants.length), [participants.length]);
   const ys = useMemo(() => (data ? getYs(data.rungRows) : []), [data]);
   const paths = useMemo(() => (data ? buildPaths(data, xs, ys) : []), [data, xs, ys]);
   const rungs = useMemo(
@@ -239,10 +239,7 @@ const LadderBoardView = ({ participants, items, data, phase, revealedSet, onPart
   return (
     <div className="bg-surface shadow-[var(--shadow-card)]">
       <AvatarRow names={participants} phase={phase} revealedSet={revealedSet} onRemove={removePerson} onParticipantClick={onParticipantClick} />
-      {data
-        ? <SvgContent xs={xs} ys={ys} paths={paths} rungs={rungs} results={data.results} showTraces={showTraces} animateTraces={animateTraces} />
-        : <div className="aspect-[3/1] px-3" />
-      }
+      <SvgContent xs={xs} ys={ys} paths={paths} rungs={rungs} results={data?.results ?? []} showTraces={showTraces} animateTraces={animateTraces} />
       <ItemsRow items={items} participants={participants} disabled={disabled} results={data?.results ?? []} showTraces={showTraces} animateTraces={animateTraces} revealedSet={revealedSet} onEdit={editItem} />
     </div>
   );
