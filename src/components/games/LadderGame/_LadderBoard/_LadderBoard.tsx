@@ -198,16 +198,18 @@ const LadderBoardView = ({ participants, items, data, phase, canAddPerson, onPar
 
   return (
     <div className="bg-surface shadow-[var(--shadow-card)]">
-      {canAddPerson && onAddPerson && (
-        <div className="flex justify-end px-3 pt-2">
-          <button
-            type="button"
-            onClick={onAddPerson}
-            className="text-[11px] text-muted cursor-pointer hover:text-ink"
-            aria-label="인원 추가"
-          >+ 인원 추가</button>
-        </div>
-      )}
+      <div className="flex justify-end px-3 pt-2">
+        <button
+          type="button"
+          onClick={onAddPerson}
+          disabled={!canAddPerson}
+          className={cn(
+            'text-[11px] cursor-pointer transition-opacity',
+            canAddPerson ? 'text-muted hover:text-ink' : 'invisible'
+          )}
+          aria-label="인원 추가"
+        >+ 인원 추가</button>
+      </div>
       <AvatarRow names={participants} disabled={disabled} onRemove={removePerson} />
       {data
         ? <SvgContent xs={xs} ys={ys} paths={paths} rungs={rungs} results={data.results} showTraces={showTraces} animateTraces={animateTraces} />
