@@ -13,7 +13,7 @@ export const getNews = async (): Promise<NewsItem[]> => {
 
   try {
     const res = await fetch(
-      'https://openapi.naver.com/v1/search/news.json?query=%EB%A9%94%EA%B0%80%EC%A1%B4&display=20&sort=date',
+      'https://openapi.naver.com/v1/search/news.json?query=%EB%A9%94%EA%B0%80%EC%A1%B4&display=100&sort=date',
       {
         headers: {
           'X-Naver-Client-Id': clientId,
