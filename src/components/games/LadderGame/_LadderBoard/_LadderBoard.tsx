@@ -10,8 +10,9 @@ import type { LadderData } from '@/utils/ladder';
 import type { LadderPhase } from '../LadderGame.types';
 
 const SVG_W = 300;
-const SVG_H = 150;
-const PAD_Y = 8;
+const SVG_H = 100;
+const PAD_TOP = 0;
+const PAD_BOT = 8;
 const RAIL_COLOR = 'var(--color-ink-2)';
 const TRACE_COLOR = 'var(--color-accent-deep)';
 
@@ -20,16 +21,16 @@ const getXs = (n: number): number[] =>
   Array.from({ length: n }, (_, i) => SVG_W * (i + 0.5) / n);
 
 const getYs = (rungRows: number): number[] => {
-  const range = SVG_H - PAD_Y * 2;
+  const range = SVG_H - PAD_TOP - PAD_BOT;
   return Array.from({ length: rungRows }, (_, r) =>
-    PAD_Y + ((r + 1) * range) / (rungRows + 1)
+    PAD_TOP + ((r + 1) * range) / (rungRows + 1)
   );
 };
 
 const buildPaths = (data: LadderData, xs: number[], ys: number[]): string[] =>
   Array.from({ length: data.n }, (_, p) => {
     let col = p;
-    const pts: [number, number][] = [[xs[col], PAD_Y]];
+    const pts: [number, number][] = [[xs[col], PAD_TOP]];
     for (let row = 0; row < data.rungRows; row++) {
       const rKey = `${row}:${col}`;
       const lKey = col > 0 ? `${row}:${col - 1}` : '';
@@ -41,7 +42,7 @@ const buildPaths = (data: LadderData, xs: number[], ys: number[]): string[] =>
         col -= 1;
       }
     }
-    pts.push([xs[col], SVG_H - PAD_Y]);
+    pts.push([xs[col], SVG_H - PAD_BOT]);
     return pts
       .map(([x, y], i) => `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`)
       .join(' ');
@@ -62,8 +63,7 @@ interface AvatarRowProps {
 const AvatarRow = ({ names, disabled, onCycle, onRemove }: AvatarRowProps) => {
   const canRemove = !disabled && names.length > 2;
   return (
-    // gap-[1px] for 1px separator — negligible alignment impact (~0.5px)
-    <div className="flex gap-[1px] px-3 pt-3 pb-0">
+    <div className="flex px-3 pt-3 pb-0">
       {names.map((key, i) => {
         const Icon = getAvatarIcon(key);
         return (
@@ -106,7 +106,7 @@ interface ItemsRowProps {
 }
 
 const ItemsRow = ({ items, disabled, results, showTraces, animateTraces, onEdit }: ItemsRowProps) => (
-  <div className="flex gap-[1px] px-3 pt-0 pb-3">
+  <div className="flex px-3 pt-0 pb-3">
     {items.map((item, i) => {
       const isHit = showTraces && !animateTraces && results.includes(i);
       return (
@@ -142,14 +142,14 @@ interface SvgContentProps {
 }
 
 const SvgContent = ({ xs, ys, paths, rungs, results, showTraces, animateTraces }: SvgContentProps) => {
-  const botY = SVG_H - PAD_Y;
+  const botY = SVG_H - PAD_BOT;
   const traceTrans = animateTraces ? { duration: 1.5, ease: EASE_IN_OUT } : { duration: 0 };
   return (
     // px-3 wrapper aligns SVG content with avatar/item rows above/below
     <div className="px-3">
-      <svg viewBox={`0 0 ${SVG_W} ${SVG_H}`} width="100%" style={{ maxHeight: 200 }} aria-hidden="true" className="block">
+      <svg viewBox={`0 0 ${SVG_W} ${SVG_H}`} width="100%" aria-hidden="true" className="block">
         {xs.map((x, i) => (
-          <line key={`v-${i}`} x1={x} y1={PAD_Y} x2={x} y2={botY} stroke={RAIL_COLOR} strokeWidth={1.5} />
+          <line key={`v-${i}`} x1={x} y1={PAD_TOP} x2={x} y2={botY} stroke={RAIL_COLOR} strokeWidth={1.5} />
         ))}
         {rungs.map(({ row, col }) => (
           <line key={`h-${row}-${col}`} x1={xs[col]} y1={ys[row]} x2={xs[col + 1]} y2={ys[row]} stroke={RAIL_COLOR} strokeWidth={1.5} />
@@ -222,7 +222,7 @@ const LadderBoardView = ({ participants, items, data, phase, onParticipantsChang
       <AvatarRow names={participants} disabled={disabled} onCycle={cycleAvatar} onRemove={removePerson} />
       {data
         ? <SvgContent xs={xs} ys={ys} paths={paths} rungs={rungs} results={data.results} showTraces={showTraces} animateTraces={animateTraces} />
-        : <div className="aspect-[300/150] px-3" />
+        : <div className="aspect-[3/1] px-3" />
       }
       <ItemsRow items={items} disabled={disabled} results={data?.results ?? []} showTraces={showTraces} animateTraces={animateTraces} onEdit={editItem} />
     </div>
