@@ -3,58 +3,73 @@ import { useEffect, useRef, useState } from 'react';
 import {
   MAX_NAMES,
   MIN_NAMES,
-  SPIN_PHASES,
+  REEL_SPIN_DURATION,
+  SPIN_FAST_INTERVAL,
 } from '@/components/games/SlotMachine/SlotMachine.constants';
 
+const getReelItems = (
+  names: string[],
+  idx: number
+): [string, string, string] => {
+  if (names.length === 0) return ['—', '—', '—'];
+  const len = names.length;
+  return [
+    names[(idx - 1 + len) % len],
+    names[idx % len],
+    names[(idx + 1) % len],
+  ];
+};
+
+// eslint-disable-next-line max-lines-per-function
 export const useSlotMachine = () => {
   const [names, setNames] = useState<string[]>([]);
   const [input, setInput] = useState('');
   const [isSpinning, setIsSpinning] = useState(false);
-  const [displayName, setDisplayName] = useState('');
+  const [reelIdx, setReelIdx] = useState(0);
+  const [reelStopped, setReelStopped] = useState(true);
   const [winner, setWinner] = useState<string | null>(null);
   const [isDuplicate, setIsDuplicate] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const spinRef = useRef<() => void>(() => undefined);
+
+  const clearAll = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+  };
 
   const spin = () => {
     if (isSpinning || names.length < MIN_NAMES) return;
     setIsSpinning(true);
     setWinner(null);
+    setReelStopped(false);
 
     const picked = names[Math.floor(Math.random() * names.length)];
+    const pickedIdx = names.indexOf(picked);
 
     if (
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
     ) {
-      setDisplayName(picked);
+      setReelIdx(pickedIdx);
+      setReelStopped(true);
       setWinner(picked);
       setIsSpinning(false);
       return;
     }
 
-    let phaseIdx = 0;
-    const runPhase = () => {
-      if (phaseIdx >= SPIN_PHASES.length) {
-        setDisplayName(picked);
-        setWinner(picked);
-        setIsSpinning(false);
-        return;
-      }
-      const { interval, duration } = SPIN_PHASES[phaseIdx];
-      const start = Date.now();
-      const tick = () => {
-        setDisplayName(names[Math.floor(Math.random() * names.length)]);
-        if (Date.now() - start < duration) {
-          timerRef.current = setTimeout(tick, interval);
-        } else {
-          phaseIdx++;
-          runPhase();
-        }
-      };
-      tick();
-    };
-    runPhase();
+    intervalRef.current = setInterval(() => {
+      setReelIdx(Math.floor(Math.random() * names.length));
+    }, SPIN_FAST_INTERVAL);
+
+    timeoutRef.current = setTimeout(() => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      setReelIdx(pickedIdx);
+      setReelStopped(true);
+      setWinner(picked);
+      setIsSpinning(false);
+    }, REEL_SPIN_DURATION);
   };
 
   // latest-ref pattern — avoids stale closure in keydown listener
@@ -73,11 +88,7 @@ export const useSlotMachine = () => {
     return () => document.removeEventListener('keydown', handleKey);
   }, []);
 
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, []);
+  useEffect(() => () => clearAll(), []);
 
   const addName = () => {
     const trimmed = input.trim();
@@ -99,10 +110,10 @@ export const useSlotMachine = () => {
   };
 
   const reset = () => {
-    if (timerRef.current) clearTimeout(timerRef.current);
+    clearAll();
     setIsSpinning(false);
     setWinner(null);
-    setDisplayName('');
+    setReelStopped(true);
   };
 
   return {
@@ -112,9 +123,11 @@ export const useSlotMachine = () => {
     isSpinning,
     winner,
     isDuplicate,
+    reel: {
+      items: getReelItems(names, reelIdx),
+      stopped: reelStopped,
+    },
     canSpin: names.length >= MIN_NAMES && !isSpinning,
-    statusLabel: isSpinning ? 'SPINNING…' : winner ? 'DONE' : 'READY',
-    shownName: displayName || (names.length > 0 ? '?' : '—'),
     addName,
     removeName,
     spin,

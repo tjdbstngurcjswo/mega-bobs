@@ -2,29 +2,27 @@
 
 import { useSlotMachine } from '@/hooks/useSlotMachine';
 
+import { Reel } from './_Reel';
 import { MIN_NAMES } from './SlotMachine.constants';
 import {
   addBtnClass,
+  cabinetClass,
+  cabinetHeaderClass,
+  cabinetTitleClass,
   chipClass,
   chipXClass,
   controlRowClass,
-  drumDisplayClass,
-  drumNameClass,
-  drumWrapperClass,
+  dotClass,
+  dotGroupClass,
   hintClass,
-  hintInlineClass,
   inputClass,
   participantsLabelClass,
-  participantsWrapperClass,
+  reelsAreaClass,
   resetBtnClass,
-  resultBarClass,
-  resultLabelClass,
-  resultNameClass,
   spinBtnClass,
-  statusLabelClass,
-  winnerBadgeClass,
 } from './SlotMachine.styles';
 
+// eslint-disable-next-line max-lines-per-function
 const SlotMachine = () => {
   const {
     names,
@@ -33,9 +31,8 @@ const SlotMachine = () => {
     isSpinning,
     winner,
     isDuplicate,
+    reel,
     canSpin,
-    statusLabel,
-    shownName,
     addName,
     removeName,
     spin,
@@ -52,7 +49,7 @@ const SlotMachine = () => {
           onKeyDown={(e) => e.key === 'Enter' && addName()}
           placeholder="이름 입력 후 Enter"
           disabled={isSpinning}
-          maxLength={20}
+          maxLength={12}
           aria-label="참여자 이름 입력"
         />
         <button
@@ -64,21 +61,28 @@ const SlotMachine = () => {
         </button>
       </div>
 
-      <div className={drumWrapperClass}>
-        <div className={drumDisplayClass}>
-          <span className={statusLabelClass}>{statusLabel}</span>
-          <span className={drumNameClass}>{shownName}</span>
+      <div className={cabinetClass}>
+        <div className={cabinetHeaderClass}>
+          <div className={dotGroupClass}>
+            <div className={dotClass} />
+            <div className={dotClass} />
+            <div className={dotClass} />
+          </div>
+          <span className={cabinetTitleClass}>MEGABOBS SLOTS</span>
+          <div className={dotGroupClass}>
+            <div className={dotClass} />
+            <div className={dotClass} />
+            <div className={dotClass} />
+          </div>
         </div>
 
-        {winner && (
-          <div className={resultBarClass} aria-live="polite" aria-atomic="true">
-            <div>
-              <div className={resultLabelClass}>당첨자</div>
-              <div className={resultNameClass}>{winner}</div>
-            </div>
-            <div className={winnerBadgeClass}>당첨!</div>
-          </div>
-        )}
+        <div className={reelsAreaClass}>
+          <Reel
+            items={reel.items}
+            stopped={reel.stopped}
+            isWinner={!!winner && reel.stopped}
+          />
+        </div>
 
         <div className={controlRowClass}>
           <button
@@ -89,7 +93,7 @@ const SlotMachine = () => {
           >
             {isSpinning
               ? '돌리는 중…'
-              : `▶ 돌리기${canSpin ? ' (SPACE)' : ''}`}
+              : `▶  돌리기${canSpin ? ' (SPACE)' : ''}`}
           </button>
           <button
             className={resetBtnClass}
@@ -100,40 +104,40 @@ const SlotMachine = () => {
             ↺
           </button>
         </div>
-
-        {names.length === 0 ? (
-          <div className={hintClass}>
-            이름을 {MIN_NAMES}명 이상 입력하면 뽑기를 시작할 수 있어요
-          </div>
-        ) : (
-          <div className={participantsWrapperClass}>
-            <div className={participantsLabelClass}>
-              참여자 {names.length}명
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {names.map((name) => (
-                <div key={name} className={chipClass(name === winner)}>
-                  <span>{name}</span>
-                  {!isSpinning && (
-                    <button
-                      onClick={() => removeName(name)}
-                      className={chipXClass}
-                      aria-label={`${name} 삭제`}
-                    >
-                      ✕
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-            {names.length < MIN_NAMES && (
-              <p className={hintInlineClass}>
-                {MIN_NAMES - names.length}명 더 입력하면 시작할 수 있어요
-              </p>
-            )}
-          </div>
-        )}
       </div>
+
+      {names.length === 0 ? (
+        <p className={hintClass}>
+          이름을 {MIN_NAMES}명 이상 입력하면 뽑기를 시작할 수 있어요
+        </p>
+      ) : (
+        <div className="flex flex-col gap-2">
+          <div className={participantsLabelClass}>
+            참여자 {names.length}명
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {names.map((name) => (
+              <div key={name} className={chipClass(name === winner)}>
+                <span>{name}</span>
+                {!isSpinning && (
+                  <button
+                    onClick={() => removeName(name)}
+                    className={chipXClass}
+                    aria-label={`${name} 삭제`}
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+          {names.length < MIN_NAMES && (
+            <p className={hintClass}>
+              {MIN_NAMES - names.length}명 더 입력하면 시작할 수 있어요
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
