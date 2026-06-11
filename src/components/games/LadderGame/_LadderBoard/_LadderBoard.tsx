@@ -63,13 +63,13 @@ interface AvatarRowProps {
 const AvatarRow = ({ names, disabled, onCycle, onRemove }: AvatarRowProps) => {
   const canRemove = !disabled && names.length > 2;
   return (
-    <div className="flex px-3 pt-3 pb-0">
+    <div className="flex gap-1.5 px-3 pt-3 pb-0">
       {names.map((emoji, i) => (
         <div key={i} className="flex-1 min-w-0 relative">
           {canRemove && (
             <button
               type="button"
-              className="absolute -top-1 -right-0.5 z-10 w-4 h-4 bg-surface shadow-[var(--shadow-flat)] text-muted text-[10px] flex items-center justify-center cursor-pointer hover:text-ink leading-none"
+              className="absolute top-0.5 right-0.5 z-10 w-4 h-4 text-muted text-[10px] flex items-center justify-center cursor-pointer hover:text-ink leading-none"
               onClick={() => onRemove(i)}
               aria-label={`참여자 ${i + 1} 제거`}
             >×</button>
@@ -77,15 +77,15 @@ const AvatarRow = ({ names, disabled, onCycle, onRemove }: AvatarRowProps) => {
           <button
             type="button"
             onClick={() => !disabled && onCycle(i)}
+            title={disabled ? undefined : `${emoji} — 탭하여 변경`}
             className={cn(
-              'w-full bg-surface-warm flex flex-col items-center justify-center gap-0.5 py-2',
+              'w-full bg-surface-warm flex flex-col items-center justify-center py-2',
               disabled ? 'cursor-default' : 'cursor-pointer hover:bg-line active:scale-90 transition-all duration-100'
             )}
             aria-label={`참여자 ${i + 1}${disabled ? '' : ' — 탭하여 변경'}`}
             disabled={disabled}
           >
             <span className="font-emoji text-xl leading-none select-none">{emoji}</span>
-            <span className="text-[9px] text-muted leading-none">{i + 1}</span>
           </button>
         </div>
       ))}
@@ -103,7 +103,7 @@ interface ItemsRowProps {
 }
 
 const ItemsRow = ({ items, disabled, results, showTraces, animateTraces, onEdit }: ItemsRowProps) => (
-  <div className="flex px-3 pt-0 pb-3">
+  <div className="flex gap-1.5 px-3 pt-0 pb-3">
     {items.map((item, i) => {
       const isHit = showTraces && !animateTraces && results.includes(i);
       return (
