@@ -1,5 +1,5 @@
 export const loadMoreClass =
-  'text-muted bg-surface-warm hover:bg-line mt-2 w-full py-3 text-[13px] transition-[background-color,transform] active:scale-[0.98]';
+  'text-ink-2 font-semibold bg-surface-warm hover:bg-line mt-2 w-full py-3 text-[13px] transition-[background-color,transform] active:scale-[0.98]';
 
 export const emptyStateClass =
   'flex w-full flex-col items-center gap-2 py-16 text-center';
