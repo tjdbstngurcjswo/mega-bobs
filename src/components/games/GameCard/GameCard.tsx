@@ -1,6 +1,6 @@
 'use client';
 
-import { Clock, Dices, Shuffle, Wrench, Zap } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -16,43 +16,35 @@ import {
   cardWrapperClass,
 } from './GameCard.styles';
 
-const ICON_MAP = {
-  ladder: Shuffle,
-  slot: Dices,
-  balloon: Zap,
-} as const;
-
-const EASTER_EGG_THRESHOLD = 5;
+const LadderIcon = ({ size = 16, className }: { size?: number; className?: string }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden="true"
+  >
+    <line x1="7" y1="2" x2="7" y2="22" />
+    <line x1="17" y1="2" x2="17" y2="22" />
+    <line x1="7" y1="7" x2="17" y2="7" />
+    <line x1="7" y1="12" x2="17" y2="12" />
+    <line x1="7" y1="17" x2="17" y2="17" />
+  </svg>
+);
 
 const GameCard = ({ slug, name, description, status }: GameDef) => {
   const isComingSoon = status === 'coming_soon';
-  const [clickCount, setClickCount] = useState(0);
   const [toastVisible, setToastVisible] = useState(false);
-  const [isEasterEgg, setIsEasterEgg] = useState(false);
 
   const handleComingSoonClick = () => {
-    const next = clickCount + 1;
-    setClickCount(next);
-    const easter = next >= EASTER_EGG_THRESHOLD;
-    setIsEasterEgg(easter);
     setToastVisible(true);
     setTimeout(() => setToastVisible(false), 2000);
   };
-
-  const Icon = ICON_MAP[slug as keyof typeof ICON_MAP] ?? Shuffle;
-
-  const innerContent = (
-    <div className={cardContentClass(isComingSoon)}>
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <Icon size={16} strokeWidth={2} className={cardIconClass} />
-          <h3 className={cardTitleClass}>{name}</h3>
-        </div>
-        {isComingSoon && <span className={cardBadgeClass}>준비 중</span>}
-      </div>
-      <p className={cardDescClass}>{description}</p>
-    </div>
-  );
 
   if (isComingSoon) {
     return (
@@ -60,19 +52,19 @@ const GameCard = ({ slug, name, description, status }: GameDef) => {
         className={cardWrapperClass(true)}
         role="button"
         tabIndex={0}
-        aria-label={`${name} — 준비 중`}
+        aria-label="준비 중인 게임"
         onClick={handleComingSoonClick}
         onKeyDown={(e) => e.key === 'Enter' && handleComingSoonClick()}
       >
-        {innerContent}
+        <div className={cardContentClass(true)}>
+          <div className="flex items-center justify-center py-2">
+            <span className={cardBadgeClass}>준비 중</span>
+          </div>
+        </div>
         {toastVisible && (
-          <div className={cardToastClass(isEasterEgg)}>
-            {isEasterEgg ? (
-              <Wrench size={12} strokeWidth={2.5} />
-            ) : (
-              <Clock size={12} strokeWidth={2.5} />
-            )}
-            <span>{isEasterEgg ? '빨리 만들게요…' : '곧 오픈해요'}</span>
+          <div className={cardToastClass(false)}>
+            <Clock size={12} strokeWidth={2.5} />
+            <span>곧 오픈해요</span>
           </div>
         )}
       </div>
@@ -81,7 +73,15 @@ const GameCard = ({ slug, name, description, status }: GameDef) => {
 
   return (
     <Link href={`/games/${slug}`} className={cardWrapperClass(false)}>
-      {innerContent}
+      <div className={cardContentClass(false)}>
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <LadderIcon size={16} className={cardIconClass} />
+            <h3 className={cardTitleClass}>{name}</h3>
+          </div>
+        </div>
+        <p className={cardDescClass}>{description}</p>
+      </div>
     </Link>
   );
 };
