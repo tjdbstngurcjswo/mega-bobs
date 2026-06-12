@@ -333,6 +333,7 @@ interface SvgContentProps {
   showTraces: boolean;
   revealedSet: Set<number>;
   animatingSet: Set<number>;
+  isFullView?: boolean;
 }
 
 const SvgContent = ({
@@ -343,17 +344,23 @@ const SvgContent = ({
   showTraces,
   revealedSet,
   animatingSet,
+  isFullView,
 }: SvgContentProps) => {
   const botY = SVG_H - PAD_BOT;
   const maxLen = Math.max(...smoothPaths.map((p) => p.totalLen), 1);
   const speed = maxLen / ANIM_S; // SVG units per second — constant across all traces
   return (
-    <div className="px-3">
+    <div
+      className="px-3"
+      style={isFullView ? { height: 'calc(100dvh - 220px)' } : undefined}
+    >
       <svg
         viewBox={`0 0 ${SVG_W} ${SVG_H}`}
         width="100%"
         aria-hidden="true"
         className="block"
+        preserveAspectRatio={isFullView ? 'none' : undefined}
+        style={isFullView ? { height: '100%' } : undefined}
       >
         {xs.map((x, i) => (
           <line
@@ -413,6 +420,7 @@ interface LadderBoardProps {
   revealedSet: Set<number>;
   animatingSet: Set<number>;
   borderReadySet: Set<number>;
+  isFullView?: boolean;
   onParticipantsChange: (v: string[]) => void;
   onItemsChange: (v: string[]) => void;
   onParticipantClick?: (i: number) => void;
@@ -427,6 +435,7 @@ const LadderBoardView = ({
   revealedSet,
   animatingSet,
   borderReadySet,
+  isFullView,
   onParticipantsChange,
   onItemsChange,
   onParticipantClick,
@@ -491,6 +500,7 @@ const LadderBoardView = ({
         showTraces={showTraces}
         revealedSet={revealedSet}
         animatingSet={animatingSet}
+        isFullView={isFullView}
       />
       <ItemsRow
         items={items}
