@@ -237,10 +237,10 @@ const GameView = ({
 }: GameViewProps) => (
   <div
     className={cn(
-      'flex flex-col overflow-hidden',
+      'flex flex-col',
       isFullView
         ? 'flex-1'
-        : 'shadow-[0_4px_28px_rgba(0,0,0,0.18),_0_1px_4px_rgba(0,0,0,0.10)]',
+        : 'overflow-hidden shadow-[0_4px_28px_rgba(0,0,0,0.18),_0_1px_4px_rgba(0,0,0,0.10)]',
       isWiggling && 'animate-[shake_0.4s_ease-in-out]'
     )}
   >
@@ -255,7 +255,11 @@ const GameView = ({
 
     {/* Game content */}
     <div
-      className={cn(gameWrapClass, isFullView && 'flex-1')}
+      className={cn(
+        gameWrapClass,
+        isFullView &&
+          'flex-1 justify-center overflow-y-auto max-w-xl mx-auto w-full'
+      )}
       style={{
         background: isFullView ? 'transparent' : GAME_BG,
         padding: '16px',
@@ -270,7 +274,6 @@ const GameView = ({
         revealedSet={revealedSet}
         animatingSet={animatingSet}
         borderReadySet={borderReadySet}
-        isFullView={isFullView}
         onParticipantsChange={onParticipantsChange}
         onItemsChange={onItemsChange}
         onParticipantClick={onParticipantClick}
