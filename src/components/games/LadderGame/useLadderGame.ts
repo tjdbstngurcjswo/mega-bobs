@@ -107,8 +107,21 @@ export const useLadderGame = () => {
 
   const revealAll = () => {
     const all = new Set(Array.from({ length: participants.length }, (_, i) => i));
+    const unrevealedArr = Array.from(all).filter((i) => !revealedSet.has(i));
     setRevealedSet(all);
-    setBorderReadySet(all);
+    if (unrevealedArr.length === 0) {
+      setBorderReadySet(all);
+      return;
+    }
+    setAnimatingSet((prev) => new Set([...prev, ...unrevealedArr]));
+    setTimeout(() => {
+      setAnimatingSet((prev) => {
+        const next = new Set(prev);
+        unrevealedArr.forEach((i) => next.delete(i));
+        return next;
+      });
+      setBorderReadySet(all);
+    }, ANIM_MS);
   };
 
   const retry = () => {
