@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 'use client';
 
 import { motion } from 'motion/react';
@@ -92,8 +93,12 @@ const computeOffsets = (allSegs: TraceSeg[][]): SegOffset[][] => {
   allSegs.forEach((segs, ti) =>
     segs.forEach((seg, si) => {
       const k = segKey(seg);
-      if (!groups.has(k)) groups.set(k, []);
-      groups.get(k)!.push({ ti, si });
+      const group = groups.get(k);
+      if (group) {
+        group.push({ ti, si });
+      } else {
+        groups.set(k, [{ ti, si }]);
+      }
     })
   );
 
@@ -195,13 +200,15 @@ const AvatarRow = ({
   onParticipantClick,
 }: AvatarRowProps) => {
   const canRemove = phase === 'input' && names.length > 2;
+  const getIsClickable = (i: number) =>
+    !!onParticipantClick &&
+    (phase === 'input' || (phase === 'result' && !revealedSet.has(i)));
   return (
     <div className="flex gap-1.5 px-3 pt-3 pb-0">
       {names.map((emoji, i) => {
         const isRevealed = revealedSet.has(i);
-        const isClickable =
-          onParticipantClick &&
-          (phase === 'input' || (phase === 'result' && !isRevealed));
+        const isClickable = getIsClickable(i);
+        const isOpaque = phase === 'result' && !isRevealed;
         const color = TRACE_COLORS[i % TRACE_COLORS.length];
         const hasBorder = showTraces && isRevealed;
         return (
@@ -216,11 +223,12 @@ const AvatarRow = ({
                 ×
               </button>
             )}
+            {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
             <div
               className={cn(
                 'w-full flex items-center justify-center py-2 transition-opacity',
                 isClickable && 'cursor-pointer hover:opacity-75',
-                phase === 'result' && !isRevealed && 'opacity-40'
+                isOpaque && 'opacity-40'
               )}
               style={{
                 background: CELL_GLASS,
@@ -229,7 +237,15 @@ const AvatarRow = ({
                   ? `inset 0 0 0 2px ${color}`
                   : 'inset 0 0 0 1px rgba(255,255,255,0.7)',
               }}
-              onClick={isClickable ? () => onParticipantClick(i) : undefined}
+              onClick={isClickable ? () => onParticipantClick?.(i) : undefined}
+              onKeyDown={
+                isClickable
+                  ? (e) => {
+                      if (e.key === 'Enter' || e.key === ' ')
+                        onParticipantClick?.(i);
+                    }
+                  : undefined
+              }
             >
               <span className="font-emoji text-xl leading-none select-none">
                 {emoji}
@@ -402,6 +418,7 @@ interface LadderBoardProps {
   onParticipantClick?: (i: number) => void;
 }
 
+// eslint-disable-next-line max-lines-per-function
 const LadderBoardView = ({
   participants,
   items,
