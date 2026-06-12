@@ -1,0 +1,4 @@
+{"ts":"2026-06-05T06:22:02.811Z","cmd":"reload","args":"","origin":"about:blank","durationMs":6,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-05T06:22:03.888Z","cmd":"screenshot","args":"--viewport /tmp/megabobs-design/vote-left.png","origin":"about:blank","durationMs":17,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-05T06:22:50.313Z","cmd":"goto","args":"http://localhost:8943/home-b.html","origin":"http://localhost:8943/home-b.html","durationMs":8,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-06-05T06:22:51.917Z","cmd":"screenshot","args":"--viewport /tmp/megabobs-design/vote-left2.png","origin":"http://localhost:8943/home-b.html","durationMs":31,"status":"ok","hasCookies":false,"mode":"launched"}
