@@ -1,123 +1,75 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
-import { getNextEmoji } from '@/constants/emojiAvatars';
-import { DEFAULT_ITEMS, useLadderSession } from '@/hooks/useLadderSession';
 import { cn } from '@/utils/cn';
-import { type LadderData, buildLadder } from '@/utils/ladder';
+import type { LadderData } from '@/utils/ladder';
 
 import { _LadderBoard } from './_LadderBoard';
 import { ctaButtonClass, gameWrapClass } from './LadderGame.styles';
 import type { LadderPhase } from './LadderGame.types';
+import { useLadderGame } from './useLadderGame';
 
-const ANIM_MS = 2000;
-const MAX = 8;
-
-const autoFillItems = (items: string[], targetLen: number): string[] => {
-  if (items.length >= targetLen) return items;
-  const result = [...items];
-  while (result.length < targetLen) {
-    result.push(DEFAULT_ITEMS[result.length] ?? '꽝');
-  }
-  return result;
-};
-
-
-const useLadderGame = () => {
-  const { participants, items, setParticipants, setItems, loaded } =
-    useLadderSession();
-  const [phase, setPhase] = useState<LadderPhase>('input');
-  const [seed, setSeed] = useState(0);
-  const [playedData, setPlayedData] = useState<LadderData | null>(null);
-  const [revealedSet, setRevealedSet] = useState<Set<number>>(new Set());
-
-  const changeParticipants = (next: string[]) => {
-    setParticipants(next);
-    if (next.length > items.length) setItems(autoFillItems(items, next.length));
-  };
-
-  const addPerson = () => {
-    if (participants.length >= MAX || phase !== 'input') return;
-    const nextP = [...participants, getNextEmoji(participants)];
-    setParticipants(nextP);
-    setItems(autoFillItems(items, nextP.length));
-  };
-
-  const canAddPerson = participants.length < MAX && phase === 'input';
-
-  const canPlay =
-    participants.length >= 2 &&
-    items.length >= 2 &&
-    participants.length === items.length;
-
-  const ladderData = useMemo(
-    () => (canPlay ? buildLadder(participants.length) : null),
-    // Recalculate only on count change or retry
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [participants.length, items.length, seed]
-  );
-
-  const startGame = (revealed: Set<number>) => {
-    if (!canPlay || !ladderData || phase !== 'input') return;
-    setPlayedData(ladderData);
-    setPhase('animating');
-    setTimeout(() => { setPhase('result'); setRevealedSet(revealed); }, ANIM_MS);
-  };
-
-  const playAll = () =>
-    startGame(new Set(Array.from({ length: participants.length }, (_, i) => i)));
-
-  const playOne = (i: number) => startGame(new Set([i]));
-
-  const revealOne = (i: number) =>
-    setRevealedSet((prev) => new Set([...prev, i]));
-
-  const revealAll = () =>
-    setRevealedSet(new Set(Array.from({ length: participants.length }, (_, i) => i)));
-
-  const retry = () => { setPhase('input'); setSeed((s) => s + 1); setRevealedSet(new Set()); };
-
-  const onParticipantClick = (i: number) => {
-    if (phase === 'input') playOne(i);
-    else if (phase === 'result' && !revealedSet.has(i)) revealOne(i);
-  };
-
-  return { participants, items, loaded, phase, seed, ladderData, playedData, canPlay, canAddPerson, revealedSet, changeParticipants, addPerson, setItems, playAll, revealAll, retry, onParticipantClick };
-};
+const GAME_BG =
+  'radial-gradient(ellipse 70% 60% at 15% 25%, rgba(74,127,193,0.22), transparent 65%),' +
+  'radial-gradient(ellipse 60% 70% at 85% 75%, rgba(224,92,82,0.16), transparent 65%),' +
+  'radial-gradient(ellipse 50% 50% at 50% 50%, rgba(74,172,115,0.1), transparent 70%),' +
+  'var(--color-bg)';
 
 const LadderGame = () => {
   const {
-    participants, items, loaded, phase, seed, ladderData, playedData,
-    canPlay, canAddPerson, revealedSet,
-    changeParticipants, addPerson, setItems, playAll, revealAll, retry, onParticipantClick,
+    participants,
+    items,
+    loaded,
+    phase,
+    seed,
+    displayLadderData,
+    canAddPerson,
+    revealedSet,
+    animatingSet,
+    borderReadySet,
+    ctaLabel,
+    ctaDisabled,
+    onCta,
+    changeParticipants,
+    addPerson,
+    setItems,
+    onParticipantClick,
   } = useLadderGame();
+  const [isFullView, setIsFullView] = useState(false);
 
   if (!loaded) return null;
 
-  const allRevealed = phase === 'result' && revealedSet.size === participants.length;
-  const ctaLabel = phase === 'animating' ? '확인 중…' : allRevealed ? '↺ 다시하기' : '한번에 결과 보기';
-  const ctaDisabled = phase === 'animating' || (phase === 'input' && !canPlay);
-  const onCta = allRevealed ? retry : phase === 'input' ? playAll : revealAll;
+  const gameViewProps = {
+    participants,
+    items,
+    phase,
+    seed,
+    ladderData: displayLadderData,
+    revealedSet,
+    animatingSet,
+    borderReadySet,
+    ctaLabel,
+    ctaDisabled,
+    canAddPerson,
+    onParticipantsChange: changeParticipants,
+    onItemsChange: setItems,
+    onPlay: onCta,
+    onAddPerson: addPerson,
+    onParticipantClick,
+    isFullView,
+    onToggleFullView: () => setIsFullView((v) => !v),
+  };
 
-  return (
-    <GameView
-      participants={participants}
-      items={items}
-      phase={phase}
-      seed={seed}
-      ladderData={phase === 'result' && playedData ? playedData : ladderData}
-      revealedSet={revealedSet}
-      ctaLabel={ctaLabel}
-      ctaDisabled={ctaDisabled}
-      canAddPerson={canAddPerson}
-      onParticipantsChange={changeParticipants}
-      onItemsChange={setItems}
-      onPlay={onCta}
-      onAddPerson={addPerson}
-      onParticipantClick={onParticipantClick}
-    />
-  );
+  if (isFullView) {
+    return (
+      <div className="fixed inset-0 z-50 flex flex-col" style={{ background: GAME_BG }}>
+        <GameView {...gameViewProps} />
+      </div>
+    );
+  }
+
+  return <GameView {...gameViewProps} />;
 };
 
 interface GameViewProps {
@@ -127,33 +79,68 @@ interface GameViewProps {
   seed: number;
   ladderData: LadderData | null;
   revealedSet: Set<number>;
+  animatingSet: Set<number>;
+  borderReadySet: Set<number>;
   ctaLabel: string;
   ctaDisabled: boolean;
   canAddPerson: boolean;
+  isFullView: boolean;
   onParticipantsChange: (v: string[]) => void;
   onItemsChange: (v: string[]) => void;
   onPlay: () => void;
   onAddPerson: () => void;
   onParticipantClick: (i: number) => void;
+  onToggleFullView: () => void;
 }
 
 const GameView = ({
-  participants, items, phase, seed, ladderData, revealedSet,
-  ctaLabel, ctaDisabled, canAddPerson,
-  onParticipantsChange, onItemsChange, onPlay, onAddPerson, onParticipantClick,
+  participants,
+  items,
+  phase,
+  seed,
+  ladderData,
+  revealedSet,
+  animatingSet,
+  borderReadySet,
+  ctaLabel,
+  ctaDisabled,
+  canAddPerson,
+  isFullView,
+  onParticipantsChange,
+  onItemsChange,
+  onPlay,
+  onAddPerson,
+  onParticipantClick,
+  onToggleFullView,
 }: GameViewProps) => (
-  <div className={gameWrapClass}>
-    <div className="flex justify-end">
+  <div
+    className={cn(gameWrapClass, isFullView && 'flex-1 justify-center')}
+    style={{
+      background: isFullView ? undefined : GAME_BG,
+      padding: '16px',
+      boxShadow:
+        'inset 0 0 0 1px rgba(255,255,255,0.22), 0 8px 40px rgba(0,0,0,0.1)',
+    }}
+  >
+    <div className="flex justify-between items-center">
       <button
         type="button"
-        onClick={onAddPerson}
-        disabled={!canAddPerson}
-        className={cn(
-          'text-[11px] cursor-pointer transition-opacity',
-          canAddPerson ? 'text-muted hover:text-ink' : 'invisible'
-        )}
-        aria-label="인원 추가"
-      >+ 인원 추가</button>
+        onClick={onToggleFullView}
+        className="text-[11px] cursor-pointer text-muted hover:text-ink transition-colors"
+        aria-label={isFullView ? '게임 화면 닫기' : '전체 화면으로 보기'}
+      >
+        {isFullView ? '← 닫기' : '전체 보기'}
+      </button>
+      {canAddPerson && (
+        <button
+          type="button"
+          onClick={onAddPerson}
+          className="text-[11px] cursor-pointer text-muted hover:text-ink transition-colors"
+          aria-label="인원 추가"
+        >
+          + 인원 추가
+        </button>
+      )}
     </div>
     <_LadderBoard
       key={`board-${seed}`}
@@ -162,6 +149,8 @@ const GameView = ({
       data={ladderData}
       phase={phase}
       revealedSet={revealedSet}
+      animatingSet={animatingSet}
+      borderReadySet={borderReadySet}
       onParticipantsChange={onParticipantsChange}
       onItemsChange={onItemsChange}
       onParticipantClick={onParticipantClick}
@@ -174,8 +163,9 @@ const GameView = ({
       disabled={ctaDisabled}
       aria-disabled={ctaDisabled}
       aria-label="사다리 결과 확인"
-    >{ctaLabel}</button>
-
+    >
+      {ctaLabel}
+    </button>
   </div>
 );
 
