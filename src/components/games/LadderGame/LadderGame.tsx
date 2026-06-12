@@ -240,7 +240,7 @@ const GameView = ({
       'flex flex-col',
       isFullView
         ? 'flex-1'
-        : 'overflow-hidden shadow-[0_4px_28px_rgba(0,0,0,0.18),_0_1px_4px_rgba(0,0,0,0.10)] sm:max-w-md sm:mx-auto',
+        : 'overflow-hidden shadow-[0_4px_28px_rgba(0,0,0,0.18),_0_1px_4px_rgba(0,0,0,0.10)]',
       isWiggling && 'animate-[shake_0.4s_ease-in-out]'
     )}
   >

@@ -351,7 +351,7 @@ const SvgContent = ({
   const speed = maxLen / ANIM_S; // SVG units per second — constant across all traces
   return (
     <div
-      className="px-3"
+      className="px-3 sm:h-[150px]"
       style={isFullView ? { height: 'calc(100dvh - 220px)' } : undefined}
     >
       <svg
@@ -359,8 +359,8 @@ const SvgContent = ({
         width="100%"
         aria-hidden="true"
         className="block"
-        preserveAspectRatio={isFullView ? 'none' : undefined}
-        style={isFullView ? { height: '100%' } : undefined}
+        preserveAspectRatio="none"
+        style={{ height: '100%' }}
       >
         {xs.map((x, i) => (
           <line
