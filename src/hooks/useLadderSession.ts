@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 const KEY = 'megabobs-ladder-session';
 
-export const DEFAULT_PARTICIPANTS = ['🐱', '🐶', '🐻', '🐼'];
+const DEFAULT_PARTICIPANTS = ['🐱', '🐶', '🐻', '🐼'];
 export const DEFAULT_ITEMS = ['🎉 당첨', '꽝', '꽝', '꽝'];
 
 type Session = { participants: string[]; items: string[] };

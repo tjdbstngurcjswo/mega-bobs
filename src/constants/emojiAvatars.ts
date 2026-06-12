@@ -1,4 +1,4 @@
-export const EMOJI_AVATARS = [
+const EMOJI_AVATARS = [
   '🐱', '🐶', '🐻', '🐼', '🦊', '🐰', '🐸', '🐧',
   '🦁', '🐯', '🐨', '🦄', '🐙', '🐝', '🦋', '🐺',
 ] as const;
