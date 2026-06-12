@@ -10,9 +10,9 @@ import type { LadderData } from '@/utils/ladder';
 import type { LadderPhase } from '../LadderGame.types';
 
 const SVG_W = 300;
-const SVG_H = 200;
+const SVG_H = 140;
 const PAD_TOP = 0;
-const PAD_BOT = 16;
+const PAD_BOT = 8;
 const RAIL_COLOR = 'rgba(69,80,96,0.45)';
 const TRACE_COLORS = [
   '#e05c52', '#4a7fc1', '#4aac73', '#c2a02e',
