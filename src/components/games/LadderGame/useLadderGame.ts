@@ -137,6 +137,11 @@ export const useLadderGame = () => {
     else if (phase === 'result' && !revealedSet.has(i)) revealOne(i);
   };
 
+  const shuffleParticipants = () => {
+    if (phase !== 'input') return;
+    setParticipants([...participants].sort(() => Math.random() - 0.5));
+  };
+
   const allRevealed =
     phase === 'result' && revealedSet.size === participants.length;
   const ctaLabel =
@@ -166,6 +171,7 @@ export const useLadderGame = () => {
     onCta,
     changeParticipants,
     addPerson,
+    shuffleParticipants,
     setItems,
     onParticipantClick,
   };
