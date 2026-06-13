@@ -58,7 +58,7 @@ export const GameWindow = ({ children, toolbar }: GameWindowProps) => {
           className={
             isFullView
               ? 'flex flex-1 flex-col overflow-hidden'
-              : 'w-full overflow-hidden'
+              : 'min-h-[320px] w-full overflow-hidden'
           }
           style={{ background: GAME_BG }}
         >
