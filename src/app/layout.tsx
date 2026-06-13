@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 
 import './globals.css';
 
+import VercelBypassSW from '@/components/@shared/VercelBypassSW';
 import { SITE_NAME } from '@/constants/site';
 import { SITE_DESC } from '@/utils/jsonLd';
 
@@ -106,6 +107,7 @@ export default function RootLayout({
           }}
         />
         {process.env.VERCEL_ENV && <Analytics />}
+        <VercelBypassSW />
       </body>
     </html>
   );
