@@ -7,7 +7,7 @@ import { getNextEmoji } from '@/constants/emojiAvatars';
 import { DEFAULT_ITEMS, useLadderSession } from '@/hooks/useLadderSession';
 import { type LadderData, buildLadder } from '@/utils/ladder';
 
-import type { LadderPhase, RevealState } from './LadderGame.types';
+import type { LadderPhase } from './LadderGame.types';
 
 const ANIM_MS = 5500;
 const MAX = 8;
@@ -26,12 +26,6 @@ const autoFillItems = (items: string[], targetLen: number): string[] => {
   return result;
 };
 
-const checkCanPlay = (participants: string[], items: string[]) =>
-  participants.length >= 2 &&
-  items.length >= 2 &&
-  participants.length === items.length;
-
-// eslint-disable-next-line max-lines-per-function
 export const useLadderGame = () => {
   const { participants, items, setParticipants, setItems, loaded } =
     useLadderSession();
@@ -39,11 +33,6 @@ export const useLadderGame = () => {
   const [seed, setSeed] = useState(0);
   const [playedData, setPlayedData] = useState<LadderData | null>(null);
   const [reveal, setReveal] = useState(EMPTY_REVEAL);
-
-  const borderReady = new Set(
-    [...reveal.revealed].filter((i) => !reveal.animating.has(i))
-  );
-  const revealState: RevealState = { ...reveal, borderReady };
 
   const changeParticipants = (next: string[]) => {
     setParticipants(next);
@@ -61,42 +50,46 @@ export const useLadderGame = () => {
     setItems(autoFillItems(items, nextP.length));
   };
 
-  const canAddPerson = phase === 'input';
-
-  const canPlay = checkCanPlay(participants, items);
-
-  const ladderData = useMemo(
-    () => (canPlay ? buildLadder(participants.length) : null),
+  const builtLadder = useMemo(
+    () =>
+      participants.length >= 2 && items.length === participants.length
+        ? buildLadder(participants.length)
+        : null,
     // Recalculate only on count change or retry
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [participants.length, items.length, seed]
   );
 
-  const playAll = () => {
-    if (!canPlay || !ladderData || phase !== 'input') return;
-    const all = new Set(
-      Array.from({ length: participants.length }, (_, i) => i)
-    );
-    setPlayedData(ladderData);
-    setReveal({ revealed: all, animating: all });
-    setPhase('animating');
-    setTimeout(() => {
-      setPhase('result');
-      setReveal({ revealed: all, animating: new Set() });
-    }, ANIM_MS);
-  };
+  const ladderData =
+    phase === 'result' && playedData ? playedData : builtLadder;
 
-  const playOne = (i: number) => {
-    if (!canPlay || !ladderData || phase !== 'input') return;
-    setPlayedData(ladderData);
-    setPhase('result');
-    setReveal({ revealed: new Set([i]), animating: new Set([i]) });
-    setTimeout(() => {
-      setReveal((prev) => ({
-        revealed: prev.revealed,
-        animating: new Set([...prev.animating].filter((x) => x !== i)),
-      }));
-    }, ANIM_MS);
+  const play = (index?: number) => {
+    if (!builtLadder || phase !== 'input') return;
+    setPlayedData(builtLadder);
+
+    if (index === undefined) {
+      const all = new Set(
+        Array.from({ length: participants.length }, (_, i) => i)
+      );
+      setReveal({ revealed: all, animating: all });
+      setPhase('animating');
+      setTimeout(() => {
+        setPhase('result');
+        setReveal({ revealed: all, animating: new Set() });
+      }, ANIM_MS);
+    } else {
+      setPhase('result');
+      setReveal({
+        revealed: new Set([index]),
+        animating: new Set([index]),
+      });
+      setTimeout(() => {
+        setReveal((prev) => ({
+          revealed: prev.revealed,
+          animating: new Set([...prev.animating].filter((x) => x !== index)),
+        }));
+      }, ANIM_MS);
+    }
   };
 
   const revealOne = (i: number) => {
@@ -141,28 +134,10 @@ export const useLadderGame = () => {
     setReveal(EMPTY_REVEAL);
   };
 
-  const onParticipantClick = (i: number) => {
-    if (phase === 'input') playOne(i);
-    else if (phase === 'result' && !reveal.revealed.has(i)) revealOne(i);
-  };
-
   const shuffleParticipants = () => {
     if (phase !== 'input') return;
     setParticipants([...participants].sort(() => Math.random() - 0.5));
   };
-
-  const allRevealed =
-    phase === 'result' && reveal.revealed.size === participants.length;
-  const ctaLabel =
-    phase === 'animating'
-      ? '확인 중…'
-      : allRevealed
-        ? '↺ 다시하기'
-        : '한번에 결과 보기';
-  const ctaDisabled = phase === 'animating' || (phase === 'input' && !canPlay);
-  const onCta = allRevealed ? retry : phase === 'input' ? playAll : revealAll;
-  const displayLadderData =
-    phase === 'result' && playedData ? playedData : ladderData;
 
   return {
     participants,
@@ -170,16 +145,16 @@ export const useLadderGame = () => {
     loaded,
     phase,
     seed,
-    displayLadderData,
-    canAddPerson,
-    reveal: revealState,
-    ctaLabel,
-    ctaDisabled,
-    onCta,
-    changeParticipants,
+    ladderData,
+    revealed: reveal.revealed,
+    animating: reveal.animating,
+    play,
+    revealOne,
+    revealAll,
+    retry,
     addPerson,
-    shuffleParticipants,
+    changeParticipants,
     setItems,
-    onParticipantClick,
+    shuffleParticipants,
   };
 };
