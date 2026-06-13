@@ -107,7 +107,7 @@ export default function RootLayout({
           }}
         />
         {process.env.VERCEL_ENV && <Analytics />}
-        <VercelBypassSW />
+        {process.env.VERCEL_ENV !== 'production' && <VercelBypassSW />}
       </body>
     </html>
   );
