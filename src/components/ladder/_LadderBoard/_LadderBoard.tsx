@@ -8,7 +8,7 @@ import { useGameWindow } from '@/components/@shared';
 import { cn } from '@/utils/cn';
 import type { LadderData } from '@/utils/ladder';
 
-import type { LadderPhase } from '../LadderGame.types';
+import type { LadderPhase, RevealState } from '../LadderGame.types';
 
 const SVG_W = 300;
 const SVG_H = 140;
@@ -432,9 +432,7 @@ interface LadderBoardProps {
   items: string[];
   data: LadderData | null;
   phase: LadderPhase;
-  revealedSet: Set<number>;
-  animatingSet: Set<number>;
-  borderReadySet: Set<number>;
+  reveal: RevealState;
   onParticipantsChange: (v: string[]) => void;
   onItemsChange: (v: string[]) => void;
   onParticipantClick?: (i: number) => void;
@@ -446,13 +444,16 @@ const LadderBoardView = ({
   items,
   data,
   phase,
-  revealedSet,
-  animatingSet,
-  borderReadySet,
+  reveal,
   onParticipantsChange,
   onItemsChange,
   onParticipantClick,
 }: LadderBoardProps) => {
+  const {
+    revealed: revealedSet,
+    animating: animatingSet,
+    borderReady: borderReadySet,
+  } = reveal;
   const disabled = phase !== 'input';
   const showTraces = phase !== 'input';
   const animateTraces = phase === 'animating';

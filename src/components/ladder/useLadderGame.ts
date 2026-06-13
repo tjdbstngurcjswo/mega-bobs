@@ -7,10 +7,15 @@ import { getNextEmoji } from '@/constants/emojiAvatars';
 import { DEFAULT_ITEMS, useLadderSession } from '@/hooks/useLadderSession';
 import { type LadderData, buildLadder } from '@/utils/ladder';
 
-import type { LadderPhase } from './LadderGame.types';
+import type { LadderPhase, RevealState } from './LadderGame.types';
 
 const ANIM_MS = 5500;
 const MAX = 8;
+
+const EMPTY_REVEAL = {
+  revealed: new Set<number>(),
+  animating: new Set<number>(),
+};
 
 const autoFillItems = (items: string[], targetLen: number): string[] => {
   if (items.length >= targetLen) return items;
@@ -22,7 +27,9 @@ const autoFillItems = (items: string[], targetLen: number): string[] => {
 };
 
 const checkCanPlay = (participants: string[], items: string[]) =>
-  participants.length >= 2 && items.length >= 2 && participants.length === items.length;
+  participants.length >= 2 &&
+  items.length >= 2 &&
+  participants.length === items.length;
 
 // eslint-disable-next-line max-lines-per-function
 export const useLadderGame = () => {
@@ -31,9 +38,12 @@ export const useLadderGame = () => {
   const [phase, setPhase] = useState<LadderPhase>('input');
   const [seed, setSeed] = useState(0);
   const [playedData, setPlayedData] = useState<LadderData | null>(null);
-  const [revealedSet, setRevealedSet] = useState<Set<number>>(new Set());
-  const [animatingSet, setAnimatingSet] = useState<Set<number>>(new Set());
-  const [borderReadySet, setBorderReadySet] = useState<Set<number>>(new Set());
+  const [reveal, setReveal] = useState(EMPTY_REVEAL);
+
+  const borderReady = new Set(
+    [...reveal.revealed].filter((i) => !reveal.animating.has(i))
+  );
+  const revealState: RevealState = { ...reveal, borderReady };
 
   const changeParticipants = (next: string[]) => {
     setParticipants(next);
@@ -64,15 +74,15 @@ export const useLadderGame = () => {
 
   const playAll = () => {
     if (!canPlay || !ladderData || phase !== 'input') return;
-    const all = new Set(Array.from({ length: participants.length }, (_, i) => i));
+    const all = new Set(
+      Array.from({ length: participants.length }, (_, i) => i)
+    );
     setPlayedData(ladderData);
-    setRevealedSet(all);
-    setAnimatingSet(all);
+    setReveal({ revealed: all, animating: all });
     setPhase('animating');
     setTimeout(() => {
       setPhase('result');
-      setAnimatingSet(new Set());
-      setBorderReadySet(all);
+      setReveal({ revealed: all, animating: new Set() });
     }, ANIM_MS);
   };
 
@@ -80,61 +90,60 @@ export const useLadderGame = () => {
     if (!canPlay || !ladderData || phase !== 'input') return;
     setPlayedData(ladderData);
     setPhase('result');
-    setRevealedSet(new Set([i]));
-    setAnimatingSet(new Set([i]));
+    setReveal({ revealed: new Set([i]), animating: new Set([i]) });
     setTimeout(() => {
-      setAnimatingSet((prev) => {
-        const next = new Set(prev);
-        next.delete(i);
-        return next;
-      });
-      setBorderReadySet((prev) => new Set([...prev, i]));
+      setReveal((prev) => ({
+        revealed: prev.revealed,
+        animating: new Set([...prev.animating].filter((x) => x !== i)),
+      }));
     }, ANIM_MS);
   };
 
   const revealOne = (i: number) => {
-    setAnimatingSet((prev) => new Set([...prev, i]));
-    setRevealedSet((prev) => new Set([...prev, i]));
+    setReveal((prev) => ({
+      revealed: new Set([...prev.revealed, i]),
+      animating: new Set([...prev.animating, i]),
+    }));
     setTimeout(() => {
-      setAnimatingSet((prev) => {
-        const next = new Set(prev);
-        next.delete(i);
-        return next;
-      });
-      setBorderReadySet((prev) => new Set([...prev, i]));
+      setReveal((prev) => ({
+        revealed: prev.revealed,
+        animating: new Set([...prev.animating].filter((x) => x !== i)),
+      }));
     }, ANIM_MS);
   };
 
   const revealAll = () => {
-    const all = new Set(Array.from({ length: participants.length }, (_, i) => i));
-    const unrevealedArr = Array.from(all).filter((i) => !revealedSet.has(i));
-    setRevealedSet(all);
+    const all = new Set(
+      Array.from({ length: participants.length }, (_, i) => i)
+    );
+    const unrevealedArr = [...all].filter((i) => !reveal.revealed.has(i));
     if (unrevealedArr.length === 0) {
-      setBorderReadySet(all);
+      setReveal({ revealed: all, animating: reveal.animating });
       return;
     }
-    setAnimatingSet((prev) => new Set([...prev, ...unrevealedArr]));
+    setReveal((prev) => ({
+      revealed: all,
+      animating: new Set([...prev.animating, ...unrevealedArr]),
+    }));
     setTimeout(() => {
-      setAnimatingSet((prev) => {
-        const next = new Set(prev);
-        unrevealedArr.forEach((i) => next.delete(i));
-        return next;
-      });
-      setBorderReadySet(all);
+      setReveal((prev) => ({
+        revealed: all,
+        animating: new Set(
+          [...prev.animating].filter((i) => !unrevealedArr.includes(i))
+        ),
+      }));
     }, ANIM_MS);
   };
 
   const retry = () => {
     setPhase('input');
     setSeed((s) => s + 1);
-    setRevealedSet(new Set());
-    setAnimatingSet(new Set());
-    setBorderReadySet(new Set());
+    setReveal(EMPTY_REVEAL);
   };
 
   const onParticipantClick = (i: number) => {
     if (phase === 'input') playOne(i);
-    else if (phase === 'result' && !revealedSet.has(i)) revealOne(i);
+    else if (phase === 'result' && !reveal.revealed.has(i)) revealOne(i);
   };
 
   const shuffleParticipants = () => {
@@ -143,7 +152,7 @@ export const useLadderGame = () => {
   };
 
   const allRevealed =
-    phase === 'result' && revealedSet.size === participants.length;
+    phase === 'result' && reveal.revealed.size === participants.length;
   const ctaLabel =
     phase === 'animating'
       ? '확인 중…'
@@ -163,9 +172,7 @@ export const useLadderGame = () => {
     seed,
     displayLadderData,
     canAddPerson,
-    revealedSet,
-    animatingSet,
-    borderReadySet,
+    reveal: revealState,
     ctaLabel,
     ctaDisabled,
     onCta,
