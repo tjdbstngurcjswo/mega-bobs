@@ -1,3 +1,4 @@
+const CACHE_NAME = 'vbp-v1';
 let bypassToken = null;
 
 self.addEventListener('install', () => {
@@ -5,12 +6,22 @@ self.addEventListener('install', () => {
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      const resp = await cache.match('token');
+      if (resp) bypassToken = await resp.text();
+      await self.clients.claim();
+    })()
+  );
 });
 
-self.addEventListener('message', (event) => {
+self.addEventListener('message', async (event) => {
   if (event.data?.type === 'SET_BYPASS') {
     bypassToken = event.data.token;
+    const cache = await caches.open(CACHE_NAME);
+    await cache.put('token', new Response(bypassToken));
+    event.ports[0]?.postMessage({ ok: true });
   }
 });
 

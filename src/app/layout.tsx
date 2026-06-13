@@ -5,7 +5,6 @@ import { Toaster } from 'react-hot-toast';
 
 import './globals.css';
 
-import VercelBypassSW from '@/components/@shared/VercelBypassSW';
 import { SITE_NAME } from '@/constants/site';
 import { SITE_DESC } from '@/utils/jsonLd';
 
@@ -90,6 +89,39 @@ export default function RootLayout({
         {process.env.NEXT_PUBLIC_SUPABASE_URL && (
           <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} />
         )}
+        {process.env.VERCEL_ENV !== 'production' && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(function(){
+  var PARAM='x-vercel-protection-bypass',KEY='vbp';
+  if(!('serviceWorker' in navigator))return;
+  var urlToken=new URLSearchParams(location.search).get(PARAM);
+  var token=urlToken||sessionStorage.getItem(KEY);
+  if(!token)return;
+  if(urlToken)sessionStorage.setItem(KEY,urlToken);
+  if(navigator.serviceWorker.controller){
+    navigator.serviceWorker.controller.postMessage({type:'SET_BYPASS',token:token});
+    if(urlToken){var u=new URL(location.href);u.searchParams.delete(PARAM);history.replaceState(null,'',u.toString());}
+    return;
+  }
+  navigator.serviceWorker.register('/sw.js').then(function(){
+    function go(){
+      var ctrl=navigator.serviceWorker.controller;
+      if(!ctrl)return;
+      var ch=new MessageChannel();
+      ch.port1.onmessage=function(){ch.port1.close();location.reload();};
+      ctrl.postMessage({type:'SET_BYPASS',token:token},[ch.port2]);
+      setTimeout(function(){location.reload();},1500);
+    }
+    if(navigator.serviceWorker.controller)go();
+    else navigator.serviceWorker.addEventListener('controllerchange',function h(){
+      navigator.serviceWorker.removeEventListener('controllerchange',h);go();
+    });
+  });
+})();`,
+            }}
+          />
+        )}
       </head>
       <body className={bodyClass}>
         {children}
@@ -107,7 +139,6 @@ export default function RootLayout({
           }}
         />
         {process.env.VERCEL_ENV && <Analytics />}
-        {process.env.VERCEL_ENV !== 'production' && <VercelBypassSW />}
       </body>
     </html>
   );
