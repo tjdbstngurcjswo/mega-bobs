@@ -15,20 +15,46 @@ const LadderGame = () => {
     loaded,
     phase,
     seed,
-    displayLadderData,
-    canAddPerson,
-    reveal,
-    ctaLabel,
-    ctaDisabled,
-    onCta,
-    changeParticipants,
+    ladderData,
+    revealed,
+    animating,
+    play,
+    revealOne,
+    revealAll,
+    retry,
     addPerson,
-    shuffleParticipants,
+    changeParticipants,
     setItems,
-    onParticipantClick,
+    shuffleParticipants,
   } = useLadderGame();
 
   if (!loaded) return null;
+
+  const canPlay =
+    participants.length >= 2 &&
+    items.length >= 2 &&
+    participants.length === items.length;
+  const canAddPerson = phase === 'input';
+  const allRevealed =
+    phase === 'result' && revealed.size === participants.length;
+
+  const ctaLabel =
+    phase === 'animating'
+      ? '확인 중…'
+      : allRevealed
+        ? '↺ 다시하기'
+        : '한번에 결과 보기';
+  const ctaDisabled = phase === 'animating' || (phase === 'input' && !canPlay);
+  const onCta = allRevealed
+    ? retry
+    : phase === 'input'
+      ? () => play()
+      : revealAll;
+
+  const onParticipantClick = (i: number) => {
+    if (phase === 'input') play(i);
+    else if (phase === 'result' && !revealed.has(i)) revealOne(i);
+  };
 
   return (
     <GameWindow
@@ -56,14 +82,14 @@ const LadderGame = () => {
         </div>
       }
     >
-      <div className={gameWrapClass} style={{ padding: '16px' }}>
+      <div className={gameWrapClass}>
         <_LadderBoard
           key={`board-${seed}`}
           participants={participants}
           items={items}
-          data={displayLadderData}
+          data={ladderData}
           phase={phase}
-          reveal={reveal}
+          reveal={{ revealed, animating }}
           onParticipantsChange={changeParticipants}
           onItemsChange={setItems}
           onParticipantClick={onParticipantClick}

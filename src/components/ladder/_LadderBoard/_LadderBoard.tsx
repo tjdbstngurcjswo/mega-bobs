@@ -449,11 +449,10 @@ const LadderBoardView = ({
   onItemsChange,
   onParticipantClick,
 }: LadderBoardProps) => {
-  const {
-    revealed: revealedSet,
-    animating: animatingSet,
-    borderReady: borderReadySet,
-  } = reveal;
+  const { revealed: revealedSet, animating: animatingSet } = reveal;
+  const borderReadySet = new Set(
+    [...revealedSet].filter((i) => !animatingSet.has(i))
+  );
   const disabled = phase !== 'input';
   const showTraces = phase !== 'input';
   const animateTraces = phase === 'animating';
