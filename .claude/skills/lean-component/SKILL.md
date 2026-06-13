@@ -22,7 +22,6 @@ description: Use when creating, editing, or reviewing any component file (.tsx).
 | ------------------------------------------------- | ---------------------------------------------- |
 | `interface XxxProps` / `type Xxx` (컴포넌트 전용) | `<ComponentFolder>/ComponentName.types.ts`     |
 | 상수 (컴포넌트 전용)                              | `<ComponentFolder>/ComponentName.constants.ts` |
-| 순수 계산 함수 (기하·수학·알고리즘, React 미사용) | `<ComponentFolder>/ComponentName.geometry.ts`  |
 | 유틸리티 함수 (`const calcTotal = ...`)           | `src/lib/<feature>.ts`                         |
 | 도메인 로직 함수 (`const getStatus = ...`)        | `src/lib/<feature>.ts`                         |
 | 커스텀 훅                                         | `src/hooks/use<Name>.ts`                       |
@@ -123,7 +122,7 @@ import { supabaseServer } from '../lib/supabase-server';
 
 - [ ] 컴포넌트 파일에 `interface` / `type` 정의가 없는가?
 - [ ] 컴포넌트 함수 바깥에 상수(`const UPPER` 또는 일반 값 상수)가 없는가?
-- [ ] 컴포넌트 함수 바깥에 유틸/로직 함수가 없는가? (순수 계산 함수는 `.geometry.ts`로)
+- [ ] 컴포넌트 함수 바깥에 유틸/로직 함수가 없는가?
 - [ ] 비레이아웃 클래스(`text-*`, `bg-*`, `border-*`, `shadow-*`, `font-*`, `transition-*`, `cursor-*` 등)가 있는 모든 `className`을 `.styles.ts`로 분리했는가?
 - [ ] 분리한 파일이 올바른 위치에 있고 export가 정확한가?
 - [ ] 다른 폴더 import가 `@/` 절대경로를 사용하는가? (`../` 없는가?)
@@ -144,12 +143,10 @@ src/
             ├── MenuBoard.tsx            ← 컴포넌트 함수만
             ├── MenuBoard.types.ts       ← 이 컴포넌트 전용 타입
             ├── MenuBoard.styles.ts      ← 스타일 (필요 시)
-            ├── MenuBoard.geometry.ts   ← 순수 계산 함수 (React 미사용, 필요 시)
-            ├── MenuBoard.constants.ts  ← 이 컴포넌트 전용 상수 (필요 시)
+            ├── constants.ts             ← 이 컴포넌트 전용 상수 (필요 시)
             └── _ParentNameSubName/     ← 외부 비공개 서브 컴포넌트 (필요 시)
                                          이름 규칙: 상위 컴포넌트명 + 서브 컴포넌트명
-                                         예) MenuBoard → _MenuBoardEmpty/
-                                         파일 vs 폴더: 서브 컴포넌트에 types/styles가 필요하면 폴더, 단순 JSX면 파일
+                                         예) MenuBoard → _MenuBoardEmpty/MenuBoardEmpty.tsx
 ```
 
 ## 위반 리포트 형식
