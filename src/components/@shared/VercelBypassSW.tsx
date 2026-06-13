@@ -20,9 +20,8 @@ const VercelBypassSW = () => {
     if (!token) return;
     if (urlToken) sessionStorage.setItem(BYPASS_KEY, urlToken);
 
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      sendToken(token);
-    });
+    const onControllerChange = () => sendToken(token);
+    navigator.serviceWorker.addEventListener('controllerchange', onControllerChange);
 
     navigator.serviceWorker.register('/sw.js').then(() => {
       sendToken(token);
@@ -35,6 +34,10 @@ const VercelBypassSW = () => {
         });
       }
     });
+
+    return () => {
+      navigator.serviceWorker.removeEventListener('controllerchange', onControllerChange);
+    };
   }, []);
 
   return null;
