@@ -1,83 +1,12 @@
 'use client';
 
 import { Shuffle } from 'lucide-react';
-import type { ReactNode } from 'react';
 
-import { GameWindow, useGameWindow } from '@/components/@shared';
-import { cn } from '@/utils/cn';
+import { GameWindow } from '@/components/@shared';
 
 import { _LadderBoard } from './_LadderBoard';
 import { ctaButtonClass, gameWrapClass } from './LadderGame.styles';
 import { useLadderGame } from './useLadderGame';
-
-interface LadderContentProps {
-  seed: number;
-  participants: string[];
-  items: string[];
-  phase: ReturnType<typeof useLadderGame>['phase'];
-  ladderData: ReturnType<typeof useLadderGame>['displayLadderData'];
-  revealedSet: Set<number>;
-  animatingSet: Set<number>;
-  borderReadySet: Set<number>;
-  ctaLabel: string;
-  ctaDisabled: boolean;
-  onCta: () => void;
-  onParticipantsChange: (v: string[]) => void;
-  onItemsChange: (v: string[]) => void;
-  onParticipantClick: (i: number) => void;
-}
-
-const LadderContent = ({
-  seed,
-  participants,
-  items,
-  phase,
-  ladderData,
-  revealedSet,
-  animatingSet,
-  borderReadySet,
-  ctaLabel,
-  ctaDisabled,
-  onCta,
-  onParticipantsChange,
-  onItemsChange,
-  onParticipantClick,
-}: LadderContentProps): ReactNode => {
-  const { isFullView } = useGameWindow();
-  return (
-    <div
-      className={cn(
-        gameWrapClass,
-        isFullView && 'mx-auto w-full max-w-xl flex-1 overflow-y-auto'
-      )}
-      style={{ padding: '16px' }}
-    >
-      <_LadderBoard
-        key={`board-${seed}`}
-        participants={participants}
-        items={items}
-        data={ladderData}
-        phase={phase}
-        revealedSet={revealedSet}
-        animatingSet={animatingSet}
-        borderReadySet={borderReadySet}
-        onParticipantsChange={onParticipantsChange}
-        onItemsChange={onItemsChange}
-        onParticipantClick={onParticipantClick}
-      />
-      <button
-        type="button"
-        className={ctaButtonClass(ctaDisabled)}
-        onClick={onCta}
-        disabled={ctaDisabled}
-        aria-disabled={ctaDisabled}
-        aria-label="사다리 결과 확인"
-      >
-        {ctaLabel}
-      </button>
-    </div>
-  );
-};
 
 const LadderGame = () => {
   const {
@@ -88,9 +17,7 @@ const LadderGame = () => {
     seed,
     displayLadderData,
     canAddPerson,
-    revealedSet,
-    animatingSet,
-    borderReadySet,
+    reveal,
     ctaLabel,
     ctaDisabled,
     onCta,
@@ -129,22 +56,29 @@ const LadderGame = () => {
         </div>
       }
     >
-      <LadderContent
-        seed={seed}
-        participants={participants}
-        items={items}
-        phase={phase}
-        ladderData={displayLadderData}
-        revealedSet={revealedSet}
-        animatingSet={animatingSet}
-        borderReadySet={borderReadySet}
-        ctaLabel={ctaLabel}
-        ctaDisabled={ctaDisabled}
-        onCta={onCta}
-        onParticipantsChange={changeParticipants}
-        onItemsChange={setItems}
-        onParticipantClick={onParticipantClick}
-      />
+      <div className={gameWrapClass} style={{ padding: '16px' }}>
+        <_LadderBoard
+          key={`board-${seed}`}
+          participants={participants}
+          items={items}
+          data={displayLadderData}
+          phase={phase}
+          reveal={reveal}
+          onParticipantsChange={changeParticipants}
+          onItemsChange={setItems}
+          onParticipantClick={onParticipantClick}
+        />
+        <button
+          type="button"
+          className={ctaButtonClass(ctaDisabled)}
+          onClick={onCta}
+          disabled={ctaDisabled}
+          aria-disabled={ctaDisabled}
+          aria-label="사다리 결과 확인"
+        >
+          {ctaLabel}
+        </button>
+      </div>
     </GameWindow>
   );
 };

@@ -21,7 +21,8 @@
   --color-down: #6e8094;
   --color-down-soft: #e4eaf3;
 
-  --font-sans: var(--font-pretendard), -apple-system, 'Apple Color Emoji',
+  --font-sans:
+    var(--font-pretendard), -apple-system, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
 
   /* 풀 스퀘어 — radius 사용 금지 (물리적 원형 제외) */
@@ -34,8 +35,8 @@
 }
 
 @utility font-emoji {
-  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', emoji,
-    sans-serif;
+  font-family:
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', emoji, sans-serif;
   font-variant-emoji: emoji;
 }
 
@@ -134,6 +135,14 @@
   60% {
     transform: scale(0.95);
   }
+}
+
+.game-window:fullscreen .ladder-wrap {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 36rem;
+  flex: 1 1 0%;
+  overflow-y: auto;
 }
 
 @keyframes thumbsUpBounce {

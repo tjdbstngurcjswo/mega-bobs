@@ -8,7 +8,7 @@ export const GAME_BG =
 
 export const frameClass = (isFullView: boolean, isWiggling?: boolean) =>
   cn(
-    'flex flex-col',
+    'game-window flex flex-col',
     isFullView
       ? 'h-full'
       : 'overflow-hidden shadow-[0_4px_28px_rgba(0,0,0,0.18),_0_1px_4px_rgba(0,0,0,0.10)]',

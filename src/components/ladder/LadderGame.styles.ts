@@ -1,6 +1,6 @@
 import { cn } from '@/utils/cn';
 
-export const gameWrapClass = 'flex flex-col gap-3';
+export const gameWrapClass = 'ladder-wrap flex flex-col gap-3';
 
 export const ctaButtonClass = (disabled: boolean) =>
   cn(
