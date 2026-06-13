@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
-import { GameCard } from '@/components/games';
+import { GameCard } from '@/components/@shared';
 import { GAMES } from '@/constants/games';
 import { SITE_NAME } from '@/constants/site';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';

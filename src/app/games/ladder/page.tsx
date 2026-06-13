@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
-import { LadderGame } from '@/components/games/LadderGame';
+import { LadderGame } from '@/components/ladder';
 import { SITE_NAME } from '@/constants/site';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 
-const desc = '참여자와 항목을 입력하고 사다리를 돌려보세요. 결과는 언제나 공평해요.';
+const desc =
+  '참여자와 항목을 입력하고 사다리를 돌려보세요. 결과는 언제나 공평해요.';
 
 export const metadata: Metadata = {
   title: '사다리게임',

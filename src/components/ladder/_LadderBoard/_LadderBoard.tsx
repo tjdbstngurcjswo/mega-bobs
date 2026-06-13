@@ -4,6 +4,7 @@
 import { motion } from 'motion/react';
 import { useMemo } from 'react';
 
+import { useGameWindow } from '@/components/@shared';
 import { cn } from '@/utils/cn';
 import type { LadderData } from '@/utils/ladder';
 
@@ -15,34 +16,47 @@ const PAD_TOP = 0;
 const PAD_BOT = 8;
 const RAIL_COLOR = 'rgba(69,80,96,0.45)';
 const TRACE_COLORS = [
-  '#e05c52', '#4a7fc1', '#4aac73', '#c2a02e',
-  '#7c5bbf', '#3fa8a0', '#d97843', '#c05480',
+  '#e05c52',
+  '#4a7fc1',
+  '#4aac73',
+  '#c2a02e',
+  '#7c5bbf',
+  '#3fa8a0',
+  '#d97843',
+  '#c05480',
 ];
 const ANIM_S = 5;
 const STROKE_W = 1.2;
 const CORNER_R = 4;
 
 const getXs = (n: number): number[] =>
-  Array.from({ length: n }, (_, i) => SVG_W * (i + 0.5) / n);
+  Array.from({ length: n }, (_, i) => (SVG_W * (i + 0.5)) / n);
 
 const getYs = (rungRows: number): number[] => {
   const range = SVG_H - PAD_TOP - PAD_BOT;
-  return Array.from({ length: rungRows }, (_, r) =>
-    PAD_TOP + ((r + 1) * range) / (rungRows + 1)
+  return Array.from(
+    { length: rungRows },
+    (_, r) => PAD_TOP + ((r + 1) * range) / (rungRows + 1)
   );
 };
 
 // ── Segment-based traces with overlap detection ────────────────────────────────
 
 interface TraceSeg {
-  x1: number; y1: number;
-  x2: number; y2: number;
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
   len: number;
   pathFrac: number;
   segFrac: number;
 }
 
-const buildTraceSegs = (data: LadderData, xs: number[], ys: number[]): TraceSeg[][] => {
+const buildTraceSegs = (
+  data: LadderData,
+  xs: number[],
+  ys: number[]
+): TraceSeg[][] => {
   const botY = SVG_H - PAD_BOT;
   return Array.from({ length: data.n }, (_, p) => {
     let col = p;
@@ -79,10 +93,13 @@ const buildTraceSegs = (data: LadderData, xs: number[], ys: number[]): TraceSeg[
   });
 };
 
-interface SegOffset { xOff: number; yOff: number; sw: number }
+interface SegOffset {
+  xOff: number;
+  yOff: number;
+  sw: number;
+}
 
 const computeOffsets = (allSegs: TraceSeg[][]): SegOffset[][] => {
-
   const segKey = (s: TraceSeg) => {
     const [ax, ay, bx, by] =
       s.x1 <= s.x2 ? [s.x1, s.y1, s.x2, s.y2] : [s.x2, s.y2, s.x1, s.y1];
@@ -212,11 +229,11 @@ const AvatarRow = ({
         const color = TRACE_COLORS[i % TRACE_COLORS.length];
         const hasBorder = showTraces && isRevealed;
         return (
-          <div key={i} className="flex-1 min-w-0 relative">
+          <div key={i} className="relative min-w-0 flex-1">
             {canRemove && (
               <button
                 type="button"
-                className="absolute top-0.5 right-0.5 z-10 w-4 h-4 text-muted text-[10px] flex items-center justify-center cursor-pointer hover:text-ink leading-none"
+                className="text-muted hover:text-ink absolute top-0.5 right-0.5 z-10 flex h-4 w-4 cursor-pointer items-center justify-center text-[10px] leading-none"
                 onClick={() => onRemove(i)}
                 aria-label={`참여자 ${i + 1} 제거`}
               >
@@ -226,7 +243,7 @@ const AvatarRow = ({
             {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
             <div
               className={cn(
-                'w-full flex items-center justify-center py-2 transition-opacity',
+                'flex w-full items-center justify-center py-2 transition-opacity',
                 isClickable && 'cursor-pointer hover:opacity-75',
                 isOpaque && 'opacity-40'
               )}
@@ -294,7 +311,7 @@ const ItemsRow = ({
         return (
           <div
             key={i}
-            className="flex-1 min-w-0 flex flex-col items-center"
+            className="flex min-w-0 flex-1 flex-col items-center"
             style={{
               background: CELL_GLASS,
               backdropFilter: CELL_BLUR,
@@ -308,8 +325,8 @@ const ItemsRow = ({
               onChange={(e) => onEdit(i, e.target.value)}
               readOnly={disabled}
               className={cn(
-                'w-full text-center bg-transparent text-[9px] font-bold outline-none px-0.5 py-1.5',
-                'border-b-2 border-transparent focus-visible:border-accent transition-colors truncate',
+                'w-full bg-transparent px-0.5 py-1.5 text-center text-[9px] font-bold outline-none',
+                'focus-visible:border-accent truncate border-b-2 border-transparent transition-colors',
                 'text-ink-2',
                 disabled && 'cursor-default'
               )}
@@ -324,7 +341,6 @@ const ItemsRow = ({
   );
 };
 
-
 interface SvgContentProps {
   xs: number[];
   ys: number[];
@@ -333,7 +349,6 @@ interface SvgContentProps {
   showTraces: boolean;
   revealedSet: Set<number>;
   animatingSet: Set<number>;
-  isFullView?: boolean;
 }
 
 const SvgContent = ({
@@ -344,8 +359,8 @@ const SvgContent = ({
   showTraces,
   revealedSet,
   animatingSet,
-  isFullView,
 }: SvgContentProps) => {
+  const { isFullView } = useGameWindow();
   const botY = SVG_H - PAD_BOT;
   const maxLen = Math.max(...smoothPaths.map((p) => p.totalLen), 1);
   const speed = maxLen / ANIM_S; // SVG units per second — constant across all traces
@@ -420,7 +435,6 @@ interface LadderBoardProps {
   revealedSet: Set<number>;
   animatingSet: Set<number>;
   borderReadySet: Set<number>;
-  isFullView?: boolean;
   onParticipantsChange: (v: string[]) => void;
   onItemsChange: (v: string[]) => void;
   onParticipantClick?: (i: number) => void;
@@ -435,7 +449,6 @@ const LadderBoardView = ({
   revealedSet,
   animatingSet,
   borderReadySet,
-  isFullView,
   onParticipantsChange,
   onItemsChange,
   onParticipantClick,
@@ -451,7 +464,10 @@ const LadderBoardView = ({
     [data, xs, ys]
   );
   const offsets = useMemo(() => computeOffsets(allSegs), [allSegs]);
-  const smoothPaths = useMemo(() => buildSmoothPaths(allSegs, offsets), [allSegs, offsets]);
+  const smoothPaths = useMemo(
+    () => buildSmoothPaths(allSegs, offsets),
+    [allSegs, offsets]
+  );
   const rungs = useMemo(
     () =>
       data
@@ -500,7 +516,6 @@ const LadderBoardView = ({
         showTraces={showTraces}
         revealedSet={revealedSet}
         animatingSet={animatingSet}
-        isFullView={isFullView}
       />
       <ItemsRow
         items={items}

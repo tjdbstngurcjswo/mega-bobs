@@ -20,11 +20,3 @@ export const cardBadgeClass =
 
 export const cardIconClass =
   'text-muted shrink-0 group-hover:animate-[wiggle_0.4s_ease-in-out]';
-
-export const cardToastClass = (isEasterEgg: boolean) =>
-  cn(
-    'absolute inset-x-0 bottom-0 flex items-center gap-1.5 px-5 py-2.5 text-[12px] font-semibold animate-[fadeUp_0.2s_ease-out]',
-    isEasterEgg
-      ? 'bg-accent-soft text-accent-text'
-      : 'bg-surface-warm text-ink-2'
-  );
