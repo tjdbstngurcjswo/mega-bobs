@@ -7,10 +7,10 @@ export const weekLabelClass = 'flex items-center gap-1 px-4 pt-1.5 pb-0.5';
 export const weekRangeClass =
   'flex-1 text-center text-[11px] font-semibold tabular-nums text-muted';
 
-export const navButtonClass = (canGo: boolean) =>
+export const navButtonClass = (visible: boolean) =>
   cn(
-    'flex cursor-pointer items-center justify-center px-1 py-2 transition-opacity duration-100 active:scale-75',
-    canGo ? 'text-muted hover:text-ink' : 'cursor-default opacity-25'
+    'flex cursor-pointer items-center justify-center px-1 py-2 text-muted transition-opacity duration-100 hover:text-ink active:scale-75',
+    !visible && 'invisible pointer-events-none'
   );
 
 export const navArrowClass = 'text-[14px] leading-none font-light';
