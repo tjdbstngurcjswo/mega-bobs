@@ -8,3 +8,9 @@ export type CompanyNews = {
   company: NewsCompany;
   publishedAt: string; // ISO 8601
 };
+
+export const COMPANY_LABEL: Record<NewsCompany, string> = {
+  megazone: '메가존',
+  megazonecloud: '메가존클라우드',
+  megazonesoft: '메가존소프트',
+};

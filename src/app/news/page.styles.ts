@@ -1,8 +1,8 @@
-export const newsFootnoteClass = 'text-muted pt-1.5 text-center text-xs';
+export const emptyNewsClass =
+  'flex flex-col items-center gap-3 px-1 py-24 text-center';
 
-export const emptyNewsClass = 'border-t-ink border-t-2 px-1 py-16 text-center';
+export const emptyNewsIconClass = 'text-line size-12';
 
-export const emptyNewsSoonClass =
-  'text-muted text-2xl font-extrabold tracking-[0.2em]';
+export const emptyNewsTitleClass = 'text-ink-2 text-[17px] font-extrabold';
 
-export const emptyNewsDescClass = 'text-muted mt-3 text-[13.5px]';
+export const emptyNewsDescClass = 'text-muted text-[13.5px]';
