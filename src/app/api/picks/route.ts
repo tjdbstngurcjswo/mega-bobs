@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { extractGeo, isKoreaGeo } from '@/lib/geoHeaders';
 import { supabaseServer } from '@/lib/supabaseServer';
 import { PickResult, PickType } from '@/models/vote';
 
@@ -58,6 +59,11 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ error: 'x-voter-id required' }, { status: 400 });
   }
 
+  const geo = extractGeo(req);
+  if (!isKoreaGeo(geo)) {
+    return NextResponse.json({ error: 'unavailable' }, { status: 403 });
+  }
+
   let body: { date?: string; pick_type?: string };
   try {
     body = await req.json();
@@ -86,12 +92,18 @@ export const POST = async (req: NextRequest) => {
   }
 
   // upsert — INSERT ... ON CONFLICT DO UPDATE: 원자적, delete+insert gap 없음
-  const { error } = await supabaseServer
-    .from('menu_picks')
-    .upsert(
-      { voter_id: voterId, date, pick_type: pickType },
-      { onConflict: 'voter_id,date' }
-    );
+  const { error } = await supabaseServer.from('menu_picks').upsert(
+    {
+      voter_id: voterId,
+      date,
+      pick_type: pickType,
+      ip: geo.ip,
+      country: geo.country,
+      region: geo.region,
+      city: geo.city,
+    },
+    { onConflict: 'voter_id,date' }
+  );
   if (error)
     return NextResponse.json({ error: error.message }, { status: 500 });
 
