@@ -10,6 +10,7 @@ import {
   indicatorClass,
   navArrowClass,
   navButtonClass,
+  navTooltipClass,
   weekLabelClass,
   weekRangeClass,
 } from './MenuBoardDayBar.styles';
@@ -31,6 +32,13 @@ const MenuBoardDayBar = () => {
   const canGoPrev = !mounted || currentWeek[0].isAfter(minDate, 'day');
   const canGoNext = !mounted || currentWeek[6].isBefore(maxDate, 'day');
 
+  const isCurrentWeek =
+    mounted && currentWeek.some((d) => d.isSame(today, 'day'));
+  const isPrevWeek =
+    mounted && !isCurrentWeek && currentWeek[0].isBefore(today, 'day');
+  const prevLabel = isPrevWeek ? '이번주' : '지난주';
+  const nextLabel = isCurrentWeek || isPrevWeek ? '다음주' : '이번주';
+
   return (
     <div className={dayBarContainerClass}>
       <div className={weekLabelClass}>
@@ -41,6 +49,7 @@ const MenuBoardDayBar = () => {
           className={navButtonClass(canGoPrev)}
         >
           <span className={navArrowClass}>‹</span>
+          <span className={navTooltipClass}>{prevLabel}</span>
         </button>
         <span suppressHydrationWarning className={weekRangeClass}>
           {mounted
@@ -54,6 +63,7 @@ const MenuBoardDayBar = () => {
           className={navButtonClass(canGoNext)}
         >
           <span className={navArrowClass}>›</span>
+          <span className={navTooltipClass}>{nextLabel}</span>
         </button>
       </div>
       <div className={chipAreaClass}>

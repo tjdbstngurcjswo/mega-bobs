@@ -9,11 +9,14 @@ export const weekRangeClass =
 
 export const navButtonClass = (visible: boolean) =>
   cn(
-    'flex cursor-pointer items-center justify-center px-1 py-2 text-muted transition-opacity duration-100 hover:text-ink active:scale-75',
+    'group relative flex cursor-pointer items-center justify-center px-1 py-2 text-muted transition-opacity duration-100 hover:text-ink active:scale-75',
     !visible && 'invisible pointer-events-none'
   );
 
 export const navArrowClass = 'text-[14px] leading-none font-light';
+
+export const navTooltipClass =
+  'pointer-events-none absolute top-full left-1/2 z-10 mt-1.5 -translate-x-1/2 whitespace-nowrap bg-ink px-2 py-1 text-[10px] font-medium text-cream invisible opacity-0 transition-opacity group-hover:visible group-hover:opacity-100';
 
 export const chipAreaClass = 'px-4 pb-2.5';
 
