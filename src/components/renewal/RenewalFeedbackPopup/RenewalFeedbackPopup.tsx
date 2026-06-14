@@ -1,6 +1,6 @@
 'use client';
 
-import { X } from 'lucide-react';
+import { Sparkles, X } from 'lucide-react';
 
 import { useRenewalFeedback } from '@/hooks/useRenewalFeedback';
 
@@ -42,7 +42,7 @@ const RenewalFeedbackPopup = ({ version }: RenewalFeedbackPopupProps) => {
     return (
       <div className={wrapperClass}>
         <div className={doneClass}>
-          <span className={doneEmojiClass}>🎉</span>
+          <Sparkles className={doneEmojiClass} color="var(--color-accent)" />
           <span className={doneTitleClass}>감사합니다!</span>
         </div>
       </div>

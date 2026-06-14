@@ -31,6 +31,6 @@ export const submitClass =
 export const doneClass =
   'flex flex-col items-center justify-center gap-2 px-4 py-6 text-center';
 
-export const doneEmojiClass = 'text-[24px]';
+export const doneEmojiClass = 'w-7 h-7';
 
 export const doneTitleClass = 'text-[13px] font-[800] text-(--color-ink)';
