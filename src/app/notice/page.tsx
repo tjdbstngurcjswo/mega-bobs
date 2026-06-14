@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 
+import { Bell } from 'lucide-react';
+
 import { getAnnouncements } from '@/api/getAnnouncements';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { SITE_NAME } from '@/constants/site';
@@ -52,7 +54,12 @@ export default function NoticePage() {
       <SiteHeader />
       <PageLayout
         eyebrow="공지사항"
-        title={`${SITE_NAME} 소식`}
+        title={
+          <span className="inline-flex items-center gap-2.5">
+            <Bell size={26} strokeWidth={2} />
+            <span>{`${SITE_NAME} 소식`}</span>
+          </span>
+        }
         description="새 기능, 점검, 운영 안내를 여기서 알려드려요"
       >
         {notices.length > 0 ? (

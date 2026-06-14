@@ -49,7 +49,7 @@ export default async function Home() {
       />
       <SiteHeader />
       <PageLayout
-        eyebrow="식단표"
+        eyebrow="메가존 구내식당"
         title={<HeroStatus menus={menus} />}
         description="매주 목요일 업데이트되는 구내식당 코스별 식단표에요"
       >
