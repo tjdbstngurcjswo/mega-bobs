@@ -15,9 +15,13 @@ export const metadata: Metadata = {
   description: gamesDesc,
   alternates: { canonical: '/games' },
   openGraph: {
-    title: `미니게임 — ${SITE_NAME}`,
+    title: `${SITE_NAME} ∙ 미니게임`,
     description: gamesDesc,
     url: '/games',
+  },
+  twitter: {
+    title: `${SITE_NAME} ∙ 미니게임`,
+    description: gamesDesc,
   },
 };
 

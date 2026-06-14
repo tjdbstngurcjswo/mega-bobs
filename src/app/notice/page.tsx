@@ -10,7 +10,6 @@ import dayjs from '@/lib/dayjs';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 
 import {
-  articleBodyClass,
   articleClass,
   articleDateClass,
   articleTitleClass,
@@ -26,12 +25,12 @@ export const metadata: Metadata = {
   description: noticeDesc,
   alternates: { canonical: '/notice' },
   openGraph: {
-    title: `공지사항 — ${SITE_NAME}`,
+    title: `${SITE_NAME} ∙ 공지사항`,
     description: noticeDesc,
     url: '/notice',
   },
   twitter: {
-    title: `공지사항 — ${SITE_NAME}`,
+    title: `${SITE_NAME} ∙ 공지사항`,
     description: noticeDesc,
   },
 };

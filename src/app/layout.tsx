@@ -25,27 +25,33 @@ const pretendard = localFont({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 const siteDesc = SITE_DESC;
+const isProd = process.env.VERCEL_ENV === 'prod';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${SITE_NAME} — 메가존 구내식당 점심 허브`,
-    template: `%s — ${SITE_NAME}`,
+    default: `${SITE_NAME} ∙ 메가존 구내식당 점심 허브`,
+    template: `${SITE_NAME} ∙ %s`,
   },
   description: siteDesc,
   keywords: [
+    '메가존 구내식당',
+    '메가존클라우드 구내식당',
+    '메가존 구내식',
+    '메가존클라우드 구내식',
     '메가존',
+    '메가존클라우드',
     '메가존 클라우드',
     '구내식당',
     '구내식당 메뉴',
     '점심',
     '점심 메뉴',
     '오늘의 점심',
+    '오늘 점심 메뉴',
     '식단',
     '식단표',
     '주간 식단',
-    '메뉴',
-    '과천',
+    '과천 구내식당',
     '과천 점심',
     '지식정보타운',
     '코스1',
@@ -57,22 +63,24 @@ export const metadata: Metadata = {
     SITE_NAME,
   ],
   authors: [{ name: SITE_NAME }],
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
-  },
+  robots: isProd
+    ? {
+        index: true,
+        follow: true,
+        googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+      }
+    : { index: false, follow: false },
   openGraph: {
     type: 'website',
     locale: 'ko_KR',
     url: siteUrl,
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — 메가존 구내식당 점심 허브`,
+    title: `${SITE_NAME} ∙ 메가존 구내식당 점심 허브`,
     description: siteDesc,
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${SITE_NAME} — 메가존 구내식당 점심 허브`,
+    title: `${SITE_NAME} ∙ 메가존 구내식당 점심 허브`,
     description: siteDesc,
   },
   other: {
@@ -115,7 +123,7 @@ export default async function RootLayout({
             version={process.env.NEXT_PUBLIC_RENEWAL_FEEDBACK}
           />
         )}
-        {process.env.VERCEL_ENV === 'production' && <Analytics />}
+        {isProd && <Analytics />}
       </body>
     </html>
   );
