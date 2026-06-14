@@ -27,7 +27,7 @@ const decodeEntities = (raw: string): string =>
   });
 
 const stripCdata = (raw: string): string =>
-  raw.replace(/^<!\[CDATA\[/, '').replace(/\]\]>$/, '');
+  raw.replace(/<!\[CDATA\[/g, '').replace(/\]\]>/g, '');
 
 const clean = (raw: string | undefined): string =>
   raw ? decodeEntities(stripCdata(raw.trim())).trim() : '';
