@@ -3,14 +3,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { getNotices } from '@/api/getNotices';
-import { stripMarkdown } from '@/utils/stripMarkdown';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { SITE_NAME } from '@/constants/site';
 import dayjs from '@/lib/dayjs';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 
 import {
-  articleBodyClass,
   articleClass,
   articleDateClass,
   articleTitleClass,
@@ -26,12 +24,12 @@ export const metadata: Metadata = {
   description: noticeDesc,
   alternates: { canonical: '/notice' },
   openGraph: {
-    title: `공지사항 — ${SITE_NAME}`,
+    title: `${SITE_NAME} ∙ 공지사항`,
     description: noticeDesc,
     url: '/notice',
   },
   twitter: {
-    title: `공지사항 — ${SITE_NAME}`,
+    title: `${SITE_NAME} ∙ 공지사항`,
     description: noticeDesc,
   },
 };
@@ -75,19 +73,18 @@ export default function NoticePage() {
                   className={articleClass(i === 0)}
                 >
                   <div className="w-14 shrink-0 text-right">
-                    <span className={articleYearClass}>
-                      {dayjs.tz(n.publishedAt).format('YYYY')}
-                    </span>
                     <b className={articleDateClass}>
                       {dayjs.tz(n.publishedAt).format('MM.DD')}
                     </b>
+                    <span className={articleYearClass}>
+                      {dayjs.tz(n.publishedAt).format('YYYY')}
+                    </span>
                   </div>
-                  <div className="min-w-0 flex-1">
+                  <div className="flex-1">
                     <h3 className={articleTitleClass}>
-                      <span className="truncate">{n.title}</span>
+                      {n.title}
                       {isNew && <span className={newBadgeClass}>NEW</span>}
                     </h3>
-                    <p className={articleBodyClass}>{stripMarkdown(n.body)}</p>
                   </div>
                 </Link>
               );

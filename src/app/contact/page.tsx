@@ -5,7 +5,7 @@ import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { CONTACTS, SITE_NAME } from '@/constants/site';
 
 export const metadata: Metadata = {
-  title: `문의 — ${SITE_NAME}`,
+  title: '문의',
   description: `${SITE_NAME} 이용 문의 및 버그 제보는 이 페이지에서 제작자에게 직접 연락하세요.`,
   robots: { index: false },
   alternates: { canonical: '/contact' },
