@@ -16,7 +16,12 @@ interface PageLayoutProps {
   children: ReactNode;
 }
 
-const PageLayout = ({ eyebrow, title, description, children }: PageLayoutProps) => (
+const PageLayout = ({
+  eyebrow,
+  title,
+  description,
+  children,
+}: PageLayoutProps) => (
   <main className={pageMainClass}>
     <section className={pageHeaderClass}>
       <p className={pageEyebrowClass}>{eyebrow}</p>

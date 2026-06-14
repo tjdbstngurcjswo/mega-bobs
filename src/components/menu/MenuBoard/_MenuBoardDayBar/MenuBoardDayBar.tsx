@@ -1,16 +1,20 @@
 'use client';
 
-import toast from 'react-hot-toast';
-
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { useDateStore } from '@/store/useDateStore';
 
-import MenuBoardDayChip from './MenuBoardDayChip';
 import {
+  chipAreaClass,
+  chipRowClass,
   dayBarContainerClass,
+  indicatorClass,
   navArrowClass,
   navButtonClass,
+  navTooltipClass,
+  weekLabelClass,
+  weekRangeClass,
 } from './MenuBoardDayBar.styles';
+import MenuBoardDayChip from './MenuBoardDayChip';
 
 const MenuBoardDayBar = () => {
   const {
@@ -28,36 +32,42 @@ const MenuBoardDayBar = () => {
   const canGoPrev = !mounted || currentWeek[0].isAfter(minDate, 'day');
   const canGoNext = !mounted || currentWeek[6].isBefore(maxDate, 'day');
 
-  const handlePrev = () => {
-    if (!canGoPrev) {
-      toast.error('제공하지 않는 날짜예요');
-      return;
-    }
-    goToPrevWeek();
-  };
-
-  const handleNext = () => {
-    if (!canGoNext) {
-      toast.error('아직 준비 중이에요');
-      return;
-    }
-    goToNextWeek();
-  };
+  const isCurrentWeek =
+    mounted && currentWeek.some((d) => d.isSame(today, 'day'));
+  const prevLabel = isCurrentWeek ? '지난주' : '이번주';
+  const nextLabel = isCurrentWeek ? '다음주' : '이번주';
 
   return (
     <div className={dayBarContainerClass}>
-      <button
-        type="button"
-        onClick={handlePrev}
-        aria-label="지난주 메뉴 보기"
-        className={navButtonClass(canGoPrev)}
-      >
-        <span className={navArrowClass}>‹</span>
-      </button>
-      <div className="flex flex-1 flex-col">
+      <div className={weekLabelClass}>
+        <button
+          type="button"
+          onClick={goToPrevWeek}
+          aria-label="지난주 메뉴 보기"
+          className={navButtonClass(canGoPrev)}
+        >
+          <span className={navArrowClass}>‹</span>
+          <span className={navTooltipClass}>{prevLabel}</span>
+        </button>
+        <span suppressHydrationWarning className={weekRangeClass}>
+          {mounted
+            ? `${currentWeek[0].format('M월 D일')} - ${currentWeek[6].format('M월 D일')}`
+            : ''}
+        </span>
+        <button
+          type="button"
+          onClick={goToNextWeek}
+          aria-label="다음 주 메뉴 보기"
+          className={navButtonClass(canGoNext)}
+        >
+          <span className={navArrowClass}>›</span>
+          <span className={navTooltipClass}>{nextLabel}</span>
+        </button>
+      </div>
+      <div className={chipAreaClass}>
         <div
           key={currentWeek[0]?.format('YYYY-MM-DD')}
-          className="relative flex gap-1.5 overflow-hidden"
+          className={chipRowClass}
           style={{ animation: 'fadeIn 0.2s ease both' }}
         >
           {(() => {
@@ -68,7 +78,7 @@ const MenuBoardDayBar = () => {
             return idx >= 0 ? (
               <div
                 aria-hidden
-                className={`pointer-events-none absolute inset-y-0 transition-transform duration-200 ease-out ${isToday ? 'bg-accent' : 'bg-ink'}`}
+                className={indicatorClass(isToday)}
                 style={{
                   width: 'calc((100% - 36px) / 7)',
                   transform: `translateX(calc(${idx} * (100% + 6px)))`,
@@ -88,14 +98,6 @@ const MenuBoardDayBar = () => {
           ))}
         </div>
       </div>
-      <button
-        type="button"
-        onClick={handleNext}
-        aria-label="다음 주 메뉴 보기"
-        className={navButtonClass(canGoNext)}
-      >
-        <span className={navArrowClass}>›</span>
-      </button>
     </div>
   );
 };

@@ -46,3 +46,10 @@ next-env.d.ts
 
 # internal docs (design mockups, plans, specs)
 /docs/
+
+# Claude Code local settings
+.claude/settings.json
+.claude/settings.local.json
+
+# Superpowers plugin runtime files
+.superpowers/

@@ -18,6 +18,12 @@ export const desktopNavLinkClass = (active: boolean) =>
     active ? 'text-ink' : 'text-muted hover:text-ink-2'
   );
 
+export const desktopComingSoonClass =
+  'flex cursor-default select-none items-center gap-1.5 px-3 py-2 text-[13.5px] font-semibold text-muted/40';
+
+export const comingSoonBadgeClass =
+  'bg-surface-warm px-1 py-0.5 text-[9px] font-bold leading-none tracking-wider text-muted';
+
 export const desktopBellLinkClass =
   'text-ink-2 relative flex size-9 items-center justify-center max-[640px]:hidden';
 
@@ -45,5 +51,8 @@ export const mobileOverlayClass = (menuOpen: boolean) =>
 export const mobileNavLinkClass = (active: boolean) =>
   cn(
     'flex items-center justify-between border-b border-line/50 py-3.5 text-[15px] font-semibold',
-    active ? 'text-ink' : 'text-ink-2'
+    active ? 'text-accent-text' : 'text-ink-2'
   );
+
+export const mobileComingSoonClass =
+  'flex cursor-default select-none items-center justify-between border-b border-line/50 py-3.5 text-[15px] font-semibold text-muted/40';

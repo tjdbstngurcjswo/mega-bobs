@@ -1,23 +1,26 @@
 'use client';
 
-import { Bell, Menu, X } from 'lucide-react';
+import { Bell, Check, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
+import { getNotices } from '@/api/getNotices';
 import { NAV_ITEMS, SITE_NAME } from '@/constants/site';
-import { getAnnouncements } from '@/api/getAnnouncements';
-import { hasNewAnnouncement } from '@/utils/announcementPolicy';
 import { useHasMounted } from '@/hooks/useHasMounted';
+import { hasNewNotice } from '@/utils/noticePolicy';
 
 import {
   bellDotClass,
   bellSpanClass,
+  comingSoonBadgeClass,
   desktopBellLinkClass,
+  desktopComingSoonClass,
   desktopNavClass,
   desktopNavLinkClass,
   headerClass,
   logoLinkClass,
+  mobileComingSoonClass,
   mobileBellLinkClass,
   mobileMenuButtonClass,
   mobileNavLinkClass,
@@ -28,10 +31,10 @@ const SiteHeader = () => {
   const pathname = usePathname();
   const router = useRouter();
   const mounted = useHasMounted();
-  const announcements = useMemo(() => getAnnouncements(), []);
+  const notices = useMemo(() => getNotices(), []);
   const showNoticeDot = useMemo(
-    () => mounted && hasNewAnnouncement(announcements),
-    [mounted, announcements]
+    () => mounted && hasNewNotice(notices),
+    [mounted, notices]
   );
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -62,6 +65,14 @@ const SiteHeader = () => {
 
           <nav className={desktopNavClass}>
             {NAV_ITEMS.map((item) => {
+              if (item.comingSoon) {
+                return (
+                  <span key={item.href} className={desktopComingSoonClass}>
+                    {item.label}
+                    <span className={comingSoonBadgeClass}>준비중</span>
+                  </span>
+                );
+              }
               const active = pathname === item.href;
               return (
                 <Link
@@ -87,9 +98,7 @@ const SiteHeader = () => {
             <span className={bellSpanClass(showNoticeDot)}>
               <Bell size={17} strokeWidth={2.2} />
             </span>
-            {showNoticeDot && (
-              <span aria-hidden className={bellDotClass} />
-            )}
+            {showNoticeDot && <span aria-hidden className={bellDotClass} />}
           </Link>
 
           {/* 모바일 우측 */}
@@ -104,9 +113,7 @@ const SiteHeader = () => {
               <span className={bellSpanClass(showNoticeDot)}>
                 <Bell size={17} strokeWidth={2.2} />
               </span>
-              {showNoticeDot && (
-                <span aria-hidden className={bellDotClass} />
-              )}
+              {showNoticeDot && <span aria-hidden className={bellDotClass} />}
             </Link>
             <button
               type="button"
@@ -128,6 +135,14 @@ const SiteHeader = () => {
       <div className={mobileOverlayClass(menuOpen)}>
         <nav className="mx-auto flex w-[min(880px,calc(100%-40px))] flex-col pt-1 pb-4">
           {NAV_ITEMS.map((item) => {
+            if (item.comingSoon) {
+              return (
+                <span key={item.href} className={mobileComingSoonClass}>
+                  {item.label}
+                  <span className={comingSoonBadgeClass}>준비중</span>
+                </span>
+              );
+            }
             const active = pathname === item.href;
             return (
               <Link
@@ -138,6 +153,7 @@ const SiteHeader = () => {
                 className={mobileNavLinkClass(active)}
               >
                 {item.label}
+                {active && <Check size={16} strokeWidth={2.5} aria-hidden />}
               </Link>
             );
           })}

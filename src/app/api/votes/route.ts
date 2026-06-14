@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { extractGeo, isKoreaGeo } from '@/lib/geoHeaders';
 import { supabaseServer } from '@/lib/supabaseServer';
 import { VoteResult, VoteType } from '@/models/vote';
 
@@ -58,6 +59,10 @@ export const GET = async (req: NextRequest) => {
  */
 export const POST = async (req: NextRequest) => {
   const voterId = req.headers.get('x-voter-id') ?? '';
+  const geo = extractGeo(req);
+  if (!isKoreaGeo(geo)) {
+    return NextResponse.json({ error: 'unavailable' }, { status: 403 });
+  }
 
   let body: { menu_key?: string; vote_type?: VoteType | null; date?: string };
   try {
@@ -88,6 +93,22 @@ export const POST = async (req: NextRequest) => {
 
     if (error)
       return NextResponse.json({ error: error.message }, { status: 500 });
+
+    if (vote_type) {
+      const { error: geoError } = await supabaseServer
+        .from('menu_votes')
+        .update({
+          ip: geo.ip,
+          country: geo.country,
+          region: geo.region,
+          city: geo.city,
+        })
+        .eq('voter_id', voterId)
+        .eq('menu_key', menu_key)
+        .eq('date', date);
+      if (geoError)
+        console.error('[votes] geo update failed:', geoError.message);
+    }
 
     return NextResponse.json({ ok: true });
   } catch {

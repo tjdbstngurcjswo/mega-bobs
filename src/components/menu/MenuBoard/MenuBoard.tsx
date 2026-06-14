@@ -1,35 +1,31 @@
 'use client';
 
-import { CalendarDays, Clock } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import { useLayoutEffect, useMemo, useRef } from 'react';
 
+import { CAFETERIA_LABEL } from '@/constants/cafeteria';
 import { MENU_CATEGORIES } from '@/constants/menu';
-import dayjs from '@/lib/dayjs';
+import { useHasMounted } from '@/hooks/useHasMounted';
 import { usePick } from '@/hooks/usePick';
 import { useVotes } from '@/hooks/useVote';
-import { CAFETERIA_LABEL } from '@/constants/cafeteria';
-import {
-  isAfterClose,
-  isNextWeekMenuLocked,
-} from '@/utils/menuPolicy';
-import { useHasMounted } from '@/hooks/useHasMounted';
-import { formatYYYYMMDD } from '@/utils/date';
+import dayjs from '@/lib/dayjs';
 import { useDateStore } from '@/store/useDateStore';
-import { MenuBoardProps } from './MenuBoard.types';
+import { formatYYYYMMDD } from '@/utils/date';
+import { isAfterClose, isNextWeekMenuLocked } from '@/utils/menuPolicy';
 
-import MenuBoardEmpty from './_MenuBoardEmpty/MenuBoardEmpty';
 import MenuBoardCourseRow from './_MenuBoardCourseRow/MenuBoardCourseRow';
 import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
+import MenuBoardEmpty from './_MenuBoardEmpty/MenuBoardEmpty';
 import {
   menuBodyClass,
   menuHeadingTitleClass,
   menuSubheadingClass,
   sectionClass,
-  todayButtonClass,
 } from './MenuBoard.styles';
+import { MenuBoardProps } from './MenuBoard.types';
 
-const MenuBoard = ({ menus }: MenuBoardProps) => {
-  const { today, selectedDate, goToToday } = useDateStore();
+const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
+  const { today, selectedDate } = useDateStore();
   const mounted = useHasMounted();
   const dateStr = formatYYYYMMDD(selectedDate);
   const hasMenus = useMemo(
@@ -48,8 +44,9 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
   const now = dayjs().tz();
   const isToday = selectedDate.isSame(today, 'day');
   const isPast = selectedDate.isBefore(today, 'day');
-  const showVote = mounted && (isPast || (isToday && isAfterClose(now)));
-  const showPick = mounted && !showVote && !isPast;
+  const showVote =
+    isKorea && mounted && (isPast || (isToday && isAfterClose(now)));
+  const showPick = isKorea && mounted && !showVote && !isPast;
 
   const dayMenus = useMemo(() => {
     const key = formatYYYYMMDD(selectedDate);
@@ -73,32 +70,26 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
     const prev = prevHeightRef.current;
     prevHeightRef.current = next;
     if (!prev || prev === next) return;
-    const a = el.animate(
-      [{ height: `${prev}px` }, { height: `${next}px` }],
-      { duration: 280, easing: 'ease-in-out' }
-    );
+    const a = el.animate([{ height: `${prev}px` }, { height: `${next}px` }], {
+      duration: 280,
+      easing: 'ease-in-out',
+    });
     return () => a.cancel();
   }, [dateStr]);
 
   return (
     <section className={sectionClass}>
-      <div className="flex items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-2">
-          <h2 className={menuHeadingTitleClass}>식단표</h2>
-          <p className={menuSubheadingClass}>
-            <Clock size={9} strokeWidth={2.5} className="text-muted" aria-hidden />
-            <span>{CAFETERIA_LABEL}</span>
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={() => goToToday()}
-          aria-hidden={selectedDate.isSame(today, 'day')}
-          className={todayButtonClass(selectedDate.isSame(today, 'day'))}
-        >
-          <CalendarDays size={11} strokeWidth={2.5} />
-          오늘
-        </button>
+      <div className="flex items-center gap-2 px-6 py-4">
+        <h2 className={menuHeadingTitleClass}>메가존 구내식당</h2>
+        <p className={menuSubheadingClass}>
+          <Clock
+            size={9}
+            strokeWidth={2.5}
+            className="text-muted"
+            aria-hidden
+          />
+          <span>{CAFETERIA_LABEL}</span>
+        </p>
       </div>
       <MenuBoardDayBar />
       <div ref={menuBodyRef} className={menuBodyClass}>
@@ -119,6 +110,7 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
                   show: showPick,
                   count: counts[menu.category],
                   isPicked: myPick === menu.category,
+                  hasAnyPick: myPick !== null,
                   onPick: () => submitPick(menu.category),
                   isSubmitting: isSubmittingPick,
                 }}
@@ -134,7 +126,6 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
           />
         )}
       </div>
-
     </section>
   );
 };

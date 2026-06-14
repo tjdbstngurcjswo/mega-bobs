@@ -1,8 +1,16 @@
-import { cn } from '@/utils/cn';
 import { VoteType } from '@/models/vote';
+import { cn } from '@/utils/cn';
 
-export const TOOLTIP =
-  "pointer-events-none invisible absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-2 py-1 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-['']";
+const TOOLTIP_BASE =
+  'pointer-events-none absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap bg-ink px-2 py-1 text-[10px] font-medium text-cream transition-opacity before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-[""]';
+
+export const tooltipClass = (isOpen: boolean) =>
+  cn(
+    TOOLTIP_BASE,
+    isOpen
+      ? 'visible opacity-100'
+      : 'invisible opacity-0 group-hover:visible group-hover:opacity-100'
+  );
 
 export const courseRowClass = 'px-5 py-6';
 
@@ -13,12 +21,13 @@ export const courseLabelClass =
 
 export const kcalClass = 'text-muted text-[11px] font-semibold';
 
-export const voteGroupClass = 'ml-auto flex gap-1 animate-[fadeIn_0.3s_ease_both]';
+export const voteGroupClass =
+  'ml-auto flex gap-1 animate-[fadeIn_0.3s_ease_both]';
 
 export const itemsTextClass =
   'mt-2 flex flex-wrap gap-x-0.5 text-ink text-[14.5px] leading-relaxed font-semibold';
 
-export const itemNameClass = 'whitespace-nowrap';
+export const itemNameClass = 'break-words';
 
 export const itemKcalClass =
   'text-muted ml-0.5 text-[10px] font-semibold not-italic';
@@ -27,12 +36,14 @@ export const itemSeparatorClass = 'text-line mx-1.5 select-none';
 
 export const tabularNumsClass = 'tabular-nums';
 
-export const pickButtonClass = (isPicked: boolean) =>
+export const pickButtonClass = (isPicked: boolean, hasAnyPick: boolean) =>
   cn(
     'ml-auto flex items-center gap-1 border px-2 py-0.5 text-[10px] font-medium leading-none transition-colors animate-[fadeIn_0.3s_ease_both]',
     isPicked
       ? 'border-accent bg-accent-soft text-accent-text'
-      : 'border-line text-muted hover:border-accent/50 hover:text-ink'
+      : hasAnyPick
+        ? 'border-line text-muted opacity-60 hover:border-accent/50 hover:text-ink hover:opacity-100'
+        : 'border-line text-muted hover:border-accent/50 hover:text-ink'
   );
 
 export const upVoteButtonClass = (myVote: VoteType | null) =>

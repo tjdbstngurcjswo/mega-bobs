@@ -3,6 +3,7 @@ export const BOARD_EMPTY_COPY = {
     label: '휴무',
     title: '구내식당이 쉬는 날이에요',
     body: '인근 식당을 이용해 주세요',
+    bodyPast: '다들 어디서 드셨나요?',
   },
   comingUp: {
     label: '준비 중',

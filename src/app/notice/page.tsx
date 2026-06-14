@@ -1,9 +1,13 @@
+import { Bell } from 'lucide-react';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
+import { getNotices } from '@/api/getNotices';
+import { stripMarkdown } from '@/utils/stripMarkdown';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { SITE_NAME } from '@/constants/site';
 import dayjs from '@/lib/dayjs';
-import { getAnnouncements } from '@/api/getAnnouncements';
+import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 
 import {
   articleBodyClass,
@@ -15,20 +19,48 @@ import {
   newBadgeClass,
 } from './page.styles';
 
+const noticeDesc = `${SITE_NAME} 구내식당 앱의 새 기능 소식, 점검 일정, 운영 안내를 확인하세요.`;
+
 export const metadata: Metadata = {
-  title: `공지사항 — ${SITE_NAME}`,
-  description: `${SITE_NAME}의 새 기능, 점검, 운영 안내`,
+  title: '공지사항',
+  description: noticeDesc,
+  alternates: { canonical: '/notice' },
+  openGraph: {
+    title: `${SITE_NAME} ∙ 공지사항`,
+    description: noticeDesc,
+    url: '/notice',
+  },
+  twitter: {
+    title: `${SITE_NAME} ∙ 공지사항`,
+    description: noticeDesc,
+  },
 };
 
 export default function NoticePage() {
-  const notices = getAnnouncements();
+  const notices = getNotices();
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            getBreadcrumbJsonLd([
+              { name: '홈', path: '/' },
+              { name: '공지사항', path: '/notice' },
+            ])
+          ),
+        }}
+      />
       <SiteHeader />
       <PageLayout
         eyebrow="공지사항"
-        title={`${SITE_NAME} 소식`}
+        title={
+          <span className="inline-flex items-center gap-2.5">
+            <Bell size={26} strokeWidth={2} />
+            <span>{`${SITE_NAME} 소식`}</span>
+          </span>
+        }
         description="새 기능, 점검, 운영 안내를 여기서 알려드려요"
       >
         {notices.length > 0 ? (
@@ -37,25 +69,27 @@ export default function NoticePage() {
               const isNew =
                 dayjs().tz().diff(dayjs.tz(n.publishedAt), 'day') < 7;
               return (
-                <article key={n.id} className={articleClass(i === 0)}>
-                  <div className="w-16 shrink-0">
-                    <b className={articleDateClass}>
-                      {dayjs.tz(n.publishedAt).format('M.D')}
-                    </b>
+                <Link
+                  key={n.id}
+                  href={`/notice/${n.id}`}
+                  className={articleClass(i === 0)}
+                >
+                  <div className="w-14 shrink-0 text-right">
                     <span className={articleYearClass}>
                       {dayjs.tz(n.publishedAt).format('YYYY')}
                     </span>
+                    <b className={articleDateClass}>
+                      {dayjs.tz(n.publishedAt).format('MM.DD')}
+                    </b>
                   </div>
-                  <div className="flex-1">
+                  <div className="min-w-0 flex-1">
                     <h3 className={articleTitleClass}>
-                      {n.title}
-                      {isNew && (
-                        <span className={newBadgeClass}>NEW</span>
-                      )}
+                      <span className="truncate">{n.title}</span>
+                      {isNew && <span className={newBadgeClass}>NEW</span>}
                     </h3>
-                    <p className={articleBodyClass}>{n.body}</p>
+                    <p className={articleBodyClass}>{stripMarkdown(n.body)}</p>
                   </div>
-                </article>
+                </Link>
               );
             })}
           </div>

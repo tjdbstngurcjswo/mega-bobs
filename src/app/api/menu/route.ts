@@ -33,4 +33,4 @@ export const GET = async (req: NextRequest) => {
     const error = err instanceof Error ? err.message : 'Internal error';
     return json({ error }, 500);
   }
-}
+};
