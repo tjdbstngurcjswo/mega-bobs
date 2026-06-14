@@ -81,7 +81,7 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
     <section className={sectionClass}>
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-2">
-          <h2 className={menuHeadingTitleClass}>식단표</h2>
+          <h2 className={menuHeadingTitleClass}>메가존 구내식당</h2>
           <p className={menuSubheadingClass}>
             <Clock
               size={9}
