@@ -32,20 +32,14 @@ export const useDateStore = create<DateStore>((set, get) => {
       const { currentWeek, minDate } = get();
       const prevWeekStart = currentWeek[0].subtract(7, 'day');
       if (prevWeekStart.isBefore(minDate, 'day')) return;
-      set({
-        currentWeek: getWeekDays(prevWeekStart),
-        selectedDate: prevWeekStart,
-      });
+      set({ currentWeek: getWeekDays(prevWeekStart) });
     },
 
     goToNextWeek: () => {
       const { currentWeek, maxDate } = get();
       const nextWeekStart = currentWeek[6].add(1, 'day');
       if (nextWeekStart.isAfter(maxDate, 'day')) return;
-      set({
-        currentWeek: getWeekDays(nextWeekStart),
-        selectedDate: nextWeekStart,
-      });
+      set({ currentWeek: getWeekDays(nextWeekStart) });
     },
   };
 });
