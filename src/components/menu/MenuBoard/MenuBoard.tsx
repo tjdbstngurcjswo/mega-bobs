@@ -25,7 +25,7 @@ import {
 } from './MenuBoard.styles';
 import { MenuBoardProps } from './MenuBoard.types';
 
-const MenuBoard = ({ menus }: MenuBoardProps) => {
+const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
   const { today, selectedDate, goToToday } = useDateStore();
   const mounted = useHasMounted();
   const dateStr = formatYYYYMMDD(selectedDate);
@@ -45,8 +45,9 @@ const MenuBoard = ({ menus }: MenuBoardProps) => {
   const now = dayjs().tz();
   const isToday = selectedDate.isSame(today, 'day');
   const isPast = selectedDate.isBefore(today, 'day');
-  const showVote = mounted && (isPast || (isToday && isAfterClose(now)));
-  const showPick = mounted && !showVote && !isPast;
+  const showVote =
+    isKorea && mounted && (isPast || (isToday && isAfterClose(now)));
+  const showPick = isKorea && mounted && !showVote && !isPast;
 
   const dayMenus = useMemo(() => {
     const key = formatYYYYMMDD(selectedDate);
