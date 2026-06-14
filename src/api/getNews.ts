@@ -12,6 +12,12 @@ type NewsRow = {
   published_at: string;
 };
 
+type GetNewsOptions = {
+  limit?: number;
+  offset?: number;
+  company?: NewsCompany;
+};
+
 const toCompanyNews = (row: NewsRow): CompanyNews => ({
   url: row.url,
   title: row.title,
@@ -21,16 +27,22 @@ const toCompanyNews = (row: NewsRow): CompanyNews => ({
   publishedAt: row.published_at,
 });
 
-/**
- * Supabase `company_news` 테이블에서 최신 뉴스를 조회한다.
- * @param limit - 최대 조회 건수 (기본 30)
- */
-const getNews = async (limit = 30): Promise<CompanyNews[]> => {
-  const { data, error } = await supabaseServer
+const getNews = async ({
+  limit = 20,
+  offset = 0,
+  company,
+}: GetNewsOptions = {}): Promise<CompanyNews[]> => {
+  let query = supabaseServer
     .from('company_news')
     .select('url, title, summary, source, company, published_at')
     .order('published_at', { ascending: false })
-    .limit(limit);
+    .range(offset, offset + limit - 1);
+
+  if (company) {
+    query = query.eq('company', company);
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     // 테이블 미생성(42P01)은 빈 상태로 강등 — 배포가 수동 SQL 실행 순서에 묶이지 않도록

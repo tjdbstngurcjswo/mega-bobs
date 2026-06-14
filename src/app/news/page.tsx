@@ -1,16 +1,18 @@
 import type { Metadata } from 'next';
 
+import { Newspaper } from 'lucide-react';
+
 import getNews from '@/api/getNews';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
-import NewsCard from '@/components/news/NewsCard';
+import NewsFilter from '@/components/news/NewsFilter';
 import { SITE_NAME } from '@/constants/site';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 
 import {
   emptyNewsClass,
   emptyNewsDescClass,
-  emptyNewsSoonClass,
-  newsFootnoteClass,
+  emptyNewsIconClass,
+  emptyNewsTitleClass,
 } from './page.styles';
 
 const newsDesc =
@@ -30,7 +32,14 @@ export const metadata: Metadata = {
 export const revalidate = 21600;
 
 export default async function NewsPage() {
-  const news = await getNews();
+  const [all, megazone, megazonecloud, megazonesoft] = await Promise.all([
+    getNews(),
+    getNews({ company: 'megazone' }),
+    getNews({ company: 'megazonecloud' }),
+    getNews({ company: 'megazonesoft' }),
+  ]);
+
+  const newsByFilter = { all, megazone, megazonecloud, megazonesoft };
 
   return (
     <>
@@ -49,23 +58,15 @@ export default async function NewsPage() {
       <PageLayout
         eyebrow="메가존 소식"
         title="우리 회사 소식 모아보기"
-        description="공식 채널의 새 소식을 매일 아침 모아드려요 — 원문으로 연결됩니다"
+        description="구글 뉴스에서 찾아온 우리 회사 소식이에요"
       >
-        {news.length > 0 ? (
-          <div className="flex flex-col gap-3">
-            {news.map((item) => (
-              <NewsCard key={item.url} news={item} />
-            ))}
-            <p className={newsFootnoteClass}>
-              제목과 요약만 제공하며 본문은 출처(원문)에서 확인할 수 있어요
-            </p>
-          </div>
+        {all.length > 0 ? (
+          <NewsFilter newsByFilter={newsByFilter} />
         ) : (
           <div className={emptyNewsClass}>
-            <p className={emptyNewsSoonClass}>SOON</p>
-            <p className={emptyNewsDescClass}>
-              곧 메가존의 새 소식을 모아서 보여드릴게요
-            </p>
+            <Newspaper className={emptyNewsIconClass} strokeWidth={1.5} />
+            <p className={emptyNewsTitleClass}>소식을 준비 중이에요</p>
+            <p className={emptyNewsDescClass}>조금만 기다려주세요</p>
           </div>
         )}
       </PageLayout>
