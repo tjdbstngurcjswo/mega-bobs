@@ -4,12 +4,6 @@ import { extractGeo, isKoreaGeo } from '@/lib/geoHeaders';
 import { supabaseServer } from '@/lib/supabaseServer';
 import { RenewalFeedbackPayload } from '@/models/renewalFeedback';
 
-/**
- * @route POST /api/renewal-feedback
- * @header x-voter-id - 익명 투표자 ID
- * @body { version, score, reason? }
- * @returns { ok: true }
- */
 export const POST = async (req: NextRequest) => {
   const voterId = req.headers.get('x-voter-id') ?? '';
 
@@ -29,25 +23,23 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ error: 'invalid json' }, { status: 400 });
   }
 
-  const { version, score, reason } = body;
+  const { version, score, reason, page } = body;
 
   if (!version || typeof score !== 'number' || score < 1 || score > 5) {
     return NextResponse.json({ error: 'invalid payload' }, { status: 400 });
   }
 
-  const { error } = await supabaseServer.from('renewal_feedback').upsert(
-    {
-      version,
-      voter_id: voterId,
-      score,
-      reason: reason?.trim() || null,
-      ip: geo.ip,
-      country: geo.country,
-      region: geo.region,
-      city: geo.city,
-    },
-    { onConflict: 'version,voter_id' }
-  );
+  const { error } = await supabaseServer.from('renewal_feedback').insert({
+    version,
+    voter_id: voterId,
+    score,
+    reason: reason?.trim() || null,
+    page: page ?? null,
+    ip: geo.ip,
+    country: geo.country,
+    region: geo.region,
+    city: geo.city,
+  });
 
   if (error) {
     return NextResponse.json({ error: 'db error' }, { status: 500 });

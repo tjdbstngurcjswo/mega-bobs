@@ -35,6 +35,7 @@ const RenewalFeedbackPopup = ({ version }: RenewalFeedbackPopupProps) => {
     isOpen,
     toggle,
     close,
+    dismiss,
     score,
     setScore,
     reason,
@@ -65,7 +66,7 @@ const RenewalFeedbackPopup = ({ version }: RenewalFeedbackPopupProps) => {
                   <span className={titleClass}>새로워진 MegaBobs</span>
                   <button
                     className={closeClass}
-                    onClick={close}
+                    onClick={dismiss}
                     aria-label="닫기"
                   >
                     <X size={13} />
