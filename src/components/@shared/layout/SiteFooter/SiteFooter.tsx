@@ -10,7 +10,7 @@ import {
 } from './SiteFooter.styles';
 
 const SiteFooter = () => (
-  <footer className="mt-16">
+  <footer className="mt-8">
     <div className="mx-auto w-[min(880px,calc(100%-40px))] py-6">
       <div className="flex flex-col items-center gap-4 text-center min-[560px]:flex-row min-[560px]:items-center min-[560px]:justify-between min-[560px]:gap-0 min-[560px]:text-left">
         {/* 브랜드 단 */}

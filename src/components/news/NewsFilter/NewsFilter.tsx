@@ -32,6 +32,7 @@ type FilterState = {
 
 const NewsFilter = ({ newsByFilter, lastCrawledAt }: NewsFilterProps) => {
   const [active, setActive] = useState<NewsFilterId>('all');
+  const [crawledAtOpen, setCrawledAtOpen] = useState(false);
   const [states, setStates] = useState<Record<NewsFilterId, FilterState>>(
     () => {
       const init = (id: NewsFilterId): FilterState => ({
@@ -110,17 +111,22 @@ const NewsFilter = ({ newsByFilter, lastCrawledAt }: NewsFilterProps) => {
           </button>
         ))}
         {lastCrawledAt && (
-          <div className="group relative ml-auto">
-            <Clock
-              size={12}
-              className={crawledAtIconClass}
-              aria-label={`마지막 업데이트 ${dayjs(lastCrawledAt).tz().format('M월 D일 HH:mm')}`}
-            />
-            <span className={crawledAtTooltipClass}>
+          <button
+            type="button"
+            className="group relative ml-auto"
+            aria-label={`마지막 업데이트 ${dayjs(lastCrawledAt).tz().format('M월 D일 HH:mm')}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setCrawledAtOpen((v) => !v);
+            }}
+            onBlur={() => setCrawledAtOpen(false)}
+          >
+            <Clock size={12} className={crawledAtIconClass} aria-hidden />
+            <span className={crawledAtTooltipClass(crawledAtOpen)}>
               마지막 업데이트{' '}
               {dayjs(lastCrawledAt).tz().format('M월 D일 HH:mm')}
             </span>
-          </div>
+          </button>
         )}
       </div>
 
