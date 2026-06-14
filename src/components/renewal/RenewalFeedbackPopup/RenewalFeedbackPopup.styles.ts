@@ -1,3 +1,5 @@
+export const backdropClass = 'fixed inset-0 z-40 bg-black/30';
+
 // 우측 엣지, 하단 8% 위치
 export const containerClass =
   'fixed right-0 bottom-[8%] z-50 flex items-end gap-0';
