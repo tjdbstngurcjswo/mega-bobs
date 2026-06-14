@@ -1,8 +1,8 @@
 'use client';
 
+import { sendGAEvent } from '@next/third-parties/google';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
-
 
 import { getOrCreateVoterId } from '@/utils/voterId';
 
@@ -35,11 +35,15 @@ export const useRenewalFeedback = (version: string) => {
     return () => clearTimeout(timer);
   }, [state]);
 
-  const toggle = useCallback(() => setIsOpen((v) => !v), []);
+  const toggle = useCallback(() => {
+    if (!isOpen) sendGAEvent('event', 'feedback_open', {});
+    setIsOpen((v) => !v);
+  }, [isOpen]);
 
   const close = useCallback(() => setIsOpen(false), []);
 
   const dismiss = useCallback(() => {
+    sendGAEvent('event', 'feedback_dismiss', {});
     localStorage.setItem(LS_DISMISSED(version), 'true');
     setVisible(false);
     setIsOpen(false);
@@ -69,6 +73,11 @@ export const useRenewalFeedback = (version: string) => {
       if (!res.ok) throw new Error('submit failed');
 
       setState('submitted');
+      sendGAEvent('event', 'feedback_submit', {
+        score,
+        has_reason: !!reason.trim(),
+        page: pathname,
+      });
     } catch {
       setState('error');
     }

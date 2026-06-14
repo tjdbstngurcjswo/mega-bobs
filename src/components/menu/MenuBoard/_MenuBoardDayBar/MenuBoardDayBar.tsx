@@ -1,5 +1,7 @@
 'use client';
 
+import { sendGAEvent } from '@next/third-parties/google';
+
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { useDateStore } from '@/store/useDateStore';
 
@@ -42,7 +44,10 @@ const MenuBoardDayBar = () => {
       <div className={weekLabelClass}>
         <button
           type="button"
-          onClick={goToPrevWeek}
+          onClick={() => {
+            sendGAEvent('event', 'week_navigate', { direction: 'prev' });
+            goToPrevWeek();
+          }}
           aria-label="지난주 메뉴 보기"
           className={navButtonClass(canGoPrev)}
         >
@@ -56,7 +61,10 @@ const MenuBoardDayBar = () => {
         </span>
         <button
           type="button"
-          onClick={goToNextWeek}
+          onClick={() => {
+            sendGAEvent('event', 'week_navigate', { direction: 'next' });
+            goToNextWeek();
+          }}
           aria-label="다음 주 메뉴 보기"
           className={navButtonClass(canGoNext)}
         >
@@ -92,7 +100,12 @@ const MenuBoardDayBar = () => {
               day={day}
               today={today}
               selectedDate={selectedDate}
-              onSelect={setSelectedDate}
+              onSelect={(d) => {
+                sendGAEvent('event', 'day_select', {
+                  offset: d.diff(today, 'day'),
+                });
+                setSelectedDate(d);
+              }}
               mounted={mounted}
             />
           ))}
