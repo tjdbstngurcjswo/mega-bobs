@@ -6,6 +6,7 @@ import { ChevronDown, Clock, Loader2 } from 'lucide-react';
 
 import type { CompanyNews } from '@/models/news';
 import dayjs from '@/lib/dayjs';
+import { formatRelativeDate } from '@/utils/date';
 
 import NewsCard from '../NewsCard';
 import { FILTER_OPTIONS } from './NewsFilter.constants';
@@ -91,10 +92,6 @@ const NewsFilter = ({ newsByFilter, lastCrawledAt }: NewsFilterProps) => {
     }));
   };
 
-  const today = dayjs().tz().format('YYYY-MM-DD');
-  const yesterday = dayjs().tz().subtract(1, 'day').format('YYYY-MM-DD');
-  const twoDaysAgo = dayjs().tz().subtract(2, 'day').format('YYYY-MM-DD');
-
   const grouped = items.reduce<Record<string, typeof items>>((acc, item) => {
     const key = dayjs(item.publishedAt).tz().format('YYYY-MM-DD');
     (acc[key] ??= []).push(item);
@@ -143,13 +140,7 @@ const NewsFilter = ({ newsByFilter, lastCrawledAt }: NewsFilterProps) => {
             {dateGroups.map(([dateKey, group]) => (
               <div key={dateKey} className={newsGroupClass}>
                 <p className={dateHeaderClass}>
-                  {dateKey === today
-                    ? '오늘'
-                    : dateKey === yesterday
-                      ? '어제'
-                      : dateKey === twoDaysAgo
-                        ? '그저께'
-                        : dayjs(dateKey).tz().format('M월 D일 dddd')}
+                  {formatRelativeDate(dateKey, 'M월 D일 dddd')}
                 </p>
                 {group.map((item) => (
                   <NewsCard key={item.url} news={item} />
