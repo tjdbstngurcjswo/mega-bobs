@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 
 import getMenu from '@/api/getMenu';
 import {
@@ -17,8 +18,6 @@ import {
   getWebsiteJsonLd,
 } from '@/utils/jsonLd';
 
-export const revalidate = 21600;
-
 export const metadata: Metadata = {
   openGraph: { url: '/' },
   alternates: { canonical: '/' },
@@ -30,6 +29,10 @@ export default async function Home() {
   const end = formatYYYYMMDD(getWeekDays(today.add(1, 'week'))[6]);
 
   const menus = await getMenu({ start, end });
+
+  const hdrs = await headers();
+  const country = hdrs.get('x-vercel-ip-country');
+  const isKorea = !country || country === 'KR';
 
   return (
     <>
@@ -54,7 +57,7 @@ export default async function Home() {
         description="매주 목요일 업데이트되는 구내식당 코스별 식단표에요"
       >
         <ErrorBoundary>
-          <MenuBoard menus={menus} />
+          <MenuBoard menus={menus} isKorea={isKorea} />
         </ErrorBoundary>
       </PageLayout>
       <SiteFooter />
