@@ -22,6 +22,7 @@ import {
   scoresClass,
   submitClass,
   subtitleClass,
+  tailClass,
   titleClass,
 } from './RenewalFeedbackPopup.styles';
 import { RenewalFeedbackPopupProps } from './RenewalFeedbackPopup.types';
@@ -52,6 +53,7 @@ const RenewalFeedbackPopup = ({ version }: RenewalFeedbackPopupProps) => {
       <div className={containerClass}>
         {isOpen && (
           <div className={popupClass}>
+            <div className={tailClass} />
             {state === 'submitted' ? (
               <div className={doneClass}>
                 <span className={doneTitleClass}>감사합니다!</span>
@@ -60,7 +62,7 @@ const RenewalFeedbackPopup = ({ version }: RenewalFeedbackPopupProps) => {
             ) : (
               <>
                 <div className={headerClass}>
-                  <span className={titleClass}>리뉴얼 어떠세요?</span>
+                  <span className={titleClass}>새로워진 MegaBobs</span>
                   <button
                     className={closeClass}
                     onClick={close}
@@ -70,9 +72,7 @@ const RenewalFeedbackPopup = ({ version }: RenewalFeedbackPopupProps) => {
                   </button>
                 </div>
 
-                <p className={subtitleClass}>
-                  새로워진 MegaBobs, 만족도를 알려주세요
-                </p>
+                <p className={subtitleClass}>만족도를 알려주세요</p>
 
                 <div className={scoresClass}>
                   {SCORES.map((n) => (
@@ -91,8 +91,10 @@ const RenewalFeedbackPopup = ({ version }: RenewalFeedbackPopupProps) => {
 
                 <p className={hintClass}>1 = 별로 · 5 = 훌륭해요</p>
 
-                {score !== null && (
-                  <>
+                <div
+                  className={`grid transition-[grid-template-rows] duration-200 ease-out ${score !== null ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+                >
+                  <div className="overflow-hidden">
                     <textarea
                       className={reasonClass}
                       rows={3}
@@ -108,8 +110,8 @@ const RenewalFeedbackPopup = ({ version }: RenewalFeedbackPopupProps) => {
                     >
                       {state === 'submitting' ? '제출 중...' : '제출하기'}
                     </button>
-                  </>
-                )}
+                  </div>
+                </div>
               </>
             )}
           </div>

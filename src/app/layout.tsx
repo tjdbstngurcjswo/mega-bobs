@@ -6,7 +6,7 @@ import { Toaster } from 'react-hot-toast';
 
 import './globals.css';
 
-import RenewalFeedbackPopup from '@/components/renewal/RenewalFeedbackPopup/RenewalFeedbackPopup';
+import RenewalFeedbackPopup from '@/components/feedback/RenewalFeedbackPopup/RenewalFeedbackPopup';
 import { SITE_NAME } from '@/constants/site';
 import { SITE_DESC } from '@/utils/jsonLd';
 
