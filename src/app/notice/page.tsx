@@ -10,6 +10,7 @@ import dayjs from '@/lib/dayjs';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 
 import {
+  articleBodyClass,
   articleClass,
   articleDateClass,
   articleTitleClass,
