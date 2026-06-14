@@ -38,7 +38,7 @@ export const reasonClass =
   'mx-3 mb-2.5 w-[calc(100%-24px)] resize-none border border-(--color-line) bg-(--color-surface-warm) p-2 text-[11.5px] text-(--color-ink) placeholder:text-(--color-muted) focus:outline-none focus:border-(--color-ink-2)';
 
 export const submitClass =
-  'mx-3 mb-3 w-[calc(100%-24px)] bg-(--color-ink) py-1.5 text-[11.5px] font-[700] text-white cursor-pointer hover:bg-(--color-board-2) transition-colors';
+  'mx-3 mb-3 w-[calc(100%-24px)] bg-(--color-accent) py-1.5 text-[11.5px] font-[700] text-(--color-ink) cursor-pointer hover:bg-(--color-accent-deep) transition-colors';
 
 export const doneClass =
   'flex flex-col items-center justify-center gap-1.5 px-3 py-5 text-center';
