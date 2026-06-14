@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ChevronDown, Clock, Loader2 } from 'lucide-react';
 
@@ -33,6 +33,14 @@ type FilterState = {
 const NewsFilter = ({ newsByFilter, lastCrawledAt }: NewsFilterProps) => {
   const [active, setActive] = useState<NewsFilterId>('all');
   const [crawledAtOpen, setCrawledAtOpen] = useState(false);
+
+  useEffect(() => {
+    if (!crawledAtOpen) return;
+    const close = () => setCrawledAtOpen(false);
+    document.addEventListener('click', close);
+    return () => document.removeEventListener('click', close);
+  }, [crawledAtOpen]);
+
   const [states, setStates] = useState<Record<NewsFilterId, FilterState>>(
     () => {
       const init = (id: NewsFilterId): FilterState => ({
@@ -119,7 +127,6 @@ const NewsFilter = ({ newsByFilter, lastCrawledAt }: NewsFilterProps) => {
               e.stopPropagation();
               setCrawledAtOpen((v) => !v);
             }}
-            onBlur={() => setCrawledAtOpen(false)}
           >
             <Clock size={12} className={crawledAtIconClass} aria-hidden />
             <span className={crawledAtTooltipClass(crawledAtOpen)}>

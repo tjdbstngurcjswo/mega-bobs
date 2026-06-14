@@ -6,8 +6,10 @@ export const crawledAtIconClass = 'text-muted';
 
 export const crawledAtTooltipClass = (isOpen: boolean) =>
   cn(
-    'absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap bg-board px-2.5 py-1.5 text-[11px] text-cream pointer-events-none transition-opacity group-hover:opacity-100',
-    isOpen ? 'opacity-100' : 'opacity-0'
+    'absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap bg-board px-2.5 py-1.5 text-[11px] text-cream pointer-events-none transition-opacity',
+    isOpen
+      ? 'visible opacity-100'
+      : 'invisible opacity-0 group-hover:visible group-hover:opacity-100'
   );
 
 export const filterButtonClass = (active: boolean) =>
