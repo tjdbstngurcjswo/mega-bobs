@@ -1,6 +1,6 @@
 'use client';
 
-import { CalendarDays, Clock } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import { useLayoutEffect, useMemo, useRef } from 'react';
 
 import { CAFETERIA_LABEL } from '@/constants/cafeteria';
@@ -21,12 +21,11 @@ import {
   menuHeadingTitleClass,
   menuSubheadingClass,
   sectionClass,
-  todayButtonClass,
 } from './MenuBoard.styles';
 import { MenuBoardProps } from './MenuBoard.types';
 
 const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
-  const { today, selectedDate, goToToday } = useDateStore();
+  const { today, selectedDate } = useDateStore();
   const mounted = useHasMounted();
   const dateStr = formatYYYYMMDD(selectedDate);
   const hasMenus = useMemo(
@@ -80,28 +79,17 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
 
   return (
     <section className={sectionClass}>
-      <div className="flex items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-2">
-          <h2 className={menuHeadingTitleClass}>메가존 구내식당</h2>
-          <p className={menuSubheadingClass}>
-            <Clock
-              size={9}
-              strokeWidth={2.5}
-              className="text-muted"
-              aria-hidden
-            />
-            <span>{CAFETERIA_LABEL}</span>
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={() => goToToday()}
-          aria-hidden={selectedDate.isSame(today, 'day')}
-          className={todayButtonClass(selectedDate.isSame(today, 'day'))}
-        >
-          <CalendarDays size={11} strokeWidth={2.5} />
-          오늘
-        </button>
+      <div className="flex items-center gap-2 px-6 py-4">
+        <h2 className={menuHeadingTitleClass}>메가존 구내식당</h2>
+        <p className={menuSubheadingClass}>
+          <Clock
+            size={9}
+            strokeWidth={2.5}
+            className="text-muted"
+            aria-hidden
+          />
+          <span>{CAFETERIA_LABEL}</span>
+        </p>
       </div>
       <MenuBoardDayBar />
       <div ref={menuBodyRef} className={menuBodyClass}>

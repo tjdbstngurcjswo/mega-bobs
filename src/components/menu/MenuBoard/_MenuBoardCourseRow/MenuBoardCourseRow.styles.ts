@@ -27,7 +27,7 @@ export const voteGroupClass =
 export const itemsTextClass =
   'mt-2 flex flex-wrap gap-x-0.5 text-ink text-[14.5px] leading-relaxed font-semibold';
 
-export const itemNameClass = 'whitespace-nowrap';
+export const itemNameClass = 'break-words';
 
 export const itemKcalClass =
   'text-muted ml-0.5 text-[10px] font-semibold not-italic';
