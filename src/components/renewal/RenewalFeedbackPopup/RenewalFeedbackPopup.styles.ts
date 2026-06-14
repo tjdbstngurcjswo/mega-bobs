@@ -1,6 +1,6 @@
 // 우측 엣지, 하단 8% 위치
 export const containerClass =
-  'fixed right-0 bottom-[8%] z-50 flex items-center gap-0';
+  'fixed right-0 bottom-[8%] z-50 flex items-end gap-0';
 
 // 세로 탭 버튼 — 검정
 export const fabClass =
