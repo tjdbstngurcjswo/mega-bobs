@@ -10,6 +10,7 @@ interface DateStore {
   selectedDate: dayjs.Dayjs;
   currentWeek: dayjs.Dayjs[];
   setSelectedDate: (date: dayjs.Dayjs) => void;
+  goToToday: () => void;
   goToPrevWeek: () => void;
   goToNextWeek: () => void;
 }
@@ -27,6 +28,11 @@ export const useDateStore = create<DateStore>((set, get) => {
     currentWeek: getWeekDays(today),
 
     setSelectedDate: (date) => set({ selectedDate: date }),
+
+    goToToday: () => {
+      const { today } = get();
+      set({ selectedDate: today, currentWeek: getWeekDays(today) });
+    },
 
     goToPrevWeek: () => {
       const { currentWeek, minDate } = get();

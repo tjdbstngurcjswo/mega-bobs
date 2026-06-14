@@ -12,6 +12,7 @@ import {
   indicatorClass,
   navArrowClass,
   navButtonClass,
+  todayChipClass,
   weekLabelClass,
   weekRangeClass,
 } from './MenuBoardDayBar.styles';
@@ -25,6 +26,7 @@ const MenuBoardDayBar = () => {
     minDate,
     maxDate,
     setSelectedDate,
+    goToToday,
     goToPrevWeek,
     goToNextWeek,
   } = useDateStore();
@@ -52,11 +54,26 @@ const MenuBoardDayBar = () => {
   return (
     <div className={dayBarContainerClass}>
       <div className={weekLabelClass}>
+        <div className="w-8" />
         <span suppressHydrationWarning className={weekRangeClass}>
           {mounted
             ? `${currentWeek[0].format('M월 D일')} - ${currentWeek[6].format('M월 D일')}`
             : ''}
         </span>
+        <div className="flex w-8 justify-end">
+          {mounted &&
+            (!selectedDate.isSame(today, 'day') ||
+              !currentWeek.some((d) => d.isSame(today, 'day'))) && (
+              <button
+                type="button"
+                onClick={goToToday}
+                aria-label="오늘로 이동"
+                className={todayChipClass}
+              >
+                오늘
+              </button>
+            )}
+        </div>
       </div>
       <div className={chipAreaClass}>
         <button
