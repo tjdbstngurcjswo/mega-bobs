@@ -2,25 +2,22 @@ import { cn } from '@/utils/cn';
 
 export const dayBarContainerClass = 'bg-surface flex flex-col';
 
-export const weekLabelClass = 'flex items-center px-4 pt-2.5 pb-0.5';
+export const weekLabelClass = 'flex items-center gap-1 px-4 pt-1.5 pb-0.5';
 
 export const weekRangeClass =
   'flex-1 text-center text-[11px] font-semibold tabular-nums text-muted';
 
-export const todayChipClass =
-  'text-[10px] font-bold text-accent-text transition-opacity hover:opacity-70 active:scale-90 animate-[fadeIn_0.2s_ease_both]';
-
-export const chipAreaClass = 'flex items-center gap-2 px-4 pb-2.5';
-
 export const navButtonClass = (canGo: boolean) =>
   cn(
-    'flex min-h-[44px] w-8 shrink-0 cursor-pointer items-center justify-center transition-opacity duration-100 active:scale-75',
+    'flex cursor-pointer items-center justify-center px-1 py-2 transition-opacity duration-100 active:scale-75',
     canGo ? 'text-muted hover:text-ink' : 'cursor-default opacity-25'
   );
 
-export const navArrowClass = 'text-[16px] leading-none font-light';
+export const navArrowClass = 'text-[14px] leading-none font-light';
 
-export const chipRowClass = 'relative flex flex-1 gap-1.5 overflow-hidden';
+export const chipAreaClass = 'px-4 pb-2.5';
+
+export const chipRowClass = 'relative flex gap-1.5 overflow-hidden';
 
 export const indicatorClass = (isToday: boolean) =>
   cn(
