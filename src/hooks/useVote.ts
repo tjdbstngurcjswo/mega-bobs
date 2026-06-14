@@ -1,3 +1,4 @@
+import { sendGAEvent } from '@next/third-parties/google';
 import { useCallback, useEffect, useState } from 'react';
 
 import { VoteResult, VoteType } from '@/models/vote';
@@ -113,6 +114,11 @@ export const useVotes = (date: string, { enabled = true } = {}) => {
           }),
         });
         if (!res.ok) throw new Error('vote failed');
+        sendGAEvent('event', 'menu_vote', {
+          vote_type: isSame ? 'cancel' : voteType,
+          course: menuKey.split('_').slice(1).join('_'),
+          date: menuKey.split('_')[0],
+        });
       } catch {
         // 실패 시 서버 상태로 재동기화
         fetch(`/api/votes?date=${date}`, {

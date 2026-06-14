@@ -49,6 +49,7 @@ REVALIDATE_SECRET=
 API_KEY=
 CRON_SECRET=
 NEXT_PUBLIC_SITE_URL=
+NEXT_PUBLIC_GA_MEASUREMENT_ID=
 ```
 
 ```bash
@@ -64,7 +65,7 @@ pnpm dev        # http://localhost:3000
 
 > 스킬에서 Notion API 호출 시 아래 ID를 참조한다.
 
-| 문서               | 링크                                                                                    | Notion ID                              |
-| ------------------ | --------------------------------------------------------------------------------------- | -------------------------------------- |
-| 기획문서 (Phase 1) | [Phase-1](https://app.notion.com/p/pionari/Phase-1-376cb4f84b7f81ba8a2cc6c54aa75fd1)   | `376cb4f8-4b7f-81ba-8a2c-c6c54aa75fd1` |
-| 티켓 보드 (DB)     | [티켓 보드](https://app.notion.com/p/pionari/377cb4f84b7f8012ad8cca1ca0bfad59]) | `377cb4f8-4b7f-8012-ad8c-ca1ca0bfad59` |
+| 문서               | 링크                                                                                 | Notion ID                              |
+| ------------------ | ------------------------------------------------------------------------------------ | -------------------------------------- |
+| 기획문서 (Phase 1) | [Phase-1](https://app.notion.com/p/pionari/Phase-1-376cb4f84b7f81ba8a2cc6c54aa75fd1) | `376cb4f8-4b7f-81ba-8a2c-c6c54aa75fd1` |
+| 티켓 보드 (DB)     | [티켓 보드](https://app.notion.com/p/pionari/377cb4f84b7f8012ad8cca1ca0bfad59])      | `377cb4f8-4b7f-8012-ad8c-ca1ca0bfad59` |
