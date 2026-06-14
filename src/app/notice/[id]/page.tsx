@@ -5,10 +5,10 @@ import { getNoticeById, getNotices } from '@/api/getNotices';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import NoticeBody from '@/components/notice/NoticeBody';
 import { SITE_NAME } from '@/constants/site';
-import dayjs from '@/lib/dayjs';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
+import { formatRelativeDate } from '@/utils/date';
 
-import { contentClass, dateClass } from './page.styles';
+import { contentClass } from './page.styles';
 import type { PageProps } from './page.types';
 
 export const generateStaticParams = () =>
@@ -25,7 +25,7 @@ export const generateMetadata = async ({
     description: notice.body.slice(0, 120),
     alternates: { canonical: `/notice/${id}` },
     openGraph: {
-      title: `${SITE_NAME} ∙ ${notice.title}`,
+      title: `${notice.title} — ${SITE_NAME}`,
       description: notice.body.slice(0, 120),
       url: `/notice/${id}`,
     },
@@ -53,11 +53,16 @@ const NoticeDetailPage = async ({ params }: PageProps) => {
         }}
       />
       <SiteHeader />
-      <PageLayout eyebrow="공지사항" title={notice.title}>
+      <PageLayout
+        eyebrow="공지사항"
+        title={notice.title}
+        description={formatRelativeDate(
+          notice.publishedAt,
+          'YYYY년 MM월 DD일 HH:mm',
+          true
+        )}
+      >
         <div className={contentClass}>
-          <span className={dateClass}>
-            {dayjs.tz(notice.publishedAt).format('YYYY년 MM월 DD일')}
-          </span>
           <NoticeBody body={notice.body} />
         </div>
       </PageLayout>

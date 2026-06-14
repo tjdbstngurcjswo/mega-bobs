@@ -3,12 +3,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { getNotices } from '@/api/getNotices';
+import { stripMarkdown } from '@/utils/stripMarkdown';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { SITE_NAME } from '@/constants/site';
 import dayjs from '@/lib/dayjs';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 
 import {
+  articleBodyClass,
   articleClass,
   articleDateClass,
   articleTitleClass,
@@ -73,18 +75,19 @@ export default function NoticePage() {
                   className={articleClass(i === 0)}
                 >
                   <div className="w-14 shrink-0 text-right">
-                    <b className={articleDateClass}>
-                      {dayjs.tz(n.publishedAt).format('MM.DD')}
-                    </b>
                     <span className={articleYearClass}>
                       {dayjs.tz(n.publishedAt).format('YYYY')}
                     </span>
+                    <b className={articleDateClass}>
+                      {dayjs.tz(n.publishedAt).format('MM.DD')}
+                    </b>
                   </div>
-                  <div className="flex-1">
+                  <div className="min-w-0 flex-1">
                     <h3 className={articleTitleClass}>
-                      {n.title}
+                      <span className="truncate">{n.title}</span>
                       {isNew && <span className={newBadgeClass}>NEW</span>}
                     </h3>
+                    <p className={articleBodyClass}>{stripMarkdown(n.body)}</p>
                   </div>
                 </Link>
               );
