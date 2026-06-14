@@ -34,10 +34,8 @@ const MenuBoardDayBar = () => {
 
   const isCurrentWeek =
     mounted && currentWeek.some((d) => d.isSame(today, 'day'));
-  const isPrevWeek =
-    mounted && !isCurrentWeek && currentWeek[0].isBefore(today, 'day');
-  const prevLabel = isPrevWeek ? '이번주' : '지난주';
-  const nextLabel = isCurrentWeek || isPrevWeek ? '다음주' : '이번주';
+  const prevLabel = isCurrentWeek ? '지난주' : '이번주';
+  const nextLabel = isCurrentWeek ? '다음주' : '이번주';
 
   return (
     <div className={dayBarContainerClass}>
