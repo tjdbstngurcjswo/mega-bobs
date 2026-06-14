@@ -12,7 +12,6 @@ const LadderGame = () => {
   const {
     participants,
     items,
-    loaded,
     phase,
     seed,
     ladderData,
@@ -27,8 +26,6 @@ const LadderGame = () => {
     setItems,
     shuffleParticipants,
   } = useLadderGame();
-
-  if (!loaded) return null;
 
   const canPlay =
     participants.length >= 2 &&

@@ -27,8 +27,7 @@ const autoFillItems = (items: string[], targetLen: number): string[] => {
 };
 
 export const useLadderGame = () => {
-  const { participants, items, setParticipants, setItems, loaded } =
-    useLadderSession();
+  const { participants, items, setParticipants, setItems } = useLadderSession();
   const [phase, setPhase] = useState<LadderPhase>('input');
   const [seed, setSeed] = useState(0);
   const [playedData, setPlayedData] = useState<LadderData | null>(null);
@@ -140,21 +139,20 @@ export const useLadderGame = () => {
   };
 
   return {
-    participants,
-    items,
-    loaded,
-    phase,
-    seed,
-    ladderData,
-    revealed: reveal.revealed,
-    animating: reveal.animating,
-    play,
-    revealOne,
-    revealAll,
-    retry,
-    addPerson,
-    changeParticipants,
-    setItems,
-    shuffleParticipants,
+    participants, // 참가자 이모지 배열
+    items, // 결과 항목 배열
+    phase, // 게임 단계 — 'input' | 'animating' | 'result'
+    seed, // retry 시 증가하는 카운터 → LadderBoard key로 써서 사다리 재생성 트리거
+    ladderData, // 렌더에 쓸 사다리 구조 (result 단계면 확정된 playedData, 나머지는 미리보기)
+    revealed: reveal.revealed, // 결과가 공개된 참가자 인덱스 Set
+    animating: reveal.animating, // 경로 드로잉 애니메이션이 진행 중인 인덱스 Set
+    play, // 게임 시작 — index 없으면 전체 공개, 있으면 해당 참가자만
+    revealOne, // 특정 참가자 한 명의 결과를 추가 공개
+    revealAll, // 미공개 참가자를 한 번에 전체 공개
+    retry, // 입력 단계로 초기화 + 새 사다리 생성
+    addPerson, // 참가자 한 명 추가 (최대 8명, 항목 자동 채움 포함)
+    changeParticipants, // 참가자 배열 교체 (증가 시 항목도 자동 보충)
+    setItems, // 항목 배열 직접 교체
+    shuffleParticipants, // 참가자 순서 랜덤 섞기
   };
 };
