@@ -19,7 +19,7 @@ const NewsCard = ({ news }: NewsCardProps) => (
     title="원문으로 이동"
     className={cardClass}
   >
-    <div className="min-w-0 flex-1">
+    <div className="min-w-0 flex-1 max-sm:pr-6">
       <div className="mb-1 flex items-center gap-2">
         {news.source && <span className={dateClass}>{news.source}</span>}
         <span className={dateClass}>
