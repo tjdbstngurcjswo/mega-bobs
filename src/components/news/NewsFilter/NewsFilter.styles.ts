@@ -1,6 +1,11 @@
 import { cn } from '@/utils/cn';
 
-export const filterBarClass = 'mb-6 flex gap-1';
+export const filterBarClass = 'mb-6 flex items-center gap-1';
+
+export const crawledAtIconClass = 'text-muted cursor-default';
+
+export const crawledAtTooltipClass =
+  'absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap bg-board px-2.5 py-1.5 text-[11px] text-cream opacity-0 pointer-events-none transition-opacity group-hover:opacity-100';
 
 export const filterButtonClass = (active: boolean) =>
   cn(
@@ -19,7 +24,4 @@ export const emptyClass =
 export const emptyTitleClass = 'text-ink-2 text-[15px] font-extrabold';
 
 export const loadMoreClass =
-  'text-muted hover:text-ink-2 mx-auto mt-4 block px-6 py-2.5 text-[13px] font-bold transition-colors';
-
-export const newDotClass =
-  'bg-accent ml-2 inline-block size-1.5 rounded-full align-middle';
+  'text-muted hover:text-ink-2 mx-auto mt-4 flex items-center gap-1.5 px-6 py-2.5 text-[13px] font-bold transition-colors';

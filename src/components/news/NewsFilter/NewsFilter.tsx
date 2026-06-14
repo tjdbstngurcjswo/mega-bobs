@@ -2,19 +2,22 @@
 
 import { useState } from 'react';
 
+import { ChevronDown, Clock, Loader2 } from 'lucide-react';
+
 import type { CompanyNews } from '@/models/news';
 import dayjs from '@/lib/dayjs';
 
 import NewsCard from '../NewsCard';
 import { FILTER_OPTIONS } from './NewsFilter.constants';
 import {
+  crawledAtIconClass,
+  crawledAtTooltipClass,
   dateHeaderClass,
   emptyClass,
   emptyTitleClass,
   filterBarClass,
   filterButtonClass,
   loadMoreClass,
-  newDotClass,
   newsGroupClass,
 } from './NewsFilter.styles';
 import type { NewsFilterId, NewsFilterProps } from './NewsFilter.types';
@@ -27,7 +30,7 @@ type FilterState = {
   loading: boolean;
 };
 
-const NewsFilter = ({ newsByFilter }: NewsFilterProps) => {
+const NewsFilter = ({ newsByFilter, lastCrawledAt }: NewsFilterProps) => {
   const [active, setActive] = useState<NewsFilterId>('all');
   const [states, setStates] = useState<Record<NewsFilterId, FilterState>>(
     () => {
@@ -80,6 +83,8 @@ const NewsFilter = ({ newsByFilter }: NewsFilterProps) => {
   };
 
   const today = dayjs().tz().format('YYYY-MM-DD');
+  const yesterday = dayjs().tz().subtract(1, 'day').format('YYYY-MM-DD');
+  const twoDaysAgo = dayjs().tz().subtract(2, 'day').format('YYYY-MM-DD');
 
   const grouped = items.reduce<Record<string, typeof items>>((acc, item) => {
     const key = dayjs(item.publishedAt).tz().format('YYYY-MM-DD');
@@ -104,6 +109,19 @@ const NewsFilter = ({ newsByFilter }: NewsFilterProps) => {
             {label}
           </button>
         ))}
+        {lastCrawledAt && (
+          <div className="group relative ml-auto">
+            <Clock
+              size={12}
+              className={crawledAtIconClass}
+              aria-label={`마지막 업데이트 ${dayjs(lastCrawledAt).tz().format('M월 D일 HH:mm')}`}
+            />
+            <span className={crawledAtTooltipClass}>
+              마지막 업데이트{' '}
+              {dayjs(lastCrawledAt).tz().format('M월 D일 HH:mm')}
+            </span>
+          </div>
+        )}
       </div>
 
       {items.length > 0 ? (
@@ -112,10 +130,13 @@ const NewsFilter = ({ newsByFilter }: NewsFilterProps) => {
             {dateGroups.map(([dateKey, group]) => (
               <div key={dateKey} className={newsGroupClass}>
                 <p className={dateHeaderClass}>
-                  {dayjs(dateKey).tz().format('M월 D일 dddd')}
-                  {dateKey === today && (
-                    <span className={newDotClass} aria-label="오늘" />
-                  )}
+                  {dateKey === today
+                    ? '오늘'
+                    : dateKey === yesterday
+                      ? '어제'
+                      : dateKey === twoDaysAgo
+                        ? '그저께'
+                        : dayjs(dateKey).tz().format('M월 D일 dddd')}
                 </p>
                 {group.map((item) => (
                   <NewsCard key={item.url} news={item} />
@@ -130,6 +151,15 @@ const NewsFilter = ({ newsByFilter }: NewsFilterProps) => {
               disabled={loading}
               className={loadMoreClass}
             >
+              {loading ? (
+                <Loader2
+                  size={14}
+                  className="animate-spin"
+                  aria-hidden="true"
+                />
+              ) : (
+                <ChevronDown size={14} aria-hidden="true" />
+              )}
               {loading ? '불러오는 중…' : '더보기'}
             </button>
           )}

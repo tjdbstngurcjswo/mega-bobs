@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import { Newspaper } from 'lucide-react';
 
-import getNews from '@/api/getNews';
+import getNews, { getLastCrawledAt } from '@/api/getNews';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import NewsFilter from '@/components/news/NewsFilter';
 import { SITE_NAME } from '@/constants/site';
@@ -32,12 +32,14 @@ export const metadata: Metadata = {
 export const revalidate = 21600;
 
 export default async function NewsPage() {
-  const [all, megazone, megazonecloud, megazonesoft] = await Promise.all([
-    getNews(),
-    getNews({ company: 'megazone' }),
-    getNews({ company: 'megazonecloud' }),
-    getNews({ company: 'megazonesoft' }),
-  ]);
+  const [all, megazone, megazonecloud, megazonesoft, lastCrawledAt] =
+    await Promise.all([
+      getNews(),
+      getNews({ company: 'megazone' }),
+      getNews({ company: 'megazonecloud' }),
+      getNews({ company: 'megazonesoft' }),
+      getLastCrawledAt(),
+    ]);
 
   const newsByFilter = { all, megazone, megazonecloud, megazonesoft };
 
@@ -61,7 +63,10 @@ export default async function NewsPage() {
         description="구글 뉴스에서 찾아온 우리 회사 소식이에요"
       >
         {all.length > 0 ? (
-          <NewsFilter newsByFilter={newsByFilter} />
+          <NewsFilter
+            newsByFilter={newsByFilter}
+            lastCrawledAt={lastCrawledAt}
+          />
         ) : (
           <div className={emptyNewsClass}>
             <Newspaper className={emptyNewsIconClass} strokeWidth={1.5} />

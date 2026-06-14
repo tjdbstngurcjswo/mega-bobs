@@ -58,4 +58,16 @@ const getNews = async ({
   return (data ?? []).map(toCompanyNews);
 };
 
+export const getLastCrawledAt = async (): Promise<string | null> => {
+  const { data, error } = await supabaseServer
+    .from('company_news')
+    .select('created_at')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  if (error) return null;
+  return data?.created_at ?? null;
+};
+
 export default getNews;
