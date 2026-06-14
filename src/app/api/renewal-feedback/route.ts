@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { extractGeo, isKoreaGeo } from '@/lib/geoHeaders';
 import { supabaseServer } from '@/lib/supabaseServer';
 import { RenewalFeedbackPayload } from '@/models/renewalFeedback';
 
@@ -14,6 +15,11 @@ export const POST = async (req: NextRequest) => {
 
   if (!voterId) {
     return NextResponse.json({ error: 'x-voter-id required' }, { status: 400 });
+  }
+
+  const geo = extractGeo(req);
+  if (!isKoreaGeo(geo)) {
+    return NextResponse.json({ error: 'unavailable' }, { status: 403 });
   }
 
   let body: RenewalFeedbackPayload;
@@ -35,6 +41,10 @@ export const POST = async (req: NextRequest) => {
       voter_id: voterId,
       score,
       reason: reason?.trim() || null,
+      ip: geo.ip,
+      country: geo.country,
+      region: geo.region,
+      city: geo.city,
     },
     { onConflict: 'version,voter_id' }
   );
