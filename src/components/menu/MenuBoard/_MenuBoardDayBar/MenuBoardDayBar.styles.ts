@@ -39,6 +39,7 @@ export const labelClass = (
   dow: number
 ): string => {
   if (isSelected) return isToday ? 'text-ink/55' : 'text-cream-2';
+  if (isToday) return 'text-accent-text';
   return dowColor(dow) ?? 'text-muted';
 };
 
@@ -48,5 +49,6 @@ export const dateClass = (
   dow: number
 ): string => {
   if (isSelected) return isToday ? 'text-ink' : 'text-cream';
+  if (isToday) return 'text-accent-text';
   return dowColor(dow) ?? 'text-ink';
 };

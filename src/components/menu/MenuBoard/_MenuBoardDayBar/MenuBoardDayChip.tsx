@@ -33,7 +33,7 @@ const MenuBoardDayChip = ({
       type="button"
       onClick={() => onSelect(day)}
       aria-pressed={isSelected}
-      className={chipButtonClass(isSelected, justSelected)}
+      className={chipButtonClass(isSelected, isToday, justSelected)}
     >
       <span
         suppressHydrationWarning
