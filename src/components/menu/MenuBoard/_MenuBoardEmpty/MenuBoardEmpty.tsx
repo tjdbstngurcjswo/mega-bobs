@@ -73,8 +73,10 @@ const MenuBoardEmpty = ({
       <div className="relative">
         <div className={emptyLabelClass}>{copy.label}</div>
         <h3 className={emptyTitleClass}>{closedTitle}</h3>
-        {copy.body && !(variant === 'closed' && isPast) && (
-          <p className={emptyBodyClass}>{copy.body}</p>
+        {variant === 'closed' && isPast && 'bodyPast' in copy ? (
+          <p className={emptyBodyClass}>{copy.bodyPast}</p>
+        ) : (
+          copy.body && <p className={emptyBodyClass}>{copy.body}</p>
         )}
       </div>
     </div>
