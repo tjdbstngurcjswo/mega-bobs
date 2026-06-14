@@ -5,7 +5,7 @@ export const dayBarContainerClass = 'bg-surface flex flex-col';
 export const weekLabelClass = 'px-4 pt-2.5 pb-0.5';
 
 export const weekRangeClass =
-  'text-[11px] font-semibold tabular-nums text-muted';
+  'block text-center text-[11px] font-semibold tabular-nums text-muted';
 
 export const chipAreaClass = 'flex items-center gap-2 px-4 pb-2.5';
 
