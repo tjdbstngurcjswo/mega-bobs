@@ -1,5 +1,7 @@
 'use client';
 
+import toast from 'react-hot-toast';
+
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { useDateStore } from '@/store/useDateStore';
 
@@ -31,6 +33,22 @@ const MenuBoardDayBar = () => {
   const canGoPrev = !mounted || currentWeek[0].isAfter(minDate, 'day');
   const canGoNext = !mounted || currentWeek[6].isBefore(maxDate, 'day');
 
+  const handlePrev = () => {
+    if (!canGoPrev) {
+      toast.error('제공하지 않는 날짜예요');
+      return;
+    }
+    goToPrevWeek();
+  };
+
+  const handleNext = () => {
+    if (!canGoNext) {
+      toast.error('아직 준비 중이에요');
+      return;
+    }
+    goToNextWeek();
+  };
+
   return (
     <div className={dayBarContainerClass}>
       <div className={weekLabelClass}>
@@ -43,10 +61,9 @@ const MenuBoardDayBar = () => {
       <div className={chipAreaClass}>
         <button
           type="button"
-          disabled={!canGoPrev}
-          onClick={goToPrevWeek}
+          onClick={handlePrev}
           aria-label="지난주 메뉴 보기"
-          className={navButtonClass}
+          className={navButtonClass(canGoPrev)}
         >
           <span className={navArrowClass}>‹</span>
         </button>
@@ -85,9 +102,9 @@ const MenuBoardDayBar = () => {
         <button
           type="button"
           disabled={!canGoNext}
-          onClick={goToNextWeek}
+          onClick={handleNext}
           aria-label="다음 주 메뉴 보기"
-          className={navButtonClass}
+          className={navButtonClass(canGoNext)}
         >
           <span className={navArrowClass}>›</span>
         </button>

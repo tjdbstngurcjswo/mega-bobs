@@ -9,8 +9,11 @@ export const weekRangeClass =
 
 export const chipAreaClass = 'flex items-center gap-2 px-4 pb-2.5';
 
-export const navButtonClass =
-  'flex min-h-[44px] w-8 shrink-0 items-center justify-center text-muted transition-opacity duration-100 hover:text-ink active:scale-75 disabled:cursor-default disabled:opacity-20 disabled:hover:text-muted';
+export const navButtonClass = (canGo: boolean) =>
+  cn(
+    'flex min-h-[44px] w-8 shrink-0 cursor-pointer items-center justify-center transition-opacity duration-100 active:scale-75',
+    canGo ? 'text-muted hover:text-ink' : 'cursor-default opacity-25'
+  );
 
 export const navArrowClass = 'text-[16px] leading-none font-light';
 
