@@ -19,6 +19,12 @@ export const useRenewalFeedback = (version: string) => {
     if (!stored) setVisible(true);
   }, [version]);
 
+  useEffect(() => {
+    if (state !== 'submitted') return;
+    const timer = setTimeout(() => setVisible(false), 2000);
+    return () => clearTimeout(timer);
+  }, [state]);
+
   const dismiss = useCallback(() => {
     localStorage.setItem(`${LS_PREFIX}${version}`, 'dismissed');
     setVisible(false);
@@ -48,8 +54,6 @@ export const useRenewalFeedback = (version: string) => {
 
       localStorage.setItem(`${LS_PREFIX}${version}`, 'submitted');
       setState('submitted');
-
-      setTimeout(() => setVisible(false), 2000);
     } catch {
       setState('error');
     }
