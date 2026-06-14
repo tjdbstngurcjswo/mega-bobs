@@ -1,124 +1,71 @@
-# MegaBobs 🍽️
+# MegaBobs
 
-메가존 구내식당 식단표를 확인할 수 있는 웹 애플리케이션입니다.
+메가존 직원을 위한 구내식당 메뉴 뷰어. 날짜별 식단 조회, Slack 봇 연동, 실시간 운영 상태 표시를 제공합니다.
 
-## ✨ 주요 기능
+---
 
-- 📅 **날짜별 메뉴 조회**: 원하는 날짜의 식단을 확인할 수 있습니다
-- 🍝 **다양한 코스 메뉴**: 코스1, 코스2, 테이크아웃 메뉴를 선택할 수 있습니다
-- 📱 **모바일 최적화**: 반응형 디자인으로 모든 디바이스에서 사용 가능합니다
-- ⚡ **빠른 로딩**: 데이터 캐싱과 프리페칭으로 최적화된 성능을 제공합니다
-- 🛡️ **안정적인 에러 처리**: ErrorBoundary를 통한 안정적인 사용자 경험을 제공합니다
+## 주요 기능
 
-## 🛠️ 기술 스택
+- **메뉴 조회** — 주간 캘린더로 날짜를 선택해 코스1 · 코스2 · 테이크아웃 메뉴 확인
+- **운영 상태** — 운영 중 / 준비 중 / 마감 실시간 자동 표시 (서울 기준)
+- **맛 평가 투표** — 코스별 👍 / 👎 익명 투표
+- **식전 픽** — 코스1 / 코스2 / 테이크아웃 / 패스 중 선택
+- **공지사항** — 정적 공지 목록, 헤더 벨 신규 알림
+- **Slack 봇** — `/밥` 커맨드로 오늘 · 내일 · 모레 · 글피 메뉴 조회
+- **MCP 서버** — Claude Desktop 연동, `get_menu` 도구 제공
+- **ISR 캐싱** — 6시간 자동 재검증, 매일 15:00 UTC 캐시 워밍 (Vercel Cron)
 
-### Frontend
+---
 
-- **Next.js 15** - React 프레임워크
-- **React 19** - UI 라이브러리
-- **TypeScript** - 타입 안전성
-- **Tailwind CSS** - 스타일링
-- **TanStack Query** - 서버 상태 관리
-- **Lucide React** - 아이콘
+## 기술 스택
 
-### Backend & Database
+| 분류         | 기술                                               |
+| ------------ | -------------------------------------------------- |
+| 프레임워크   | Next.js 15 (App Router, Turbopack)                 |
+| UI           | React 19, Tailwind CSS v4, Lucide React            |
+| 상태 관리    | Zustand                                            |
+| 데이터베이스 | Supabase (PostgreSQL)                              |
+| 날짜 처리    | dayjs (`Asia/Seoul` timezone)                      |
+| 배포         | Vercel                                             |
+| 테스트       | Vitest, Testing Library                            |
+| 포맷         | ESLint, Prettier (+ `prettier-plugin-tailwindcss`) |
 
-- **Supabase** - 백엔드 서비스 및 PostgreSQL 데이터베이스
+---
 
-### Development Tools
+## 디자인 시스템
 
-- **ESLint** - 코드 품질 관리
-- **Prettier** - 코드 포맷팅
-- **pnpm** - 패키지 매니저
+토큰 · 타이포 · 컬러 · 간격 · 접근성 규칙은 [DESIGN.md](DESIGN.md)를 참고하세요.
 
-## 🚀 시작하기
+---
 
-### 필수 조건
+## 시작하기
 
-- Node.js 18.17 이상
-- pnpm (권장) 또는 npm/yarn
+`.env.local` 파일을 생성하고 아래 값을 채워주세요:
 
-### 설치 및 실행
-
-1. **저장소 클론**
-
-   ```bash
-   git clone https://github.com/hong-soohyuk/mega-bobs.git
-   cd mega-bobs
-   ```
-
-2. **의존성 설치**
-
-   ```bash
-   pnpm install
-   ```
-
-3. **환경 변수 설정**
-
-   ```bash
-   cp .env.example .env.local
-   ```
-
-   `.env.local` 파일에 다음 환경 변수를 설정하세요:
-
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
-
-4. **개발 서버 실행**
-
-   ```bash
-   pnpm dev
-   ```
-
-5. **브라우저에서 확인**
-   [http://localhost:3000](http://localhost:3000)에서 앱을 확인할 수 있습니다.
-
-## 📝 사용 가능한 스크립트
+```
+NEXT_PUBLIC_SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+REVALIDATE_SECRET=
+API_KEY=
+CRON_SECRET=
+NEXT_PUBLIC_SITE_URL=
+NEXT_PUBLIC_GA_MEASUREMENT_ID=
+```
 
 ```bash
-# 개발 서버 실행 (Turbopack 사용)
-pnpm dev
-
-# 프로덕션 빌드
-pnpm build
-
-# 프로덕션 서버 실행
-pnpm start
-
-# 린트 검사
-pnpm lint
-
-# 린트 오류 자동 수정
-pnpm lint:fix
-
-# 코드 포맷팅
-pnpm format
-
-# 코드 포맷팅 검사
-pnpm format:check
+pnpm install
+pnpm dev        # http://localhost:3000
 ```
 
-## 📁 프로젝트 구조
+주요 스크립트: `pnpm build` · `pnpm lint` · `pnpm test` · `pnpm mcp`
 
-```
-src/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx         # 루트 레이아웃
-│   ├── page.tsx           # 홈페이지
-│   └── globals.css        # 전역 스타일
-├── components/            # 재사용 가능한 컴포넌트
-│   ├── layout/           # 레이아웃 컴포넌트
-│   ├── ErrorBoundary.tsx # 에러 경계 컴포넌트
-│   ├── HomeClient.tsx    # 메인 클라이언트 컴포넌트
-│   ├── MenuSection.tsx   # 메뉴 섹션 컴포넌트
-│   └── ...
-├── lib/                  # 유틸리티 및 설정
-│   ├── api/             # API 호출 함수
-│   ├── hooks/           # 커스텀 훅
-│   ├── utils.ts         # 유틸리티 함수
-│   └── supabase.ts      # Supabase 클라이언트
-├── types/               # TypeScript 타입 정의
-├── constants/           # 상수 정의
-```
+---
+
+## Notion 문서
+
+> 스킬에서 Notion API 호출 시 아래 ID를 참조한다.
+
+| 문서               | 링크                                                                                 | Notion ID                              |
+| ------------------ | ------------------------------------------------------------------------------------ | -------------------------------------- |
+| 기획문서 (Phase 1) | [Phase-1](https://app.notion.com/p/pionari/Phase-1-376cb4f84b7f81ba8a2cc6c54aa75fd1) | `376cb4f8-4b7f-81ba-8a2c-c6c54aa75fd1` |
+| 티켓 보드 (DB)     | [티켓 보드](https://app.notion.com/p/pionari/377cb4f84b7f8012ad8cca1ca0bfad59])      | `377cb4f8-4b7f-8012-ad8c-ca1ca0bfad59` |

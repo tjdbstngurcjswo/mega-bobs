@@ -1,43 +1,36 @@
-import {NextRequest} from 'next/server';
+import { NextRequest } from 'next/server';
 
-import {supabaseServer} from '@/lib/supabase-server';
+import getMenu from '@/api/getMenu';
 
-export async function GET(req: NextRequest) {
+const json = (body: unknown, status: number) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+/**
+ * @route GET /api/menu
+ * @header x-api-key - API 인증 키 (env: API_KEY)
+ * @query start - 조회 시작일 (YYYY-MM-DD)
+ * @query end - 조회 종료일 (YYYY-MM-DD)
+ * @returns 날짜 범위 내 메뉴 목록
+ */
+export const GET = async (req: NextRequest) => {
   const apiKey = req.headers.get('x-api-key');
+  const API_KEY = process.env.API_KEY;
+  if (!API_KEY || apiKey !== API_KEY)
+    return json({ error: 'Unauthorized' }, 401);
 
-  if (apiKey !== process.env.API_KEY) {
-    return new Response(JSON.stringify({message: 'Unauthorized'}), {
-      status: 401,
-      headers: {'Content-Type': 'application/json'},
-    });
-  }
-
-  const {searchParams} = new URL(req.url);
+  const { searchParams } = new URL(req.url);
   const start = searchParams.get('start');
   const end = searchParams.get('end');
+  if (!start || !end) return json({ error: 'Invalid params' }, 400);
 
-  if (!start || !end) {
-    return new Response(JSON.stringify({message: 'Invalid params'}), {
-      status: 400,
-      headers: {'Content-Type': 'application/json'},
-    });
+  try {
+    const data = await getMenu({ start, end });
+    return json(data, 200);
+  } catch (err) {
+    const error = err instanceof Error ? err.message : 'Internal error';
+    return json({ error }, 500);
   }
-
-  const {data, error} = await supabaseServer
-    .from('daily_menu')
-    .select('*')
-    .gte('date', start)
-    .lte('date', end);
-
-  if (error) {
-    return new Response(JSON.stringify({message: error.message}), {
-      status: 500,
-      headers: {'Content-Type': 'application/json'},
-    });
-  }
-
-  return new Response(JSON.stringify(data), {
-    status: 200,
-    headers: {'Content-Type': 'application/json'},
-  });
-}
+};

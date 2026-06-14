@@ -1,0 +1,93 @@
+---
+name: start-ticket
+description: Notion 티켓 조회 → 작업 계획 기입 → 브랜치 생성까지 작업 시작 절차 전체를 처리. "작업 시작", "티켓 따서", "MEGA-XX 작업" 등 티켓 기반 작업 착수 시 발동.
+---
+
+# Start Ticket
+
+새 작업을 시작하기 전에 이 절차를 따른다. 브랜치 생성은 반드시 티켓 계획 승인 후에만 진행한다.
+
+## Notion MCP 도구 탐색
+
+Notion 도구 prefix는 환경마다 다르다. ToolSearch로 `notion retrieve` 검색해 사용 가능한 도구를 확인한다.
+이미 알고 있으면 스킵. CLAUDE.md → Notion MCP 설정 섹션 참조.
+
+## STEP 1: 티켓 식별
+
+사용자 메시지에서 티켓 번호 또는 작업 키워드를 추출한다.
+
+- 번호가 명시된 경우: 해당 티켓 직접 조회
+- 번호가 없는 경우: Notion 보드에서 `Status = To Do` 목록 조회 후 사용자에게 선택 요청
+
+티켓 보드 DB ID는 `README.md` → Notion 문서 섹션에서 확인한다.
+`API-query-data-source` 로 조회, 우선순위(P0 > P1 > P2 > P3) 순 정렬.
+
+## STEP 2: 티켓 내용 파악
+
+`API-retrieve-a-page` 로 해당 티켓 페이지 조회. 제목·설명·우선순위·관련 파일 파악.
+
+## STEP 3: 기획문서 참조
+
+`API-retrieve-a-page` 로 Phase 1 기획문서 조회 (ID: `README.md` → Notion 문서 섹션).
+필요 시 `API-get-block-children` 으로 관련 기능 설명·UX 흐름·제약사항 파악.
+
+## STEP 4: 작업 계획 초안 작성
+
+```markdown
+## 작업 계획
+
+### 목표
+[한 줄 — 완료 시 무엇이 달라지는가]
+
+### 구현 범위
+- [ ] 항목 1 (파일명 명시)
+- [ ] 항목 2
+
+### 영향 파일
+| 파일    | 변경 유형      |
+| ------- | -------------- |
+| src/... | 신규/수정/삭제 |
+
+### 완료 기준 (DoD)
+- [ ] 기능 동작 확인
+- [ ] 디자인 시스템 위반 없음
+- [ ] `pnpm build` 통과
+- [ ] lint/format 통과
+```
+
+## STEP 5: 티켓에 계획 기입 + 상태 업데이트
+
+작업 계획을 사용자에게 보여주고 **승인 후** 실행:
+
+1. `API-patch-block-children` 으로 티켓 본문에 계획 추가
+2. `API-patch-page` 로 Status → `In Progress` 변경
+
+승인 없이 Notion 업데이트 금지.
+
+## STEP 6: 브랜치 생성
+
+Notion 업데이트 완료 후에만 실행.
+
+| 티켓 유형 | 접두사      | 예시                             |
+| --------- | ----------- | -------------------------------- |
+| 신규 기능 | `feat/`     | `feat/MEGA-50-notice-board`      |
+| 버그 수정 | `fix/`      | `fix/MEGA-61-menu-date-overflow` |
+| 리팩터링  | `refactor/` | `refactor/MEGA-72-hero-status`   |
+| 문서/설정 | `chore/`    | `chore/MEGA-80-env-cleanup`      |
+
+슬러그: `MEGA-{번호}-{제목-kebab-case}` (최대 40자), 기준 브랜치: **`dev`**
+
+```bash
+git fetch upstream
+git checkout dev && git merge upstream/dev
+git checkout -b feat/MEGA-{번호}-{슬러그}
+```
+
+## STEP 7: 완료 보고
+
+```
+✅ 작업 준비 완료
+- 티켓: MEGA-{번호} — {제목}
+- 브랜치: feat/MEGA-{번호}-{슬러그} (dev 기준)
+- Notion: 계획 기입 + In Progress 전환 완료
+```

@@ -42,3 +42,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.gstack/
+
+# internal docs (design mockups, plans, specs)
+/docs/
+
+# Claude Code local settings
+.claude/settings.json
+.claude/settings.local.json
+
+# Superpowers plugin runtime files
+.superpowers/
