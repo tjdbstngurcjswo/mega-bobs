@@ -9,26 +9,29 @@ const LS_PREFIX = 'renewal_feedback_';
 type FeedbackState = 'idle' | 'submitting' | 'submitted' | 'error';
 
 export const useRenewalFeedback = (version: string) => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false); // FAB 표시 여부
+  const [isOpen, setIsOpen] = useState(false); // 팝업 펼침 여부
   const [score, setScore] = useState<number | null>(null);
   const [reason, setReason] = useState('');
   const [state, setState] = useState<FeedbackState>('idle');
 
   useEffect(() => {
     const stored = localStorage.getItem(`${LS_PREFIX}${version}`);
-    if (!stored) setVisible(true);
+    if (stored !== 'submitted') setVisible(true);
   }, [version]);
 
   useEffect(() => {
     if (state !== 'submitted') return;
-    const timer = setTimeout(() => setVisible(false), 2000);
+    const timer = setTimeout(() => {
+      setIsOpen(false);
+      setVisible(false);
+    }, 2000);
     return () => clearTimeout(timer);
   }, [state]);
 
-  const dismiss = useCallback(() => {
-    localStorage.setItem(`${LS_PREFIX}${version}`, 'dismissed');
-    setVisible(false);
-  }, [version]);
+  const toggle = useCallback(() => setIsOpen((v) => !v), []);
+
+  const close = useCallback(() => setIsOpen(false), []);
 
   const submit = useCallback(async () => {
     if (!score) return;
@@ -61,12 +64,14 @@ export const useRenewalFeedback = (version: string) => {
 
   return {
     visible,
+    isOpen,
+    toggle,
+    close,
     score,
     setScore,
     reason,
     setReason,
     state,
-    dismiss,
     submit,
   };
 };
