@@ -1,5 +1,5 @@
 /** 공지사항이 노출될 배포 환경 */
-type NoticeEnv = 'development' | 'production';
+export type NoticeEnv = 'dev' | 'prod';
 
 /** 공지사항 */
 export type Notice = {

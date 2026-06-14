@@ -2,7 +2,7 @@ import { cn } from '@/utils/cn';
 
 export const articleClass = (isFirst: boolean) =>
   cn(
-    'border-line flex gap-5 border-b px-1 py-5',
+    'border-line flex cursor-pointer gap-5 border-b px-1 py-5 transition-colors hover:bg-surface-warm',
     isFirst && 'border-t-ink border-t-2'
   );
 

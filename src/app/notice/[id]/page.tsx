@@ -1,0 +1,69 @@
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+
+import { getAnnouncementById, getAnnouncements } from '@/api/getAnnouncements';
+import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
+import NoticeBody from '@/components/notice/NoticeBody';
+import { SITE_NAME } from '@/constants/site';
+import dayjs from '@/lib/dayjs';
+import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
+
+import { contentClass, dateClass } from './page.styles';
+import type { PageProps } from './page.types';
+
+export const generateStaticParams = () =>
+  getAnnouncements().map((n) => ({ id: n.id }));
+
+export const generateMetadata = async ({
+  params,
+}: PageProps): Promise<Metadata> => {
+  const { id } = await params;
+  const notice = getAnnouncementById(id);
+  if (!notice) return { title: '공지사항' };
+  return {
+    title: notice.title,
+    description: notice.body.slice(0, 120),
+    alternates: { canonical: `/notice/${id}` },
+    openGraph: {
+      title: `${notice.title} — ${SITE_NAME}`,
+      description: notice.body.slice(0, 120),
+      url: `/notice/${id}`,
+    },
+  };
+};
+
+const NoticeDetailPage = async ({ params }: PageProps) => {
+  const { id } = await params;
+  const notice = getAnnouncementById(id);
+
+  if (!notice) notFound();
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            getBreadcrumbJsonLd([
+              { name: '홈', path: '/' },
+              { name: '공지사항', path: '/notice' },
+              { name: notice.title, path: `/notice/${id}` },
+            ])
+          ),
+        }}
+      />
+      <SiteHeader />
+      <PageLayout eyebrow="공지사항" title={notice.title}>
+        <div className={contentClass}>
+          <span className={dateClass}>
+            {dayjs.tz(notice.publishedAt).format('YYYY년 MM월 DD일')}
+          </span>
+          <NoticeBody body={notice.body} />
+        </div>
+      </PageLayout>
+      <SiteFooter />
+    </>
+  );
+};
+
+export default NoticeDetailPage;
