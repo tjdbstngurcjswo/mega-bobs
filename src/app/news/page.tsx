@@ -23,9 +23,13 @@ export const metadata: Metadata = {
   description: newsDesc,
   alternates: { canonical: '/news' },
   openGraph: {
-    title: `메가존 소식 — ${SITE_NAME}`,
+    title: `${SITE_NAME} ∙ 메가존 소식`,
     description: newsDesc,
     url: '/news',
+  },
+  twitter: {
+    title: `${SITE_NAME} ∙ 메가존 소식`,
+    description: newsDesc,
   },
 };
 

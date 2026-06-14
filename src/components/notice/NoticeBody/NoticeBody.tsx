@@ -1,0 +1,62 @@
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
+
+import type { NoticeBodyProps } from './NoticeBody.types';
+import {
+  blockquoteClass,
+  codeClass,
+  h1Class,
+  h2Class,
+  h3Class,
+  hrClass,
+  imgClass,
+  liClass,
+  linkClass,
+  olClass,
+  pClass,
+  preClass,
+  ulClass,
+  wrapperClass,
+} from './NoticeBody.styles';
+
+const NoticeBody = ({ body }: NoticeBodyProps) => (
+  <div className={wrapperClass}>
+    <ReactMarkdown
+      rehypePlugins={[rehypeRaw]}
+      remarkPlugins={[remarkGfm]}
+      components={{
+        h1: ({ children }) => <h1 className={h1Class}>{children}</h1>,
+        h2: ({ children }) => <h2 className={h2Class}>{children}</h2>,
+        h3: ({ children }) => <h3 className={h3Class}>{children}</h3>,
+        p: ({ children }) => <p className={pClass}>{children}</p>,
+        img: ({ src, alt }) => (
+          <img src={src ?? ''} alt={alt ?? ''} className={imgClass} />
+        ),
+        a: ({ href, children }) => (
+          <a
+            href={href}
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {children}
+          </a>
+        ),
+        ul: ({ children }) => <ul className={ulClass}>{children}</ul>,
+        ol: ({ children }) => <ol className={olClass}>{children}</ol>,
+        li: ({ children }) => <li className={liClass}>{children}</li>,
+        blockquote: ({ children }) => (
+          <blockquote className={blockquoteClass}>{children}</blockquote>
+        ),
+        hr: () => <hr className={hrClass} />,
+        code: ({ children }) => <code className={codeClass}>{children}</code>,
+        pre: ({ children }) => <pre className={preClass}>{children}</pre>,
+      }}
+    >
+      {body}
+    </ReactMarkdown>
+  </div>
+);
+
+export default NoticeBody;

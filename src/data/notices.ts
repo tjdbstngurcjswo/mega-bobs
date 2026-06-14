@@ -1,6 +1,6 @@
 import type { Notice } from '@/models/notice';
 
-export const ANNOUNCEMENTS: Notice[] = [
+export const NOTICES: Notice[] = [
   {
     id: 'v1-release',
     title: 'MegaBobs 1.0.0 출시 — 1주년을 한 달 앞두고 새롭게 태어났어요',
@@ -14,7 +14,7 @@ export const ANNOUNCEMENTS: Notice[] = [
 
 주간 날짜 네비게이션으로 이번 주·다음 주 식단을 한눈에 확인하세요. 운영 시간·휴무 여부를 실시간으로 표시하고, 모바일에서도 쾌적하게 쓸 수 있도록 레이아웃을 전면 개편했습니다.
 
-![식단표 화면](/announcements/home.png)
+![식단표 화면](/notices/home.png)
 
 ---
 
@@ -31,8 +31,21 @@ export const ANNOUNCEMENTS: Notice[] = [
 
 메가존·메가존클라우드·메가존소프트의 뉴스를 매일 아침 자동으로 수집해 보여드려요. 회사별 탭으로 빠르게 필터링할 수 있습니다.
 
-![메가존 소식 화면](/announcements/news.png)
+![메가존 소식 화면](/notices/news.png)
 
+---
+
+## 🎮 미니게임 (출시 예정)
+
+밥 먹고 잠깐의 여유, 사다리게임·슬롯머신·풍선터뜨리기로 소소하게 즐겨보세요. 현재 준비 중이며 곧 오픈합니다.
+
+![미니게임 화면](/notices/games.png)
+
+---
+
+## 💬 Slack 봇 연동
+
+Slack에서 \`/밥\` 명령어 한 번으로 오늘 식단을 바로 확인할 수 있어요. 앱을 열 필요 없이 업무 중간에도 빠르게 체크하세요.
 
 ---
 
@@ -40,7 +53,7 @@ export const ANNOUNCEMENTS: Notice[] = [
 
 새 기능 소식과 운영 안내를 이 공지사항 페이지에서 먼저 알려드릴게요.
 
-![공지사항 화면](/announcements/notice.png)
+![공지사항 화면](/notices/notice.png)
 
 ---
 

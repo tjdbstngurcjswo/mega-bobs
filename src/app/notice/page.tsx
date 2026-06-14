@@ -1,15 +1,14 @@
-import type { Metadata } from 'next';
-
 import { Bell } from 'lucide-react';
+import type { Metadata } from 'next';
+import Link from 'next/link';
 
-import { getAnnouncements } from '@/api/getAnnouncements';
+import { getNotices } from '@/api/getNotices';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { SITE_NAME } from '@/constants/site';
 import dayjs from '@/lib/dayjs';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 
 import {
-  articleBodyClass,
   articleClass,
   articleDateClass,
   articleTitleClass,
@@ -25,18 +24,18 @@ export const metadata: Metadata = {
   description: noticeDesc,
   alternates: { canonical: '/notice' },
   openGraph: {
-    title: `공지사항 — ${SITE_NAME}`,
+    title: `${SITE_NAME} ∙ 공지사항`,
     description: noticeDesc,
     url: '/notice',
   },
   twitter: {
-    title: `공지사항 — ${SITE_NAME}`,
+    title: `${SITE_NAME} ∙ 공지사항`,
     description: noticeDesc,
   },
 };
 
 export default function NoticePage() {
-  const notices = getAnnouncements();
+  const notices = getNotices();
 
   return (
     <>
@@ -68,10 +67,14 @@ export default function NoticePage() {
               const isNew =
                 dayjs().tz().diff(dayjs.tz(n.publishedAt), 'day') < 7;
               return (
-                <article key={n.id} className={articleClass(i === 0)}>
-                  <div className="w-16 shrink-0">
+                <Link
+                  key={n.id}
+                  href={`/notice/${n.id}`}
+                  className={articleClass(i === 0)}
+                >
+                  <div className="w-14 shrink-0 text-right">
                     <b className={articleDateClass}>
-                      {dayjs.tz(n.publishedAt).format('M.D')}
+                      {dayjs.tz(n.publishedAt).format('MM.DD')}
                     </b>
                     <span className={articleYearClass}>
                       {dayjs.tz(n.publishedAt).format('YYYY')}
@@ -82,9 +85,8 @@ export default function NoticePage() {
                       {n.title}
                       {isNew && <span className={newBadgeClass}>NEW</span>}
                     </h3>
-                    <p className={articleBodyClass}>{n.body}</p>
                   </div>
-                </article>
+                </Link>
               );
             })}
           </div>
