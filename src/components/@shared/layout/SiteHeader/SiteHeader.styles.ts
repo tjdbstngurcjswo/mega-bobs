@@ -45,5 +45,5 @@ export const mobileOverlayClass = (menuOpen: boolean) =>
 export const mobileNavLinkClass = (active: boolean) =>
   cn(
     'flex items-center justify-between border-b border-line/50 py-3.5 text-[15px] font-semibold',
-    active ? 'text-ink' : 'text-ink-2'
+    active ? 'text-accent-text' : 'text-ink-2'
   );

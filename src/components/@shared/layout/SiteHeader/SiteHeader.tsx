@@ -1,6 +1,6 @@
 'use client';
 
-import { Bell, Menu, X } from 'lucide-react';
+import { Bell, Check, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
@@ -134,6 +134,7 @@ const SiteHeader = () => {
                 className={mobileNavLinkClass(active)}
               >
                 {item.label}
+                {active && <Check size={16} strokeWidth={2.5} aria-hidden />}
               </Link>
             );
           })}
