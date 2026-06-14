@@ -1,12 +1,12 @@
 'use client';
 
 import { ThumbsDown, ThumbsUp, Users } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { MenuCategoryLabel } from '@/constants/menu';
 
 import {
-  TOOLTIP,
+  tooltipClass,
   courseRowClass,
   courseRowHeaderClass,
   courseLabelClass,
@@ -27,9 +27,35 @@ import { MenuBoardCourseRowProps } from './MenuBoardCourseRow.types';
 
 const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
   const [animating, setAnimating] = useState<'up' | 'down' | null>(null);
+  const [longPressTarget, setLongPressTarget] = useState<'up' | 'down' | null>(
+    null
+  );
+  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const longPressActivated = useRef(false);
 
   const total = menu.items.reduce((sum, item) => sum + (item.kcal ?? 0), 0);
   const myVote = vote?.result?.myVote ?? null;
+
+  const startLongPress = (type: 'up' | 'down') => {
+    longPressActivated.current = false;
+    longPressTimer.current = setTimeout(() => {
+      setLongPressTarget(type);
+      longPressActivated.current = true;
+    }, 500);
+  };
+
+  const cancelLongPress = () => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+  };
+
+  useEffect(() => {
+    const dismiss = () => setLongPressTarget(null);
+    document.addEventListener('touchstart', dismiss);
+    return () => document.removeEventListener('touchstart', dismiss);
+  }, []);
 
   const handleVote = (type: 'up' | 'down') => {
     if (!vote?.onVote || vote?.isSubmitting) return;
@@ -72,7 +98,19 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
           <div className={voteGroupClass}>
             <button
               type="button"
-              onClick={() => handleVote('up')}
+              onClick={() => {
+                if (longPressActivated.current) {
+                  longPressActivated.current = false;
+                  return;
+                }
+                handleVote('up');
+              }}
+              onTouchStart={(e) => {
+                e.stopPropagation();
+                startLongPress('up');
+              }}
+              onTouchEnd={cancelLongPress}
+              onTouchMove={cancelLongPress}
               disabled={vote.isSubmitting}
               aria-pressed={myVote === 'up'}
               aria-label="맛있어요"
@@ -84,11 +122,25 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
               <span className={tabularNumsClass}>
                 {vote.result?.up_count ?? 0}
               </span>
-              <span className={TOOLTIP}>맛있었어요</span>
+              <span className={tooltipClass(longPressTarget === 'up')}>
+                맛있었어요
+              </span>
             </button>
             <button
               type="button"
-              onClick={() => handleVote('down')}
+              onClick={() => {
+                if (longPressActivated.current) {
+                  longPressActivated.current = false;
+                  return;
+                }
+                handleVote('down');
+              }}
+              onTouchStart={(e) => {
+                e.stopPropagation();
+                startLongPress('down');
+              }}
+              onTouchEnd={cancelLongPress}
+              onTouchMove={cancelLongPress}
               disabled={vote.isSubmitting}
               aria-pressed={myVote === 'down'}
               aria-label="별로예요"
@@ -100,7 +152,9 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
               <span className={tabularNumsClass}>
                 {vote.result?.down_count ?? 0}
               </span>
-              <span className={TOOLTIP}>별로였어요</span>
+              <span className={tooltipClass(longPressTarget === 'down')}>
+                별로였어요
+              </span>
             </button>
           </div>
         )}

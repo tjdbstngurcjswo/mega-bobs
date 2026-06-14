@@ -2,10 +2,15 @@ import { cn } from '@/utils/cn';
 
 export const filterBarClass = 'mb-6 flex items-center gap-1';
 
-export const crawledAtIconClass = 'text-muted cursor-default';
+export const crawledAtIconClass = 'text-muted';
 
-export const crawledAtTooltipClass =
-  'absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap bg-board px-2.5 py-1.5 text-[11px] text-cream opacity-0 pointer-events-none transition-opacity group-hover:opacity-100';
+export const crawledAtTooltipClass = (isOpen: boolean) =>
+  cn(
+    'absolute right-0 top-full z-10 mt-1.5 whitespace-nowrap bg-board px-2.5 py-1.5 text-[11px] text-cream pointer-events-none transition-opacity',
+    isOpen
+      ? 'visible opacity-100'
+      : 'invisible opacity-0 group-hover:visible group-hover:opacity-100'
+  );
 
 export const filterButtonClass = (active: boolean) =>
   cn(

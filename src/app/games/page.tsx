@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 
+import { Gamepad2 } from 'lucide-react';
+
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { GameCard } from '@/components/games';
 import { GAMES } from '@/constants/games';
@@ -36,7 +38,12 @@ export default function GamesPage() {
       <SiteHeader />
       <PageLayout
         eyebrow="미니게임"
-        title={`${SITE_NAME} 미니게임`}
+        title={
+          <span className="inline-flex items-center gap-2.5">
+            <Gamepad2 size={26} strokeWidth={2} />
+            <span>{`${SITE_NAME} 미니게임`}</span>
+          </span>
+        }
         description="사내 구성원을 위한 소소한 미니게임 모음"
       >
         <div className="flex flex-col gap-3">

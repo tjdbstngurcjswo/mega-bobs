@@ -1,8 +1,16 @@
 import { VoteType } from '@/models/vote';
 import { cn } from '@/utils/cn';
 
-export const TOOLTIP =
-  "pointer-events-none invisible absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap bg-ink px-2 py-1 text-[10px] font-medium text-cream opacity-0 transition-opacity pointer-events-none group-hover:visible group-hover:opacity-100 before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-['']";
+const TOOLTIP_BASE =
+  'pointer-events-none absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap bg-ink px-2 py-1 text-[10px] font-medium text-cream transition-opacity before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-[""]';
+
+export const tooltipClass = (isOpen: boolean) =>
+  cn(
+    TOOLTIP_BASE,
+    isOpen
+      ? 'visible opacity-100'
+      : 'invisible opacity-0 group-hover:visible group-hover:opacity-100'
+  );
 
 export const courseRowClass = 'px-5 py-6';
 

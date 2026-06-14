@@ -59,7 +59,12 @@ export default async function NewsPage() {
       <SiteHeader />
       <PageLayout
         eyebrow="메가존 소식"
-        title="우리 회사 소식 모아보기"
+        title={
+          <span className="inline-flex items-center gap-2.5">
+            <Newspaper size={26} strokeWidth={2} />
+            <span>우리 회사 소식 모아보기</span>
+          </span>
+        }
         description="구글 뉴스에서 찾아온 우리 회사 소식이에요"
       >
         {all.length > 0 ? (
