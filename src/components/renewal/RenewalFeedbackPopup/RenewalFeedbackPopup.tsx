@@ -113,7 +113,11 @@ const RenewalFeedbackPopup = ({ version }: RenewalFeedbackPopupProps) => {
       <button className={fabClass} onClick={toggle} aria-label="피드백 남기기">
         <span
           className={fabTextClass}
-          style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+          style={{
+            writingMode: 'vertical-rl',
+            textOrientation: 'mixed',
+            transform: 'rotate(180deg)',
+          }}
         >
           Feedback
         </span>

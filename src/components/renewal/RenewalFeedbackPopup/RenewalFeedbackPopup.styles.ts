@@ -1,13 +1,13 @@
-// 우측 엣지, 하단 20% 위치
+// 우측 엣지, 하단 8% 위치
 export const containerClass =
-  'fixed right-0 bottom-[20%] z-50 flex items-center gap-0';
+  'fixed right-0 bottom-[8%] z-50 flex items-center gap-0';
 
 // 세로 탭 버튼 — 검정
 export const fabClass =
-  'bg-(--color-ink) px-2 py-3 cursor-pointer hover:bg-(--color-board-2) transition-colors shadow-[-3px_0_12px_rgba(0,0,0,0.16)]';
+  'bg-(--color-ink) px-1.5 py-2 cursor-pointer hover:bg-(--color-board-2) transition-colors shadow-[-3px_0_12px_rgba(0,0,0,0.16)]';
 
 export const fabTextClass =
-  'text-[10px] font-[800] text-white tracking-[0.1em] select-none';
+  'text-[9px] font-[800] text-white tracking-[0.08em] select-none';
 
 // 팝업 — 탭 왼쪽에 슬라이드인
 export const popupClass =
