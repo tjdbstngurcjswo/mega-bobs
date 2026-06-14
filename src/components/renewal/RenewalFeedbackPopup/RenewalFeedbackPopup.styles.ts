@@ -11,7 +11,7 @@ export const fabTextClass =
 
 // 팝업 — 탭 왼쪽에 슬라이드인
 export const popupClass =
-  'w-[210px] bg-(--color-surface) shadow-[-4px_0_24px_rgba(0,0,0,0.14)] animate-slide-left';
+  'w-[210px] bg-(--color-surface) shadow-[-8px_0_32px_rgba(0,0,0,0.22)] outline outline-1 outline-(--color-line) animate-slide-left';
 
 export const headerClass = 'flex items-center justify-between px-3 pt-3 pb-1';
 

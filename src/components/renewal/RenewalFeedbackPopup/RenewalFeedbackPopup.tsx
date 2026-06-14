@@ -66,7 +66,9 @@ const RenewalFeedbackPopup = ({ version }: RenewalFeedbackPopupProps) => {
               </div>
 
               <p className={subtitleClass}>
-                새로워진 MegaBobs, 만족도를 알려주세요
+                새로워진 MegaBobs,
+                <br />
+                만족도를 알려주세요
               </p>
 
               <div className={scoresClass}>
