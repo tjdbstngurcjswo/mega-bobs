@@ -1,24 +1,24 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { getAnnouncementById, getAnnouncements } from '@/api/getAnnouncements';
+import { getNoticeById, getNotices } from '@/api/getNotices';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import NoticeBody from '@/components/notice/NoticeBody';
 import { SITE_NAME } from '@/constants/site';
-import dayjs from '@/lib/dayjs';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
+import { formatRelativeDate } from '@/utils/date';
 
-import { contentClass, dateClass } from './page.styles';
+import { contentClass } from './page.styles';
 import type { PageProps } from './page.types';
 
 export const generateStaticParams = () =>
-  getAnnouncements().map((n) => ({ id: n.id }));
+  getNotices().map((n) => ({ id: n.id }));
 
 export const generateMetadata = async ({
   params,
 }: PageProps): Promise<Metadata> => {
   const { id } = await params;
-  const notice = getAnnouncementById(id);
+  const notice = getNoticeById(id);
   if (!notice) return { title: '공지사항' };
   return {
     title: notice.title,
@@ -34,7 +34,7 @@ export const generateMetadata = async ({
 
 const NoticeDetailPage = async ({ params }: PageProps) => {
   const { id } = await params;
-  const notice = getAnnouncementById(id);
+  const notice = getNoticeById(id);
 
   if (!notice) notFound();
 
@@ -53,11 +53,16 @@ const NoticeDetailPage = async ({ params }: PageProps) => {
         }}
       />
       <SiteHeader />
-      <PageLayout eyebrow="공지사항" title={notice.title}>
+      <PageLayout
+        eyebrow="공지사항"
+        title={notice.title}
+        description={formatRelativeDate(
+          notice.publishedAt,
+          'YYYY년 MM월 DD일 HH:mm',
+          true
+        )}
+      >
         <div className={contentClass}>
-          <span className={dateClass}>
-            {dayjs.tz(notice.publishedAt).format('YYYY년 MM월 DD일')}
-          </span>
           <NoticeBody body={notice.body} />
         </div>
       </PageLayout>

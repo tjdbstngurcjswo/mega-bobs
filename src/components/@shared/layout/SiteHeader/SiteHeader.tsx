@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
-import { getAnnouncements } from '@/api/getAnnouncements';
+import { getNotices } from '@/api/getNotices';
 import { NAV_ITEMS, SITE_NAME } from '@/constants/site';
 import { useHasMounted } from '@/hooks/useHasMounted';
-import { hasNewAnnouncement } from '@/utils/announcementPolicy';
+import { hasNewNotice } from '@/utils/noticePolicy';
 
 import {
   bellDotClass,
@@ -31,10 +31,10 @@ const SiteHeader = () => {
   const pathname = usePathname();
   const router = useRouter();
   const mounted = useHasMounted();
-  const announcements = useMemo(() => getAnnouncements(), []);
+  const notices = useMemo(() => getNotices(), []);
   const showNoticeDot = useMemo(
-    () => mounted && hasNewAnnouncement(announcements),
-    [mounted, announcements]
+    () => mounted && hasNewNotice(notices),
+    [mounted, notices]
   );
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
