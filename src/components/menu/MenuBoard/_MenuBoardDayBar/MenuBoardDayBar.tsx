@@ -6,9 +6,13 @@ import { useHasMounted } from '@/hooks/useHasMounted';
 import { useDateStore } from '@/store/useDateStore';
 
 import {
+  chipRowClass,
   dayBarContainerClass,
+  indicatorClass,
   navArrowClass,
   navButtonClass,
+  weekHeaderClass,
+  weekRangeClass,
 } from './MenuBoardDayBar.styles';
 import MenuBoardDayChip from './MenuBoardDayChip';
 
@@ -46,18 +50,33 @@ const MenuBoardDayBar = () => {
 
   return (
     <div className={dayBarContainerClass}>
-      <button
-        type="button"
-        onClick={handlePrev}
-        aria-label="지난주 메뉴 보기"
-        className={navButtonClass(canGoPrev)}
-      >
-        <span className={navArrowClass}>‹</span>
-      </button>
-      <div className="flex flex-1 flex-col">
+      <div className={weekHeaderClass}>
+        <button
+          type="button"
+          onClick={handlePrev}
+          aria-label="지난주 메뉴 보기"
+          className={navButtonClass(canGoPrev)}
+        >
+          <span className={navArrowClass}>‹</span>
+        </button>
+        <span suppressHydrationWarning className={weekRangeClass}>
+          {mounted
+            ? `${currentWeek[0].format('M월 D일')} - ${currentWeek[6].format('M월 D일')}`
+            : ''}
+        </span>
+        <button
+          type="button"
+          onClick={handleNext}
+          aria-label="다음 주 메뉴 보기"
+          className={navButtonClass(canGoNext)}
+        >
+          <span className={navArrowClass}>›</span>
+        </button>
+      </div>
+      <div className="pb-2">
         <div
           key={currentWeek[0]?.format('YYYY-MM-DD')}
-          className="relative flex gap-1.5 overflow-hidden"
+          className={chipRowClass}
           style={{ animation: 'fadeIn 0.2s ease both' }}
         >
           {(() => {
@@ -68,7 +87,7 @@ const MenuBoardDayBar = () => {
             return idx >= 0 ? (
               <div
                 aria-hidden
-                className={`pointer-events-none absolute inset-y-0 transition-transform duration-200 ease-out ${isToday ? 'bg-accent' : 'bg-ink'}`}
+                className={indicatorClass(isToday)}
                 style={{
                   width: 'calc((100% - 36px) / 7)',
                   transform: `translateX(calc(${idx} * (100% + 6px)))`,
@@ -88,14 +107,6 @@ const MenuBoardDayBar = () => {
           ))}
         </div>
       </div>
-      <button
-        type="button"
-        onClick={handleNext}
-        aria-label="다음 주 메뉴 보기"
-        className={navButtonClass(canGoNext)}
-      >
-        <span className={navArrowClass}>›</span>
-      </button>
     </div>
   );
 };

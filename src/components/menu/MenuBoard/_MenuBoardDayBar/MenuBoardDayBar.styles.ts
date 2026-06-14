@@ -1,15 +1,27 @@
 import { cn } from '@/utils/cn';
 
-export const dayBarContainerClass =
-  'bg-surface flex items-center gap-2 px-4 py-3';
+export const dayBarContainerClass = 'bg-surface flex flex-col';
+
+export const weekHeaderClass = 'flex items-center px-4 pb-2';
+
+export const weekRangeClass =
+  'flex-1 text-center text-[13px] font-bold text-ink';
 
 export const navButtonClass = (canGo: boolean) =>
   cn(
-    'flex min-h-[44px] w-8 shrink-0 cursor-pointer flex-col items-center justify-center gap-0.5 transition-opacity duration-100 active:scale-75',
+    'flex min-h-[44px] w-8 shrink-0 cursor-pointer items-center justify-center transition-opacity duration-100 active:scale-75',
     canGo ? 'text-muted hover:text-ink' : 'cursor-default opacity-25'
   );
 
 export const navArrowClass = 'text-[16px] leading-none font-light';
+
+export const chipRowClass = 'relative flex gap-1.5 overflow-hidden';
+
+export const indicatorClass = (isToday: boolean) =>
+  cn(
+    'pointer-events-none absolute inset-y-0 transition-transform duration-200 ease-out',
+    isToday ? 'bg-accent' : 'bg-ink'
+  );
 
 export const chipBg = (isSelected: boolean): string => {
   if (!isSelected) return 'hover:bg-surface-warm';

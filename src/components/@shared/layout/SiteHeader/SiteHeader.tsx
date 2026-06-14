@@ -13,11 +13,14 @@ import { hasNewAnnouncement } from '@/utils/announcementPolicy';
 import {
   bellDotClass,
   bellSpanClass,
+  comingSoonBadgeClass,
   desktopBellLinkClass,
+  desktopComingSoonClass,
   desktopNavClass,
   desktopNavLinkClass,
   headerClass,
   logoLinkClass,
+  mobileComingSoonClass,
   mobileBellLinkClass,
   mobileMenuButtonClass,
   mobileNavLinkClass,
@@ -62,6 +65,14 @@ const SiteHeader = () => {
 
           <nav className={desktopNavClass}>
             {NAV_ITEMS.map((item) => {
+              if (item.comingSoon) {
+                return (
+                  <span key={item.href} className={desktopComingSoonClass}>
+                    {item.label}
+                    <span className={comingSoonBadgeClass}>준비중</span>
+                  </span>
+                );
+              }
               const active = pathname === item.href;
               return (
                 <Link
@@ -124,6 +135,14 @@ const SiteHeader = () => {
       <div className={mobileOverlayClass(menuOpen)}>
         <nav className="mx-auto flex w-[min(880px,calc(100%-40px))] flex-col pt-1 pb-4">
           {NAV_ITEMS.map((item) => {
+            if (item.comingSoon) {
+              return (
+                <span key={item.href} className={mobileComingSoonClass}>
+                  {item.label}
+                  <span className={comingSoonBadgeClass}>준비중</span>
+                </span>
+              );
+            }
             const active = pathname === item.href;
             return (
               <Link
