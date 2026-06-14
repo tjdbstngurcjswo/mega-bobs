@@ -1,17 +1,16 @@
 'use client';
 
-import toast from 'react-hot-toast';
-
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { useDateStore } from '@/store/useDateStore';
 
 import {
+  chipAreaClass,
   chipRowClass,
   dayBarContainerClass,
   indicatorClass,
   navArrowClass,
   navButtonClass,
-  weekHeaderClass,
+  weekLabelClass,
   weekRangeClass,
 } from './MenuBoardDayBar.styles';
 import MenuBoardDayChip from './MenuBoardDayChip';
@@ -32,48 +31,25 @@ const MenuBoardDayBar = () => {
   const canGoPrev = !mounted || currentWeek[0].isAfter(minDate, 'day');
   const canGoNext = !mounted || currentWeek[6].isBefore(maxDate, 'day');
 
-  const handlePrev = () => {
-    if (!canGoPrev) {
-      toast.error('제공하지 않는 날짜예요');
-      return;
-    }
-    goToPrevWeek();
-  };
-
-  const handleNext = () => {
-    if (!canGoNext) {
-      toast.error('아직 준비 중이에요');
-      return;
-    }
-    goToNextWeek();
-  };
-
   return (
     <div className={dayBarContainerClass}>
-      <div className={weekHeaderClass}>
-        <button
-          type="button"
-          onClick={handlePrev}
-          aria-label="지난주 메뉴 보기"
-          className={navButtonClass(canGoPrev)}
-        >
-          <span className={navArrowClass}>‹</span>
-        </button>
+      <div className={weekLabelClass}>
         <span suppressHydrationWarning className={weekRangeClass}>
           {mounted
             ? `${currentWeek[0].format('M월 D일')} - ${currentWeek[6].format('M월 D일')}`
             : ''}
         </span>
+      </div>
+      <div className={chipAreaClass}>
         <button
           type="button"
-          onClick={handleNext}
-          aria-label="다음 주 메뉴 보기"
-          className={navButtonClass(canGoNext)}
+          disabled={!canGoPrev}
+          onClick={goToPrevWeek}
+          aria-label="지난주 메뉴 보기"
+          className={navButtonClass}
         >
-          <span className={navArrowClass}>›</span>
+          <span className={navArrowClass}>‹</span>
         </button>
-      </div>
-      <div className="pb-2">
         <div
           key={currentWeek[0]?.format('YYYY-MM-DD')}
           className={chipRowClass}
@@ -106,6 +82,15 @@ const MenuBoardDayBar = () => {
             />
           ))}
         </div>
+        <button
+          type="button"
+          disabled={!canGoNext}
+          onClick={goToNextWeek}
+          aria-label="다음 주 메뉴 보기"
+          className={navButtonClass}
+        >
+          <span className={navArrowClass}>›</span>
+        </button>
       </div>
     </div>
   );
