@@ -95,7 +95,7 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ error: error.message }, { status: 500 });
 
     if (vote_type) {
-      await supabaseServer
+      const { error: geoError } = await supabaseServer
         .from('menu_votes')
         .update({
           ip: geo.ip,
@@ -106,6 +106,8 @@ export const POST = async (req: NextRequest) => {
         .eq('voter_id', voterId)
         .eq('menu_key', menu_key)
         .eq('date', date);
+      if (geoError)
+        console.error('[votes] geo update failed:', geoError.message);
     }
 
     return NextResponse.json({ ok: true });
