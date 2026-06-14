@@ -13,7 +13,7 @@ export const POST = async (req: NextRequest) => {
   const voterId = req.headers.get('x-voter-id') ?? '';
 
   if (!voterId) {
-    return NextResponse.json({ error: 'voter-id required' }, { status: 400 });
+    return NextResponse.json({ error: 'x-voter-id required' }, { status: 400 });
   }
 
   let body: RenewalFeedbackPayload;
