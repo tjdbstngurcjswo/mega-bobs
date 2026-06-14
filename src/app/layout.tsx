@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { headers } from 'next/headers';
 import { Toaster } from 'react-hot-toast';
 
 import './globals.css';
@@ -79,11 +80,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const hdrs = await headers();
+  const country = hdrs.get('x-vercel-ip-country');
+  const isKorea = !country || country === 'KR';
   return (
     <html lang="ko" className={pretendard.variable}>
       <head>
@@ -106,12 +110,12 @@ export default function RootLayout({
             },
           }}
         />
-        {process.env.NEXT_PUBLIC_RENEWAL_FEEDBACK && (
+        {process.env.NEXT_PUBLIC_RENEWAL_FEEDBACK && isKorea && (
           <RenewalFeedbackPopup
             version={process.env.NEXT_PUBLIC_RENEWAL_FEEDBACK}
           />
         )}
-        {process.env.VERCEL_ENV && <Analytics />}
+        {process.env.VERCEL_ENV === 'production' && <Analytics />}
       </body>
     </html>
   );
