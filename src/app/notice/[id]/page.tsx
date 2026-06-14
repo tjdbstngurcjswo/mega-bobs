@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { getAnnouncementById, getAnnouncements } from '@/api/getAnnouncements';
+import { getNoticeById, getNotices } from '@/api/getNotices';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import NoticeBody from '@/components/notice/NoticeBody';
 import { SITE_NAME } from '@/constants/site';
@@ -12,20 +12,20 @@ import { contentClass, dateClass } from './page.styles';
 import type { PageProps } from './page.types';
 
 export const generateStaticParams = () =>
-  getAnnouncements().map((n) => ({ id: n.id }));
+  getNotices().map((n) => ({ id: n.id }));
 
 export const generateMetadata = async ({
   params,
 }: PageProps): Promise<Metadata> => {
   const { id } = await params;
-  const notice = getAnnouncementById(id);
+  const notice = getNoticeById(id);
   if (!notice) return { title: '공지사항' };
   return {
     title: notice.title,
     description: notice.body.slice(0, 120),
     alternates: { canonical: `/notice/${id}` },
     openGraph: {
-      title: `${notice.title} — ${SITE_NAME}`,
+      title: `${SITE_NAME} ∙ ${notice.title}`,
       description: notice.body.slice(0, 120),
       url: `/notice/${id}`,
     },
@@ -34,7 +34,7 @@ export const generateMetadata = async ({
 
 const NoticeDetailPage = async ({ params }: PageProps) => {
   const { id } = await params;
-  const notice = getAnnouncementById(id);
+  const notice = getNoticeById(id);
 
   if (!notice) notFound();
 

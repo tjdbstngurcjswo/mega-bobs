@@ -2,7 +2,7 @@ import { Bell } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-import { getAnnouncements } from '@/api/getAnnouncements';
+import { getNotices } from '@/api/getNotices';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { SITE_NAME } from '@/constants/site';
 import dayjs from '@/lib/dayjs';
@@ -24,18 +24,18 @@ export const metadata: Metadata = {
   description: noticeDesc,
   alternates: { canonical: '/notice' },
   openGraph: {
-    title: `공지사항 — ${SITE_NAME}`,
+    title: `${SITE_NAME} ∙ 공지사항`,
     description: noticeDesc,
     url: '/notice',
   },
   twitter: {
-    title: `공지사항 — ${SITE_NAME}`,
+    title: `${SITE_NAME} ∙ 공지사항`,
     description: noticeDesc,
   },
 };
 
 export default function NoticePage() {
-  const notices = getAnnouncements();
+  const notices = getNotices();
 
   return (
     <>
