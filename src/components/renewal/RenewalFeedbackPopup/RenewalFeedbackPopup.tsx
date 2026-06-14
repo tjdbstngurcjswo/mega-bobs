@@ -1,6 +1,6 @@
 'use client';
 
-import { MessageSquarePlus, Sparkles, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 import { useRenewalFeedback } from '@/hooks/useRenewalFeedback';
 
@@ -8,9 +8,10 @@ import {
   closeClass,
   containerClass,
   doneClass,
-  doneIconClass,
+  doneSubClass,
   doneTitleClass,
   fabClass,
+  fabTextClass,
   headerClass,
   hintClass,
   popupClass,
@@ -48,8 +49,8 @@ const RenewalFeedbackPopup = ({ version }: RenewalFeedbackPopupProps) => {
         <div className={popupClass}>
           {state === 'submitted' ? (
             <div className={doneClass}>
-              <Sparkles className={doneIconClass} color="var(--color-accent)" />
               <span className={doneTitleClass}>감사합니다!</span>
+              <span className={doneSubClass}>소중한 의견을 남겨주셨어요</span>
             </div>
           ) : (
             <>
@@ -60,7 +61,7 @@ const RenewalFeedbackPopup = ({ version }: RenewalFeedbackPopupProps) => {
                   onClick={close}
                   aria-label="닫기"
                 >
-                  <X size={14} />
+                  <X size={13} />
                 </button>
               </div>
 
@@ -110,7 +111,12 @@ const RenewalFeedbackPopup = ({ version }: RenewalFeedbackPopupProps) => {
       )}
 
       <button className={fabClass} onClick={toggle} aria-label="피드백 남기기">
-        <MessageSquarePlus size={18} color="white" />
+        <span
+          className={fabTextClass}
+          style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+        >
+          Feedback
+        </span>
       </button>
     </div>
   );
