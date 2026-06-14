@@ -29,7 +29,13 @@ const NoticeBody = ({ body }: NoticeBodyProps) => (
         h1: ({ children }) => <h1 className={h1Class}>{children}</h1>,
         h2: ({ children }) => <h2 className={h2Class}>{children}</h2>,
         h3: ({ children }) => <h3 className={h3Class}>{children}</h3>,
-        p: ({ children }) => <p className={pClass}>{children}</p>,
+        p: ({ children, node }) => {
+          const hasImage = node?.children?.some(
+            (child) => child.type === 'element' && child.tagName === 'img'
+          );
+          if (hasImage) return <>{children}</>;
+          return <p className={pClass}>{children}</p>;
+        },
         img: ({ src, alt }) =>
           src ? (
             <figure className="mx-auto my-4 w-4/5">
