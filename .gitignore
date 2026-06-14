@@ -50,3 +50,6 @@ next-env.d.ts
 # Claude Code local settings
 .claude/settings.json
 .claude/settings.local.json
+
+# Superpowers plugin runtime files
+.superpowers/
