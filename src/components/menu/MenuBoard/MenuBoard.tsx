@@ -32,13 +32,14 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
     () => menus.some((m) => m.date === dateStr && m.items.length > 0),
     [menus, dateStr]
   );
-  const { voteMap, submitVote, isSubmitting } = useVotes(dateStr, {
+  const { voteMap, submitVote, isLoading, isSubmitting } = useVotes(dateStr, {
     enabled: hasMenus,
   });
   const {
     myPick,
     counts,
     submitPick,
+    isLoading: isLoadingPick,
     isSubmitting: isSubmittingPick,
   } = usePick(dateStr, { enabled: hasMenus });
   const now = dayjs().tz();
@@ -101,13 +102,13 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
                 key={menu.category}
                 menu={menu}
                 vote={{
-                  show: showVote,
+                  show: showVote && !isLoading,
                   result: voteMap[menuKey],
                   onVote: (type: 'up' | 'down') => submitVote(menuKey, type),
                   isSubmitting,
                 }}
                 pick={{
-                  show: showPick,
+                  show: showPick && !isLoadingPick,
                   count: counts[menu.category],
                   isPicked: myPick === menu.category,
                   hasAnyPick: myPick !== null,
