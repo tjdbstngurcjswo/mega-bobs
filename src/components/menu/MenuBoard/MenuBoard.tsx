@@ -11,7 +11,7 @@ import { useVotes } from '@/hooks/useVote';
 import dayjs from '@/lib/dayjs';
 import { useDateStore } from '@/store/useDateStore';
 import { formatYYYYMMDD } from '@/utils/date';
-import { isAfterClose, isNextWeekMenuLocked } from '@/utils/menuPolicy';
+import { isAfterClose, isFutureMenuPending } from '@/utils/menuPolicy';
 
 import MenuBoardCourseRow from './_MenuBoardCourseRow/MenuBoardCourseRow';
 import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
@@ -56,7 +56,7 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
     ).filter((m): m is NonNullable<typeof m> => Boolean(m));
   }, [menus, selectedDate]);
 
-  const emptyVariant = isNextWeekMenuLocked(selectedDate, now)
+  const emptyVariant = isFutureMenuPending(selectedDate, now)
     ? 'comingUp'
     : 'closed';
 
