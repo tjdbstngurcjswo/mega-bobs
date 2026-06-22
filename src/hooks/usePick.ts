@@ -1,7 +1,7 @@
 'use client';
 
 import { sendGAEvent } from '@next/third-parties/google';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { PickResult, PickType } from '@/models/vote';
 import { getOrCreateVoterId } from '@/utils/voterId';
@@ -12,46 +12,64 @@ const DEFAULT_COUNTS: PickResult['counts'] = {
   TAKE_OUT: 0,
   pass: 0,
 };
+const EMPTY_PICK_STATE: PickResult = {
+  date: '',
+  counts: DEFAULT_COUNTS,
+  myPick: null,
+};
 
 export const usePick = (date: string, { enabled = true } = {}) => {
-  const [myPick, setMyPick] = useState<PickType | null>(null);
-  const [counts, setCounts] = useState<PickResult['counts']>(DEFAULT_COUNTS);
-  const [isLoading, setIsLoading] = useState(true);
+  const [pickState, setPickState] = useState<PickResult>(EMPTY_PICK_STATE);
+  const [isFetching, setIsFetching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const requestIdRef = useRef(0);
+  const activeDateRef = useRef(date);
+  activeDateRef.current = date;
+
+  const activePick =
+    enabled && pickState.date === date ? pickState : EMPTY_PICK_STATE;
+  const { myPick, counts } = activePick;
+  const isLoading =
+    enabled && Boolean(date) && (pickState.date !== date || isFetching);
 
   useEffect(() => {
+    const requestId = ++requestIdRef.current;
     if (!date || !enabled) {
-      setIsLoading(false);
+      setIsFetching(false);
       return;
     }
-    let cancelled = false;
+
+    const controller = new AbortController();
 
     const fetchPick = async () => {
       const voterId = getOrCreateVoterId();
       if (!voterId) {
-        setIsLoading(false);
+        setPickState({ ...EMPTY_PICK_STATE, date });
+        setIsFetching(false);
         return;
       }
-      setIsLoading(true);
+
+      setIsFetching(true);
       try {
         const res = await fetch(`/api/picks?date=${date}`, {
           headers: { 'x-voter-id': voterId },
+          signal: controller.signal,
         });
-        if (!res.ok || cancelled) return;
+        if (!res.ok) throw new Error('pick fetch failed');
         const data: PickResult = await res.json();
-        setMyPick(data.myPick);
-        setCounts(data.counts);
+        if (requestId !== requestIdRef.current) return;
+
+        setPickState({ date, myPick: data.myPick, counts: data.counts });
       } catch {
-        // graceful fallback — keep defaults
+        if (requestId === requestIdRef.current && !controller.signal.aborted)
+          setPickState({ ...EMPTY_PICK_STATE, date });
       } finally {
-        if (!cancelled) setIsLoading(false);
+        if (requestId === requestIdRef.current) setIsFetching(false);
       }
     };
 
     fetchPick();
-    return () => {
-      cancelled = true;
-    };
+    return () => controller.abort();
   }, [date, enabled]);
 
   const submitPick = useCallback(
@@ -63,15 +81,21 @@ export const usePick = (date: string, { enabled = true } = {}) => {
       const prevCounts = { ...counts };
 
       // optimistic update
-      setCounts((c) => {
-        const next = { ...c };
+      setPickState((current) => {
+        const currentPick = current.date === date ? current : EMPTY_PICK_STATE;
+        const next = { ...currentPick.counts };
         if (prev) next[prev] = Math.max(0, next[prev] - 1);
         if (!isSame) next[pick_type] += 1;
-        return next;
+        return {
+          date,
+          counts: next,
+          myPick: isSame ? null : pick_type,
+        };
       });
-      setMyPick(isSame ? null : pick_type);
 
       setIsSubmitting(true);
+      const requestDate = date;
+      const requestId = requestIdRef.current;
       try {
         const res = await fetch('/api/picks', {
           method: 'POST',
@@ -88,8 +112,11 @@ export const usePick = (date: string, { enabled = true } = {}) => {
           date,
         });
       } catch {
-        setCounts(prevCounts);
-        setMyPick(prev);
+        if (
+          activeDateRef.current === requestDate &&
+          requestIdRef.current === requestId
+        )
+          setPickState({ date: requestDate, counts: prevCounts, myPick: prev });
       } finally {
         setIsSubmitting(false);
       }
