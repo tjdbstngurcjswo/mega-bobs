@@ -1,36 +1,65 @@
 import { sendGAEvent } from '@next/third-parties/google';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { VoteResult, VoteType } from '@/models/vote';
 import { getOrCreateVoterId } from '@/utils/voterId';
 
 type VoteMap = Record<string, VoteResult>;
+type VoteState = { date: string; map: VoteMap };
+const EMPTY_VOTE_MAP: VoteMap = {};
 
 export const useVotes = (date: string, { enabled = true } = {}) => {
-  const [voteMap, setVoteMap] = useState<VoteMap>({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [voteState, setVoteState] = useState<VoteState>({ date: '', map: {} });
+  const [isFetching, setIsFetching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const requestIdRef = useRef(0);
+  const activeDateRef = useRef(date);
+  activeDateRef.current = date;
+
+  const voteMap =
+    enabled && voteState.date === date ? voteState.map : EMPTY_VOTE_MAP;
+  const isLoading =
+    enabled && Boolean(date) && (voteState.date !== date || isFetching);
 
   useEffect(() => {
-    if (!date || !enabled) return;
-    const voterId = getOrCreateVoterId();
-    if (!voterId) return;
+    const requestId = ++requestIdRef.current;
+    if (!date || !enabled) {
+      setIsFetching(false);
+      return;
+    }
 
-    setIsLoading(true);
-    setVoteMap({});
+    const voterId = getOrCreateVoterId();
+    if (!voterId) {
+      setIsFetching(false);
+      return;
+    }
+
+    const controller = new AbortController();
+
+    setIsFetching(true);
     fetch(`/api/votes?date=${date}`, {
       headers: { 'x-voter-id': voterId },
+      signal: controller.signal,
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error('vote fetch failed');
+        return res.json();
+      })
       .then((results: VoteResult[]) => {
+        if (requestId !== requestIdRef.current) return;
+
         const map: VoteMap = {};
         for (const r of results) {
           map[r.menuKey] = r;
         }
-        setVoteMap(map);
+        setVoteState({ date, map });
       })
       .catch(() => {})
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        if (requestId === requestIdRef.current) setIsFetching(false);
+      });
+
+    return () => controller.abort();
   }, [date, enabled]);
 
   const submitVote = useCallback(
@@ -53,8 +82,9 @@ export const useVotes = (date: string, { enabled = true } = {}) => {
         ) ?? null;
 
       // Optimistic update
-      setVoteMap((prev) => {
-        const next = { ...prev };
+      setVoteState((prev) => {
+        const currentMap = prev.date === date ? prev.map : {};
+        const next = { ...currentMap };
 
         // 이전 투표 메뉴 count 감소
         if (prevVotedKey && next[prevVotedKey]) {
@@ -68,7 +98,7 @@ export const useVotes = (date: string, { enabled = true } = {}) => {
           };
         }
 
-        const c = prev[menuKey] ?? {
+        const c = currentMap[menuKey] ?? {
           menuKey,
           up_count: 0,
           down_count: 0,
@@ -96,7 +126,7 @@ export const useVotes = (date: string, { enabled = true } = {}) => {
           };
         }
 
-        return next;
+        return { date, map: next };
       });
 
       setIsSubmitting(true);
@@ -121,14 +151,25 @@ export const useVotes = (date: string, { enabled = true } = {}) => {
         });
       } catch {
         // 실패 시 서버 상태로 재동기화
+        const requestDate = date;
+        const requestId = requestIdRef.current;
         fetch(`/api/votes?date=${date}`, {
           headers: { 'x-voter-id': voterId },
         })
-          .then((r) => r.json())
+          .then((r) => {
+            if (!r.ok) throw new Error('vote sync failed');
+            return r.json();
+          })
           .then((results: VoteResult[]) => {
+            if (
+              activeDateRef.current !== requestDate ||
+              requestIdRef.current !== requestId
+            )
+              return;
+
             const map: VoteMap = {};
             for (const r of results) map[r.menuKey] = r;
-            setVoteMap(map);
+            setVoteState({ date: requestDate, map });
           })
           .catch(() => {});
       } finally {
