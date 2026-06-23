@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 import dayjs from '@/lib/dayjs';
 import { getWeekDays } from '@/utils/date';
+import { isDateWithinBounds } from '@/utils/dateQuery';
 
 interface DateStore {
   today: dayjs.Dayjs;
@@ -26,7 +27,12 @@ export const useDateStore = create<DateStore>((set, get) => {
     selectedDate: today,
     currentWeek: getWeekDays(today),
 
-    setSelectedDate: (date) => set({ selectedDate: date }),
+    setSelectedDate: (date) => {
+      const { selectedDate, minDate, maxDate } = get();
+      if (!isDateWithinBounds(date, minDate, maxDate)) return;
+      if (selectedDate.isSame(date, 'day')) return;
+      set({ selectedDate: date, currentWeek: getWeekDays(date) });
+    },
 
     goToPrevWeek: () => {
       const { currentWeek, minDate } = get();

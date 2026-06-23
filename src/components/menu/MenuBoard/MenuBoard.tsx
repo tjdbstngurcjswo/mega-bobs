@@ -1,33 +1,28 @@
 'use client';
 
-import { Clock } from 'lucide-react';
-import { useLayoutEffect, useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 
-import { CAFETERIA_LABEL } from '@/constants/cafeteria';
 import { MENU_CATEGORIES } from '@/constants/menu';
+import { useAnimatedHeight } from '@/hooks/useAnimatedHeight';
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { usePick } from '@/hooks/usePick';
+import { useSharedDateQuery } from '@/hooks/useSharedDateQuery';
 import { useVotes } from '@/hooks/useVote';
 import dayjs from '@/lib/dayjs';
 import { useDateStore } from '@/store/useDateStore';
-import { formatYYYYMMDD } from '@/utils/date';
 import { isAfterClose, isFutureMenuPending } from '@/utils/menuPolicy';
 
 import MenuBoardCourseRow from './_MenuBoardCourseRow/MenuBoardCourseRow';
 import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
 import MenuBoardEmpty from './_MenuBoardEmpty/MenuBoardEmpty';
-import {
-  menuBodyClass,
-  menuHeadingTitleClass,
-  menuSubheadingClass,
-  sectionClass,
-} from './MenuBoard.styles';
+import MenuBoardHeader from './_MenuBoardHeader';
+import { menuBodyClass, sectionClass } from './MenuBoard.styles';
 import { MenuBoardProps } from './MenuBoard.types';
 
 const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
   const { today, selectedDate } = useDateStore();
   const mounted = useHasMounted();
-  const dateStr = formatYYYYMMDD(selectedDate);
+  const dateStr = useSharedDateQuery();
   const hasMenus = useMemo(
     () => menus.some((m) => m.date === dateStr && m.items.length > 0),
     [menus, dateStr]
@@ -50,48 +45,21 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
   const showPick = isKorea && mounted && !showVote && !isPast;
 
   const dayMenus = useMemo(() => {
-    const key = formatYYYYMMDD(selectedDate);
-    const found = menus.filter((m) => m.date === key && m.items.length > 0);
+    const found = menus.filter((m) => m.date === dateStr && m.items.length > 0);
     return MENU_CATEGORIES.map((c) =>
       found.find((m) => m.category === c)
     ).filter((m): m is NonNullable<typeof m> => Boolean(m));
-  }, [menus, selectedDate]);
+  }, [menus, dateStr]);
 
   const emptyVariant = isFutureMenuPending(selectedDate, now)
     ? 'comingUp'
     : 'closed';
 
-  const menuBodyRef = useRef<HTMLDivElement>(null);
-  const prevHeightRef = useRef(0);
-
-  useLayoutEffect(() => {
-    const el = menuBodyRef.current;
-    if (!el) return;
-    const next = el.scrollHeight;
-    const prev = prevHeightRef.current;
-    prevHeightRef.current = next;
-    if (!prev || prev === next) return;
-    const a = el.animate([{ height: `${prev}px` }, { height: `${next}px` }], {
-      duration: 280,
-      easing: 'ease-in-out',
-    });
-    return () => a.cancel();
-  }, [dateStr]);
+  const menuBodyRef = useAnimatedHeight<HTMLDivElement>(dateStr);
 
   return (
     <section className={sectionClass}>
-      <div className="flex items-center gap-2 px-6 py-4">
-        <h2 className={menuHeadingTitleClass}>메가존 구내식당</h2>
-        <p className={menuSubheadingClass}>
-          <Clock
-            size={9}
-            strokeWidth={2.5}
-            className="text-muted"
-            aria-hidden
-          />
-          <span>{CAFETERIA_LABEL}</span>
-        </p>
-      </div>
+      <MenuBoardHeader date={dateStr} />
       <MenuBoardDayBar />
       <div ref={menuBodyRef} className={menuBodyClass}>
         {dayMenus.length > 0 ? (
