@@ -2,7 +2,10 @@ import { cn } from '@/utils/cn';
 
 export const dayBarContainerClass = 'bg-surface flex flex-col';
 
-export const weekLabelClass = 'flex items-center gap-1 px-4 pt-1.5 pb-0.5';
+export const weekLabelClass = 'flex items-center gap-0.5 px-4 pt-1.5 pb-0.5';
+
+export const shareBtnClass =
+  'flex min-h-11 min-w-11 cursor-pointer items-center justify-center text-muted transition-colors duration-100 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink';
 
 export const weekRangeClass =
   'flex-1 text-center text-[11px] font-semibold tabular-nums text-muted';
