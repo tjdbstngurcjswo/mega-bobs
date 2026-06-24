@@ -1,6 +1,5 @@
-import { Clock, Moon, Sun, Utensils } from 'lucide-react';
+import { Clock, Coffee, Moon, Sun, Utensils } from 'lucide-react';
 import type { ElementType } from 'react';
-
 
 import {
   CAFETERIA_CLOSE_MIN,
@@ -51,12 +50,27 @@ export const getHeroStatus = (
       : { icon: Sun, text: '오늘은 공휴일이에요', variant: 'closed' };
   }
 
+  const MORNING_START = 7 * 60; // 07:00
+  const PRE_LUNCH_START = 10 * 60; // 10:00
+  const EVENING_START = 18 * 60; // 18:00
+
+  if (min < MORNING_START)
+    return { icon: Moon, text: '편안한 밤 되세요', variant: 'closed' };
+
+  if (min < PRE_LUNCH_START)
+    return {
+      icon: Sun,
+      text: '좋은 아침이에요! 오늘 메뉴를 확인해보세요',
+      variant: 'upcoming',
+    };
+
   if (min < CAFETERIA_OPEN_MIN)
     return {
       icon: Clock,
       text: '잠시 후 운영 시작이에요',
       variant: 'upcoming',
     };
+
   if (min < CAFETERIA_CLOSE_MIN)
     return {
       icon: Utensils,
@@ -64,22 +78,42 @@ export const getHeroStatus = (
       variant: 'open',
     };
 
+  if (min < EVENING_START) {
+    if (dow === 5) {
+      return hasMenu(nextWorkdayKey(now))
+        ? {
+            icon: Coffee,
+            text: '오늘 점심은 끝났어요. 월요일에 만나요!',
+            variant: 'closed',
+          }
+        : { icon: Sun, text: '즐거운 주말 되세요!', variant: 'closed' };
+    }
+    const tomorrowKey = formatYYYYMMDD(now.add(1, 'day'));
+    return hasMenu(tomorrowKey)
+      ? {
+          icon: Coffee,
+          text: '오늘 점심은 끝났어요. 내일 만나요!',
+          variant: 'closed',
+        }
+      : { icon: Coffee, text: '오늘 점심은 끝났어요', variant: 'closed' };
+  }
+
   if (dow === 5) {
     return hasMenu(nextWorkdayKey(now))
       ? {
           icon: Moon,
-          text: '오늘 점심은 끝났어요. 월요일에 만나요!',
+          text: '오늘 하루도 수고하셨어요! 월요일에 만나요!',
           variant: 'closed',
         }
-      : { icon: Sun, text: '즐거운 주말 되세요!', variant: 'closed' };
+      : { icon: Moon, text: '즐거운 주말 되세요!', variant: 'closed' };
   }
 
   const tomorrowKey = formatYYYYMMDD(now.add(1, 'day'));
   return hasMenu(tomorrowKey)
     ? {
         icon: Moon,
-        text: '오늘 점심은 끝났어요. 내일 만나요!',
+        text: '오늘 하루도 수고하셨어요! 내일 만나요!',
         variant: 'closed',
       }
-    : { icon: Moon, text: '오늘 점심은 끝났어요', variant: 'closed' };
+    : { icon: Moon, text: '오늘 하루도 수고하셨어요!', variant: 'closed' };
 };
