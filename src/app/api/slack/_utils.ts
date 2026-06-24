@@ -58,5 +58,9 @@ export const toSlackFormat = (
     return [`*${label}*`, ...lines].join('\n');
   }).join('\n\n');
 
-  return sections ? [header, sections].join('\n\n') : header;
+  const footer = `<https://megabobs.com/|🔗 메뉴 투표하기>`;
+
+  return sections
+    ? [header, sections, footer].join('\n\n')
+    : [header, footer].join('\n\n');
 };
