@@ -86,7 +86,7 @@ export const getHeroStatus = (
             text: '오늘 점심은 끝났어요. 월요일에 만나요!',
             variant: 'closed',
           }
-        : { icon: Sun, text: '즐거운 주말 되세요!', variant: 'closed' };
+        : { icon: Moon, text: '즐거운 주말 되세요!', variant: 'closed' };
     }
     const tomorrowKey = formatYYYYMMDD(now.add(1, 'day'));
     return hasMenu(tomorrowKey)
