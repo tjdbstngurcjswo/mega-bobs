@@ -58,7 +58,8 @@ export const toSlackFormat = (
     return [`*${label}*`, ...lines].join('\n');
   }).join('\n\n');
 
-  const footer = `<https://megabobs.com/|🔗 메뉴 투표하기>`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://megabobs.com';
+  const footer = `<${siteUrl}|🔗 메뉴 투표하기>`;
 
   return sections
     ? [header, sections, footer].join('\n\n')
