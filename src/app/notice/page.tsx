@@ -3,11 +3,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { getNotices } from '@/api/getNotices';
-import { stripMarkdown } from '@/utils/stripMarkdown';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
+import NoticeNewBadge from '@/components/notice/NoticeNewBadge';
 import { SITE_NAME } from '@/constants/site';
 import dayjs from '@/lib/dayjs';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
+import { NEW_NOTICE_THRESHOLD_DAYS } from '@/utils/noticePolicy';
+import { stripMarkdown } from '@/utils/stripMarkdown';
 
 import {
   articleBodyClass,
@@ -16,7 +18,6 @@ import {
   articleTitleClass,
   articleYearClass,
   emptyNoticeClass,
-  newBadgeClass,
 } from './page.styles';
 
 const noticeDesc = `${SITE_NAME} 구내식당 앱의 새 기능 소식, 점검 일정, 운영 안내를 확인하세요.`;
@@ -67,7 +68,8 @@ export default function NoticePage() {
           <div className="flex flex-col">
             {notices.map((n, i) => {
               const isNew =
-                dayjs().tz().diff(dayjs.tz(n.publishedAt), 'day') < 7;
+                dayjs().tz().diff(dayjs.tz(n.publishedAt), 'day') <
+                NEW_NOTICE_THRESHOLD_DAYS;
               return (
                 <Link
                   key={n.id}
@@ -85,7 +87,7 @@ export default function NoticePage() {
                   <div className="min-w-0 flex-1">
                     <h3 className={articleTitleClass}>
                       <span className="truncate">{n.title}</span>
-                      {isNew && <span className={newBadgeClass}>NEW</span>}
+                      <NoticeNewBadge noticeId={n.id} isNew={isNew} />
                     </h3>
                     <p className={articleBodyClass}>{stripMarkdown(n.body)}</p>
                   </div>
