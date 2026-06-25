@@ -5,6 +5,7 @@ import { useLayoutEffect, useMemo, useRef } from 'react';
 
 import { CAFETERIA_LABEL } from '@/constants/cafeteria';
 import { MENU_CATEGORIES } from '@/constants/menu';
+import { useDateUrl } from '@/hooks/useDateUrl';
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { usePick } from '@/hooks/usePick';
 import { useVotes } from '@/hooks/useVote';
@@ -25,6 +26,7 @@ import {
 import { MenuBoardProps } from './MenuBoard.types';
 
 const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
+  useDateUrl();
   const { today, selectedDate } = useDateStore();
   const mounted = useHasMounted();
   const dateStr = formatYYYYMMDD(selectedDate);
