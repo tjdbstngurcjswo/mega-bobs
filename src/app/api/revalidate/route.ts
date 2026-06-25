@@ -14,7 +14,9 @@ export const GET = async (request: NextRequest) => {
     return NextResponse.json({ error: 'Invalid secret' }, { status: 401 });
 
   revalidatePath('/');
+  revalidatePath('/notice');
   revalidateTag('menu');
+  revalidateTag('notices');
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
 };
