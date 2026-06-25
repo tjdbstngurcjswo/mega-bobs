@@ -15,7 +15,7 @@ export const shareMenuUrl = async (dateStr: string): Promise<ShareResult> => {
   }
 
   try {
-    await navigator.clipboard.writeText(url);
+  await navigator.clipboard.writeText(url);
     return 'copied';
   } catch {
     return 'error';

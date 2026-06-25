@@ -1,28 +1,29 @@
 'use client';
 
-import { Clock } from 'lucide-react';
-import { useLayoutEffect, useMemo, useRef } from 'react';
+import { sendGAEvent } from '@next/third-parties/google';
+import { Share2 } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 
-import { CAFETERIA_LABEL } from '@/constants/cafeteria';
-import { MENU_CATEGORIES } from '@/constants/menu';
+import { MENU_CATEGORIES, MenuCategoryLabel } from '@/constants/menu';
 import { useDateUrl } from '@/hooks/useDateUrl';
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { usePick } from '@/hooks/usePick';
 import { useVotes } from '@/hooks/useVote';
 import dayjs from '@/lib/dayjs';
+import { shareMenuUrl } from '@/lib/share';
 import { useDateStore } from '@/store/useDateStore';
 import { formatYYYYMMDD } from '@/utils/date';
 import { isAfterClose, isFutureMenuPending } from '@/utils/menuPolicy';
-
-import HeroTodayButton from '@/components/home/HeroTodayButton';
 
 import MenuBoardCourseRow from './_MenuBoardCourseRow/MenuBoardCourseRow';
 import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
 import MenuBoardEmpty from './_MenuBoardEmpty/MenuBoardEmpty';
 import {
+  courseTabBarClass,
+  courseTabClass,
   menuBodyClass,
-  menuHeadingTitleClass,
-  menuSubheadingClass,
+  menuShareBtnClass,
   sectionClass,
 } from './MenuBoard.styles';
 import { MenuBoardProps } from './MenuBoard.types';
@@ -31,6 +32,7 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
   useDateUrl();
   const { today, selectedDate } = useDateStore();
   const mounted = useHasMounted();
+  const [selectedTab, setSelectedTab] = useState(0);
   const dateStr = formatYYYYMMDD(selectedDate);
   const hasMenus = useMemo(
     () => menus.some((m) => m.date === dateStr && m.items.length > 0),
@@ -61,77 +63,87 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
     ).filter((m): m is NonNullable<typeof m> => Boolean(m));
   }, [menus, selectedDate]);
 
+  useEffect(() => setSelectedTab(0), [dateStr]);
+
   const emptyVariant = isFutureMenuPending(selectedDate, now)
     ? 'comingUp'
     : 'closed';
 
-  const menuBodyRef = useRef<HTMLDivElement>(null);
-  const prevHeightRef = useRef(0);
-
-  useLayoutEffect(() => {
-    const el = menuBodyRef.current;
-    if (!el) return;
-    const next = el.scrollHeight;
-    const prev = prevHeightRef.current;
-    prevHeightRef.current = next;
-    if (!prev || prev === next) return;
-    const a = el.animate([{ height: `${prev}px` }, { height: `${next}px` }], {
-      duration: 280,
-      easing: 'ease-in-out',
-    });
-    return () => a.cancel();
-  }, [dateStr]);
+  const handleShare = async () => {
+    sendGAEvent('event', 'share_menu', { date: dateStr });
+    const result = await shareMenuUrl(dateStr);
+    if (result === 'copied') toast.success('링크 복사됨');
+    if (result === 'error') toast.error('링크 복사 실패');
+  };
 
   return (
     <section className={sectionClass}>
-      <div className="flex items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-2">
-          <h2 className={menuHeadingTitleClass}>메가존 구내식당</h2>
-          <p className={menuSubheadingClass}>
-            <Clock
-              size={9}
-              strokeWidth={2.5}
-              className="text-muted"
-              aria-hidden
-            />
-            <span>{CAFETERIA_LABEL}</span>
-          </p>
-        </div>
-        <HeroTodayButton />
-      </div>
+      <button
+        type="button"
+        onClick={handleShare}
+        aria-label="메뉴 링크 공유"
+        className={menuShareBtnClass}
+      >
+        <Share2 size={15} strokeWidth={2} aria-hidden />
+      </button>
       <MenuBoardDayBar />
-      <div ref={menuBodyRef} className={menuBodyClass}>
+      {dayMenus.length > 1 && (
+        <div className={courseTabBarClass}>
+          {dayMenus.map((menu, i) => (
+            <button
+              key={menu.category}
+              type="button"
+              onClick={() => setSelectedTab(i)}
+              aria-pressed={selectedTab === i}
+              className={courseTabClass(selectedTab === i)}
+            >
+              {MenuCategoryLabel[menu.category].ko}
+            </button>
+          ))}
+        </div>
+      )}
+      <div className={menuBodyClass}>
         {dayMenus.length > 0 ? (
-          dayMenus.map((menu) => {
+          dayMenus.map((menu, i) => {
             const menuKey = `${menu.date}_${menu.category}`;
             return (
-              <MenuBoardCourseRow
+              <div
                 key={menu.category}
-                menu={menu}
-                vote={{
-                  show: showVote && !isLoading,
-                  result: voteMap[menuKey],
-                  onVote: (type: 'up' | 'down') => submitVote(menuKey, type),
-                  isSubmitting,
-                }}
-                pick={{
-                  show: showPick && !isLoadingPick,
-                  count: counts[menu.category],
-                  isPicked: myPick === menu.category,
-                  hasAnyPick: myPick !== null,
-                  onPick: () => submitPick(menu.category),
-                  isSubmitting: isSubmittingPick,
-                }}
-              />
+                className={
+                  i !== selectedTab
+                    ? 'hidden h-full min-[640px]:block'
+                    : 'h-full'
+                }
+              >
+                <MenuBoardCourseRow
+                  menu={menu}
+                  vote={{
+                    show: showVote && !isLoading,
+                    result: voteMap[menuKey],
+                    onVote: (type: 'up' | 'down') => submitVote(menuKey, type),
+                    isSubmitting,
+                  }}
+                  pick={{
+                    show: showPick && !isLoadingPick,
+                    count: counts[menu.category],
+                    isPicked: myPick === menu.category,
+                    hasAnyPick: myPick !== null,
+                    onPick: () => submitPick(menu.category),
+                    isSubmitting: isSubmittingPick,
+                  }}
+                />
+              </div>
             );
           })
         ) : (
-          <MenuBoardEmpty
-            variant={emptyVariant}
-            date={dateStr}
-            isToday={isToday}
-            isPast={isPast}
-          />
+          <div className="col-span-full">
+            <MenuBoardEmpty
+              variant={emptyVariant}
+              date={dateStr}
+              isToday={isToday}
+              isPast={isPast}
+            />
+          </div>
         )}
       </div>
     </section>
