@@ -1,11 +1,36 @@
 import dayjs from '@/lib/dayjs';
 import type { Notice } from '@/models/notice';
 
-const NEW_NOTICE_THRESHOLD_DAYS = 7;
+export const NEW_NOTICE_THRESHOLD_DAYS = 7;
+const NOTICE_READ_KEY = 'notice-read';
 
-export const hasNewNotice = (notices: Notice[]): boolean =>
+export const getReadNoticeIds = (): string[] => {
+  if (typeof window === 'undefined') return [];
+  try {
+    const parsed: unknown = JSON.parse(
+      localStorage.getItem(NOTICE_READ_KEY) ?? '[]'
+    );
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter((id): id is string => typeof id === 'string');
+  } catch {
+    return [];
+  }
+};
+
+export const markNoticeRead = (id: string): void => {
+  if (typeof window === 'undefined') return;
+  const ids = getReadNoticeIds();
+  if (!ids.includes(id)) {
+    localStorage.setItem(NOTICE_READ_KEY, JSON.stringify([...ids, id]));
+  }
+};
+
+export const hasNewNotice = (
+  notices: Notice[],
+  readIds: string[] = []
+): boolean =>
   notices.some(
     (n) =>
       dayjs().tz().diff(dayjs.tz(n.publishedAt), 'day') <
-      NEW_NOTICE_THRESHOLD_DAYS
+        NEW_NOTICE_THRESHOLD_DAYS && !readIds.includes(n.id)
   );

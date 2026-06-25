@@ -4,9 +4,10 @@ import { notFound } from 'next/navigation';
 import { getNoticeById, getNotices } from '@/api/getNotices';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import NoticeBody from '@/components/notice/NoticeBody';
+import NoticeReadMarker from '@/components/notice/NoticeReadMarker';
 import { SITE_NAME } from '@/constants/site';
-import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 import { formatRelativeDate } from '@/utils/date';
+import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 
 import { contentClass } from './page.styles';
 import type { PageProps } from './page.types';
@@ -63,6 +64,7 @@ const NoticeDetailPage = async ({ params }: PageProps) => {
         )}
       >
         <div className={contentClass}>
+          <NoticeReadMarker id={notice.id} />
           <NoticeBody body={notice.body} />
         </div>
       </PageLayout>
