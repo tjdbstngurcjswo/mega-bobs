@@ -13,6 +13,8 @@ interface DateStore {
   initFromDate: (date: dayjs.Dayjs) => void;
   goToPrevWeek: () => void;
   goToNextWeek: () => void;
+  goToToday: () => void;
+  refreshToday: () => void;
 }
 
 export const useDateStore = create<DateStore>((set, get) => {
@@ -44,6 +46,27 @@ export const useDateStore = create<DateStore>((set, get) => {
       const nextWeekStart = currentWeek[6].add(1, 'day');
       if (nextWeekStart.isAfter(maxDate, 'day')) return;
       set({ currentWeek: getWeekDays(nextWeekStart) });
+    },
+
+    goToToday: () => {
+      const freshToday = dayjs().tz();
+      set({
+        today: freshToday,
+        minDate: getWeekDays(freshToday.subtract(1, 'week'))[0],
+        maxDate: getWeekDays(freshToday.add(1, 'week'))[6],
+        selectedDate: freshToday,
+        currentWeek: getWeekDays(freshToday),
+      });
+    },
+
+    refreshToday: () => {
+      const freshToday = dayjs().tz();
+      if (freshToday.isSame(get().today, 'day')) return;
+      set({
+        today: freshToday,
+        minDate: getWeekDays(freshToday.subtract(1, 'week'))[0],
+        maxDate: getWeekDays(freshToday.add(1, 'week'))[6],
+      });
     },
   };
 });
