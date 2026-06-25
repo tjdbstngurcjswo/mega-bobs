@@ -12,6 +12,7 @@ import {
 } from 'react';
 
 import { getNotices } from '@/api/getNotices';
+import ThemeToggle from '@/components/@shared/ui/ThemeToggle';
 import { NAV_ITEMS, SITE_NAME } from '@/constants/site';
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { getReadNoticeIds, hasNewNotice } from '@/utils/noticePolicy';
@@ -105,6 +106,7 @@ const MobileControls = ({
       className={mobileBellLinkClass}
       prefetch={prefetch}
     />
+    <ThemeToggle />
     <button
       type="button"
       aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
@@ -204,6 +206,8 @@ const SiteHeader = () => {
           </Link>
 
           <DesktopNav pathname={pathname} prefetch={router.prefetch} />
+
+          <ThemeToggle />
 
           {/* 데스크톱 벨 */}
           <NoticeBell
