@@ -1,14 +1,10 @@
 'use client';
 
 import { sendGAEvent } from '@next/third-parties/google';
-import { Share2 } from 'lucide-react';
 import { useEffect } from 'react';
-import toast from 'react-hot-toast';
 
 import { useHasMounted } from '@/hooks/useHasMounted';
-import { shareMenuUrl } from '@/lib/share';
 import { useDateStore } from '@/store/useDateStore';
-import { formatYYYYMMDD } from '@/utils/date';
 
 import {
   chipAreaClass,
@@ -18,7 +14,6 @@ import {
   navArrowClass,
   navButtonClass,
   navTooltipClass,
-  shareBtnClass,
   weekLabelClass,
   weekRangeClass,
 } from './MenuBoardDayBar.styles';
@@ -43,19 +38,18 @@ const MenuBoardDayBar = () => {
     return () => clearInterval(id);
   }, [refreshToday]);
 
-  const handleShare = async () => {
-    const dateStr = formatYYYYMMDD(selectedDate);
-    sendGAEvent('event', 'share_menu', { date: dateStr });
-    const result = await shareMenuUrl(dateStr);
-    if (result === 'copied') toast.success('링크 복사됨');
-    if (result === 'error') toast.error('링크 복사 실패');
-  };
-
   const canGoPrev = !mounted || currentWeek[0].isAfter(minDate, 'day');
   const canGoNext = !mounted || currentWeek[6].isBefore(maxDate, 'day');
 
   const isCurrentWeek =
     mounted && currentWeek.some((d) => d.isSame(today, 'day'));
+  const weekLabel = !mounted
+    ? ''
+    : isCurrentWeek
+      ? '이번주'
+      : currentWeek[0].isBefore(today, 'week')
+        ? '지난주'
+        : '다음주';
   const prevLabel = isCurrentWeek ? '지난주' : '이번주';
   const nextLabel = isCurrentWeek ? '다음주' : '이번주';
 
@@ -75,9 +69,7 @@ const MenuBoardDayBar = () => {
           <span className={navTooltipClass}>{prevLabel}</span>
         </button>
         <span suppressHydrationWarning className={weekRangeClass}>
-          {mounted
-            ? `${currentWeek[0].format('M월 D일')} - ${currentWeek[6].format('M월 D일')}`
-            : ''}
+          {weekLabel}
         </span>
         <button
           type="button"
@@ -90,14 +82,6 @@ const MenuBoardDayBar = () => {
         >
           <span className={navArrowClass}>›</span>
           <span className={navTooltipClass}>{nextLabel}</span>
-        </button>
-        <button
-          type="button"
-          onClick={handleShare}
-          aria-label="메뉴 링크 공유"
-          className={shareBtnClass}
-        >
-          <Share2 size={13} strokeWidth={2} aria-hidden />
         </button>
       </div>
       <div className={chipAreaClass}>
