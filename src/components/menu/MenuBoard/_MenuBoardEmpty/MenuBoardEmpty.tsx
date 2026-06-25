@@ -1,21 +1,23 @@
 'use client';
 
+import { useState } from 'react';
+
 import { Plane, Sparkles } from 'lucide-react';
 
-import { BOARD_EMPTY_COPY } from './MenuBoardEmpty.constants';
+import {
+  BOARD_EMPTY_COPY,
+  INITIAL_PLANE_COUNT,
+  PLANE_CONFIGS,
+  SPARKLE_POSITIONS,
+} from './MenuBoardEmpty.constants';
 import {
   emptyBodyClass,
   emptyLabelClass,
   emptyTitleClass,
+  planeClass,
+  planeWrapperClass,
 } from './MenuBoardEmpty.styles';
 import { MenuBoardEmptyProps } from './MenuBoardEmpty.types';
-
-const SPARKLE_POSITIONS = [
-  { left: '18%', bottom: '22%', size: 13, delay: '0s' },
-  { left: '42%', bottom: '12%', size: 10, delay: '-1.2s' },
-  { left: '65%', bottom: '28%', size: 12, delay: '-2.4s' },
-  { left: '80%', bottom: '15%', size: 9, delay: '-0.6s' },
-];
 
 const MenuBoardEmpty = ({
   variant,
@@ -24,6 +26,13 @@ const MenuBoardEmpty = ({
   isPast,
 }: MenuBoardEmptyProps) => {
   const copy = BOARD_EMPTY_COPY[variant];
+  const [planeCount, setPlaneCount] = useState(INITIAL_PLANE_COUNT);
+
+  const handlePlaneClick = () => {
+    setPlaneCount((prev) =>
+      prev >= PLANE_CONFIGS.length ? INITIAL_PLANE_COUNT : prev + 1
+    );
+  };
 
   const closedTitle = (() => {
     if (variant !== 'closed') return copy.title;
@@ -38,19 +47,24 @@ const MenuBoardEmpty = ({
   return (
     <div className="relative flex h-full flex-col items-center justify-center overflow-hidden px-6 py-12 text-center">
       {variant === 'closed' && (
-        <div className="pointer-events-none absolute inset-0" aria-hidden>
-          <span
-            className="text-muted absolute top-1/2 left-1/2 -translate-y-1/2"
-            style={{ animation: 'planeFly 7s linear infinite' }}
-          >
-            <Plane size={15} strokeWidth={1.5} />
-          </span>
-          <span
-            className="text-muted absolute top-1/2 left-1/2 -translate-y-1/2 opacity-50"
-            style={{ animation: 'planeFly 7s linear -3.5s infinite' }}
-          >
-            <Plane size={12} strokeWidth={1.5} />
-          </span>
+        <div
+          aria-hidden
+          className={planeWrapperClass}
+          onClick={handlePlaneClick}
+        >
+          {PLANE_CONFIGS.slice(0, planeCount).map((cfg, i) => (
+            <span
+              key={i}
+              className={planeClass}
+              style={{
+                top: cfg.top,
+                opacity: cfg.opacity,
+                animation: `planeFly ${cfg.duration}s linear ${cfg.delay}s infinite`,
+              }}
+            >
+              <Plane size={cfg.size} strokeWidth={1.5} />
+            </span>
+          ))}
         </div>
       )}
       {variant === 'comingUp' && (

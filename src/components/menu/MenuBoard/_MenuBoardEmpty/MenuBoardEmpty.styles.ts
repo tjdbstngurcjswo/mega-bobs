@@ -1,3 +1,8 @@
+export const planeWrapperClass =
+  'absolute inset-0 cursor-pointer transition-opacity duration-300';
+
+export const planeClass = 'text-muted absolute left-1/2 -translate-y-1/2';
+
 export const emptyLabelClass =
   'text-accent-text text-[13px] font-black tracking-wider';
 
