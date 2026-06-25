@@ -158,7 +158,7 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
         )}
       </div>
       <p className={itemsTextClass}>
-        {menu.items.map((item, i) => (
+        {menu.items.map((item) => (
           <span key={item.name} className={itemNameClass}>
             <span className="break-words">{item.name}</span>
             {item.kcal > 0 && (
