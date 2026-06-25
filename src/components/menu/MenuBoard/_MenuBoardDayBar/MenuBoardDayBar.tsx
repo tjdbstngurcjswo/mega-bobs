@@ -47,7 +47,7 @@ const MenuBoardDayBar = () => {
     ? ''
     : isCurrentWeek
       ? '이번주'
-      : currentWeek[0].isBefore(today, 'week')
+      : currentWeek[6].isBefore(today, 'day')
         ? '지난주'
         : '다음주';
   const prevLabel = isCurrentWeek ? '지난주' : '이번주';

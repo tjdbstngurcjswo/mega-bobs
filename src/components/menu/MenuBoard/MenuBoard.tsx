@@ -63,6 +63,8 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
     ).filter((m): m is NonNullable<typeof m> => Boolean(m));
   }, [menus, selectedDate]);
 
+  const safeTab =
+    dayMenus.length > 0 ? Math.min(selectedTab, dayMenus.length - 1) : 0;
   useEffect(() => setSelectedTab(0), [dateStr]);
 
   const emptyVariant = isFutureMenuPending(selectedDate, now)
@@ -94,8 +96,8 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
               key={menu.category}
               type="button"
               onClick={() => setSelectedTab(i)}
-              aria-pressed={selectedTab === i}
-              className={courseTabClass(selectedTab === i)}
+              aria-pressed={safeTab === i}
+              className={courseTabClass(safeTab === i)}
             >
               {MenuCategoryLabel[menu.category].ko}
             </button>
@@ -110,9 +112,7 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
               <div
                 key={menu.category}
                 className={
-                  i !== selectedTab
-                    ? 'hidden h-full min-[640px]:block'
-                    : 'h-full'
+                  i !== safeTab ? 'hidden h-full min-[640px]:block' : 'h-full'
                 }
               >
                 <MenuBoardCourseRow
