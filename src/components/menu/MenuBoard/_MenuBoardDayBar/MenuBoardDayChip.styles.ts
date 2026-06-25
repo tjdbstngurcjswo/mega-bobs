@@ -5,7 +5,8 @@ import { chipBg, labelClass, dateClass } from './MenuBoardDayBar.styles';
 export const chipButtonClass = (
   isSelected: boolean,
   isToday: boolean,
-  justSelected: boolean
+  justSelected: boolean,
+  isWeekend: boolean
 ) =>
   cn(
     'relative flex min-h-[44px] flex-1 cursor-pointer flex-col items-center justify-center gap-0.5 transition-colors duration-150 active:opacity-70',
@@ -13,7 +14,8 @@ export const chipButtonClass = (
     isToday &&
       !isSelected &&
       "after:absolute after:bottom-1.5 after:left-1/2 after:size-1 after:-translate-x-1/2 after:bg-accent after:content-['']",
-    justSelected && 'animate-[chipPop_0.22s_ease-out]'
+    justSelected && 'animate-[chipPop_0.22s_ease-out]',
+    isWeekend && !isSelected && !isToday && 'opacity-50'
   );
 
 export const chipDowClass = (
