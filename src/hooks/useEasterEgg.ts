@@ -15,6 +15,7 @@ export const calcEggStep = (clickCount: number): EggStep => {
 export const useEasterEgg = () => {
   const [clickCount, setClickCount] = useState(0);
   const [triggered, setTriggered] = useState(false);
+  const clickCountRef = useRef(0);
   const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const step = calcEggStep(clickCount);
@@ -22,19 +23,24 @@ export const useEasterEgg = () => {
   const handleLabelClick = useCallback(() => {
     if (triggered) return;
 
-    const next = clickCount + 1;
+    const next = clickCountRef.current + 1;
 
     if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
 
     if (next >= THRESHOLD) {
+      clickCountRef.current = 0;
       setTriggered(true);
       setClickCount(0);
       return;
     }
 
+    clickCountRef.current = next;
     setClickCount(next);
-    resetTimerRef.current = setTimeout(() => setClickCount(0), TIMEOUT_MS);
-  }, [triggered, clickCount]);
+    resetTimerRef.current = setTimeout(() => {
+      clickCountRef.current = 0;
+      setClickCount(0);
+    }, TIMEOUT_MS);
+  }, [triggered]);
 
   useEffect(() => {
     if (!triggered) return;

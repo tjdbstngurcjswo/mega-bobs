@@ -76,7 +76,6 @@ const MenuBoardCourseRow = ({
     <div className={courseRowClass}>
       <div className={courseRowHeaderClass}>
         <span
-          key={eggStep}
           className={cn(courseLabelClass, eggLabelClass(eggStep))}
           style={{
             background:
