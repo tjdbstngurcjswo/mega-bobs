@@ -36,7 +36,7 @@ const MenuBoardEmpty = ({
   })();
 
   return (
-    <div className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-6 py-12 text-center">
+    <div className="relative flex h-full flex-col items-center justify-center overflow-hidden px-6 py-12 text-center">
       {variant === 'closed' && (
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <span

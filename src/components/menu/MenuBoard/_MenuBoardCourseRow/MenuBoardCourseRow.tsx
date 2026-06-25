@@ -14,10 +14,10 @@ import {
   downVoteIconClass,
   itemKcalClass,
   itemNameClass,
-  itemSeparatorClass,
   itemsTextClass,
   kcalClass,
   pickButtonClass,
+  pickCountClass,
   tabularNumsClass,
   upVoteButtonClass,
   upVoteIconClass,
@@ -77,7 +77,6 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
         >
           {MenuCategoryLabel[menu.category].ko}
         </span>
-        {total > 0 && <span className={kcalClass}>{total} kcal</span>}
         {pick?.show && (
           <button
             type="button"
@@ -91,7 +90,10 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
             )}
           >
             <Users size={10} strokeWidth={2.5} />
-            {pick.count ?? 0}명이 선택했어요
+            <span className={pickCountClass((pick.count ?? 0) >= 1)}>
+              {pick.count ?? 0}
+            </span>
+            명이 선택했어요
           </button>
         )}
         {vote?.show && (
@@ -160,18 +162,21 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
         )}
       </div>
       <p className={itemsTextClass}>
-        {menu.items.map((item, i) => (
+        {menu.items.map((item) => (
           <span key={item.name} className={itemNameClass}>
-            {item.name}
+            <span className="break-words">{item.name}</span>
             {item.kcal > 0 && (
               <i className={itemKcalClass}>{`${item.kcal}kcal`}</i>
-            )}
-            {i < menu.items.length - 1 && (
-              <span className={itemSeparatorClass}>·</span>
             )}
           </span>
         ))}
       </p>
+      {total > 0 && (
+        <p className={kcalClass}>
+          <span>합계</span>
+          <span>{total} kcal</span>
+        </p>
+      )}
     </div>
   );
 };

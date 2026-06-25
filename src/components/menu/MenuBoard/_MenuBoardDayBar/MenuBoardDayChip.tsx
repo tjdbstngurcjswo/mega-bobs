@@ -19,6 +19,7 @@ const MenuBoardDayChip = ({
 }: MenuBoardDayChipProps) => {
   const isToday = mounted && day.isSame(today, 'day');
   const isSelected = mounted && day.isSame(selectedDate, 'day');
+  const isWeekend = day.day() === 0 || day.day() === 6;
   const [justSelected, setJustSelected] = useState(false);
 
   useEffect(() => {
@@ -33,7 +34,7 @@ const MenuBoardDayChip = ({
       type="button"
       onClick={() => onSelect(day)}
       aria-pressed={isSelected}
-      className={chipButtonClass(isSelected, isToday, justSelected)}
+      className={chipButtonClass(isSelected, isToday, justSelected, isWeekend)}
     >
       <span
         suppressHydrationWarning
