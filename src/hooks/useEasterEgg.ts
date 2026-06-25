@@ -22,20 +22,19 @@ export const useEasterEgg = () => {
   const handleLabelClick = useCallback(() => {
     if (triggered) return;
 
-    setClickCount((prev) => {
-      const next = prev + 1;
+    const next = clickCount + 1;
 
-      if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
+    if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
 
-      if (next >= THRESHOLD) {
-        setTriggered(true);
-        return 0;
-      }
+    if (next >= THRESHOLD) {
+      setTriggered(true);
+      setClickCount(0);
+      return;
+    }
 
-      resetTimerRef.current = setTimeout(() => setClickCount(0), TIMEOUT_MS);
-      return next;
-    });
-  }, [triggered]);
+    setClickCount(next);
+    resetTimerRef.current = setTimeout(() => setClickCount(0), TIMEOUT_MS);
+  }, [triggered, clickCount]);
 
   useEffect(() => {
     if (!triggered) return;
