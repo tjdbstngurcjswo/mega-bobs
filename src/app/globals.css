@@ -264,6 +264,27 @@
   }
 }
 
+[data-theme='dark'] {
+  --color-bg: #0d1117;
+  --color-surface: #161d27;
+  --color-surface-warm: #111820;
+  --color-board: #070a0e;
+  --color-board-2: #0f1620;
+  --color-ink: #e2e8f0;
+  --color-ink-2: #8fa4bc;
+  --color-muted: #4e6070;
+  --color-line: #1e2d3e;
+  --color-cream: #c8d8e8;
+  --color-cream-2: #6a88a4;
+  --color-accent-soft: #221e0a;
+  --color-accent-text: #e2c04c;
+  --color-down-soft: #161d27;
+  --shadow-flat: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3), 0 4px 20px rgba(0, 0, 0, 0.25);
+  --shadow-card-hover:
+    0 2px 6px rgba(0, 0, 0, 0.4), 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-ink);
