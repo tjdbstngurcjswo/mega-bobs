@@ -20,7 +20,7 @@ export const courseLabelClass =
   'text-accent-text text-[13px] font-extrabold tracking-wider';
 
 export const kcalClass =
-  'mt-6 flex justify-between border-t border-dashed border-line pt-3 text-accent-text text-[11px] font-semibold';
+  'mt-3 flex justify-between border-t border-dashed border-line pt-3 text-accent-text text-[11px] font-semibold';
 
 export const voteGroupClass =
   'ml-auto flex gap-1 animate-[fadeIn_0.3s_ease_both]';
