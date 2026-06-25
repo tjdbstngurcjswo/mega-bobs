@@ -19,7 +19,6 @@ import {
   navButtonClass,
   navTooltipClass,
   shareBtnClass,
-  todayBtnClass,
   weekLabelClass,
   weekRangeClass,
 } from './MenuBoardDayBar.styles';
@@ -35,7 +34,6 @@ const MenuBoardDayBar = () => {
     setSelectedDate,
     goToPrevWeek,
     goToNextWeek,
-    goToToday,
     refreshToday,
   } = useDateStore();
   const mounted = useHasMounted();
@@ -101,19 +99,6 @@ const MenuBoardDayBar = () => {
         >
           <Share2 size={13} strokeWidth={2} aria-hidden />
         </button>
-        {mounted && !isCurrentWeek && (
-          <button
-            type="button"
-            onClick={() => {
-              sendGAEvent('event', 'week_navigate', { direction: 'today' });
-              goToToday();
-            }}
-            aria-label="오늘 날짜로 이동"
-            className={todayBtnClass}
-          >
-            오늘
-          </button>
-        )}
       </div>
       <div className={chipAreaClass}>
         <div

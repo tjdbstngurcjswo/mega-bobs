@@ -14,6 +14,8 @@ import { useDateStore } from '@/store/useDateStore';
 import { formatYYYYMMDD } from '@/utils/date';
 import { isAfterClose, isFutureMenuPending } from '@/utils/menuPolicy';
 
+import HeroTodayButton from '@/components/home/HeroTodayButton';
+
 import MenuBoardCourseRow from './_MenuBoardCourseRow/MenuBoardCourseRow';
 import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
 import MenuBoardEmpty from './_MenuBoardEmpty/MenuBoardEmpty';
@@ -82,17 +84,20 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
 
   return (
     <section className={sectionClass}>
-      <div className="flex items-center gap-2 px-6 py-4">
-        <h2 className={menuHeadingTitleClass}>메가존 구내식당</h2>
-        <p className={menuSubheadingClass}>
-          <Clock
-            size={9}
-            strokeWidth={2.5}
-            className="text-muted"
-            aria-hidden
-          />
-          <span>{CAFETERIA_LABEL}</span>
-        </p>
+      <div className="flex items-center justify-between px-6 py-4">
+        <div className="flex items-center gap-2">
+          <h2 className={menuHeadingTitleClass}>메가존 구내식당</h2>
+          <p className={menuSubheadingClass}>
+            <Clock
+              size={9}
+              strokeWidth={2.5}
+              className="text-muted"
+              aria-hidden
+            />
+            <span>{CAFETERIA_LABEL}</span>
+          </p>
+        </div>
+        <HeroTodayButton />
       </div>
       <MenuBoardDayBar />
       <div ref={menuBodyRef} className={menuBodyClass}>
