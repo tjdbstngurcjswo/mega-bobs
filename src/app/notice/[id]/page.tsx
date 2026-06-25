@@ -11,14 +11,16 @@ import { formatRelativeDate } from '@/utils/date';
 import { contentClass } from './page.styles';
 import type { PageProps } from './page.types';
 
-export const generateStaticParams = () =>
-  getNotices().map((n) => ({ id: n.id }));
+export const generateStaticParams = async () => {
+  const notices = await getNotices();
+  return notices.map((n) => ({ id: n.id }));
+};
 
 export const generateMetadata = async ({
   params,
 }: PageProps): Promise<Metadata> => {
   const { id } = await params;
-  const notice = getNoticeById(id);
+  const notice = await getNoticeById(id);
   if (!notice) return { title: '공지사항' };
   return {
     title: notice.title,
@@ -34,7 +36,7 @@ export const generateMetadata = async ({
 
 const NoticeDetailPage = async ({ params }: PageProps) => {
   const { id } = await params;
-  const notice = getNoticeById(id);
+  const notice = await getNoticeById(id);
 
   if (!notice) notFound();
 

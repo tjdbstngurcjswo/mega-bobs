@@ -36,8 +36,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function NoticePage() {
-  const notices = getNotices();
+export default async function NoticePage() {
+  const notices = await getNotices();
 
   return (
     <>
