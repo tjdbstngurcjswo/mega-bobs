@@ -17,6 +17,7 @@ import {
   itemsTextClass,
   kcalClass,
   pickButtonClass,
+  pickCountClass,
   tabularNumsClass,
   upVoteButtonClass,
   upVoteIconClass,
@@ -89,7 +90,10 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
             )}
           >
             <Users size={10} strokeWidth={2.5} />
-            {pick.count ?? 0}명이 선택했어요
+            <span className={pickCountClass((pick.count ?? 0) >= 1)}>
+              {pick.count ?? 0}
+            </span>
+            명이 선택했어요
           </button>
         )}
         {vote?.show && (

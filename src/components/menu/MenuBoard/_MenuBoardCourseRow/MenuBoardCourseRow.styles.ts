@@ -20,13 +20,13 @@ export const courseLabelClass =
   'text-accent-text text-[13px] font-extrabold tracking-wider';
 
 export const kcalClass =
-  'mt-auto flex justify-between border-t border-dashed border-line pt-3 text-accent-text text-[11px] font-semibold';
+  'mt-6 flex justify-between border-t border-dashed border-line pt-3 text-accent-text text-[11px] font-semibold';
 
 export const voteGroupClass =
   'ml-auto flex gap-1 animate-[fadeIn_0.3s_ease_both]';
 
 export const itemsTextClass =
-  'mt-2 flex flex-col gap-y-1 text-ink text-[14.5px] leading-relaxed font-semibold';
+  'mt-2 flex flex-1 flex-col gap-y-1 text-ink text-[14.5px] leading-relaxed font-semibold';
 
 export const itemNameClass = 'flex items-baseline justify-between gap-2';
 
@@ -44,6 +44,9 @@ export const pickButtonClass = (isPicked: boolean, hasAnyPick: boolean) =>
         ? 'border-line text-muted opacity-60 hover:border-accent/50 hover:text-ink hover:opacity-100'
         : 'border-line text-muted hover:border-accent/50 hover:text-ink'
   );
+
+export const pickCountClass = (hasCount: boolean) =>
+  hasCount ? 'font-bold text-accent-text' : '';
 
 export const upVoteButtonClass = (myVote: VoteType | null) =>
   cn(
