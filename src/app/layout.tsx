@@ -6,9 +6,9 @@ import { headers } from 'next/headers';
 
 import './globals.css';
 
-import RenewalFeedbackPopup from '@/components/feedback/RenewalFeedbackPopup/RenewalFeedbackPopup';
 import ThemeProvider from '@/components/@shared/providers/ThemeProvider';
 import ToasterProvider from '@/components/@shared/providers/ToasterProvider';
+import RenewalFeedbackPopup from '@/components/feedback/RenewalFeedbackPopup/RenewalFeedbackPopup';
 import { SITE_NAME } from '@/constants/site';
 import { SITE_DESC } from '@/utils/jsonLd';
 
