@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
-import { getNotices } from '@/api/getNotices';
 import { NAV_ITEMS, SITE_NAME } from '@/constants/site';
 import { useHasMounted } from '@/hooks/useHasMounted';
+import type { Notice } from '@/models/notice';
 import { hasNewNotice } from '@/utils/noticePolicy';
 
 import {
@@ -27,11 +27,10 @@ import {
   mobileOverlayClass,
 } from './SiteHeader.styles';
 
-const SiteHeader = () => {
+const SiteHeader = ({ notices }: { notices: Notice[] }) => {
   const pathname = usePathname();
   const router = useRouter();
   const mounted = useHasMounted();
-  const notices = useMemo(() => getNotices(), []);
   const showNoticeDot = useMemo(
     () => mounted && hasNewNotice(notices),
     [mounted, notices]
