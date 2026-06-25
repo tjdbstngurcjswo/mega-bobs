@@ -1,7 +1,7 @@
 import 'server-only';
 
-import { unstable_cache } from 'next/cache';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import { unstable_cache } from 'next/cache';
 
 import { NOTICES_DB_ID, notionClient } from '@/lib/notion';
 import { blocksToMarkdown } from '@/lib/notionToMarkdown';

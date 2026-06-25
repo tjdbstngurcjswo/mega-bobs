@@ -5,8 +5,8 @@ import { getNoticeById, getNotices } from '@/api/getNotices';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import NoticeBody from '@/components/notice/NoticeBody';
 import { SITE_NAME } from '@/constants/site';
-import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 import { formatRelativeDate } from '@/utils/date';
+import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
 
 import { contentClass } from './page.styles';
 import type { PageProps } from './page.types';

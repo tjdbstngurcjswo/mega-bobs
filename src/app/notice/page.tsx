@@ -3,11 +3,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { getNotices } from '@/api/getNotices';
-import { stripMarkdown } from '@/utils/stripMarkdown';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { SITE_NAME } from '@/constants/site';
 import dayjs from '@/lib/dayjs';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
+import { stripMarkdown } from '@/utils/stripMarkdown';
 
 import {
   articleBodyClass,
