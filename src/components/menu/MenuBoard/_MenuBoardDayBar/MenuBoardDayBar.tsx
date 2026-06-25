@@ -2,6 +2,7 @@
 
 import { sendGAEvent } from '@next/third-parties/google';
 import { Share2 } from 'lucide-react';
+import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 import { useHasMounted } from '@/hooks/useHasMounted';
@@ -18,6 +19,7 @@ import {
   navButtonClass,
   navTooltipClass,
   shareBtnClass,
+  todayBtnClass,
   weekLabelClass,
   weekRangeClass,
 } from './MenuBoardDayBar.styles';
@@ -33,8 +35,15 @@ const MenuBoardDayBar = () => {
     setSelectedDate,
     goToPrevWeek,
     goToNextWeek,
+    goToToday,
+    refreshToday,
   } = useDateStore();
   const mounted = useHasMounted();
+
+  useEffect(() => {
+    const id = setInterval(refreshToday, 60_000);
+    return () => clearInterval(id);
+  }, [refreshToday]);
 
   const handleShare = async () => {
     const dateStr = formatYYYYMMDD(selectedDate);
@@ -92,6 +101,19 @@ const MenuBoardDayBar = () => {
         >
           <Share2 size={13} strokeWidth={2} aria-hidden />
         </button>
+        {mounted && !isCurrentWeek && (
+          <button
+            type="button"
+            onClick={() => {
+              sendGAEvent('event', 'week_navigate', { direction: 'today' });
+              goToToday();
+            }}
+            aria-label="오늘 날짜로 이동"
+            className={todayBtnClass}
+          >
+            오늘
+          </button>
+        )}
       </div>
       <div className={chipAreaClass}>
         <div
