@@ -3,10 +3,11 @@ import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { headers } from 'next/headers';
-import { Toaster } from 'react-hot-toast';
 
 import './globals.css';
 
+import ThemeProvider from '@/components/@shared/providers/ThemeProvider';
+import ToasterProvider from '@/components/@shared/providers/ToasterProvider';
 import RenewalFeedbackPopup from '@/components/feedback/RenewalFeedbackPopup/RenewalFeedbackPopup';
 import { SITE_NAME } from '@/constants/site';
 import { SITE_DESC } from '@/utils/jsonLd';
@@ -98,33 +99,23 @@ export default async function RootLayout({
   const country = hdrs.get('x-vercel-ip-country');
   const isKorea = !country || country === 'KR';
   return (
-    <html lang="ko" className={pretendard.variable}>
+    <html lang="ko" className={pretendard.variable} suppressHydrationWarning>
       <head>
         {process.env.NEXT_PUBLIC_SUPABASE_URL && (
           <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} />
         )}
       </head>
       <body className={bodyClass}>
-        {children}
-        <Toaster
-          position="bottom-center"
-          toastOptions={{
-            duration: 2000,
-            style: {
-              background: '#111720',
-              color: '#fff',
-              fontSize: '14px',
-              fontWeight: '500',
-              borderRadius: '0',
-            },
-          }}
-        />
-        {process.env.NEXT_PUBLIC_RENEWAL_FEEDBACK && isKorea && (
-          <RenewalFeedbackPopup
-            version={process.env.NEXT_PUBLIC_RENEWAL_FEEDBACK}
-          />
-        )}
-        {isProd && <Analytics />}
+        <ThemeProvider>
+          {children}
+          <ToasterProvider />
+          {process.env.NEXT_PUBLIC_RENEWAL_FEEDBACK && isKorea && (
+            <RenewalFeedbackPopup
+              version={process.env.NEXT_PUBLIC_RENEWAL_FEEDBACK}
+            />
+          )}
+          {isProd && <Analytics />}
+        </ThemeProvider>
       </body>
       {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />

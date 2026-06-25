@@ -32,7 +32,7 @@ export const chipRowClass = 'relative flex gap-1.5 overflow-hidden';
 export const indicatorClass = (isToday: boolean) =>
   cn(
     'pointer-events-none absolute inset-y-0 transition-transform duration-200 ease-out',
-    isToday ? 'bg-accent' : 'bg-ink'
+    isToday ? 'bg-accent' : 'bg-board'
   );
 
 export const chipBg = (isSelected: boolean): string => {
@@ -50,7 +50,7 @@ export const labelClass = (
   isToday: boolean,
   dow: number
 ): string => {
-  if (isSelected) return isToday ? 'text-ink/55' : 'text-cream-2';
+  if (isSelected) return isToday ? 'text-board/55' : 'text-cream-2';
   if (isToday) return 'text-accent-text';
   return dowColor(dow) ?? 'text-muted';
 };
@@ -60,7 +60,7 @@ export const dateClass = (
   isToday: boolean,
   dow: number
 ): string => {
-  if (isSelected) return isToday ? 'text-ink' : 'text-cream';
+  if (isSelected) return isToday ? 'text-board' : 'text-cream';
   if (isToday) return 'text-accent-text';
   return dowColor(dow) ?? 'text-ink';
 };
