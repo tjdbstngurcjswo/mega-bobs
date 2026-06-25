@@ -1,5 +1,5 @@
 export const sectionClass =
-  'bg-surface flex flex-col shadow-[var(--shadow-card)]';
+  'relative overflow-hidden bg-surface flex flex-col shadow-[var(--shadow-card)]';
 
 export const menuBodyClass =
   'grid grid-cols-1 min-h-[280px] min-[640px]:grid-cols-3 min-[640px]:divide-x min-[640px]:divide-line';

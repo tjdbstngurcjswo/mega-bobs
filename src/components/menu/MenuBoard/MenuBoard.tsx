@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 
 import { MENU_CATEGORIES, MenuCategoryLabel } from '@/constants/menu';
 import { useDateUrl } from '@/hooks/useDateUrl';
+import { useEasterEgg } from '@/hooks/useEasterEgg';
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { usePick } from '@/hooks/usePick';
 import { useVotes } from '@/hooks/useVote';
@@ -19,6 +20,7 @@ import { isAfterClose, isFutureMenuPending } from '@/utils/menuPolicy';
 import MenuBoardCourseRow from './_MenuBoardCourseRow/MenuBoardCourseRow';
 import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
 import MenuBoardEmpty from './_MenuBoardEmpty/MenuBoardEmpty';
+import { EasterEggOverlay } from './EasterEggOverlay';
 import {
   courseTabBarClass,
   courseTabClass,
@@ -30,6 +32,11 @@ import { MenuBoardProps } from './MenuBoard.types';
 
 const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
   useDateUrl();
+  const {
+    step: eggStep,
+    triggered: eggTriggered,
+    handleLabelClick,
+  } = useEasterEgg();
   const { today, selectedDate } = useDateStore();
   const mounted = useHasMounted();
   const [selectedTab, setSelectedTab] = useState(0);
@@ -131,6 +138,8 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
                     onPick: () => submitPick(menu.category),
                     isSubmitting: isSubmittingPick,
                   }}
+                  onHeaderClick={handleLabelClick}
+                  eggStep={eggStep}
                 />
               </div>
             );
@@ -146,6 +155,7 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
           </div>
         )}
       </div>
+      {eggTriggered && <EasterEggOverlay />}
     </section>
   );
 };
