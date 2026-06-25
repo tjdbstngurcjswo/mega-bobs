@@ -41,8 +41,7 @@ export const chipBg = (isSelected: boolean): string => {
 };
 
 const dowColor = (dow: number): string | null => {
-  if (dow === 0) return 'text-rose-400/70';
-  if (dow === 6) return 'text-sky-400/70';
+  if (dow === 0 || dow === 6) return 'text-muted';
   return null;
 };
 
