@@ -26,7 +26,7 @@ const pretendard = localFont({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 const siteDesc = SITE_DESC;
-const isProd = process.env.VERCEL_ENV === 'prod';
+const isProd = process.env.VERCEL_ENV === 'production';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
