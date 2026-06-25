@@ -12,27 +12,26 @@ export const tooltipClass = (isOpen: boolean) =>
       : 'invisible opacity-0 group-hover:visible group-hover:opacity-100'
   );
 
-export const courseRowClass = 'px-5 py-6';
+export const courseRowClass = 'flex h-full flex-col px-5 py-6';
 
 export const courseRowHeaderClass = 'mb-1.5 flex items-end gap-2';
 
 export const courseLabelClass =
   'text-accent-text text-[13px] font-extrabold tracking-wider';
 
-export const kcalClass = 'text-muted text-[11px] font-semibold';
+export const kcalClass =
+  'mt-auto flex justify-between border-t border-dashed border-line pt-3 text-accent-text text-[11px] font-semibold';
 
 export const voteGroupClass =
   'ml-auto flex gap-1 animate-[fadeIn_0.3s_ease_both]';
 
 export const itemsTextClass =
-  'mt-2 flex flex-wrap gap-x-0.5 text-ink text-[14.5px] leading-relaxed font-semibold';
+  'mt-2 flex flex-col gap-y-1 text-ink text-[14.5px] leading-relaxed font-semibold';
 
-export const itemNameClass = 'break-words';
+export const itemNameClass = 'flex items-baseline justify-between gap-2';
 
 export const itemKcalClass =
-  'text-muted ml-0.5 text-[10px] font-semibold not-italic';
-
-export const itemSeparatorClass = 'text-line mx-1.5 select-none';
+  'text-muted shrink-0 text-[10px] font-semibold not-italic';
 
 export const tabularNumsClass = 'tabular-nums';
 

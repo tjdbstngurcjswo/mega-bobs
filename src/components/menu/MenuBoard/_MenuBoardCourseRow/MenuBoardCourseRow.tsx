@@ -14,7 +14,6 @@ import {
   downVoteIconClass,
   itemKcalClass,
   itemNameClass,
-  itemSeparatorClass,
   itemsTextClass,
   kcalClass,
   pickButtonClass,
@@ -77,7 +76,6 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
         >
           {MenuCategoryLabel[menu.category].ko}
         </span>
-        {total > 0 && <span className={kcalClass}>{total} kcal</span>}
         {pick?.show && (
           <button
             type="button"
@@ -162,16 +160,19 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
       <p className={itemsTextClass}>
         {menu.items.map((item, i) => (
           <span key={item.name} className={itemNameClass}>
-            {item.name}
+            <span className="break-words">{item.name}</span>
             {item.kcal > 0 && (
               <i className={itemKcalClass}>{`${item.kcal}kcal`}</i>
-            )}
-            {i < menu.items.length - 1 && (
-              <span className={itemSeparatorClass}>·</span>
             )}
           </span>
         ))}
       </p>
+      {total > 0 && (
+        <p className={kcalClass}>
+          <span>합계</span>
+          <span>{total} kcal</span>
+        </p>
+      )}
     </div>
   );
 };
