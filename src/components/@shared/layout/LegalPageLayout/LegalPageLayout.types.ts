@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export interface TocItem {
+interface TocItem {
   id: string;
   label: string;
 }

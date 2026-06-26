@@ -4,9 +4,6 @@ export const dayBarContainerClass = 'bg-surface flex flex-col';
 
 export const weekLabelClass = 'flex items-center px-2 pt-2 pb-1';
 
-export const shareBtnClass =
-  'flex min-h-11 min-w-11 cursor-pointer items-center justify-center text-muted transition-colors duration-100 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink';
-
 export const weekRangeClass =
   'flex-1 text-center text-[15px] font-bold tabular-nums text-ink';
 
@@ -21,9 +18,6 @@ export const navArrowClass =
 
 export const navTooltipClass =
   'pointer-events-none absolute top-full left-1/2 z-10 mt-1.5 -translate-x-1/2 whitespace-nowrap bg-ink px-2 py-1 text-[10px] font-medium text-cream invisible opacity-0 transition-opacity group-hover:visible group-hover:opacity-100';
-
-export const todayBtnClass =
-  'cursor-pointer bg-accent-soft px-2 py-0.5 text-[10px] font-bold text-accent-text transition-colors hover:bg-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink';
 
 export const chipAreaClass = 'px-4 pb-2.5';
 

@@ -31,7 +31,7 @@ export const subtitleClass = 'px-3 pb-2.5 text-[11px] text-(--color-ink-2)';
 
 export const scoresClass = 'flex gap-1 px-3 pb-2.5';
 
-export const scoreButtonBase =
+const scoreButtonBase =
   'w-7 h-7 flex items-center justify-center text-[12px] font-[700] cursor-pointer transition-colors';
 
 export const scoreButtonIdle = `${scoreButtonBase} bg-(--color-surface-warm) text-(--color-ink-2)`;
