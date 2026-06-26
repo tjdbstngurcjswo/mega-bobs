@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { LegalPageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
+import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import {
   legalSectionBodyClass,
   legalSectionClass,
@@ -9,7 +9,11 @@ import {
   legalSectionTdClass,
   legalSectionThClass,
   legalSectionTitleClass,
-} from '@/components/@shared/layout/LegalPageLayout/LegalPageLayout.styles';
+  tocLinkClass,
+  tocListClass,
+  tocTitleClass,
+  tocWrapClass,
+} from '@/app/legal.styles';
 import { SITE_NAME } from '@/constants/site';
 
 export const metadata: Metadata = {
@@ -31,11 +35,24 @@ const TOC_ITEMS = [
 const PrivacyPage = () => (
   <>
     <SiteHeader />
-    <LegalPageLayout
+    <PageLayout
+      eyebrow="법적 고지"
       title="개인정보처리방침"
-      updatedAt="2026. 6. 8."
-      tocItems={TOC_ITEMS}
+      subtitle="최종 업데이트: 2026. 6. 8."
     >
+      <nav aria-label="목차" className={tocWrapClass}>
+        <p className={tocTitleClass}>목차</p>
+        <ol className={tocListClass}>
+          {TOC_ITEMS.map((item, i) => (
+            <li key={item.id}>
+              <a href={`#${item.id}`} className={tocLinkClass}>
+                {i + 1}. {item.label}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
       <section id="collected-info" className={legalSectionClass}>
         <h2 className={legalSectionTitleClass}>1. 수집하는 정보</h2>
         <p className={legalSectionBodyClass}>
@@ -125,7 +142,7 @@ const PrivacyPage = () => (
           페이지를 통해 연락해 주세요.
         </p>
       </section>
-    </LegalPageLayout>
+    </PageLayout>
     <SiteFooter />
   </>
 );
