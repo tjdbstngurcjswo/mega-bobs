@@ -21,10 +21,7 @@ export const todayBtnClass =
 export const shareBtnClass =
   'flex size-8 cursor-pointer items-center justify-center text-muted transition-colors hover:bg-surface-warm hover:text-ink';
 
-export const dayGridClass = 'grid grid-cols-[44px_repeat(7,1fr)]';
-
-export const weekNumCellClass =
-  'flex items-center justify-center py-3 text-[10px] font-[600] text-muted';
+export const dayGridClass = 'grid grid-cols-7';
 
 export const dayColumnClass = (isSelected: boolean) =>
   cn(
@@ -35,18 +32,34 @@ export const dayColumnClass = (isSelected: boolean) =>
 export const daySelectionBarClass =
   'absolute bottom-0 left-0 right-0 h-0.5 bg-accent';
 
-export const dayLabelClass = (
+export const dayDowClass = (
   isSelected: boolean,
   isToday: boolean,
   dow: number
 ) =>
   cn(
-    'text-[11.5px] tabular-nums leading-none',
+    'text-[10px] font-[600] leading-none',
     isSelected
-      ? 'font-[700] text-ink'
+      ? 'text-ink'
       : isToday
-        ? 'font-[600] text-accent-text'
+        ? 'text-accent-text'
         : dow === 0 || dow === 6
-          ? 'font-[600] text-muted opacity-50'
-          : 'font-[600] text-ink-2'
+          ? 'text-muted opacity-50'
+          : 'text-muted'
+  );
+
+export const dayDateClass = (
+  isSelected: boolean,
+  isToday: boolean,
+  dow: number
+) =>
+  cn(
+    'text-[15px] font-[800] tabular-nums leading-none',
+    isSelected
+      ? 'text-ink'
+      : isToday
+        ? 'text-accent-text'
+        : dow === 0 || dow === 6
+          ? 'text-ink-2 opacity-50'
+          : 'text-ink-2'
   );

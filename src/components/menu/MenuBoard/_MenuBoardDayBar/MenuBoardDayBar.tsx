@@ -11,8 +11,9 @@ import { DOW } from './MenuBoardDayBar.constants';
 import {
   dayBarContainerClass,
   dayColumnClass,
+  dayDateClass,
+  dayDowClass,
   dayGridClass,
-  dayLabelClass,
   daySelectionBarClass,
   monthLabelClass,
   navGroupClass,
@@ -20,7 +21,6 @@ import {
   shareBtnClass,
   todayBtnClass,
   topBarClass,
-  weekNumCellClass,
 } from './MenuBoardDayBar.styles';
 import { MenuBoardDayBarProps } from './MenuBoardDayBar.types';
 
@@ -98,9 +98,6 @@ const MenuBoardDayBar = ({ onShare }: MenuBoardDayBarProps) => {
       </div>
 
       <div className={dayGridClass}>
-        <div suppressHydrationWarning className={weekNumCellClass}>
-          {mounted ? `${currentWeek[0].format('w')}주` : ''}
-        </div>
         {currentWeek.map((day) => {
           const isSelected = mounted && day.isSame(selectedDate, 'day');
           const isToday = mounted && day.isSame(today, 'day');
@@ -121,9 +118,15 @@ const MenuBoardDayBar = ({ onShare }: MenuBoardDayBarProps) => {
               {isSelected && <span className={daySelectionBarClass} />}
               <span
                 suppressHydrationWarning
-                className={dayLabelClass(isSelected, isToday, dow)}
+                className={dayDowClass(isSelected, isToday, dow)}
               >
-                {day.date()}일 ({isToday ? '오늘' : DOW[dow]})
+                {isToday ? '오늘' : DOW[dow]}
+              </span>
+              <span
+                suppressHydrationWarning
+                className={dayDateClass(isSelected, isToday, dow)}
+              >
+                {day.date()}
               </span>
             </button>
           );
