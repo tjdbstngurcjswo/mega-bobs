@@ -137,7 +137,7 @@ const MenuBoardDayBar = () => {
               </span>
               <span
                 suppressHydrationWarning
-                className={dayDateClass(isSelected, isToday, dow)}
+                className={dayDateClass(isSelected, isToday)}
               >
                 {day.date()}
               </span>

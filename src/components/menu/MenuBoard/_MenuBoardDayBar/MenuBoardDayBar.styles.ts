@@ -52,11 +52,7 @@ export const dayDowClass = (
           : 'text-ink-2'
   );
 
-export const dayDateClass = (
-  isSelected: boolean,
-  isToday: boolean,
-  _dow: number
-) =>
+export const dayDateClass = (isSelected: boolean, isToday: boolean) =>
   cn(
     'text-[11px] font-[500] tabular-nums leading-none',
     isSelected ? 'text-ink-2' : isToday ? 'text-accent-text' : 'text-muted'
