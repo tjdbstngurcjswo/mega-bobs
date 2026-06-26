@@ -2,7 +2,7 @@
 
 import { sendGAEvent } from '@next/third-parties/google';
 import { Share2 } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { MENU_CATEGORIES, MenuCategoryLabel } from '@/constants/menu';
@@ -32,8 +32,8 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
   useDateUrl();
   const { today, selectedDate } = useDateStore();
   const mounted = useHasMounted();
-  const [selectedTab, setSelectedTab] = useState(0);
   const dateStr = formatYYYYMMDD(selectedDate);
+  const [tabState, setTabState] = useState({ dateStr, tab: 0 });
   const hasMenus = useMemo(
     () => menus.some((m) => m.date === dateStr && m.items.length > 0),
     [menus, dateStr]
@@ -64,8 +64,10 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
   }, [menus, selectedDate]);
 
   const safeTab =
-    dayMenus.length > 0 ? Math.min(selectedTab, dayMenus.length - 1) : 0;
-  useEffect(() => setSelectedTab(0), [dateStr]);
+    tabState.dateStr === dateStr
+      ? Math.min(tabState.tab, Math.max(0, dayMenus.length - 1))
+      : 0;
+  const setSelectedTab = (tab: number) => setTabState({ dateStr, tab });
 
   const emptyVariant = isFutureMenuPending(selectedDate, now)
     ? 'comingUp'
