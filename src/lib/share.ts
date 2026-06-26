@@ -11,11 +11,12 @@ export const shareMenuUrl = async (dateStr: string): Promise<ShareResult> => {
       return 'shared';
     } catch (e) {
       if (e instanceof Error && e.name === 'AbortError') return 'cancelled';
+      return 'error';
     }
   }
 
   try {
-  await navigator.clipboard.writeText(url);
+    await navigator.clipboard.writeText(url);
     return 'copied';
   } catch {
     return 'error';
