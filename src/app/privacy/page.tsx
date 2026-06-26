@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 
-import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import {
   legalSectionBodyClass,
   legalSectionClass,
@@ -14,6 +13,7 @@ import {
   tocTitleClass,
   tocWrapClass,
 } from '@/app/legal.styles';
+import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { SITE_NAME } from '@/constants/site';
 
 export const metadata: Metadata = {

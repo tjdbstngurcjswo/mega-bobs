@@ -55,7 +55,7 @@ export const dayDowClass = (
 export const dayDateClass = (
   isSelected: boolean,
   isToday: boolean,
-  dow: number
+  _dow: number
 ) =>
   cn(
     'text-[11px] font-[500] tabular-nums leading-none',

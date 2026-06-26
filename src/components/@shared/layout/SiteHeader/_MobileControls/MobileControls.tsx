@@ -3,11 +3,11 @@ import type { Dispatch, SetStateAction } from 'react';
 
 import ThemeToggle from '@/components/@shared/ui/ThemeToggle';
 
+import NoticeBell from '../_NoticeBell/NoticeBell';
 import {
   mobileBellLinkClass,
   mobileMenuButtonClass,
 } from '../SiteHeader.styles';
-import NoticeBell from '../_NoticeBell/NoticeBell';
 
 const MobileControls = ({
   menuOpen,

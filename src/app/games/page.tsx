@@ -1,6 +1,6 @@
+import { Gamepad2 } from 'lucide-react';
 import type { Metadata } from 'next';
 
-import { Gamepad2 } from 'lucide-react';
 
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { GameCard } from '@/components/games';

@@ -14,15 +14,15 @@ import {
   NOTICE_READ_EVENT,
 } from '@/utils/noticePolicy';
 
+import DesktopNav from './_DesktopNav/DesktopNav';
+import MobileControls from './_MobileControls/MobileControls';
+import MobileOverlay from './_MobileOverlay/MobileOverlay';
+import NoticeBell from './_NoticeBell/NoticeBell';
 import {
   desktopBellLinkClass,
   headerClass,
   logoLinkClass,
 } from './SiteHeader.styles';
-import DesktopNav from './_DesktopNav/DesktopNav';
-import MobileControls from './_MobileControls/MobileControls';
-import MobileOverlay from './_MobileOverlay/MobileOverlay';
-import NoticeBell from './_NoticeBell/NoticeBell';
 
 const SiteHeader = () => {
   const pathname = usePathname();
