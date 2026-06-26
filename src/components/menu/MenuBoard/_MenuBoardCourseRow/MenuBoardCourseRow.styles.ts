@@ -2,7 +2,7 @@ import { VoteType } from '@/models/vote';
 import { cn } from '@/utils/cn';
 
 const TOOLTIP_BASE =
-  'pointer-events-none absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap bg-ink px-2 py-1 text-[10px] font-medium text-cream transition-opacity before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink before:content-[""]';
+  'pointer-events-none absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap bg-ink dark:bg-board px-2 py-1 text-[10px] font-medium text-cream transition-opacity before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-b-ink dark:before:border-b-board before:content-[""]';
 
 export const tooltipClass = (isOpen: boolean) =>
   cn(
@@ -37,7 +37,7 @@ export const tabularNumsClass = 'tabular-nums';
 
 export const pickButtonClass = (isPicked: boolean, hasAnyPick: boolean) =>
   cn(
-    'group ml-auto flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium leading-none transition-colors animate-[fadeIn_0.3s_ease_both]',
+    'group ml-auto flex cursor-pointer items-center gap-1 px-2 py-0.5 text-[10px] font-medium leading-none transition-colors animate-[fadeIn_0.3s_ease_both]',
     isPicked
       ? 'bg-accent-soft text-accent-text'
       : hasAnyPick

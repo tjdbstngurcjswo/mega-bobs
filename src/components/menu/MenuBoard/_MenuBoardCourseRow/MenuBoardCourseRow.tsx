@@ -154,7 +154,7 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
               onTouchMove={cancelLongPress}
               disabled={vote.isSubmitting}
               aria-pressed={myVote === 'down'}
-              aria-label="별로예요"
+              aria-label="아쉬웠어요"
               className={downVoteButtonClass(myVote)}
             >
               <span className={downVoteIconClass(animating)}>
@@ -164,7 +164,7 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
                 {vote.result?.down_count ?? 0}
               </span>
               <span className={tooltipClass(longPressTarget === 'down')}>
-                별로였어요
+                아쉬웠어요
               </span>
             </button>
           </div>
