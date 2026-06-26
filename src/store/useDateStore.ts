@@ -17,10 +17,14 @@ interface DateStore {
   refreshToday: () => void;
 }
 
+const computeDateWindow = (t: dayjs.Dayjs) => ({
+  minDate: getWeekDays(t.subtract(1, 'week'))[0],
+  maxDate: getWeekDays(t.add(1, 'week'))[6],
+});
+
 export const useDateStore = create<DateStore>((set, get) => {
   const today = dayjs().tz();
-  const minDate = getWeekDays(today.subtract(1, 'week'))[0];
-  const maxDate = getWeekDays(today.add(1, 'week'))[6];
+  const { minDate, maxDate } = computeDateWindow(today);
 
   return {
     today,
@@ -62,8 +66,7 @@ export const useDateStore = create<DateStore>((set, get) => {
       const freshToday = dayjs().tz();
       set({
         today: freshToday,
-        minDate: getWeekDays(freshToday.subtract(1, 'week'))[0],
-        maxDate: getWeekDays(freshToday.add(1, 'week'))[6],
+        ...computeDateWindow(freshToday),
         selectedDate: freshToday,
         currentWeek: getWeekDays(freshToday),
       });
@@ -74,8 +77,9 @@ export const useDateStore = create<DateStore>((set, get) => {
       if (freshToday.isSame(get().today, 'day')) return;
       set({
         today: freshToday,
-        minDate: getWeekDays(freshToday.subtract(1, 'week'))[0],
-        maxDate: getWeekDays(freshToday.add(1, 'week'))[6],
+        ...computeDateWindow(freshToday),
+        selectedDate: freshToday,
+        currentWeek: getWeekDays(freshToday),
       });
     },
   };
