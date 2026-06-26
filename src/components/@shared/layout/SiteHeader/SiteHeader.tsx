@@ -65,16 +65,16 @@ const SiteHeader = () => {
 
           <DesktopNav pathname={pathname} prefetch={router.prefetch} />
 
-          <div className="max-[640px]:hidden">
-            <ThemeToggle />
-          </div>
-
           {/* 데스크톱 벨 */}
           <NoticeBell
             showNoticeDot={showNoticeDot}
             className={desktopBellLinkClass}
             prefetch={router.prefetch}
           />
+
+          <div className="max-[640px]:hidden">
+            <ThemeToggle />
+          </div>
 
           {/* 모바일 우측 */}
           <MobileControls

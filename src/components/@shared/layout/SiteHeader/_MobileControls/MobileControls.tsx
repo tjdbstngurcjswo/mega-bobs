@@ -21,12 +21,12 @@ const MobileControls = ({
   prefetch: (href: string) => void;
 }) => (
   <div className="ml-auto flex items-center gap-1 min-[641px]:hidden">
+    <ThemeToggle />
     <NoticeBell
       showNoticeDot={showNoticeDot}
       className={mobileBellLinkClass}
       prefetch={prefetch}
     />
-    <ThemeToggle />
     <button
       type="button"
       aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
