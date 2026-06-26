@@ -28,7 +28,7 @@ export const voteGroupClass =
 export const itemsTextClass =
   'mt-2 flex flex-1 flex-col gap-y-1 text-ink text-[14.5px] leading-relaxed font-semibold';
 
-export const itemNameClass = 'flex items-baseline justify-between gap-2';
+export const itemNameClass = 'flex items-center justify-between gap-2';
 
 export const itemKcalClass =
   'text-muted shrink-0 text-[10px] font-semibold not-italic';
