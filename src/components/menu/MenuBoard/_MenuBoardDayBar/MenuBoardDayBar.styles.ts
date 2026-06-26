@@ -33,11 +33,8 @@ export const dayColumnClass = (isSelected: boolean) =>
       : 'bg-bg/50 hover:bg-surface-warm'
   );
 
-export const daySelectionBarClass = (isSelected: boolean) =>
-  cn(
-    'absolute bottom-0 left-0 right-0',
-    isSelected ? 'h-0.5 bg-accent' : 'h-px bg-line/40'
-  );
+export const daySelectionBarClass =
+  'absolute bottom-0 left-0 right-0 h-0.5 bg-accent';
 
 export const dayDowClass = (
   isSelected: boolean,
