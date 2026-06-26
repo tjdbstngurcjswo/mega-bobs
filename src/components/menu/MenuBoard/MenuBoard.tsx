@@ -2,7 +2,6 @@
 
 import { sendGAEvent } from '@next/third-parties/google';
 import { useMemo, useState } from 'react';
-import toast from 'react-hot-toast';
 
 import { MENU_CATEGORIES, MenuCategoryLabel } from '@/constants/menu';
 import { useDateUrl } from '@/hooks/useDateUrl';
@@ -10,7 +9,6 @@ import { useHasMounted } from '@/hooks/useHasMounted';
 import { usePick } from '@/hooks/usePick';
 import { useVotes } from '@/hooks/useVote';
 import dayjs from '@/lib/dayjs';
-import { shareMenuUrl } from '@/lib/share';
 import { useDateStore } from '@/store/useDateStore';
 import { formatYYYYMMDD } from '@/utils/date';
 import { isAfterClose, isFutureMenuPending } from '@/utils/menuPolicy';
@@ -71,16 +69,9 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
     ? 'comingUp'
     : 'closed';
 
-  const handleShare = async () => {
-    sendGAEvent('event', 'share_menu', { date: dateStr });
-    const result = await shareMenuUrl(dateStr);
-    if (result === 'copied') toast.success('링크 복사됨');
-    if (result === 'error') toast.error('링크 복사 실패');
-  };
-
   return (
     <section className={sectionClass}>
-      <MenuBoardDayBar onShare={handleShare} />
+      <MenuBoardDayBar />
       {dayMenus.length > 1 && (
         <div className={courseTabBarClass}>
           {dayMenus.map((menu, i) => (

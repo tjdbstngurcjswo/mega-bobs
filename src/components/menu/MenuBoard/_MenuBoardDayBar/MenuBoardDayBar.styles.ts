@@ -17,9 +17,6 @@ export const navIconBtnClass = (enabled: boolean) =>
 export const todayBtnClass =
   'flex h-8 cursor-pointer items-center px-3 text-[11px] font-[700] text-muted transition-colors hover:bg-surface-warm hover:text-ink';
 
-export const shareBtnClass =
-  'flex size-8 cursor-pointer items-center justify-center text-muted transition-colors hover:bg-surface-warm hover:text-ink';
-
 export const dayGridClass = 'grid grid-cols-7 px-2';
 
 export const dayColumnClass = (isSelected: boolean) =>

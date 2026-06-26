@@ -1,7 +1,7 @@
 'use client';
 
 import { sendGAEvent } from '@next/third-parties/google';
-import { ChevronLeft, ChevronRight, Share2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect } from 'react';
 
 import { useHasMounted } from '@/hooks/useHasMounted';
@@ -18,13 +18,11 @@ import {
   monthLabelClass,
   navGroupClass,
   navIconBtnClass,
-  shareBtnClass,
   todayBtnClass,
   topBarClass,
 } from './MenuBoardDayBar.styles';
-import { MenuBoardDayBarProps } from './MenuBoardDayBar.types';
 
-const MenuBoardDayBar = ({ onShare }: MenuBoardDayBarProps) => {
+const MenuBoardDayBar = () => {
   const {
     today,
     selectedDate,
@@ -84,16 +82,6 @@ const MenuBoardDayBar = ({ onShare }: MenuBoardDayBarProps) => {
           >
             <ChevronRight size={16} strokeWidth={2} aria-hidden />
           </button>
-          {onShare && (
-            <button
-              type="button"
-              onClick={onShare}
-              aria-label="메뉴 링크 공유"
-              className={shareBtnClass}
-            >
-              <Share2 size={14} strokeWidth={2} aria-hidden />
-            </button>
-          )}
         </div>
       </div>
 
