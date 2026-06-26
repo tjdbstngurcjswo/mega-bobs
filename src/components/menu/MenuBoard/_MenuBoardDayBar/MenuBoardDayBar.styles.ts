@@ -20,7 +20,7 @@ export const todayBtnClass =
 export const shareBtnClass =
   'flex size-8 cursor-pointer items-center justify-center text-muted transition-colors hover:bg-surface-warm hover:text-ink';
 
-export const dayGridClass = 'grid grid-cols-7';
+export const dayGridClass = 'grid grid-cols-7 px-2';
 
 export const dayColumnClass = (isSelected: boolean) =>
   cn(
