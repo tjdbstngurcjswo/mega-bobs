@@ -1,3 +1,4 @@
+import type { EggStep } from '@/hooks/useEasterEgg';
 import { VoteType } from '@/models/vote';
 import { cn } from '@/utils/cn';
 
@@ -18,6 +19,12 @@ export const courseRowHeaderClass = 'mb-1.5 flex items-end gap-2';
 
 export const courseLabelClass =
   'text-accent-text text-[13px] font-extrabold tracking-wider';
+
+export const eggLabelClass = (step: EggStep): string =>
+  cn(
+    step === 2 && 'text-accent-text animate-[wiggle_0.4s_ease_both]',
+    step === 1 && 'animate-[wiggleSm_0.35s_ease_both]'
+  );
 
 export const kcalClass =
   'mt-3 flex justify-between border-t border-dashed border-line pt-3 text-accent-text text-[11px] font-semibold';

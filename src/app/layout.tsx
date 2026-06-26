@@ -6,6 +6,7 @@ import { headers } from 'next/headers';
 
 import './globals.css';
 
+import ConsoleArt from '@/components/@shared/ConsoleArt';
 import ThemeProvider from '@/components/@shared/providers/ThemeProvider';
 import ToasterProvider from '@/components/@shared/providers/ToasterProvider';
 import RenewalFeedbackPopup from '@/components/feedback/RenewalFeedbackPopup/RenewalFeedbackPopup';
@@ -107,6 +108,7 @@ export default async function RootLayout({
       </head>
       <body className={bodyClass}>
         <ThemeProvider>
+          <ConsoleArt />
           {children}
           <ToasterProvider />
           {process.env.NEXT_PUBLIC_RENEWAL_FEEDBACK && isKorea && (

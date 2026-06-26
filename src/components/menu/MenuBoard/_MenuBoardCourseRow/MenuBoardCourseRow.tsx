@@ -4,6 +4,7 @@ import { ThumbsDown, ThumbsUp, Users } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import { MenuCategoryLabel } from '@/constants/menu';
+import { cn } from '@/utils/cn';
 
 import {
   tooltipClass,
@@ -12,6 +13,7 @@ import {
   courseLabelClass,
   downVoteButtonClass,
   downVoteIconClass,
+  eggLabelClass,
   itemKcalClass,
   itemNameClass,
   itemsTextClass,
@@ -25,7 +27,13 @@ import {
 } from './MenuBoardCourseRow.styles';
 import { MenuBoardCourseRowProps } from './MenuBoardCourseRow.types';
 
-const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
+const MenuBoardCourseRow = ({
+  menu,
+  vote,
+  pick,
+  onHeaderClick,
+  eggStep = 0,
+}: MenuBoardCourseRowProps) => {
   const [animating, setAnimating] = useState<'up' | 'down' | null>(null);
   const [longPressTarget, setLongPressTarget] = useState<'up' | 'down' | null>(
     null
@@ -68,12 +76,20 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
     <div className={courseRowClass}>
       <div className={courseRowHeaderClass}>
         <span
-          className={courseLabelClass}
+          className={cn(courseLabelClass, eggLabelClass(eggStep))}
           style={{
             background:
               'linear-gradient(transparent 40%, var(--color-highlight) 40%)',
             paddingInline: '2px',
           }}
+          onClick={onHeaderClick}
+          role={onHeaderClick ? 'button' : undefined}
+          tabIndex={onHeaderClick ? 0 : undefined}
+          onKeyDown={
+            onHeaderClick
+              ? (e) => e.key === 'Enter' && onHeaderClick()
+              : undefined
+          }
         >
           {MenuCategoryLabel[menu.category].ko}
         </span>

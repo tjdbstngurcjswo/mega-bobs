@@ -45,6 +45,33 @@
   }
 }
 
+@keyframes wiggleSm {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes fallFade {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(180px) scale(0.75) rotate(15deg);
+    opacity: 0;
+  }
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;
