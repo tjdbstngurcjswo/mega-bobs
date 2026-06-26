@@ -24,7 +24,7 @@ export const dayGridClass = 'grid grid-cols-7';
 
 export const dayColumnClass = (isSelected: boolean) =>
   cn(
-    'relative flex min-h-[44px] cursor-pointer flex-col items-center justify-center py-2.5 transition-colors hover:bg-surface-warm',
+    'relative flex min-h-[44px] cursor-pointer flex-col items-center justify-center gap-1 py-2.5 transition-colors hover:bg-surface-warm',
     isSelected && 'bg-surface-warm'
   );
 
