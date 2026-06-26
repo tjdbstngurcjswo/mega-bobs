@@ -1,23 +1,23 @@
 export const backdropClass = 'fixed inset-0 z-40 bg-black/30';
 
-// 좌측 엣지, 하단 8% 위치
+// 우측 엣지, 하단 8% 위치
 export const containerClass =
-  'fixed left-0 bottom-[8%] z-50 flex flex-row-reverse items-end gap-2';
+  'fixed right-0 bottom-[8%] z-50 flex items-end gap-2';
 
 // 세로 탭 버튼 — 검정
 export const fabClass =
-  'flex items-center justify-center bg-(--color-ink) px-1.5 py-2 sm:px-2 sm:py-3 cursor-pointer hover:bg-(--color-board-2) transition-colors shadow-[3px_0_12px_rgba(0,0,0,0.16)]';
+  'flex items-center justify-center bg-(--color-ink) px-1.5 py-2 sm:px-2 sm:py-3 cursor-pointer hover:bg-(--color-board-2) transition-colors shadow-[-3px_0_12px_rgba(0,0,0,0.16)]';
 
 export const fabTextClass =
   'text-[9px] sm:text-[11px] font-[800] text-white tracking-[0.08em] select-none';
 
 // 팝업 — FAB 버튼에서 펼쳐지는 애니메이션
 export const popupClass =
-  'relative w-[210px] bg-(--color-surface) shadow-[8px_0_32px_rgba(0,0,0,0.22)] outline outline-1 outline-(--color-line) animate-popup-from-fab';
+  'relative w-[210px] bg-(--color-surface) shadow-[-8px_0_32px_rgba(0,0,0,0.22)] outline outline-1 outline-(--color-line) animate-popup-from-fab';
 
-// 말풍선 꼬리 — 왼쪽 방향 삼각형
+// 말풍선 꼬리 — 오른쪽 방향 삼각형
 export const tailClass =
-  'absolute -left-[7px] bottom-10 w-3 h-3 rotate-45 bg-(--color-surface) border-l border-b border-(--color-line)';
+  'absolute -right-[7px] bottom-10 w-3 h-3 rotate-45 bg-(--color-surface) border-r border-t border-(--color-line)';
 
 export const headerClass = 'flex items-center justify-between px-3 pt-3 pb-1';
 

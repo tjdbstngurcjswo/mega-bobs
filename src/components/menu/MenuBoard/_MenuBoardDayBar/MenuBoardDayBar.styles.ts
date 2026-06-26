@@ -2,7 +2,12 @@ import { cn } from '@/utils/cn';
 
 export const dayBarContainerClass = 'bg-surface flex flex-col';
 
-export const weekLabelClass = 'flex items-center px-2 pt-2 pb-1';
+export const weekLabelClass = 'flex items-center gap-1 px-2 pt-2 pb-1';
+
+export const weekNavGroupClass = 'flex flex-1 items-center';
+
+export const shareBtnClass =
+  'flex cursor-pointer items-center justify-center p-1.5 text-muted transition-colors hover:text-ink';
 
 export const weekRangeClass =
   'flex-1 text-center text-[15px] font-bold tabular-nums text-ink';

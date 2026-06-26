@@ -1,7 +1,6 @@
 'use client';
 
 import { sendGAEvent } from '@next/third-parties/google';
-import { Share2 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -23,7 +22,6 @@ import {
   courseTabBarClass,
   courseTabClass,
   menuBodyClass,
-  menuShareBtnClass,
   sectionClass,
 } from './MenuBoard.styles';
 import { MenuBoardProps } from './MenuBoard.types';
@@ -82,15 +80,7 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
 
   return (
     <section className={sectionClass}>
-      <button
-        type="button"
-        onClick={handleShare}
-        aria-label="메뉴 링크 공유"
-        className={menuShareBtnClass}
-      >
-        <Share2 size={15} strokeWidth={2} aria-hidden />
-      </button>
-      <MenuBoardDayBar />
+      <MenuBoardDayBar onShare={handleShare} />
       {dayMenus.length > 1 && (
         <div className={courseTabBarClass}>
           {dayMenus.map((menu, i) => (

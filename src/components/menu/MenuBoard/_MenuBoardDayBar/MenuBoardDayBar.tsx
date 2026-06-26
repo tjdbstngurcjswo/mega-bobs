@@ -1,6 +1,7 @@
 'use client';
 
 import { sendGAEvent } from '@next/third-parties/google';
+import { Share2 } from 'lucide-react';
 import { useEffect } from 'react';
 
 import { useHasMounted } from '@/hooks/useHasMounted';
@@ -14,12 +15,15 @@ import {
   navArrowClass,
   navButtonClass,
   navTooltipClass,
+  shareBtnClass,
   weekLabelClass,
+  weekNavGroupClass,
   weekRangeClass,
 } from './MenuBoardDayBar.styles';
+import { MenuBoardDayBarProps } from './MenuBoardDayBar.types';
 import MenuBoardDayChip from './MenuBoardDayChip';
 
-const MenuBoardDayBar = () => {
+const MenuBoardDayBar = ({ onShare }: MenuBoardDayBarProps) => {
   const {
     today,
     selectedDate,
@@ -56,33 +60,45 @@ const MenuBoardDayBar = () => {
   return (
     <div className={dayBarContainerClass}>
       <div className={weekLabelClass}>
-        <button
-          type="button"
-          onClick={() => {
-            sendGAEvent('event', 'week_navigate', { direction: 'prev' });
-            goToPrevWeek();
-          }}
-          aria-label="지난주 메뉴 보기"
-          className={navButtonClass(canGoPrev)}
-        >
-          <span className={navArrowClass}>‹</span>
-          <span className={navTooltipClass}>{prevLabel}</span>
-        </button>
-        <span suppressHydrationWarning className={weekRangeClass}>
-          {weekLabel}
-        </span>
-        <button
-          type="button"
-          onClick={() => {
-            sendGAEvent('event', 'week_navigate', { direction: 'next' });
-            goToNextWeek();
-          }}
-          aria-label="다음 주 메뉴 보기"
-          className={navButtonClass(canGoNext)}
-        >
-          <span className={navArrowClass}>›</span>
-          <span className={navTooltipClass}>{nextLabel}</span>
-        </button>
+        <div className={weekNavGroupClass}>
+          <button
+            type="button"
+            onClick={() => {
+              sendGAEvent('event', 'week_navigate', { direction: 'prev' });
+              goToPrevWeek();
+            }}
+            aria-label="지난주 메뉴 보기"
+            className={navButtonClass(canGoPrev)}
+          >
+            <span className={navArrowClass}>‹</span>
+            <span className={navTooltipClass}>{prevLabel}</span>
+          </button>
+          <span suppressHydrationWarning className={weekRangeClass}>
+            {weekLabel}
+          </span>
+          <button
+            type="button"
+            onClick={() => {
+              sendGAEvent('event', 'week_navigate', { direction: 'next' });
+              goToNextWeek();
+            }}
+            aria-label="다음 주 메뉴 보기"
+            className={navButtonClass(canGoNext)}
+          >
+            <span className={navArrowClass}>›</span>
+            <span className={navTooltipClass}>{nextLabel}</span>
+          </button>
+        </div>
+        {onShare && (
+          <button
+            type="button"
+            onClick={onShare}
+            aria-label="메뉴 링크 공유"
+            className={shareBtnClass}
+          >
+            <Share2 size={14} strokeWidth={2} aria-hidden />
+          </button>
+        )}
       </div>
       <div className={chipAreaClass}>
         <div
