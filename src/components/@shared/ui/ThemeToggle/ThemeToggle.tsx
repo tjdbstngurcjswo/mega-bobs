@@ -9,7 +9,7 @@ const ThemeToggle = () => {
   const { resolvedTheme, setTheme } = useTheme();
   const mounted = useHasMounted();
 
-  if (!mounted || !resolvedTheme) return <div className="size-9" />;
+  if (!mounted) return <div className="size-9" />;
 
   const isDark = resolvedTheme === 'dark';
 
