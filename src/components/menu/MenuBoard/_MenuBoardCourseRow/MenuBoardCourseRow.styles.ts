@@ -37,16 +37,19 @@ export const tabularNumsClass = 'tabular-nums';
 
 export const pickButtonClass = (isPicked: boolean, hasAnyPick: boolean) =>
   cn(
-    'ml-auto flex items-center gap-1 border px-2 py-0.5 text-[10px] font-medium leading-none transition-colors animate-[fadeIn_0.3s_ease_both]',
+    'group ml-auto flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium leading-none transition-colors animate-[fadeIn_0.3s_ease_both]',
     isPicked
-      ? 'border-accent bg-accent-soft text-accent-text'
+      ? 'bg-accent-soft text-accent-text'
       : hasAnyPick
-        ? 'border-line text-muted opacity-60 hover:border-accent/50 hover:text-ink hover:opacity-100'
-        : 'border-line text-muted hover:border-accent/50 hover:text-ink'
+        ? 'text-muted opacity-60 hover:text-ink hover:opacity-100'
+        : 'text-muted hover:text-ink'
   );
 
 export const pickCountClass = (hasCount: boolean) =>
   hasCount ? 'font-bold text-accent-text' : '';
+
+export const pickHeartClass =
+  'inline-flex transition-transform duration-150 group-hover:scale-125';
 
 export const upVoteButtonClass = (myVote: VoteType | null) =>
   cn(

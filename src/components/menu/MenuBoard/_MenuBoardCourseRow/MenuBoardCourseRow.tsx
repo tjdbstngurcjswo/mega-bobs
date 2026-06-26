@@ -1,6 +1,6 @@
 'use client';
 
-import { Check, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { Check, Heart, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import { MenuCategoryLabel } from '@/constants/menu';
@@ -18,6 +18,7 @@ import {
   kcalClass,
   pickButtonClass,
   pickCountClass,
+  pickHeartClass,
   tabularNumsClass,
   upVoteButtonClass,
   upVoteIconClass,
@@ -89,11 +90,19 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
               pick.hasAnyPick ?? false
             )}
           >
-            <Check size={10} strokeWidth={2.5} />
-            <span className={pickCountClass((pick.count ?? 0) >= 1)}>
-              {pick.count ?? 0}
-            </span>
-            명
+            {pick.hasAnyPick ? (
+              <>
+                <Check size={10} strokeWidth={2.5} />
+                <span className={pickCountClass((pick.count ?? 0) >= 1)}>
+                  {pick.count ?? 0}
+                </span>
+                명
+              </>
+            ) : (
+              <span className={pickHeartClass}>
+                <Heart size={10} strokeWidth={2.5} />
+              </span>
+            )}
           </button>
         )}
         {vote?.show && (
