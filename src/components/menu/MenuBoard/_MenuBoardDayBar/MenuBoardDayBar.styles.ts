@@ -21,7 +21,7 @@ export const navIconBtnClass = (enabled: boolean) =>
   );
 
 export const todayBtnClass =
-  'flex h-11 cursor-pointer items-center px-3 text-[11px] font-[700] text-muted transition-colors hover:bg-surface hover:text-ink';
+  'relative cursor-pointer px-3 py-1 text-[11px] font-[700] text-muted transition-colors hover:bg-surface hover:text-ink after:absolute after:content-[""] after:-inset-x-1.5 after:-inset-y-3';
 
 export const dayGridClass = 'grid grid-cols-7';
 
