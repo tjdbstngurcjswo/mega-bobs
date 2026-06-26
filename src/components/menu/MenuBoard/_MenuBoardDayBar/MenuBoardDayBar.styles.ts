@@ -4,8 +4,7 @@ export const dayBarContainerClass = 'bg-surface flex flex-col';
 
 export const topBarClass = 'flex items-center justify-between px-4 pt-3 pb-2.5';
 
-export const monthLabelClass =
-  'text-[22px] font-[800] text-ink tracking-[-0.02em] leading-none';
+export const monthLabelClass = 'text-[13px] font-[600] text-muted leading-none';
 
 export const navGroupClass = 'flex items-center gap-0.5';
 
