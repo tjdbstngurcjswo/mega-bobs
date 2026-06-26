@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @theme {
   /* 디자인 시스템 — DESIGN.md / 쿨 팔레트: near-black + clean white + cool blue-tint */
   --color-bg: #f3f6fb; /* 페이지 배경 — cool blue-tint */
@@ -99,6 +101,25 @@
   }
   50% {
     opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes softPulse {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 1;
+    }
   }
 }
 

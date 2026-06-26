@@ -82,7 +82,7 @@
   - `fadeIn` — opacity만. 0.3s ease.
   - `softPulse` — opacity 1↔0.55 반복 (2.4s). HeroStatus 운영 중 `Utensils` 아이콘.
 - **스태거 패턴:** `index * 70ms` delay — 목록 항목이 순차 등장하는 효과.
-- `prefers-reduced-motion` 대응 필요 (미구현 — 향후 추가).
+- `prefers-reduced-motion: reduce` 시 `fadeUp` translateY 제거, `softPulse` 정지 (`globals.css`).
 
 ## Iconography
 

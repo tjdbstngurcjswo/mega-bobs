@@ -36,9 +36,6 @@ export const POST = async (req: NextRequest) => {
     reason: reason?.trim() || null,
     page: page ?? null,
     ip: geo.ip,
-    country: geo.country,
-    region: geo.region,
-    city: geo.city,
   });
 
   if (error) {

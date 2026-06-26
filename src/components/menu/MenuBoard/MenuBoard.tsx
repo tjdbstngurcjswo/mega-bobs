@@ -1,9 +1,8 @@
 'use client';
 
-import { sendGAEvent } from '@next/third-parties/google';
-import { Share2 } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
-import toast from 'react-hot-toast';
+import { useMemo, useState } from 'react';
+
+import { cn } from '@/utils/cn';
 
 import { MENU_CATEGORIES, MenuCategoryLabel } from '@/constants/menu';
 import { useDateUrl } from '@/hooks/useDateUrl';
@@ -12,7 +11,6 @@ import { useHasMounted } from '@/hooks/useHasMounted';
 import { usePick } from '@/hooks/usePick';
 import { useVotes } from '@/hooks/useVote';
 import dayjs from '@/lib/dayjs';
-import { shareMenuUrl } from '@/lib/share';
 import { useDateStore } from '@/store/useDateStore';
 import { formatYYYYMMDD } from '@/utils/date';
 import { isAfterClose, isFutureMenuPending } from '@/utils/menuPolicy';
@@ -22,10 +20,10 @@ import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
 import MenuBoardEmpty from './_MenuBoardEmpty/MenuBoardEmpty';
 import { EasterEggOverlay } from './EasterEggOverlay';
 import {
+  courseColumnClass,
   courseTabBarClass,
   courseTabClass,
   menuBodyClass,
-  menuShareBtnClass,
   sectionClass,
 } from './MenuBoard.styles';
 import { MenuBoardProps } from './MenuBoard.types';
@@ -39,8 +37,8 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
   } = useEasterEgg();
   const { today, selectedDate } = useDateStore();
   const mounted = useHasMounted();
-  const [selectedTab, setSelectedTab] = useState(0);
   const dateStr = formatYYYYMMDD(selectedDate);
+  const [tabState, setTabState] = useState({ dateStr, tab: 0 });
   const hasMenus = useMemo(
     () => menus.some((m) => m.date === dateStr && m.items.length > 0),
     [menus, dateStr]
@@ -71,30 +69,17 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
   }, [menus, selectedDate]);
 
   const safeTab =
-    dayMenus.length > 0 ? Math.min(selectedTab, dayMenus.length - 1) : 0;
-  useEffect(() => setSelectedTab(0), [dateStr]);
+    tabState.dateStr === dateStr
+      ? Math.min(tabState.tab, Math.max(0, dayMenus.length - 1))
+      : 0;
+  const setSelectedTab = (tab: number) => setTabState({ dateStr, tab });
 
   const emptyVariant = isFutureMenuPending(selectedDate, now)
     ? 'comingUp'
     : 'closed';
 
-  const handleShare = async () => {
-    sendGAEvent('event', 'share_menu', { date: dateStr });
-    const result = await shareMenuUrl(dateStr);
-    if (result === 'copied') toast.success('링크 복사됨');
-    if (result === 'error') toast.error('링크 복사 실패');
-  };
-
   return (
     <section className={sectionClass}>
-      <button
-        type="button"
-        onClick={handleShare}
-        aria-label="메뉴 링크 공유"
-        className={menuShareBtnClass}
-      >
-        <Share2 size={15} strokeWidth={2} aria-hidden />
-      </button>
       <MenuBoardDayBar />
       {dayMenus.length > 1 && (
         <div className={courseTabBarClass}>
@@ -118,9 +103,10 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
             return (
               <div
                 key={menu.category}
-                className={
-                  i !== safeTab ? 'hidden h-full min-[640px]:block' : 'h-full'
-                }
+                className={cn(
+                  i !== safeTab ? 'hidden h-full min-[640px]:block' : 'h-full',
+                  courseColumnClass(i === 0)
+                )}
               >
                 <MenuBoardCourseRow
                   menu={menu}

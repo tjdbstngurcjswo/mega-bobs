@@ -1,6 +1,6 @@
 'use client';
 
-import { ThumbsDown, ThumbsUp, Users } from 'lucide-react';
+import { Check, Heart, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import { MenuCategoryLabel } from '@/constants/menu';
@@ -20,6 +20,7 @@ import {
   kcalClass,
   pickButtonClass,
   pickCountClass,
+  pickHeartClass,
   tabularNumsClass,
   upVoteButtonClass,
   upVoteIconClass,
@@ -105,11 +106,19 @@ const MenuBoardCourseRow = ({
               pick.hasAnyPick ?? false
             )}
           >
-            <Users size={10} strokeWidth={2.5} />
-            <span className={pickCountClass((pick.count ?? 0) >= 1)}>
-              {pick.count ?? 0}
-            </span>
-            명이 선택했어요
+            {pick.hasAnyPick ? (
+              <>
+                <Check size={10} strokeWidth={2.5} />
+                <span className={pickCountClass((pick.count ?? 0) >= 1)}>
+                  {pick.count ?? 0}
+                </span>
+                명
+              </>
+            ) : (
+              <span className={pickHeartClass}>
+                <Heart size={10} strokeWidth={2.5} />
+              </span>
+            )}
           </button>
         )}
         {vote?.show && (
@@ -161,7 +170,7 @@ const MenuBoardCourseRow = ({
               onTouchMove={cancelLongPress}
               disabled={vote.isSubmitting}
               aria-pressed={myVote === 'down'}
-              aria-label="별로예요"
+              aria-label="아쉬웠어요"
               className={downVoteButtonClass(myVote)}
             >
               <span className={downVoteIconClass(animating)}>
@@ -171,7 +180,7 @@ const MenuBoardCourseRow = ({
                 {vote.result?.down_count ?? 0}
               </span>
               <span className={tooltipClass(longPressTarget === 'down')}>
-                별로였어요
+                아쉬웠어요
               </span>
             </button>
           </div>
@@ -189,7 +198,7 @@ const MenuBoardCourseRow = ({
       </p>
       {total > 0 && (
         <p className={kcalClass}>
-          <span>합계</span>
+          <span>총 칼로리</span>
           <span>{total} kcal</span>
         </p>
       )}

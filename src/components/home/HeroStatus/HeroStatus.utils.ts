@@ -16,6 +16,26 @@ export type HeroStatusState = {
   variant: 'open' | 'upcoming' | 'closed';
 };
 
+type AfterMealMsgs = { friday: string; tomorrow: string; noMenu: string };
+
+const getAfterMealStatus = (
+  now: dayjs.Dayjs,
+  dow: number,
+  hasMenu: (key: string) => boolean,
+  icon: ElementType,
+  msgs: AfterMealMsgs
+): HeroStatusState => {
+  if (dow === 5) {
+    return hasMenu(nextWorkdayKey(now))
+      ? { icon, text: msgs.friday, variant: 'closed' }
+      : { icon: Moon, text: '즐거운 주말 되세요!', variant: 'closed' };
+  }
+  const tomorrowKey = formatYYYYMMDD(now.add(1, 'day'));
+  return hasMenu(tomorrowKey)
+    ? { icon, text: msgs.tomorrow, variant: 'closed' }
+    : { icon, text: msgs.noMenu, variant: 'closed' };
+};
+
 const nextWorkdayKey = (from: dayjs.Dayjs): string => {
   const dow = from.day();
   const ahead = dow === 5 ? 3 : dow === 6 ? 2 : 1;
@@ -79,41 +99,16 @@ export const getHeroStatus = (
     };
 
   if (min < EVENING_START) {
-    if (dow === 5) {
-      return hasMenu(nextWorkdayKey(now))
-        ? {
-            icon: Coffee,
-            text: '오늘 점심은 끝났어요. 월요일에 만나요!',
-            variant: 'closed',
-          }
-        : { icon: Moon, text: '즐거운 주말 되세요!', variant: 'closed' };
-    }
-    const tomorrowKey = formatYYYYMMDD(now.add(1, 'day'));
-    return hasMenu(tomorrowKey)
-      ? {
-          icon: Coffee,
-          text: '오늘 점심은 끝났어요. 내일 만나요!',
-          variant: 'closed',
-        }
-      : { icon: Coffee, text: '오늘 점심은 끝났어요', variant: 'closed' };
+    return getAfterMealStatus(now, dow, hasMenu, Coffee, {
+      friday: '오늘 점심은 끝났어요. 월요일에 만나요!',
+      tomorrow: '오늘 점심은 끝났어요. 내일 만나요!',
+      noMenu: '오늘 점심은 끝났어요',
+    });
   }
 
-  if (dow === 5) {
-    return hasMenu(nextWorkdayKey(now))
-      ? {
-          icon: Moon,
-          text: '오늘 하루도 수고하셨어요! 월요일에 만나요!',
-          variant: 'closed',
-        }
-      : { icon: Moon, text: '즐거운 주말 되세요!', variant: 'closed' };
-  }
-
-  const tomorrowKey = formatYYYYMMDD(now.add(1, 'day'));
-  return hasMenu(tomorrowKey)
-    ? {
-        icon: Moon,
-        text: '오늘 하루도 수고하셨어요! 내일 만나요!',
-        variant: 'closed',
-      }
-    : { icon: Moon, text: '오늘 하루도 수고하셨어요!', variant: 'closed' };
+  return getAfterMealStatus(now, dow, hasMenu, Moon, {
+    friday: '오늘 하루도 수고하셨어요! 월요일에 만나요!',
+    tomorrow: '오늘 하루도 수고하셨어요! 내일 만나요!',
+    noMenu: '오늘 하루도 수고하셨어요!',
+  });
 };

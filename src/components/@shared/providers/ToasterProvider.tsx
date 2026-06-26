@@ -17,8 +17,8 @@ const ToasterProvider = () => {
       toastOptions={{
         duration: 2000,
         style: {
-          background: isDark ? 'var(--color-surface)' : 'var(--color-board)',
-          color: isDark ? 'var(--color-ink)' : 'var(--color-surface)',
+          background: isDark ? 'var(--color-ink)' : 'var(--color-board)',
+          color: isDark ? 'var(--color-board)' : 'var(--color-surface)',
           fontSize: '14px',
           fontWeight: '500',
           borderRadius: '0',

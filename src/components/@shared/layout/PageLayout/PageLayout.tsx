@@ -6,12 +6,14 @@ import {
   pageEyebrowClass,
   pageHeaderClass,
   pageMainClass,
+  pageSubtitleClass,
   pageTitleClass,
 } from './PageLayout.styles';
 
 interface PageLayoutProps {
   eyebrow: ReactNode;
   title: ReactNode;
+  subtitle?: ReactNode;
   description?: ReactNode;
   headerAction?: ReactNode;
   children: ReactNode;
@@ -20,6 +22,7 @@ interface PageLayoutProps {
 const PageLayout = ({
   eyebrow,
   title,
+  subtitle,
   description,
   headerAction,
   children,
@@ -31,6 +34,11 @@ const PageLayout = ({
         <h1 className={pageTitleClass}>{title}</h1>
         {headerAction}
       </div>
+      {subtitle && (
+        <p suppressHydrationWarning className={pageSubtitleClass}>
+          {subtitle}
+        </p>
+      )}
       {description && <p className={pageDescClass}>{description}</p>}
     </section>
     <div className={pageContentClass}>{children}</div>
