@@ -4,11 +4,9 @@ import Link from 'next/link';
 
 import { getNotices } from '@/api/getNotices';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
-import NoticeNewBadge from '@/components/notice/NoticeNewBadge';
 import { SITE_NAME } from '@/constants/site';
 import dayjs from '@/lib/dayjs';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
-import { NEW_NOTICE_THRESHOLD_DAYS } from '@/utils/noticePolicy';
 import { stripMarkdown } from '@/utils/stripMarkdown';
 
 import {
@@ -66,34 +64,28 @@ export default function NoticePage() {
       >
         {notices.length > 0 ? (
           <div className="flex flex-col">
-            {notices.map((n, i) => {
-              const isNew =
-                dayjs().tz().diff(dayjs.tz(n.publishedAt), 'day') <
-                NEW_NOTICE_THRESHOLD_DAYS;
-              return (
-                <Link
-                  key={n.id}
-                  href={`/notice/${n.id}`}
-                  className={articleClass(i === 0)}
-                >
-                  <div className="w-14 shrink-0 text-right">
-                    <span className={articleYearClass}>
-                      {dayjs.tz(n.publishedAt).format('YYYY')}
-                    </span>
-                    <b className={articleDateClass}>
-                      {dayjs.tz(n.publishedAt).format('MM.DD')}
-                    </b>
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className={articleTitleClass}>
-                      <span className="truncate">{n.title}</span>
-                      <NoticeNewBadge noticeId={n.id} isNew={isNew} />
-                    </h3>
-                    <p className={articleBodyClass}>{stripMarkdown(n.body)}</p>
-                  </div>
-                </Link>
-              );
-            })}
+            {notices.map((n, i) => (
+              <Link
+                key={n.id}
+                href={`/notice/${n.id}`}
+                className={articleClass(i === 0)}
+              >
+                <div className="w-14 shrink-0 text-right">
+                  <span className={articleYearClass}>
+                    {dayjs.tz(n.publishedAt).format('YYYY')}
+                  </span>
+                  <b className={articleDateClass}>
+                    {dayjs.tz(n.publishedAt).format('MM.DD')}
+                  </b>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className={articleTitleClass}>
+                    <span className="truncate">{n.title}</span>
+                  </h3>
+                  <p className={articleBodyClass}>{stripMarkdown(n.body)}</p>
+                </div>
+              </Link>
+            ))}
           </div>
         ) : (
           <div className={emptyNoticeClass}>아직 등록된 공지가 없어요</div>
