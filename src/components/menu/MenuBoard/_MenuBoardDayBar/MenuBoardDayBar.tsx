@@ -128,7 +128,7 @@ const MenuBoardDayBar = () => {
               aria-pressed={isSelected}
               className={dayColumnClass(isSelected)}
             >
-              {isSelected && <span className={daySelectionBarClass} />}
+              <span className={daySelectionBarClass(isSelected)} />
               <span
                 suppressHydrationWarning
                 className={dayDowClass(isSelected, isToday, dow)}
