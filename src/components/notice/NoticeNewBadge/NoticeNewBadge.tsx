@@ -19,7 +19,7 @@ const NoticeNewBadge = ({
     setRead(getReadNoticeIds().includes(noticeId));
   }, [noticeId]);
 
-  if (!isNew || read !== false) return null;
+  if (!isNew || read === true) return null;
   return <span className={newBadgeClass}>NEW</span>;
 };
 
