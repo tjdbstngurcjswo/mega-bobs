@@ -14,12 +14,14 @@ export const navGroupClass = 'flex items-center gap-0.5';
 
 export const navIconBtnClass = (enabled: boolean) =>
   cn(
-    'flex size-8 cursor-pointer items-center justify-center text-muted transition-colors hover:bg-surface-warm hover:text-ink',
-    !enabled && 'invisible pointer-events-none'
+    'flex size-11 items-center justify-center transition-colors',
+    enabled
+      ? 'cursor-pointer text-muted hover:bg-surface-warm hover:text-ink'
+      : 'cursor-default text-muted opacity-40'
   );
 
 export const todayBtnClass =
-  'flex h-8 cursor-pointer items-center px-3 text-[11px] font-[700] text-muted transition-colors hover:bg-surface-warm hover:text-ink';
+  'flex h-11 cursor-pointer items-center px-3 text-[11px] font-[700] text-muted transition-colors hover:bg-surface-warm hover:text-ink';
 
 export const dayGridClass = 'grid grid-cols-7 px-2';
 
@@ -44,7 +46,7 @@ export const dayDowClass = (
       : isToday
         ? 'text-accent-text'
         : dow === 0 || dow === 6
-          ? 'text-muted opacity-50'
+          ? 'text-muted'
           : 'text-ink-2'
   );
 
@@ -55,11 +57,5 @@ export const dayDateClass = (
 ) =>
   cn(
     'text-[11px] font-[500] tabular-nums leading-none',
-    isSelected
-      ? 'text-ink-2'
-      : isToday
-        ? 'text-accent-text'
-        : dow === 0 || dow === 6
-          ? 'text-muted opacity-50'
-          : 'text-muted'
+    isSelected ? 'text-ink-2' : isToday ? 'text-accent-text' : 'text-muted'
   );

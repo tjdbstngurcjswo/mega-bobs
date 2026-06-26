@@ -3,6 +3,7 @@
 import { sendGAEvent } from '@next/third-parties/google';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { useDateStore } from '@/store/useDateStore';
@@ -71,6 +72,10 @@ const MenuBoardDayBar = () => {
           <button
             type="button"
             onClick={() => {
+              if (!canGoPrev) {
+                toast('지난주까지만 볼 수 있어요');
+                return;
+              }
               sendGAEvent('event', 'week_navigate', { direction: 'prev' });
               goToPrevWeek();
             }}
@@ -90,6 +95,10 @@ const MenuBoardDayBar = () => {
           <button
             type="button"
             onClick={() => {
+              if (!canGoNext) {
+                toast('영양사 선생님이 아직 고민 중이에요');
+                return;
+              }
               sendGAEvent('event', 'week_navigate', { direction: 'next' });
               goToNextWeek();
             }}
