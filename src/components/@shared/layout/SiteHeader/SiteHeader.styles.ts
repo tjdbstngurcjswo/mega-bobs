@@ -3,7 +3,7 @@ import { cn } from '@/utils/cn';
 export const headerClass = (scrolled: boolean, menuOpen: boolean) =>
   cn(
     'sticky top-0 z-50 transition-all duration-300',
-    (scrolled || menuOpen) && 'bg-[var(--color-bg)]/80 backdrop-blur-xl'
+    (scrolled || menuOpen) && 'bg-[var(--color-bg)] shadow-sm'
   );
 
 export const logoLinkClass =
@@ -50,9 +50,9 @@ export const mobileOverlayClass = (menuOpen: boolean) =>
 
 export const mobileNavLinkClass = (active: boolean) =>
   cn(
-    'flex items-center justify-between border-b border-line/50 py-3.5 text-[15px] font-semibold',
+    'flex items-center justify-between py-3.5 text-[15px] font-semibold',
     active ? 'text-accent-text' : 'text-ink-2'
   );
 
 export const mobileComingSoonClass =
-  'flex cursor-default select-none items-center justify-between border-b border-line/50 py-3.5 text-[15px] font-semibold text-muted/40';
+  'flex cursor-default select-none items-center justify-between py-3.5 text-[15px] font-semibold text-muted/40';
