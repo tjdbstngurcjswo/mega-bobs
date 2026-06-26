@@ -97,12 +97,7 @@ export const POST = async (req: NextRequest) => {
     if (vote_type) {
       const { error: geoError } = await supabaseServer
         .from('menu_votes')
-        .update({
-          ip: geo.ip,
-          country: geo.country,
-          region: geo.region,
-          city: geo.city,
-        })
+        .update({ ip: geo.ip })
         .eq('voter_id', voterId)
         .eq('menu_key', menu_key)
         .eq('date', date);
