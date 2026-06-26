@@ -15,11 +15,14 @@ export const getReadNoticeIds = (): string[] => {
   }
 };
 
+export const NOTICE_READ_EVENT = 'notice-read';
+
 export const markNoticeRead = (id: string): void => {
   if (typeof window === 'undefined') return;
   const ids = getReadNoticeIds();
   if (!ids.includes(id)) {
     localStorage.setItem(NOTICE_READ_KEY, JSON.stringify([...ids, id]));
+    window.dispatchEvent(new Event(NOTICE_READ_EVENT));
   }
 };
 

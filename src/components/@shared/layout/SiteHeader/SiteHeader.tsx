@@ -8,7 +8,11 @@ import { getNotices } from '@/api/getNotices';
 import ThemeToggle from '@/components/@shared/ui/ThemeToggle';
 import { SITE_NAME } from '@/constants/site';
 import { useHasMounted } from '@/hooks/useHasMounted';
-import { getReadNoticeIds, hasNewNotice } from '@/utils/noticePolicy';
+import {
+  getReadNoticeIds,
+  hasNewNotice,
+  NOTICE_READ_EVENT,
+} from '@/utils/noticePolicy';
 
 import {
   desktopBellLinkClass,
@@ -37,6 +41,13 @@ const SiteHeader = () => {
     if (!mounted) return;
     setReadIds(getReadNoticeIds());
   }, [mounted, pathname]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    const sync = () => setReadIds(getReadNoticeIds());
+    window.addEventListener(NOTICE_READ_EVENT, sync);
+    return () => window.removeEventListener(NOTICE_READ_EVENT, sync);
+  }, [mounted]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);

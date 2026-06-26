@@ -74,12 +74,15 @@ export const useDateStore = create<DateStore>((set, get) => {
 
     refreshToday: () => {
       const freshToday = dayjs().tz();
-      if (freshToday.isSame(get().today, 'day')) return;
+      const { today, selectedDate } = get();
+      if (freshToday.isSame(today, 'day')) return;
+      const wasOnToday = selectedDate.isSame(today, 'day');
       set({
         today: freshToday,
         ...computeDateWindow(freshToday),
-        selectedDate: freshToday,
-        currentWeek: getWeekDays(freshToday),
+        ...(wasOnToday
+          ? { selectedDate: freshToday, currentWeek: getWeekDays(freshToday) }
+          : {}),
       });
     },
   };

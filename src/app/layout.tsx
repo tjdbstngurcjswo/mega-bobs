@@ -78,11 +78,25 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: `${SITE_NAME} ∙ 메가존 구내식당 점심 허브`,
     description: siteDesc,
+    images: [
+      {
+        url: '/opengraph-image.png',
+        width: 1200,
+        height: 630,
+        alt: `${SITE_NAME} ∙ 메가존 구내식당 점심 허브`,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: `${SITE_NAME} ∙ 메가존 구내식당 점심 허브`,
     description: siteDesc,
+    images: [
+      {
+        url: '/twitter-image.png',
+        alt: `${SITE_NAME} ∙ 메가존 구내식당 점심 허브`,
+      },
+    ],
   },
   other: {
     'google-adsense-account': 'ca-pub-4501038602130909',
