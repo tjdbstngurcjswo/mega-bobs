@@ -15,11 +15,13 @@ import {
   dayDowClass,
   dayGridClass,
   daySelectionBarClass,
-  monthLabelClass,
   navGroupClass,
   navIconBtnClass,
   todayBtnClass,
   topBarClass,
+  weekInfoClass,
+  weekLabelTextClass,
+  weekRangeTextClass,
 } from './MenuBoardDayBar.styles';
 
 const MenuBoardDayBar = () => {
@@ -45,12 +47,26 @@ const MenuBoardDayBar = () => {
   const canGoPrev = !mounted || currentWeek[0].isAfter(minDate, 'day');
   const canGoNext = !mounted || currentWeek[6].isBefore(maxDate, 'day');
 
+  const isCurrentWeek =
+    mounted && currentWeek.some((d) => d.isSame(today, 'day'));
+  const weekLabel = !mounted
+    ? ''
+    : isCurrentWeek
+      ? '이번주'
+      : currentWeek[6].isBefore(today, 'day')
+        ? '지난주'
+        : '다음주';
+  const weekRange = mounted
+    ? `${currentWeek[0].format('M.D')} - ${currentWeek[6].format('M.D')}`
+    : '';
+
   return (
     <div className={dayBarContainerClass}>
       <div className={topBarClass}>
-        <span suppressHydrationWarning className={monthLabelClass}>
-          {mounted ? currentWeek[0].format('YYYY년 M월') : ''}
-        </span>
+        <div suppressHydrationWarning className={weekInfoClass}>
+          <span className={weekLabelTextClass}>{weekLabel}</span>
+          <span className={weekRangeTextClass}>{weekRange}</span>
+        </div>
         <div className={navGroupClass}>
           <button
             type="button"
