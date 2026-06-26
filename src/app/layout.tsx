@@ -124,9 +124,9 @@ export default async function RootLayout({
           <ConsoleArt />
           {children}
           <ToasterProvider />
-          {process.env.NEXT_PUBLIC_RENEWAL_FEEDBACK && isKorea && (
+          {isKorea && (
             <RenewalFeedbackPopup
-              version={process.env.NEXT_PUBLIC_RENEWAL_FEEDBACK}
+              version={process.env.NEXT_PUBLIC_APP_VERSION ?? 'unknown'}
             />
           )}
           {isProd && <Analytics />}
