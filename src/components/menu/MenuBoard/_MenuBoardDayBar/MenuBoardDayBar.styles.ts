@@ -32,7 +32,7 @@ export const dayColumnClass = (isSelected: boolean) =>
   );
 
 export const daySelectionBarClass =
-  'absolute bottom-0 left-0 right-0 h-0.5 bg-accent';
+  'absolute bottom-0 left-0 right-0 h-0.5 bg-accent hidden min-[640px]:block';
 
 export const dayDowClass = (
   isSelected: boolean,
