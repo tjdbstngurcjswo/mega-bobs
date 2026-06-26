@@ -37,14 +37,14 @@ export const dayDowClass = (
   dow: number
 ) =>
   cn(
-    'text-[10px] font-[600] leading-none',
+    'text-[13px] font-[700] leading-none',
     isSelected
       ? 'text-ink'
       : isToday
         ? 'text-accent-text'
         : dow === 0 || dow === 6
           ? 'text-muted opacity-50'
-          : 'text-muted'
+          : 'text-ink-2'
   );
 
 export const dayDateClass = (
@@ -53,12 +53,12 @@ export const dayDateClass = (
   dow: number
 ) =>
   cn(
-    'text-[15px] font-[800] tabular-nums leading-none',
+    'text-[11px] font-[500] tabular-nums leading-none',
     isSelected
-      ? 'text-ink'
+      ? 'text-ink-2'
       : isToday
         ? 'text-accent-text'
         : dow === 0 || dow === 6
-          ? 'text-ink-2 opacity-50'
-          : 'text-ink-2'
+          ? 'text-muted opacity-50'
+          : 'text-muted'
   );
