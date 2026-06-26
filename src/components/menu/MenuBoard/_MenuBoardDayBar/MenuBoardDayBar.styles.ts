@@ -23,7 +23,7 @@ export const navIconBtnClass = (enabled: boolean) =>
 export const todayBtnClass =
   'flex h-11 cursor-pointer items-center px-3 text-[11px] font-[700] text-muted transition-colors hover:bg-surface hover:text-ink';
 
-export const dayGridClass = 'grid grid-cols-7 px-2';
+export const dayGridClass = 'grid grid-cols-7';
 
 export const dayColumnClass = (isSelected: boolean) =>
   cn(

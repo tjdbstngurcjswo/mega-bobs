@@ -3,6 +3,8 @@
 import { sendGAEvent } from '@next/third-parties/google';
 import { useMemo, useState } from 'react';
 
+import { cn } from '@/utils/cn';
+
 import { MENU_CATEGORIES, MenuCategoryLabel } from '@/constants/menu';
 import { useDateUrl } from '@/hooks/useDateUrl';
 import { useHasMounted } from '@/hooks/useHasMounted';
@@ -17,6 +19,7 @@ import MenuBoardCourseRow from './_MenuBoardCourseRow/MenuBoardCourseRow';
 import MenuBoardDayBar from './_MenuBoardDayBar/MenuBoardDayBar';
 import MenuBoardEmpty from './_MenuBoardEmpty/MenuBoardEmpty';
 import {
+  courseColumnClass,
   courseTabBarClass,
   courseTabClass,
   menuBodyClass,
@@ -94,9 +97,10 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
             return (
               <div
                 key={menu.category}
-                className={
-                  i !== safeTab ? 'hidden h-full min-[640px]:block' : 'h-full'
-                }
+                className={cn(
+                  i !== safeTab ? 'hidden h-full min-[640px]:block' : 'h-full',
+                  courseColumnClass(i === 0)
+                )}
               >
                 <MenuBoardCourseRow
                   menu={menu}
