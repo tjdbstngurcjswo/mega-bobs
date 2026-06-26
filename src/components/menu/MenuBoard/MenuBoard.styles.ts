@@ -9,9 +9,9 @@ export const courseColumnClass = (isFirst: boolean) =>
     ? ''
     : 'min-[640px]:relative min-[640px]:before:content-[""] min-[640px]:before:absolute min-[640px]:before:left-0 min-[640px]:before:top-6 min-[640px]:before:bottom-6 min-[640px]:before:w-px min-[640px]:before:bg-line';
 
-export const courseTabBarClass = 'flex min-[640px]:hidden border-b border-line';
+export const courseTabBarClass = 'flex gap-1 px-2 pt-0 pb-0 min-[640px]:hidden';
 
 export const courseTabClass = (active: boolean) =>
   active
-    ? 'flex-1 py-2.5 text-[13px] font-bold text-ink bg-accent dark:bg-board-2 dark:text-cream text-center transition-colors'
-    : 'flex-1 py-2.5 text-[13px] font-semibold text-muted text-center transition-colors hover:text-ink';
+    ? 'flex-1 rounded-lg py-2.5 text-[13px] font-bold text-ink bg-accent dark:bg-line dark:text-cream text-center transition-colors'
+    : 'flex-1 rounded-lg py-2.5 text-[13px] font-semibold text-muted bg-bg/80 text-center transition-colors hover:text-ink hover:bg-surface-warm';
