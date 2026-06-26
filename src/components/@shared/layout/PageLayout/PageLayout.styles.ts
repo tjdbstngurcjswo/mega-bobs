@@ -9,6 +9,10 @@ export const pageEyebrowClass =
 export const pageTitleClass =
   'text-ink text-[26px] font-extrabold tracking-[-0.02em] max-[640px]:text-[18px]';
 
-export const pageDescClass = 'text-muted mt-2 text-[15px] max-[640px]:hidden';
+export const pageSubtitleClass =
+  'mt-1.5 text-[13px] font-[500] text-muted leading-none';
+
+export const pageDescClass =
+  'text-muted mt-2 text-[15px] max-[640px]:text-[13px]';
 
 export const pageContentClass = 'pb-10';
