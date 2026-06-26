@@ -1,27 +1,28 @@
 'use client';
 
 import { sendGAEvent } from '@next/third-parties/google';
-import { Share2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Share2 } from 'lucide-react';
 import { useEffect } from 'react';
 
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { useDateStore } from '@/store/useDateStore';
 
+import { DOW } from './MenuBoardDayBar.constants';
 import {
-  chipAreaClass,
-  chipRowClass,
   dayBarContainerClass,
-  indicatorClass,
-  navArrowClass,
-  navButtonClass,
-  navTooltipClass,
+  dayColumnClass,
+  dayGridClass,
+  dayLabelClass,
+  daySelectionBarClass,
+  monthLabelClass,
+  navGroupClass,
+  navIconBtnClass,
   shareBtnClass,
-  weekLabelClass,
-  weekNavGroupClass,
-  weekRangeClass,
+  todayBtnClass,
+  topBarClass,
+  weekNumCellClass,
 } from './MenuBoardDayBar.styles';
 import { MenuBoardDayBarProps } from './MenuBoardDayBar.types';
-import MenuBoardDayChip from './MenuBoardDayChip';
 
 const MenuBoardDayBar = ({ onShare }: MenuBoardDayBarProps) => {
   const {
@@ -33,6 +34,7 @@ const MenuBoardDayBar = ({ onShare }: MenuBoardDayBarProps) => {
     setSelectedDate,
     goToPrevWeek,
     goToNextWeek,
+    goToToday,
     refreshToday,
   } = useDateStore();
   const mounted = useHasMounted();
@@ -45,22 +47,13 @@ const MenuBoardDayBar = ({ onShare }: MenuBoardDayBarProps) => {
   const canGoPrev = !mounted || currentWeek[0].isAfter(minDate, 'day');
   const canGoNext = !mounted || currentWeek[6].isBefore(maxDate, 'day');
 
-  const isCurrentWeek =
-    mounted && currentWeek.some((d) => d.isSame(today, 'day'));
-  const weekLabel = !mounted
-    ? ''
-    : isCurrentWeek
-      ? '이번주'
-      : currentWeek[6].isBefore(today, 'day')
-        ? '지난주'
-        : '다음주';
-  const prevLabel = isCurrentWeek ? '지난주' : '이번주';
-  const nextLabel = isCurrentWeek ? '다음주' : '이번주';
-
   return (
     <div className={dayBarContainerClass}>
-      <div className={weekLabelClass}>
-        <div className={weekNavGroupClass}>
+      <div className={topBarClass}>
+        <span suppressHydrationWarning className={monthLabelClass}>
+          {mounted ? currentWeek[0].format('YYYY년 M월') : ''}
+        </span>
+        <div className={navGroupClass}>
           <button
             type="button"
             onClick={() => {
@@ -68,76 +61,73 @@ const MenuBoardDayBar = ({ onShare }: MenuBoardDayBarProps) => {
               goToPrevWeek();
             }}
             aria-label="지난주 메뉴 보기"
-            className={navButtonClass(canGoPrev)}
+            className={navIconBtnClass(canGoPrev)}
           >
-            <span className={navArrowClass}>‹</span>
-            <span className={navTooltipClass}>{prevLabel}</span>
+            <ChevronLeft size={16} strokeWidth={2} aria-hidden />
           </button>
-          <span suppressHydrationWarning className={weekRangeClass}>
-            {weekLabel}
-          </span>
+          <button
+            type="button"
+            onClick={goToToday}
+            aria-label="오늘로 이동"
+            className={todayBtnClass}
+          >
+            오늘
+          </button>
           <button
             type="button"
             onClick={() => {
               sendGAEvent('event', 'week_navigate', { direction: 'next' });
               goToNextWeek();
             }}
-            aria-label="다음 주 메뉴 보기"
-            className={navButtonClass(canGoNext)}
+            aria-label="다음주 메뉴 보기"
+            className={navIconBtnClass(canGoNext)}
           >
-            <span className={navArrowClass}>›</span>
-            <span className={navTooltipClass}>{nextLabel}</span>
+            <ChevronRight size={16} strokeWidth={2} aria-hidden />
           </button>
+          {onShare && (
+            <button
+              type="button"
+              onClick={onShare}
+              aria-label="메뉴 링크 공유"
+              className={shareBtnClass}
+            >
+              <Share2 size={14} strokeWidth={2} aria-hidden />
+            </button>
+          )}
         </div>
-        {onShare && (
-          <button
-            type="button"
-            onClick={onShare}
-            aria-label="메뉴 링크 공유"
-            className={shareBtnClass}
-          >
-            <Share2 size={14} strokeWidth={2} aria-hidden />
-          </button>
-        )}
       </div>
-      <div className={chipAreaClass}>
-        <div
-          key={currentWeek[0]?.format('YYYY-MM-DD')}
-          className={chipRowClass}
-          style={{ animation: 'fadeIn 0.2s ease both' }}
-        >
-          {(() => {
-            const idx = mounted
-              ? currentWeek.findIndex((d) => d.isSame(selectedDate, 'day'))
-              : -1;
-            const isToday = mounted && selectedDate.isSame(today, 'day');
-            return idx >= 0 ? (
-              <div
-                aria-hidden
-                className={indicatorClass(isToday)}
-                style={{
-                  width: 'calc((100% - 36px) / 7)',
-                  transform: `translateX(calc(${idx} * (100% + 6px)))`,
-                }}
-              />
-            ) : null;
-          })()}
-          {currentWeek.map((day) => (
-            <MenuBoardDayChip
-              key={day.format('YYYY-MM-DD')}
-              day={day}
-              today={today}
-              selectedDate={selectedDate}
-              onSelect={(d) => {
-                sendGAEvent('event', 'day_select', {
-                  offset: d.diff(today, 'day'),
-                });
-                setSelectedDate(d);
-              }}
-              mounted={mounted}
-            />
-          ))}
+
+      <div className={dayGridClass}>
+        <div suppressHydrationWarning className={weekNumCellClass}>
+          {mounted ? `${currentWeek[0].format('w')}주` : ''}
         </div>
+        {currentWeek.map((day) => {
+          const isSelected = mounted && day.isSame(selectedDate, 'day');
+          const isToday = mounted && day.isSame(today, 'day');
+          const dow = day.day();
+          return (
+            <button
+              key={day.format('YYYY-MM-DD')}
+              type="button"
+              onClick={() => {
+                sendGAEvent('event', 'day_select', {
+                  offset: day.diff(today, 'day'),
+                });
+                setSelectedDate(day);
+              }}
+              aria-pressed={isSelected}
+              className={dayColumnClass(isSelected)}
+            >
+              {isSelected && <span className={daySelectionBarClass} />}
+              <span
+                suppressHydrationWarning
+                className={dayLabelClass(isSelected, isToday, dow)}
+              >
+                {day.date()}일 ({isToday ? '오늘' : DOW[dow]})
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

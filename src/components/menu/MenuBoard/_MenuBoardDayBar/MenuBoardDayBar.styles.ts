@@ -1,65 +1,52 @@
 import { cn } from '@/utils/cn';
 
-export const dayBarContainerClass = 'bg-surface flex flex-col';
+export const dayBarContainerClass = 'bg-(--color-board) flex flex-col';
 
-export const weekLabelClass = 'flex items-center gap-1 px-2 pt-2 pb-1';
+export const topBarClass = 'flex items-center justify-between px-4 pt-3 pb-2.5';
 
-export const weekNavGroupClass = 'flex flex-1 items-center';
+export const monthLabelClass =
+  'text-[22px] font-[800] text-(--color-cream) tracking-[-0.02em] leading-none';
+
+export const navGroupClass = 'flex items-center gap-0.5';
+
+export const navIconBtnClass = (enabled: boolean) =>
+  cn(
+    'flex size-8 cursor-pointer items-center justify-center text-(--color-cream-2) transition-colors hover:bg-(--color-board-2) hover:text-(--color-cream)',
+    !enabled && 'invisible pointer-events-none'
+  );
+
+export const todayBtnClass =
+  'flex h-8 cursor-pointer items-center px-3 text-[11px] font-[700] text-(--color-cream-2) ring-1 ring-(--color-board-2) transition-colors hover:bg-(--color-board-2) hover:text-(--color-cream)';
 
 export const shareBtnClass =
-  'flex cursor-pointer items-center justify-center p-1.5 text-muted transition-colors hover:text-ink';
+  'flex size-8 cursor-pointer items-center justify-center text-(--color-cream-2) transition-colors hover:bg-(--color-board-2) hover:text-(--color-cream)';
 
-export const weekRangeClass =
-  'flex-1 text-center text-[15px] font-bold tabular-nums text-ink';
+export const dayGridClass = 'grid grid-cols-[44px_repeat(7,1fr)]';
 
-export const navButtonClass = (visible: boolean) =>
+export const weekNumCellClass =
+  'flex items-center justify-center py-3 text-[10px] font-[600] text-(--color-cream-2)';
+
+export const dayColumnClass = (isSelected: boolean) =>
   cn(
-    'group relative flex cursor-pointer items-center justify-center px-2 py-2.5 text-muted transition-opacity duration-100 hover:text-ink',
-    !visible && 'invisible pointer-events-none'
+    'relative flex min-h-[44px] cursor-pointer flex-col items-center justify-center py-2.5 transition-colors hover:bg-(--color-board-2)',
+    isSelected && 'bg-(--color-board-2)'
   );
 
-export const navArrowClass =
-  'text-[20px] leading-none font-light transition-transform group-active:scale-75';
+export const daySelectionBarClass =
+  'absolute bottom-0 left-0 right-0 h-0.5 bg-(--color-accent)';
 
-export const navTooltipClass =
-  'pointer-events-none absolute top-full left-1/2 z-10 mt-1.5 -translate-x-1/2 whitespace-nowrap bg-ink px-2 py-1 text-[10px] font-medium text-cream invisible opacity-0 transition-opacity group-hover:visible group-hover:opacity-100';
-
-export const chipAreaClass = 'px-4 pb-2.5';
-
-export const chipRowClass = 'relative flex gap-1.5 overflow-hidden';
-
-export const indicatorClass = (isToday: boolean) =>
-  cn(
-    'pointer-events-none absolute inset-y-0 transition-transform duration-200 ease-out',
-    isToday ? 'bg-accent' : 'bg-board'
-  );
-
-export const chipBg = (isSelected: boolean): string => {
-  if (!isSelected) return 'hover:bg-surface-warm';
-  return '';
-};
-
-const dowColor = (dow: number): string | null => {
-  if (dow === 0 || dow === 6) return 'text-muted';
-  return null;
-};
-
-export const labelClass = (
+export const dayLabelClass = (
   isSelected: boolean,
   isToday: boolean,
   dow: number
-): string => {
-  if (isSelected) return isToday ? 'text-board/55' : 'text-cream-2';
-  if (isToday) return 'text-accent-text';
-  return dowColor(dow) ?? 'text-muted';
-};
-
-export const dateClass = (
-  isSelected: boolean,
-  isToday: boolean,
-  dow: number
-): string => {
-  if (isSelected) return isToday ? 'text-board' : 'text-cream';
-  if (isToday) return 'text-accent-text';
-  return dowColor(dow) ?? 'text-ink';
-};
+) =>
+  cn(
+    'text-[11.5px] tabular-nums leading-none',
+    isSelected
+      ? 'font-[700] text-(--color-cream)'
+      : isToday
+        ? 'font-[600] text-(--color-accent)'
+        : dow === 0 || dow === 6
+          ? 'font-[600] text-(--color-cream-2) opacity-40'
+          : 'font-[600] text-(--color-cream-2)'
+  );
