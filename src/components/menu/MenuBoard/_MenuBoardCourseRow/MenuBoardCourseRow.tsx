@@ -173,7 +173,7 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
       </p>
       {total > 0 && (
         <p className={kcalClass}>
-          <span>합계</span>
+          <span>총 칼로리</span>
           <span>{total} kcal</span>
         </p>
       )}

@@ -2,8 +2,7 @@ import { cn } from '@/utils/cn';
 
 export const dayBarContainerClass = 'flex flex-col border-b border-line';
 
-export const topBarClass =
-  'bg-surface-warm flex items-center justify-between px-4 pt-3 pb-2.5 border-b border-line';
+export const topBarClass = 'flex items-center justify-between px-4 pt-3 pb-2.5';
 
 export const weekInfoClass = 'flex items-baseline gap-1.5 leading-none';
 
