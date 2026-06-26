@@ -10,6 +10,7 @@ import ThemeProvider from '@/components/@shared/providers/ThemeProvider';
 import ToasterProvider from '@/components/@shared/providers/ToasterProvider';
 import RenewalFeedbackPopup from '@/components/feedback/RenewalFeedbackPopup/RenewalFeedbackPopup';
 import { SITE_NAME } from '@/constants/site';
+import { isProd, SITE_URL } from '@/utils/env';
 import { SITE_DESC } from '@/utils/jsonLd';
 
 import { bodyClass } from './layout.styles';
@@ -25,12 +26,10 @@ const pretendard = localFont({
   variable: '--font-pretendard',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 const siteDesc = SITE_DESC;
-const isProd = process.env.VERCEL_ENV === 'production';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: `${SITE_NAME} ∙ 메가존 구내식당 점심 허브`,
     template: `${SITE_NAME} ∙ %s`,
@@ -75,7 +74,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'ko_KR',
-    url: siteUrl,
+    url: SITE_URL,
     siteName: SITE_NAME,
     title: `${SITE_NAME} ∙ 메가존 구내식당 점심 허브`,
     description: siteDesc,

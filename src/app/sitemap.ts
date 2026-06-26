@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.megabobs.com';
+import { SITE_URL } from '@/utils/env';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

@@ -3,6 +3,7 @@ import { unstable_cache } from 'next/cache';
 import getMenu from '@/api/getMenu';
 import { MENU_CATEGORIES, MenuCategoryLabel } from '@/constants/menu';
 import { SITE_NAME } from '@/constants/site';
+import { SITE_URL } from '@/utils/env';
 import {
   CommandKeyword,
   DAY_OFFSET_MAP,
@@ -58,8 +59,7 @@ export const toSlackFormat = (
     return [`*${label}*`, ...lines].join('\n');
   }).join('\n\n');
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://megabobs.com';
-  const footer = `<${siteUrl}|🔗 메뉴 투표하기>`;
+  const footer = `<${SITE_URL}|🔗 메뉴 투표하기>`;
 
   return sections
     ? [header, sections, footer].join('\n\n')
