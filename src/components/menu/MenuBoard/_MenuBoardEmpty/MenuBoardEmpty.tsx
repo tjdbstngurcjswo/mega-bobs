@@ -1,8 +1,8 @@
 'use client';
 
+import { Plane, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 
-import { Plane, Sparkles } from 'lucide-react';
 
 import {
   BOARD_EMPTY_COPY,

@@ -1,6 +1,6 @@
 import { cn } from '@/utils/cn';
 
-export const dayBarContainerClass = 'flex flex-col';
+export const dayBarContainerClass = 'flex flex-col bg-surface';
 
 export const topBarClass = 'flex items-center justify-between px-4 pt-3 pb-2.5';
 
@@ -27,10 +27,8 @@ export const dayGridClass = 'grid grid-cols-7 gap-1 px-2 pb-1';
 
 export const dayColumnClass = (isSelected: boolean) =>
   cn(
-    'relative flex min-h-[44px] cursor-pointer flex-col items-center justify-center gap-1 rounded-t-lg py-2.5 transition-colors',
-    isSelected
-      ? 'bg-line/60 hover:bg-line/60'
-      : 'bg-bg/50 hover:bg-surface-warm'
+    'relative flex min-h-[44px] cursor-pointer flex-col items-center justify-center gap-1 py-2.5 transition-colors',
+    isSelected ? 'hover:bg-line/50' : 'hover:bg-line/25'
   );
 
 export const daySelectionBarClass =
@@ -43,21 +41,25 @@ export const dayDowClass = (
 ) =>
   cn(
     'text-[13px] font-[700] leading-none',
-    isSelected
-      ? 'text-ink'
-      : isToday
-        ? 'text-accent-text'
-        : dow === 0 || dow === 6
-          ? 'text-muted'
-          : 'text-ink-2'
+    isSelected && isToday
+      ? 'text-accent-text'
+      : isSelected
+        ? 'text-ink'
+        : isToday
+          ? 'text-accent-text'
+          : dow === 0 || dow === 6
+            ? 'text-muted'
+            : 'text-ink-2'
   );
 
-export const dayDateClass = (
-  isSelected: boolean,
-  isToday: boolean,
-  dow: number
-) =>
+export const dayDateClass = (isSelected: boolean, isToday: boolean) =>
   cn(
     'text-[11px] font-[500] tabular-nums leading-none',
-    isSelected ? 'text-ink-2' : isToday ? 'text-accent-text' : 'text-muted'
+    isSelected && isToday
+      ? 'text-accent-text'
+      : isSelected
+        ? 'text-ink-2'
+        : isToday
+          ? 'text-accent-text'
+          : 'text-muted'
   );

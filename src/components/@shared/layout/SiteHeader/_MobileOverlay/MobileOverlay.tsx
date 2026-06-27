@@ -4,8 +4,9 @@ import type { Dispatch, SetStateAction } from 'react';
 
 import { NAV_ITEMS } from '@/constants/site';
 
+import { CONTENT_WIDTH_CLASS } from '../../PageLayout/PageLayout.styles';
+import NavComingSoonItem from '../_NavComingSoonItem/NavComingSoonItem';
 import {
-  comingSoonBadgeClass,
   mobileComingSoonClass,
   mobileNavLinkClass,
   mobileOverlayClass,
@@ -23,14 +24,15 @@ const MobileOverlay = ({
   prefetch: (href: string) => void;
 }) => (
   <div className={mobileOverlayClass(menuOpen)}>
-    <nav className="mx-auto flex w-[min(880px,calc(100%-40px))] flex-col pt-1 pb-4">
+    <nav className={`mx-auto flex ${CONTENT_WIDTH_CLASS} flex-col pt-1 pb-4`}>
       {NAV_ITEMS.map((item) => {
         if (item.comingSoon) {
           return (
-            <span key={item.href} className={mobileComingSoonClass}>
-              {item.label}
-              <span className={comingSoonBadgeClass}>준비중</span>
-            </span>
+            <NavComingSoonItem
+              key={item.href}
+              label={item.label}
+              className={mobileComingSoonClass}
+            />
           );
         }
         const active = pathname === item.href;

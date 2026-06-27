@@ -3,7 +3,6 @@ import { unstable_cache } from 'next/cache';
 import getMenu from '@/api/getMenu';
 import { MENU_CATEGORIES, MenuCategoryLabel } from '@/constants/menu';
 import { SITE_NAME } from '@/constants/site';
-import { SITE_URL } from '@/utils/env';
 import {
   CommandKeyword,
   DAY_OFFSET_MAP,
@@ -11,6 +10,7 @@ import {
 } from '@/constants/slack';
 import dayjs, { SEOUL_TIMEZONE } from '@/lib/dayjs';
 import { MenuCategory, MenuType } from '@/models/menu';
+import { SITE_URL } from '@/utils/env';
 
 export const getCachedMenu = unstable_cache(
   (date: string) => getMenu({ start: date, end: date }),

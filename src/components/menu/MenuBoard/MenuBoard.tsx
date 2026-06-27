@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from 'react';
 
-import { cn } from '@/utils/cn';
 
 import { MENU_CATEGORIES, MenuCategoryLabel } from '@/constants/menu';
 import { useDateUrl } from '@/hooks/useDateUrl';
@@ -12,6 +11,7 @@ import { usePick } from '@/hooks/usePick';
 import { useVotes } from '@/hooks/useVote';
 import dayjs from '@/lib/dayjs';
 import { useDateStore } from '@/store/useDateStore';
+import { cn } from '@/utils/cn';
 import { formatYYYYMMDD } from '@/utils/date';
 import { isAfterClose, isFutureMenuPending } from '@/utils/menuPolicy';
 

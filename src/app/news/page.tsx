@@ -1,6 +1,6 @@
+import { Newspaper } from 'lucide-react';
 import type { Metadata } from 'next';
 
-import { Newspaper } from 'lucide-react';
 
 import getNews, { getLastCrawledAt } from '@/api/getNews';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';

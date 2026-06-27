@@ -14,15 +14,17 @@ import {
   NOTICE_READ_EVENT,
 } from '@/utils/noticePolicy';
 
+import { CONTENT_WIDTH_CLASS } from '../PageLayout/PageLayout.styles';
+
+import DesktopNav from './_DesktopNav/DesktopNav';
+import MobileControls from './_MobileControls/MobileControls';
+import MobileOverlay from './_MobileOverlay/MobileOverlay';
+import NoticeBell from './_NoticeBell/NoticeBell';
 import {
   desktopBellLinkClass,
   headerClass,
   logoLinkClass,
 } from './SiteHeader.styles';
-import DesktopNav from './_DesktopNav/DesktopNav';
-import MobileControls from './_MobileControls/MobileControls';
-import MobileOverlay from './_MobileOverlay/MobileOverlay';
-import NoticeBell from './_NoticeBell/NoticeBell';
 
 const SiteHeader = () => {
   const pathname = usePathname();
@@ -69,7 +71,9 @@ const SiteHeader = () => {
   return (
     <>
       <header className={headerClass(scrolled, menuOpen)}>
-        <div className="mx-auto flex h-14 w-[min(880px,calc(100%-40px))] items-center gap-7">
+        <div
+          className={`mx-auto flex h-14 ${CONTENT_WIDTH_CLASS} items-center gap-7`}
+        >
           <Link href="/" className={logoLinkClass}>
             {SITE_NAME}
           </Link>

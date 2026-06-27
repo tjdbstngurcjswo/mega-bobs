@@ -3,7 +3,6 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 
-import type { NoticeBodyProps } from './NoticeBody.types';
 import {
   blockquoteClass,
   codeClass,
@@ -19,6 +18,7 @@ import {
   ulClass,
   wrapperClass,
 } from './NoticeBody.styles';
+import type { NoticeBodyProps } from './NoticeBody.types';
 
 const NoticeBody = ({ body }: NoticeBodyProps) => (
   <div className={wrapperClass}>

@@ -1,4 +1,6 @@
-export const pageMainClass = 'mx-auto w-[min(880px,calc(100%-40px))] flex-1';
+export const CONTENT_WIDTH_CLASS = 'w-[min(880px,calc(100%-40px))]';
+
+export const pageMainClass = `mx-auto ${CONTENT_WIDTH_CLASS} flex-1`;
 
 export const pageHeaderClass =
   'flex flex-col justify-start pt-12 pb-6 min-h-[168px] max-[640px]:pt-4 max-[640px]:pb-2 max-[640px]:min-h-0';

@@ -1,14 +1,15 @@
 'use client';
 
+import { ChevronDown, Clock, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import { ChevronDown, Clock, Loader2 } from 'lucide-react';
 
-import type { CompanyNews } from '@/models/news';
 import dayjs from '@/lib/dayjs';
+import type { CompanyNews } from '@/models/news';
 import { formatRelativeDate } from '@/utils/date';
 
 import NewsCard from '../NewsCard';
+
 import { FILTER_OPTIONS } from './NewsFilter.constants';
 import {
   crawledAtIconClass,

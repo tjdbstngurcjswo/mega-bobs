@@ -1,6 +1,8 @@
+import dayjs from '@/lib/dayjs';
 import type { Notice } from '@/models/notice';
 
 const NOTICE_READ_KEY = 'notice-read';
+const NEW_NOTICE_THRESHOLD_DAYS = 7;
 
 export const getReadNoticeIds = (): string[] => {
   if (typeof window === 'undefined') return [];
@@ -29,4 +31,12 @@ export const markNoticeRead = (id: string): void => {
 export const hasNewNotice = (
   notices: Notice[],
   readIds: string[] = []
-): boolean => notices.length > 0 && !readIds.includes(notices[0].id);
+): boolean => {
+  if (notices.length === 0) return false;
+  const top = notices[0];
+  if (readIds.includes(top.id)) return false;
+  return (
+    dayjs().tz().diff(dayjs.tz(top.publishedAt), 'day') <
+    NEW_NOTICE_THRESHOLD_DAYS
+  );
+};

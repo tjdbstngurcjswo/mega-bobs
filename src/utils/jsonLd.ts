@@ -1,6 +1,5 @@
-import { SITE_URL } from '@/utils/env';
-
 import { SITE_NAME } from '@/constants/site';
+import { SITE_URL } from '@/utils/env';
 
 export const SITE_DESC =
   '메가존 구내식당·메가존클라우드 구내식당 주간 식단표를 한눈에. 코스1·코스2·테이크아웃 메뉴 조회, 실시간 운영 상태 확인, 맛 평가 투표까지.';
