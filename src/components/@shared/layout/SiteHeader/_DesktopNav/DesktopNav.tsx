@@ -2,12 +2,12 @@ import Link from 'next/link';
 
 import { NAV_ITEMS } from '@/constants/site';
 
+import NavComingSoonItem from '../_NavComingSoonItem/NavComingSoonItem';
 import {
   desktopComingSoonClass,
   desktopNavClass,
   desktopNavLinkClass,
 } from '../SiteHeader.styles';
-import NavComingSoonItem from '../_NavComingSoonItem/NavComingSoonItem';
 
 const DesktopNav = ({
   pathname,
