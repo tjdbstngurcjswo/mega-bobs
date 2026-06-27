@@ -1,6 +1,6 @@
 'use client';
 
-import { sendGAEvent } from '@next/third-parties/google';
+import { trackEvent } from '@/utils/ga';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
@@ -76,7 +76,7 @@ const MenuBoardDayBar = () => {
                 toast('지난주까지만 볼 수 있어요');
                 return;
               }
-              sendGAEvent('event', 'week_navigate', { direction: 'prev' });
+              trackEvent('event', 'week_navigate', { direction: 'prev' });
               goToPrevWeek();
             }}
             aria-label="지난주 메뉴 보기"
@@ -99,7 +99,7 @@ const MenuBoardDayBar = () => {
                 toast('영양사 선생님이 아직 고민 중이에요');
                 return;
               }
-              sendGAEvent('event', 'week_navigate', { direction: 'next' });
+              trackEvent('event', 'week_navigate', { direction: 'next' });
               goToNextWeek();
             }}
             aria-label="다음주 메뉴 보기"
@@ -120,7 +120,7 @@ const MenuBoardDayBar = () => {
               key={day.format('YYYY-MM-DD')}
               type="button"
               onClick={() => {
-                sendGAEvent('event', 'day_select', {
+                trackEvent('event', 'day_select', {
                   offset: day.diff(today, 'day'),
                 });
                 setSelectedDate(day);
