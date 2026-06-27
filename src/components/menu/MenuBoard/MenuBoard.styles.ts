@@ -13,5 +13,5 @@ export const courseTabBarClass = 'flex gap-1 px-2 pt-0 pb-0 min-[640px]:hidden';
 
 export const courseTabClass = (active: boolean) =>
   active
-    ? 'flex-1 rounded-lg py-2.5 text-[13px] font-bold text-ink bg-accent dark:bg-line dark:text-cream text-center transition-colors'
-    : 'flex-1 rounded-lg py-2.5 text-[13px] font-semibold text-muted bg-bg/80 text-center transition-colors hover:text-ink hover:bg-surface-warm';
+    ? 'flex-1 py-2.5 text-[13px] font-bold text-ink bg-accent dark:bg-line dark:text-cream text-center transition-colors'
+    : 'flex-1 py-2.5 text-[13px] font-semibold text-muted bg-bg/80 text-center transition-colors hover:text-ink hover:bg-surface-warm';
