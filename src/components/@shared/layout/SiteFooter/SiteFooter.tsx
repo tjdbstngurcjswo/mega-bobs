@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { CONTENT_WIDTH_CLASS } from '@/components/@shared/layout/PageLayout/PageLayout.styles';
 import { FOOTER_LINKS, SITE_NAME } from '@/constants/site';
 
 import {
@@ -11,7 +12,7 @@ import {
 
 const SiteFooter = () => (
   <footer className="mt-8">
-    <div className="mx-auto w-[min(880px,calc(100%-40px))] py-6">
+    <div className={`mx-auto ${CONTENT_WIDTH_CLASS} py-6`}>
       <div className="flex flex-col items-center gap-4 text-center min-[560px]:flex-row min-[560px]:items-center min-[560px]:justify-between min-[560px]:gap-0 min-[560px]:text-left">
         {/* 브랜드 단 */}
         <div className="flex flex-col items-center gap-1 min-[560px]:flex-row min-[560px]:gap-5">
