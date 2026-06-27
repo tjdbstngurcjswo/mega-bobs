@@ -28,9 +28,7 @@ export const dayGridClass = 'grid grid-cols-7 gap-1 px-2 pb-1';
 export const dayColumnClass = (isSelected: boolean) =>
   cn(
     'relative flex min-h-[44px] cursor-pointer flex-col items-center justify-center gap-1 rounded-t-lg py-2.5 transition-colors',
-    isSelected
-      ? 'bg-line/60 hover:bg-line/60'
-      : 'bg-bg/50 hover:bg-surface-warm'
+    isSelected ? 'hover:bg-line/60' : 'hover:bg-surface-warm'
   );
 
 export const daySelectionBarClass =
