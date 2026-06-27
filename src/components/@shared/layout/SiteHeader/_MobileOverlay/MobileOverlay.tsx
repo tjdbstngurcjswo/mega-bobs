@@ -5,11 +5,11 @@ import type { Dispatch, SetStateAction } from 'react';
 import { NAV_ITEMS } from '@/constants/site';
 
 import {
-  comingSoonBadgeClass,
   mobileComingSoonClass,
   mobileNavLinkClass,
   mobileOverlayClass,
 } from '../SiteHeader.styles';
+import NavComingSoonItem from '../_NavComingSoonItem/NavComingSoonItem';
 
 const MobileOverlay = ({
   menuOpen,
@@ -27,10 +27,11 @@ const MobileOverlay = ({
       {NAV_ITEMS.map((item) => {
         if (item.comingSoon) {
           return (
-            <span key={item.href} className={mobileComingSoonClass}>
-              {item.label}
-              <span className={comingSoonBadgeClass}>준비중</span>
-            </span>
+            <NavComingSoonItem
+              key={item.href}
+              label={item.label}
+              className={mobileComingSoonClass}
+            />
           );
         }
         const active = pathname === item.href;
