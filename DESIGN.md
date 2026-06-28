@@ -58,7 +58,7 @@
 | `--color-highlight`                  | `#eedfa0`             | 헤드라인 형광펜 (코스 카테고리 레이블)               |
 | `--color-down` / `--color-down-soft` | `#6e8094` / `#e4eaf3` | 비활성/보조 버튼 그레이                              |
 
-- **테마: 라이트 단일 확정.** 다크모드 없음(`next-themes` 미사용).
+- **테마: 라이트 / 다크 지원.** `next-themes` (`attribute="data-theme"`) + CSS 토큰 오버라이드 방식. 초기값 시스템 설정, 헤더 ThemeToggle로 수동 전환, `storageKey: "megabobs-theme"`.
 - **하드코딩 금지:** 토큰 밖 그레이(`#B5B5B2` 등)는 토큰으로 흡수할 것.
 
 ## Spacing & Layout
@@ -82,7 +82,7 @@
   - `fadeIn` — opacity만. 0.3s ease.
   - `softPulse` — opacity 1↔0.55 반복 (2.4s). HeroStatus 운영 중 `Utensils` 아이콘.
 - **스태거 패턴:** `index * 70ms` delay — 목록 항목이 순차 등장하는 효과.
-- `prefers-reduced-motion` 대응 필요 (미구현 — 향후 추가).
+- `prefers-reduced-motion: reduce` 시 `fadeUp` translateY 제거, `softPulse` 정지 (`globals.css`).
 
 ## Iconography
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { sendGAEvent } from '@next/third-parties/google';
+import { trackEvent } from '@/utils/ga';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { PickResult, PickType } from '@/models/vote';
@@ -106,7 +106,7 @@ export const usePick = (date: string, { enabled = true } = {}) => {
           body: JSON.stringify({ date, pick_type: isSame ? null : pick_type }),
         });
         if (!res.ok) throw new Error('submit failed');
-        sendGAEvent('event', 'menu_pick', {
+        trackEvent('event', 'menu_pick', {
           pick_type: isSame ? null : pick_type,
           action: isSame ? 'cancel' : prev !== null ? 'change' : 'select',
           date,

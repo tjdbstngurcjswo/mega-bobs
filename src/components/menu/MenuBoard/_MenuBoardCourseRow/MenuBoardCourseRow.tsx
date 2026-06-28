@@ -1,9 +1,10 @@
 'use client';
 
-import { ThumbsDown, ThumbsUp, Users } from 'lucide-react';
+import { Check, Heart, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import { MenuCategoryLabel } from '@/constants/menu';
+import { cn } from '@/utils/cn';
 
 import {
   tooltipClass,
@@ -12,12 +13,14 @@ import {
   courseLabelClass,
   downVoteButtonClass,
   downVoteIconClass,
+  eggLabelClass,
   itemKcalClass,
   itemNameClass,
-  itemSeparatorClass,
   itemsTextClass,
   kcalClass,
   pickButtonClass,
+  pickCountClass,
+  pickHeartClass,
   tabularNumsClass,
   upVoteButtonClass,
   upVoteIconClass,
@@ -25,7 +28,13 @@ import {
 } from './MenuBoardCourseRow.styles';
 import { MenuBoardCourseRowProps } from './MenuBoardCourseRow.types';
 
-const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
+const MenuBoardCourseRow = ({
+  menu,
+  vote,
+  pick,
+  onHeaderClick,
+  eggStep = 0,
+}: MenuBoardCourseRowProps) => {
   const [animating, setAnimating] = useState<'up' | 'down' | null>(null);
   const [longPressTarget, setLongPressTarget] = useState<'up' | 'down' | null>(
     null
@@ -68,16 +77,23 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
     <div className={courseRowClass}>
       <div className={courseRowHeaderClass}>
         <span
-          className={courseLabelClass}
+          className={cn(courseLabelClass, eggLabelClass(eggStep))}
           style={{
             background:
               'linear-gradient(transparent 40%, var(--color-highlight) 40%)',
             paddingInline: '2px',
           }}
+          onClick={onHeaderClick}
+          role={onHeaderClick ? 'button' : undefined}
+          tabIndex={onHeaderClick ? 0 : undefined}
+          onKeyDown={
+            onHeaderClick
+              ? (e) => e.key === 'Enter' && onHeaderClick()
+              : undefined
+          }
         >
           {MenuCategoryLabel[menu.category].ko}
         </span>
-        {total > 0 && <span className={kcalClass}>{total} kcal</span>}
         {pick?.show && (
           <button
             type="button"
@@ -90,8 +106,19 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
               pick.hasAnyPick ?? false
             )}
           >
-            <Users size={10} strokeWidth={2.5} />
-            {pick.count ?? 0}명이 선택했어요
+            {pick.hasAnyPick ? (
+              <>
+                <Check size={10} strokeWidth={2.5} />
+                <span className={pickCountClass((pick.count ?? 0) >= 1)}>
+                  {pick.count ?? 0}
+                </span>
+                명
+              </>
+            ) : (
+              <span className={pickHeartClass}>
+                <Heart size={10} strokeWidth={2.5} />
+              </span>
+            )}
           </button>
         )}
         {vote?.show && (
@@ -143,7 +170,7 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
               onTouchMove={cancelLongPress}
               disabled={vote.isSubmitting}
               aria-pressed={myVote === 'down'}
-              aria-label="별로예요"
+              aria-label="아쉬웠어요"
               className={downVoteButtonClass(myVote)}
             >
               <span className={downVoteIconClass(animating)}>
@@ -153,25 +180,28 @@ const MenuBoardCourseRow = ({ menu, vote, pick }: MenuBoardCourseRowProps) => {
                 {vote.result?.down_count ?? 0}
               </span>
               <span className={tooltipClass(longPressTarget === 'down')}>
-                별로였어요
+                아쉬웠어요
               </span>
             </button>
           </div>
         )}
       </div>
       <p className={itemsTextClass}>
-        {menu.items.map((item, i) => (
+        {menu.items.map((item) => (
           <span key={item.name} className={itemNameClass}>
-            {item.name}
+            <span className="break-words">{item.name}</span>
             {item.kcal > 0 && (
               <i className={itemKcalClass}>{`${item.kcal}kcal`}</i>
-            )}
-            {i < menu.items.length - 1 && (
-              <span className={itemSeparatorClass}>·</span>
             )}
           </span>
         ))}
       </p>
+      {total > 0 && (
+        <p className={kcalClass}>
+          <span>총 칼로리</span>
+          <span>{total} kcal</span>
+        </p>
+      )}
     </div>
   );
 };

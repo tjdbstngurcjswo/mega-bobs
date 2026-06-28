@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 
-import { LegalPageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import {
   legalSectionBodyClass,
   legalSectionClass,
   legalSectionListClass,
   legalSectionTitleClass,
-} from '@/components/@shared/layout/LegalPageLayout/LegalPageLayout.styles';
+} from '@/app/legal.styles';
+import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
+import LegalTocNav from '@/components/legal/LegalTocNav/LegalTocNav';
 import { SITE_NAME } from '@/constants/site';
 
 export const metadata: Metadata = {
@@ -29,11 +30,13 @@ const TOC_ITEMS = [
 const TermsPage = () => (
   <>
     <SiteHeader />
-    <LegalPageLayout
+    <PageLayout
+      eyebrow="법적 고지"
       title="이용약관"
-      updatedAt="2026. 6. 8."
-      tocItems={TOC_ITEMS}
+      subtitle="최종 업데이트: 2026. 6. 8."
     >
+      <LegalTocNav items={TOC_ITEMS} />
+
       <section id="service-overview" className={legalSectionClass}>
         <h2 className={legalSectionTitleClass}>1. 서비스 개요</h2>
         <p className={legalSectionBodyClass}>
@@ -119,7 +122,7 @@ const TermsPage = () => (
           페이지를 통해 연락해 주세요.
         </p>
       </section>
-    </LegalPageLayout>
+    </PageLayout>
     <SiteFooter />
   </>
 );

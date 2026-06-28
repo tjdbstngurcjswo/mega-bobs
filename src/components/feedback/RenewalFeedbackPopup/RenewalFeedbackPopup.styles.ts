@@ -6,10 +6,10 @@ export const containerClass =
 
 // 세로 탭 버튼 — 검정
 export const fabClass =
-  'flex items-center justify-center bg-(--color-ink) px-1.5 py-2 sm:px-2 sm:py-3 cursor-pointer hover:bg-(--color-board-2) transition-colors shadow-[-3px_0_12px_rgba(0,0,0,0.16)]';
+  'flex items-center justify-center bg-(--color-ink) px-1.5 py-2 sm:px-2 sm:py-3 cursor-pointer hover:opacity-80 transition-opacity shadow-[-3px_0_12px_rgba(0,0,0,0.16)]';
 
 export const fabTextClass =
-  'text-[9px] sm:text-[11px] font-[800] text-white tracking-[0.08em] select-none';
+  'text-[9px] sm:text-[11px] font-[800] text-(--color-bg) tracking-[0.08em] select-none';
 
 // 팝업 — FAB 버튼에서 펼쳐지는 애니메이션
 export const popupClass =
@@ -31,7 +31,7 @@ export const subtitleClass = 'px-3 pb-2.5 text-[11px] text-(--color-ink-2)';
 
 export const scoresClass = 'flex gap-1 px-3 pb-2.5';
 
-export const scoreButtonBase =
+const scoreButtonBase =
   'w-7 h-7 flex items-center justify-center text-[12px] font-[700] cursor-pointer transition-colors';
 
 export const scoreButtonIdle = `${scoreButtonBase} bg-(--color-surface-warm) text-(--color-ink-2)`;

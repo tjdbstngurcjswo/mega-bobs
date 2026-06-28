@@ -1,60 +1,65 @@
 import { cn } from '@/utils/cn';
 
-export const dayBarContainerClass = 'bg-surface flex flex-col';
+export const dayBarContainerClass = 'flex flex-col bg-surface';
 
-export const weekLabelClass = 'flex items-center gap-1 px-4 pt-1.5 pb-0.5';
+export const topBarClass = 'flex items-center justify-between px-4 pt-3 pb-2.5';
 
-export const weekRangeClass =
-  'flex-1 text-center text-[11px] font-semibold tabular-nums text-muted';
+export const weekInfoClass = 'flex items-baseline gap-1.5 leading-none';
 
-export const navButtonClass = (visible: boolean) =>
+export const weekLabelTextClass = 'text-[13px] font-[700] text-ink';
+
+export const weekRangeTextClass = 'text-[11px] font-[500] text-muted';
+
+export const navGroupClass = 'flex items-center gap-0.5';
+
+export const navIconBtnClass = (enabled: boolean) =>
   cn(
-    'group relative flex cursor-pointer items-center justify-center px-1 py-2 text-muted transition-opacity duration-100 hover:text-ink',
-    !visible && 'invisible pointer-events-none'
+    'flex size-11 items-center justify-center transition-colors',
+    enabled
+      ? 'cursor-pointer text-muted hover:bg-surface hover:text-ink'
+      : 'cursor-default text-muted opacity-40'
   );
 
-export const navArrowClass =
-  'text-[14px] leading-none font-light transition-transform group-active:scale-75';
+export const todayBtnClass =
+  'relative cursor-pointer px-3 py-1 text-[11px] font-[700] text-muted transition-colors hover:bg-surface hover:text-ink after:absolute after:content-[""] after:-inset-x-1.5 after:-inset-y-3';
 
-export const navTooltipClass =
-  'pointer-events-none absolute top-full left-1/2 z-10 mt-1.5 -translate-x-1/2 whitespace-nowrap bg-ink px-2 py-1 text-[10px] font-medium text-cream invisible opacity-0 transition-opacity group-hover:visible group-hover:opacity-100';
+export const dayGridClass = 'grid grid-cols-7 gap-1 px-2 pb-1';
 
-export const chipAreaClass = 'px-4 pb-2.5';
-
-export const chipRowClass = 'relative flex gap-1.5 overflow-hidden';
-
-export const indicatorClass = (isToday: boolean) =>
+export const dayColumnClass = (isSelected: boolean) =>
   cn(
-    'pointer-events-none absolute inset-y-0 transition-transform duration-200 ease-out',
-    isToday ? 'bg-accent' : 'bg-ink'
+    'relative flex min-h-[44px] cursor-pointer flex-col items-center justify-center gap-1 py-2.5 transition-colors',
+    isSelected ? 'hover:bg-line/50' : 'hover:bg-line/25'
   );
 
-export const chipBg = (isSelected: boolean): string => {
-  if (!isSelected) return 'hover:bg-surface-warm';
-  return '';
-};
+export const daySelectionBarClass =
+  'absolute bottom-0 left-0 right-0 h-0.5 bg-accent';
 
-const dowColor = (dow: number): string | null => {
-  if (dow === 0 || dow === 6) return 'text-muted';
-  return null;
-};
-
-export const labelClass = (
+export const dayDowClass = (
   isSelected: boolean,
   isToday: boolean,
   dow: number
-): string => {
-  if (isSelected) return isToday ? 'text-ink/55' : 'text-cream-2';
-  if (isToday) return 'text-accent-text';
-  return dowColor(dow) ?? 'text-muted';
-};
+) =>
+  cn(
+    'text-[13px] font-[700] leading-none',
+    isSelected && isToday
+      ? 'text-accent-text'
+      : isSelected
+        ? 'text-ink'
+        : isToday
+          ? 'text-accent-text'
+          : dow === 0 || dow === 6
+            ? 'text-muted'
+            : 'text-ink-2'
+  );
 
-export const dateClass = (
-  isSelected: boolean,
-  isToday: boolean,
-  dow: number
-): string => {
-  if (isSelected) return isToday ? 'text-ink' : 'text-cream';
-  if (isToday) return 'text-accent-text';
-  return dowColor(dow) ?? 'text-ink';
-};
+export const dayDateClass = (isSelected: boolean, isToday: boolean) =>
+  cn(
+    'text-[11px] font-[500] tabular-nums leading-none',
+    isSelected && isToday
+      ? 'text-accent-text'
+      : isSelected
+        ? 'text-ink-2'
+        : isToday
+          ? 'text-accent-text'
+          : 'text-muted'
+  );

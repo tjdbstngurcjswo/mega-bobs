@@ -8,6 +8,8 @@
 
 - **메뉴 조회** — 주간 캘린더로 날짜를 선택해 코스1 · 코스2 · 테이크아웃 메뉴 확인
 - **운영 상태** — 운영 중 / 준비 중 / 마감 실시간 자동 표시 (서울 기준)
+- **다크 모드** — 라이트 / 다크 테마 전환, 선택값 유지
+- **날짜 딥링크 & 메뉴 공유** — 날짜 선택 시 URL 자동 변경, 링크 공유로 해당 날짜 메뉴 바로 확인
 - **맛 평가 투표** — 코스별 👍 / 👎 익명 투표
 - **식전 픽** — 코스1 / 코스2 / 테이크아웃 / 패스 중 선택
 - **공지사항** — 정적 공지 목록, 헤더 벨 신규 알림
@@ -19,16 +21,16 @@
 
 ## 기술 스택
 
-| 분류         | 기술                                               |
-| ------------ | -------------------------------------------------- |
-| 프레임워크   | Next.js 15 (App Router, Turbopack)                 |
-| UI           | React 19, Tailwind CSS v4, Lucide React            |
-| 상태 관리    | Zustand                                            |
-| 데이터베이스 | Supabase (PostgreSQL)                              |
-| 날짜 처리    | dayjs (`Asia/Seoul` timezone)                      |
-| 배포         | Vercel                                             |
-| 테스트       | Vitest, Testing Library                            |
-| 포맷         | ESLint, Prettier (+ `prettier-plugin-tailwindcss`) |
+| 분류         | 기술                                                 |
+| ------------ | ---------------------------------------------------- |
+| 프레임워크   | Next.js 15 (App Router, Turbopack)                   |
+| UI           | React 19, Tailwind CSS v4, Lucide React, next-themes |
+| 상태 관리    | Zustand                                              |
+| 데이터베이스 | Supabase (PostgreSQL)                                |
+| 날짜 처리    | dayjs (`Asia/Seoul` timezone)                        |
+| 배포         | Vercel                                               |
+| 테스트       | Vitest, Testing Library                              |
+| 포맷         | ESLint, Prettier (+ `prettier-plugin-tailwindcss`)   |
 
 ---
 
@@ -58,14 +60,3 @@ pnpm dev        # http://localhost:3000
 ```
 
 주요 스크립트: `pnpm build` · `pnpm lint` · `pnpm test` · `pnpm mcp`
-
----
-
-## Notion 문서
-
-> 스킬에서 Notion API 호출 시 아래 ID를 참조한다.
-
-| 문서               | 링크                                                                                 | Notion ID                              |
-| ------------------ | ------------------------------------------------------------------------------------ | -------------------------------------- |
-| 기획문서 (Phase 1) | [Phase-1](https://app.notion.com/p/pionari/Phase-1-376cb4f84b7f81ba8a2cc6c54aa75fd1) | `376cb4f8-4b7f-81ba-8a2c-c6c54aa75fd1` |
-| 티켓 보드 (DB)     | [티켓 보드](https://app.notion.com/p/pionari/377cb4f84b7f8012ad8cca1ca0bfad59])      | `377cb4f8-4b7f-8012-ad8c-ca1ca0bfad59` |

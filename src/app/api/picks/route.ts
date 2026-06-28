@@ -92,18 +92,12 @@ export const POST = async (req: NextRequest) => {
   }
 
   // upsert — INSERT ... ON CONFLICT DO UPDATE: 원자적, delete+insert gap 없음
-  const { error } = await supabaseServer.from('menu_picks').upsert(
-    {
-      voter_id: voterId,
-      date,
-      pick_type: pickType,
-      ip: geo.ip,
-      country: geo.country,
-      region: geo.region,
-      city: geo.city,
-    },
-    { onConflict: 'voter_id,date' }
-  );
+  const { error } = await supabaseServer
+    .from('menu_picks')
+    .upsert(
+      { voter_id: voterId, date, pick_type: pickType, ip: geo.ip },
+      { onConflict: 'voter_id,date' }
+    );
   if (error)
     return NextResponse.json({ error: error.message }, { status: 500 });
 

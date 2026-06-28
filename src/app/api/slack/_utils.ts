@@ -10,6 +10,7 @@ import {
 } from '@/constants/slack';
 import dayjs, { SEOUL_TIMEZONE } from '@/lib/dayjs';
 import { MenuCategory, MenuType } from '@/models/menu';
+import { SITE_URL } from '@/utils/env';
 
 export const getCachedMenu = unstable_cache(
   (date: string) => getMenu({ start: date, end: date }),
@@ -58,5 +59,9 @@ export const toSlackFormat = (
     return [`*${label}*`, ...lines].join('\n');
   }).join('\n\n');
 
-  return sections ? [header, sections].join('\n\n') : header;
+  const footer = `<${SITE_URL}|🔗 메뉴 투표하기>`;
+
+  return sections
+    ? [header, sections, footer].join('\n\n')
+    : [header, footer].join('\n\n');
 };

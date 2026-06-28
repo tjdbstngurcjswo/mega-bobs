@@ -53,7 +53,7 @@ const HeroStatus = ({ menus }: { menus: MenuType[] }) => {
       <Icon
         size={26}
         strokeWidth={2}
-        className="shrink-0"
+        className="shrink-0 max-[640px]:size-[18px]"
         style={{
           animation: isOperating
             ? 'softPulse 2.4s ease-in-out infinite'

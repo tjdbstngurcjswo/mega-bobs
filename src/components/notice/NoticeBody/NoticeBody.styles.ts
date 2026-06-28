@@ -5,8 +5,6 @@ export const h1Class =
 export const h2Class = 'text-ink mt-5 mb-1.5 text-[17px] font-extrabold';
 export const h3Class = 'text-ink mt-4 mb-1 text-[15px] font-bold';
 export const pClass = 'text-ink-2 my-2 text-[14px] leading-relaxed';
-export const imgClass =
-  'border-line my-4 w-full rounded-sm border object-cover';
 export const linkClass = 'text-accent-text underline underline-offset-2';
 export const ulClass = 'text-ink-2 my-2 list-disc pl-5 text-[14px]';
 export const olClass = 'text-ink-2 my-2 list-decimal pl-5 text-[14px]';

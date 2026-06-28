@@ -3,12 +3,15 @@ import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { headers } from 'next/headers';
-import { Toaster } from 'react-hot-toast';
 
 import './globals.css';
 
+import ConsoleArt from '@/components/@shared/ConsoleArt';
+import ThemeProvider from '@/components/@shared/providers/ThemeProvider';
+import ToasterProvider from '@/components/@shared/providers/ToasterProvider';
 import RenewalFeedbackPopup from '@/components/feedback/RenewalFeedbackPopup/RenewalFeedbackPopup';
 import { SITE_NAME } from '@/constants/site';
+import { isProd, SITE_URL } from '@/utils/env';
 import { SITE_DESC } from '@/utils/jsonLd';
 
 import { bodyClass } from './layout.styles';
@@ -24,12 +27,10 @@ const pretendard = localFont({
   variable: '--font-pretendard',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 const siteDesc = SITE_DESC;
-const isProd = process.env.VERCEL_ENV === 'prod';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: `${SITE_NAME} ∙ 메가존 구내식당 점심 허브`,
     template: `${SITE_NAME} ∙ %s`,
@@ -74,15 +75,29 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'ko_KR',
-    url: siteUrl,
+    url: SITE_URL,
     siteName: SITE_NAME,
     title: `${SITE_NAME} ∙ 메가존 구내식당 점심 허브`,
     description: siteDesc,
+    images: [
+      {
+        url: '/opengraph-image.png',
+        width: 1200,
+        height: 630,
+        alt: `${SITE_NAME} ∙ 메가존 구내식당 점심 허브`,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: `${SITE_NAME} ∙ 메가존 구내식당 점심 허브`,
     description: siteDesc,
+    images: [
+      {
+        url: '/twitter-image.png',
+        alt: `${SITE_NAME} ∙ 메가존 구내식당 점심 허브`,
+      },
+    ],
   },
   other: {
     'google-adsense-account': 'ca-pub-4501038602130909',
@@ -98,33 +113,24 @@ export default async function RootLayout({
   const country = hdrs.get('x-vercel-ip-country');
   const isKorea = !country || country === 'KR';
   return (
-    <html lang="ko" className={pretendard.variable}>
+    <html lang="ko" className={pretendard.variable} suppressHydrationWarning>
       <head>
         {process.env.NEXT_PUBLIC_SUPABASE_URL && (
           <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} />
         )}
       </head>
       <body className={bodyClass}>
-        {children}
-        <Toaster
-          position="bottom-center"
-          toastOptions={{
-            duration: 2000,
-            style: {
-              background: '#111720',
-              color: '#fff',
-              fontSize: '14px',
-              fontWeight: '500',
-              borderRadius: '0',
-            },
-          }}
-        />
-        {process.env.NEXT_PUBLIC_RENEWAL_FEEDBACK && isKorea && (
-          <RenewalFeedbackPopup
-            version={process.env.NEXT_PUBLIC_RENEWAL_FEEDBACK}
-          />
-        )}
-        {isProd && <Analytics />}
+        <ThemeProvider>
+          <ConsoleArt />
+          {children}
+          <ToasterProvider />
+          {isKorea && (
+            <RenewalFeedbackPopup
+              version={process.env.NEXT_PUBLIC_APP_VERSION ?? 'unknown'}
+            />
+          )}
+          {isProd && <Analytics />}
+        </ThemeProvider>
       </body>
       {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
