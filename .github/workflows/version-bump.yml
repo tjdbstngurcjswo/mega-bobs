@@ -42,7 +42,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - name: Bump version and push
@@ -54,6 +54,7 @@ jobs:
           NEW_VERSION=$(node -p "require('./package.json').version")
           git add package.json
           git commit -m "chore: bump version to v${NEW_VERSION} [skip ci]"
+          git pull --rebase origin main
           git push
           echo "version=${NEW_VERSION}" >> $GITHUB_OUTPUT
 
