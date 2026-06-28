@@ -36,24 +36,27 @@ const NoticeBody = ({ body }: NoticeBodyProps) => (
           if (hasImage) return <>{children}</>;
           return <p className={pClass}>{children}</p>;
         },
-        img: ({ src, alt }) =>
-          src ? (
-            <figure className="mx-auto my-4 w-4/5">
+        img: ({ src, alt }) => {
+          const small = alt?.startsWith('[small]');
+          const caption = small ? alt?.slice(7).trim() : alt;
+          return src ? (
+            <figure className={`mx-auto my-4 ${small ? 'w-2/5' : 'w-4/5'}`}>
               <Image
                 src={src as string}
-                alt={alt ?? ''}
+                alt={caption ?? ''}
                 width={0}
                 height={0}
-                sizes="80vw"
+                sizes={small ? '40vw' : '80vw'}
                 className="border-line block h-auto w-full rounded-lg border"
               />
-              {alt && (
+              {caption && (
                 <figcaption className="text-muted mt-1.5 text-[11px]">
-                  {alt}
+                  {caption}
                 </figcaption>
               )}
             </figure>
-          ) : null,
+          ) : null;
+        },
         a: ({ href, children }) => {
           const isExternal = href?.startsWith('http');
           return (
