@@ -6,7 +6,7 @@ import { CONSOLE_ART, CONSOLE_ART_STYLE } from './ConsoleArt.constants';
 
 const ConsoleArt = () => {
   useEffect(() => {
-    console.log(`%c${  CONSOLE_ART}`, CONSOLE_ART_STYLE);
+    console.log(`%c${CONSOLE_ART}`, CONSOLE_ART_STYLE);
   }, []);
 
   return null;
