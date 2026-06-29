@@ -1,5 +1,4 @@
-import { after } from 'next/server';
-import { NextRequest, NextResponse } from 'next/server';
+import { after, NextRequest, NextResponse } from 'next/server';
 
 import { MenuType } from '@/models/menu';
 import { trackServerEvent } from '@/utils/gaServer';
