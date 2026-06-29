@@ -1,6 +1,8 @@
+import { after } from 'next/server';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { MenuType } from '@/models/menu';
+import { trackServerEvent } from '@/utils/gaServer';
 
 import { getCachedMenu, toDateInfo, toSlackFormat } from './_utils';
 
@@ -35,6 +37,8 @@ export const POST = async (req: NextRequest) => {
   }
 
   const textResponse = toSlackFormat(menus, keyword, date);
+
+  after(() => trackServerEvent('slack_bot_call', { keyword, date }));
 
   return NextResponse.json({
     response_type: 'in_channel',

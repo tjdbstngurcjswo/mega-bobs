@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import type { GameDef } from '@/constants/games';
+import { trackEvent } from '@/utils/ga';
 
 import {
   cardBadgeClass,
@@ -34,6 +35,9 @@ const GameCard = ({ slug, name, description, status }: GameDef) => {
     const next = clickCount + 1;
     setClickCount(next);
     const easter = next >= EASTER_EGG_THRESHOLD;
+    if (easter && !isEasterEgg) {
+      trackEvent('event', 'easter_egg_gamecard', { slug });
+    }
     setIsEasterEgg(easter);
     setToastVisible(true);
     setTimeout(() => setToastVisible(false), 2000);
