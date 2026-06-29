@@ -3,6 +3,7 @@
 import { Plane, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 
+import { trackEvent } from '@/utils/ga';
 
 import {
   BOARD_EMPTY_COPY,
@@ -29,9 +30,13 @@ const MenuBoardEmpty = ({
   const [planeCount, setPlaneCount] = useState(INITIAL_PLANE_COUNT);
 
   const handlePlaneClick = () => {
-    setPlaneCount((prev) =>
-      prev >= PLANE_CONFIGS.length ? INITIAL_PLANE_COUNT : prev + 1
-    );
+    const next =
+      planeCount >= PLANE_CONFIGS.length ? INITIAL_PLANE_COUNT : planeCount + 1;
+    trackEvent('event', 'easter_egg_airplane', {
+      plane_count: next,
+      is_max: next >= PLANE_CONFIGS.length,
+    });
+    setPlaneCount(next);
   };
 
   const closedTitle = (() => {

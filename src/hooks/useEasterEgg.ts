@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { trackEvent } from '@/utils/ga';
+
 export type EggStep = 0 | 1 | 2;
 
 const THRESHOLD = 5;
@@ -31,11 +33,16 @@ export const useEasterEgg = () => {
       clickCountRef.current = 0;
       setTriggered(true);
       setClickCount(0);
+      trackEvent('event', 'easter_egg_confetti', { trigger: 'course_label' });
       return;
     }
 
     clickCountRef.current = next;
     setClickCount(next);
+    const nextStep = calcEggStep(next);
+    if (nextStep > 0) {
+      trackEvent('event', 'easter_egg_confetti_progress', { step: nextStep });
+    }
     resetTimerRef.current = setTimeout(() => {
       clickCountRef.current = 0;
       setClickCount(0);
