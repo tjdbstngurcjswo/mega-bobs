@@ -28,8 +28,9 @@ const LadderBoardView = ({
 }: LadderBoardProps) => {
   const { isFullView } = useGameWindow();
   const { revealed: revealedSet, animating: animatingSet } = reveal;
-  const borderReadySet = new Set(
-    [...revealedSet].filter((i) => !animatingSet.has(i))
+  const borderReadySet = useMemo(
+    () => new Set([...revealedSet].filter((i) => !animatingSet.has(i))),
+    [revealedSet, animatingSet]
   );
   const disabled = phase !== 'input';
   const showTraces = phase !== 'input';

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { GameWindowTitleBar } from './_GameWindowTitleBar';
 import type { GameWindowTitleBarProps } from './_GameWindowTitleBar/index';
@@ -9,7 +9,7 @@ import { GameWindowContext } from './GameWindow.context';
 import { GAME_BG, frameClass } from './GameWindow.styles';
 import type { GameWindowProps } from './GameWindow.types';
 
-export const GameWindow = ({ children, toolbar }: GameWindowProps) => {
+const GameWindow = ({ children, toolbar }: GameWindowProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullView, setIsFullView] = useState(false);
   const [isWiggling, setIsWiggling] = useState(false);
@@ -29,7 +29,7 @@ export const GameWindow = ({ children, toolbar }: GameWindowProps) => {
 
   const toggleFullView = () => {
     if (!document.fullscreenElement) {
-      containerRef.current?.requestFullscreen();
+      containerRef.current?.requestFullscreen().catch(() => {});
     } else {
       document.exitFullscreen();
     }
@@ -44,8 +44,10 @@ export const GameWindow = ({ children, toolbar }: GameWindowProps) => {
     toolbar,
   };
 
+  const contextValue = useMemo(() => ({ isFullView }), [isFullView]);
+
   return (
-    <GameWindowContext.Provider value={{ isFullView }}>
+    <GameWindowContext.Provider value={contextValue}>
       <motion.div
         ref={containerRef}
         className={frameClass(isFullView, isWiggling)}
@@ -68,3 +70,5 @@ export const GameWindow = ({ children, toolbar }: GameWindowProps) => {
     </GameWindowContext.Provider>
   );
 };
+
+export default GameWindow;

@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import { trackEvent } from '@/utils/ga';
 
-import { GAME_ICON_MAP } from '../gameIcons';
+import { getGameIcon } from '../gameIcons';
 
 import {
   cardBadgeClass,
@@ -24,23 +24,20 @@ const EASTER_EGG_THRESHOLD = 5;
 const GameCard = ({ slug, name, description, number }: GameCardProps) => {
   const [clickCount, setClickCount] = useState(0);
   const [toastVisible, setToastVisible] = useState(false);
-  const [isEasterEgg, setIsEasterEgg] = useState(false);
+  const isEasterEgg = clickCount >= EASTER_EGG_THRESHOLD;
 
   const handleClick = () => {
     const next = clickCount + 1;
     setClickCount(next);
     trackEvent('event', 'game_coming_soon_click', { slug, count: next });
-    const easter = next >= EASTER_EGG_THRESHOLD;
-    if (easter && !isEasterEgg) {
+    if (next === EASTER_EGG_THRESHOLD) {
       trackEvent('event', 'easter_egg_gamecard', { slug });
     }
-    setIsEasterEgg(easter);
     setToastVisible(true);
     setTimeout(() => setToastVisible(false), 2000);
   };
 
-  const Icon =
-    GAME_ICON_MAP[slug as keyof typeof GAME_ICON_MAP] ?? GAME_ICON_MAP.ladder;
+  const Icon = getGameIcon(slug);
 
   return (
     <div

@@ -33,7 +33,9 @@ const LadderGame = () => {
     participants.length === items.length;
   const canAddPerson = phase === 'input';
   const allRevealed =
-    phase === 'result' && revealed.size === participants.length;
+    phase === 'result' &&
+    revealed.size === participants.length &&
+    animating.size === 0;
 
   const ctaLabel =
     phase === 'animating'

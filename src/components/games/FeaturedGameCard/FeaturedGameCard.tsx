@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import { trackEvent } from '@/utils/ga';
 
-import { GAME_ICON_MAP } from '../gameIcons';
+import { getGameIcon } from '../gameIcons';
 
 import {
   ctaClass,
@@ -21,8 +21,7 @@ const FeaturedGameCard = ({
   name,
   description,
 }: FeaturedGameCardProps) => {
-  const Icon =
-    GAME_ICON_MAP[slug as keyof typeof GAME_ICON_MAP] ?? GAME_ICON_MAP.ladder;
+  const Icon = getGameIcon(slug);
 
   const handleClick = () => {
     trackEvent('event', 'game_open_click', { slug, name });

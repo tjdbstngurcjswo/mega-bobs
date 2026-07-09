@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 
 import { getNextEmoji } from '@/constants/emojiAvatars';
 import { DEFAULT_ITEMS, useLadderSession } from '@/hooks/useLadderSession';
-import { type LadderData, buildLadder } from '@/utils/ladder';
+import { type LadderData, buildLadder, shuffle } from '@/utils/ladder';
 
 import type { LadderPhase } from './LadderGame.types';
 
@@ -135,7 +135,7 @@ export const useLadderGame = () => {
 
   const shuffleParticipants = () => {
     if (phase !== 'input') return;
-    setParticipants([...participants].sort(() => Math.random() - 0.5));
+    setParticipants(shuffle([...participants]));
   };
 
   return {

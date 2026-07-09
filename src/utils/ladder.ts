@@ -5,7 +5,8 @@ export type LadderData = {
   results: number[];
 };
 
-const shuffle = <T>(arr: T[]): T[] => arr.sort(() => Math.random() - 0.5);
+export const shuffle = <T>(arr: T[]): T[] =>
+  arr.sort(() => Math.random() - 0.5);
 
 export const buildLadder = (n: number): LadderData => {
   const rungRows = Math.min(n + 6, 12);

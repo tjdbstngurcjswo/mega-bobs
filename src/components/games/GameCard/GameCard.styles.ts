@@ -1,3 +1,5 @@
+import { cn } from '@/utils/cn';
+
 export const cardWrapperClass =
   'group bg-surface shadow-[var(--shadow-card)] relative flex flex-col overflow-hidden p-6';
 
@@ -17,8 +19,9 @@ export const cardBadgeClass =
   'bg-down-soft text-down relative mt-3 inline-block self-start px-1.5 py-0.5 text-[9.5px] font-extrabold animate-[softPulse_2s_ease-in-out_infinite]';
 
 export const cardToastClass = (isEasterEgg: boolean) =>
-  `absolute inset-x-0 bottom-0 flex items-center gap-1.5 px-5 py-2.5 text-[12px] font-semibold animate-[fadeUp_0.2s_ease-out] ${
+  cn(
+    'absolute inset-x-0 bottom-0 flex items-center gap-1.5 px-5 py-2.5 text-[12px] font-semibold animate-[fadeUp_0.2s_ease-out]',
     isEasterEgg
       ? 'bg-accent-soft text-accent-text'
       : 'bg-surface-warm text-ink-2'
-  }`;
+  );

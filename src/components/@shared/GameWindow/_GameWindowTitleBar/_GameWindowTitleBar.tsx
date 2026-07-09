@@ -9,7 +9,7 @@ import {
 } from './_GameWindowTitleBar.styles';
 import type { GameWindowTitleBarProps } from './_GameWindowTitleBar.types';
 
-export const GameWindowTitleBar = ({
+const GameWindowTitleBar = ({
   isFullView,
   isGhost,
   onRedClick,
@@ -86,3 +86,5 @@ export const GameWindowTitleBar = ({
     </div>
   </div>
 );
+
+export default GameWindowTitleBar;
