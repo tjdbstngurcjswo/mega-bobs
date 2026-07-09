@@ -8,5 +8,12 @@
       "path": "/api/votes/cleanup",
       "schedule": "0 0 * * *"
     }
-  ]
+  ],
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "dev": true,
+      "*": false
+    }
+  }
 }
