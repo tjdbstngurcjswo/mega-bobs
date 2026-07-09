@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { MenuType } from '@/models/menu';
 import { trackServerEvent } from '@/utils/gaServer';
-import { verifySlackSignature } from '@/utils/verifySlackSignature';
 
 import { getCachedMenu, toDateInfo, toSlackFormat } from './_utils';
 
@@ -13,20 +12,8 @@ import { getCachedMenu, toDateInfo, toSlackFormat } from './_utils';
  * @returns Slack 메시지 응답 (in_channel 또는 ephemeral)
  */
 export const POST = async (req: NextRequest) => {
-  const rawBody = await req.text();
-  const signature = req.headers.get('x-slack-signature');
-  const timestamp = req.headers.get('x-slack-request-timestamp');
-  const signingSecret = process.env.SLACK_SIGNING_SECRET;
-
-  if (
-    !signingSecret ||
-    !verifySlackSignature(rawBody, timestamp, signature, signingSecret)
-  ) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  const form = new URLSearchParams(rawBody);
-  const text = form.get('text');
+  const form = await req.formData();
+  const text = form.get('text') as string | null;
 
   const dateInfo = toDateInfo(text);
 

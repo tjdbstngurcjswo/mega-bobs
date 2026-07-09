@@ -52,17 +52,17 @@ src/
 
 ### API Routes
 
-| 경로                 | 메서드   | 인증         | 용도                                                               |
-| -------------------- | -------- | ------------ | ------------------------------------------------------------------ |
-| `/api/menu`          | GET      | `x-api-key`  | `?start=&end=` 메뉴 조회                                           |
-| `/api/slack`         | POST     | —            | 슬래시 커맨드                                                      |
-| `/api/slack/warm`    | GET      | —            | Cron 캐시 워밍 (15:00 UTC)                                         |
-| `/api/revalidate`    | GET      | `?secret=`   | ISR 강제 재검증 (19:30 UTC)                                        |
-| `/api/news/crawl`    | GET      | Bearer       | 메가존 3사 뉴스 크롤 (GitHub Actions 스케줄 23:00 UTC = 08:00 KST) |
-| `/api/mcp`           | GET/POST | —            | MCP Streamable HTTP                                                |
-| `/api/votes`         | GET/POST | `x-voter-id` | 코스별 맛 평가 투표                                                |
-| `/api/votes/cleanup` | DELETE   | Bearer       | 만료 투표 정리                                                     |
-| `/api/picks`         | GET/POST | `x-voter-id` | 식전 코스 픽                                                       |
+| 경로 | 메서드 | 인증 | 용도 |
+|------|--------|------|------|
+| `/api/menu` | GET | `x-api-key` | `?start=&end=` 메뉴 조회 |
+| `/api/slack` | POST | — | 슬래시 커맨드 |
+| `/api/slack/warm` | GET | — | Cron 캐시 워밍 (15:00 UTC) |
+| `/api/revalidate` | GET | `?secret=` | ISR 강제 재검증 (19:30 UTC) |
+| `/api/news/crawl` | GET | Bearer | 메가존 3사 뉴스 크롤 (GitHub Actions 스케줄 23:00 UTC = 08:00 KST) |
+| `/api/mcp` | GET/POST | — | MCP Streamable HTTP |
+| `/api/votes` | GET/POST | `x-voter-id` | 코스별 맛 평가 투표 |
+| `/api/votes/cleanup` | DELETE | Bearer | 만료 투표 정리 |
+| `/api/picks` | GET/POST | `x-voter-id` | 식전 코스 픽 |
 
 ### State Management
 
@@ -105,7 +105,6 @@ REVALIDATE_SECRET=          # ISR 재검증 인증 토큰 (/api/revalidate)
 API_KEY=                    # /api/menu 인증 키
 CRON_SECRET=                # Cron 인증 토큰 (/api/votes/cleanup·/api/news/crawl Bearer)
 NEXT_PUBLIC_SITE_URL=       # 배포 URL (metadataBase·sitemap에 사용)
-SLACK_SIGNING_SECRET=      # Slack App 설정의 Signing Secret (/api/slack 요청 검증)
 ```
 
 ## 메가존 소식 (News)
@@ -126,15 +125,15 @@ Notion prefix는 환경마다 다르다 (예: `mcp__notion-local`). 첫 작업 �
 
 사용자 요청이 아래 조건에 해당하면 **반드시** 해당 스킬을 `Skill` 도구로 먼저 호출한 뒤 진행한다. 직접 `gh`/`git` 명령으로 건너뛰지 말 것.
 
-| 트리거 키워드                                              | 스킬                  | 경로                                  |
-| ---------------------------------------------------------- | --------------------- | ------------------------------------- |
-| "PR 만들어", "PR 생성", "PR 올려", "pr 내줘", `/pr`        | `create-pr`           | `.claude/skills/create-pr/`           |
-| 컴포넌트·페이지·훅 신규 생성 (UI 파일)                     | `component-scaffold`  | `.claude/skills/component-scaffold/`  |
-| **컴포넌트 파일 작성·수정 시 항상**                        | `lean-component`      | `.claude/skills/lean-component/`      |
-| UI·스타일 코드 작성 또는 리뷰, DESIGN.md 관련              | `design-system-guard` | `.claude/skills/design-system-guard/` |
-| `src/app/api/*` 추가, "API 만들어", "엔드포인트 추가"      | `api-route-pattern`   | `.claude/skills/api-route-pattern/`   |
-| Supabase 테이블·마이그레이션·RLS·타입 작업                 | `supabase-schema`     | `.claude/skills/supabase-schema/`     |
-| "작업 시작", "티켓 따서", "MEGA-XX 작업", 티켓 번호 + 착수 | `start-ticket`        | `.claude/skills/start-ticket/`        |
-| "README 확인", "README 업데이트", "README 최신화" (단독)   | `readme-sync`         | `.claude/skills/readme-sync/`         |
-| UI 문구 작성·수정·검수, 톤앤매너                           | `ux-writing`          | `.claude/skills/ux-writing/`          |
-| `page.tsx` 신규, 라우트 추가, "SEO", "메타데이터"          | `seo-optimize`        | `~/.claude/skills/seo-optimize/`      |
+| 트리거 키워드 | 스킬 | 경로 |
+|---------------|------|------|
+| "PR 만들어", "PR 생성", "PR 올려", "pr 내줘", `/pr` | `create-pr` | `.claude/skills/create-pr/` |
+| 컴포넌트·페이지·훅 신규 생성 (UI 파일) | `component-scaffold` | `.claude/skills/component-scaffold/` |
+| **컴포넌트 파일 작성·수정 시 항상** | `lean-component` | `.claude/skills/lean-component/` |
+| UI·스타일 코드 작성 또는 리뷰, DESIGN.md 관련 | `design-system-guard` | `.claude/skills/design-system-guard/` |
+| `src/app/api/*` 추가, "API 만들어", "엔드포인트 추가" | `api-route-pattern` | `.claude/skills/api-route-pattern/` |
+| Supabase 테이블·마이그레이션·RLS·타입 작업 | `supabase-schema` | `.claude/skills/supabase-schema/` |
+| "작업 시작", "티켓 따서", "MEGA-XX 작업", 티켓 번호 + 착수 | `start-ticket` | `.claude/skills/start-ticket/` |
+| "README 확인", "README 업데이트", "README 최신화" (단독) | `readme-sync` | `.claude/skills/readme-sync/` |
+| UI 문구 작성·수정·검수, 톤앤매너 | `ux-writing` | `.claude/skills/ux-writing/` |
+| `page.tsx` 신규, 라우트 추가, "SEO", "메타데이터" | `seo-optimize` | `~/.claude/skills/seo-optimize/` |
