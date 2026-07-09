@@ -1,9 +1,8 @@
 import { Gamepad2 } from 'lucide-react';
 import type { Metadata } from 'next';
 
-
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
-import { GameCard } from '@/components/games';
+import { FeaturedGameCard, GameCard, OddkitBanner } from '@/components/games';
 import { GAMES } from '@/constants/games';
 import { SITE_NAME } from '@/constants/site';
 import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
@@ -26,6 +25,15 @@ export const metadata: Metadata = {
 };
 
 export default function GamesPage() {
+  const numberedGames = GAMES.map((game, index) => ({
+    ...game,
+    number: index + 1,
+  }));
+  const openGames = numberedGames.filter((game) => game.status === 'open');
+  const comingSoonGames = numberedGames.filter(
+    (game) => game.status !== 'open'
+  );
+
   return (
     <>
       <script
@@ -50,10 +58,16 @@ export default function GamesPage() {
         }
         description="사내 구성원을 위한 소소한 미니게임 모음"
       >
-        <div className="flex flex-col gap-3">
-          {GAMES.map((game) => (
-            <GameCard key={game.slug} {...game} />
+        <div className="flex flex-col gap-4">
+          {openGames.map((game) => (
+            <FeaturedGameCard key={game.slug} {...game} />
           ))}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {comingSoonGames.map((game) => (
+              <GameCard key={game.slug} {...game} />
+            ))}
+          </div>
+          <OddkitBanner />
         </div>
       </PageLayout>
       <SiteFooter />
