@@ -18,7 +18,7 @@ const SiteFooter = () => (
         <div className="flex flex-col items-center gap-1 min-[560px]:flex-row min-[560px]:gap-5">
           <span className={footerBrandNameClass}>{SITE_NAME}</span>
           <p className={footerDescClass}>
-            메가존 직원을 위한 구내식당 메뉴 서비스
+            메가존·메가존클라우드 직원을 위한 구내식당 메뉴 서비스
           </p>
         </div>
         {/* 링크 단 + 저작권 단 */}

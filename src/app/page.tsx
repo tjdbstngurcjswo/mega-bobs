@@ -54,7 +54,7 @@ export default async function Home() {
       <PageLayout
         eyebrow="식단표"
         title={<HeroStatus menus={menus} />}
-        description="매주 목요일 업데이트되는 구내식당 코스별 식단표에요"
+        description="매주 목요일 업데이트되는 메가존클라우드 구내식당 코스별 식단표에요"
       >
         <ErrorBoundary>
           <MenuBoard menus={menus} isKorea={isKorea} />

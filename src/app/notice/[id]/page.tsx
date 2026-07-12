@@ -7,7 +7,7 @@ import NoticeBody from '@/components/notice/NoticeBody';
 import NoticeReadMarker from '@/components/notice/NoticeReadMarker';
 import { SITE_NAME } from '@/constants/site';
 import { formatRelativeDate } from '@/utils/date';
-import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
+import { getArticleJsonLd, getBreadcrumbJsonLd } from '@/utils/jsonLd';
 
 import { contentClass } from './page.styles';
 import type { PageProps } from './page.types';
@@ -50,6 +50,18 @@ const NoticeDetailPage = async ({ params }: PageProps) => {
               { name: '공지사항', path: '/notice' },
               { name: notice.title, path: `/notice/${id}` },
             ])
+          ),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            getArticleJsonLd({
+              headline: notice.title,
+              datePublished: notice.publishedAt,
+              path: `/notice/${id}`,
+            })
           ),
         }}
       />

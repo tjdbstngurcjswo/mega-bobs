@@ -59,7 +59,7 @@ export const toSlackFormat = (
     return [`*${label}*`, ...lines].join('\n');
   }).join('\n\n');
 
-  const footer = `<${SITE_URL}|🔗 메뉴 투표하기>`;
+  const footer = `<${SITE_URL}|🔗 투표하고 인기 메뉴 확인하기>`;
 
   return sections
     ? [header, sections, footer].join('\n\n')
