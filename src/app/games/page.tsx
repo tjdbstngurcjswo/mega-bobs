@@ -1,7 +1,6 @@
 import { Gamepad2 } from 'lucide-react';
 import type { Metadata } from 'next';
 
-
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import { GameCard } from '@/components/games';
 import { GAMES } from '@/constants/games';
@@ -48,7 +47,7 @@ export default function GamesPage() {
             <span>{`${SITE_NAME} 미니게임`}</span>
           </span>
         }
-        description="사내 구성원을 위한 소소한 미니게임 모음"
+        description="메가존·메가존클라우드 사내 구성원을 위한 소소한 미니게임 모음"
       >
         <div className="flex flex-col gap-3">
           {GAMES.map((game) => (

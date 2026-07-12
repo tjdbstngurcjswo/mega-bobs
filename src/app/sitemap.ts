@@ -1,8 +1,16 @@
 import type { MetadataRoute } from 'next';
 
+import { getNotices } from '@/api/getNotices';
 import { SITE_URL } from '@/utils/env';
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const noticeEntries: MetadataRoute.Sitemap = getNotices().map((notice) => ({
+    url: `${SITE_URL}/notice/${notice.id}`,
+    lastModified: new Date(notice.publishedAt),
+    changeFrequency: 'monthly',
+    priority: 0.5,
+  }));
+
   return [
     {
       url: SITE_URL,
@@ -16,6 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.7,
     },
+    ...noticeEntries,
     {
       url: `${SITE_URL}/news`,
       lastModified: new Date(),
