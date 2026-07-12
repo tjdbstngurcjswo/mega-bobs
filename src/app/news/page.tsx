@@ -1,12 +1,11 @@
 import { Newspaper } from 'lucide-react';
 import type { Metadata } from 'next';
 
-
 import getNews, { getLastCrawledAt } from '@/api/getNews';
 import { PageLayout, SiteFooter, SiteHeader } from '@/components/@shared';
 import NewsFilter from '@/components/news/NewsFilter';
 import { SITE_NAME } from '@/constants/site';
-import { getBreadcrumbJsonLd } from '@/utils/jsonLd';
+import { getBreadcrumbJsonLd, getNewsListJsonLd } from '@/utils/jsonLd';
 
 import {
   emptyNewsClass,
@@ -60,16 +59,24 @@ export default async function NewsPage() {
           ),
         }}
       />
+      {all.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getNewsListJsonLd(all)),
+          }}
+        />
+      )}
       <SiteHeader />
       <PageLayout
         eyebrow="메가존 소식"
         title={
           <span className="inline-flex items-center gap-2.5">
             <Newspaper size={26} strokeWidth={2} />
-            <span>우리 회사 소식 모아보기</span>
+            <span>메가존·메가존클라우드 소식 모아보기</span>
           </span>
         }
-        description="구글 뉴스에서 찾아온 우리 회사 소식이에요"
+        description="구글 뉴스에서 찾아온 메가존·메가존클라우드·메가존소프트 소식이에요"
       >
         {all.length > 0 ? (
           <NewsFilter
