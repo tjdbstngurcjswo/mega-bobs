@@ -13,7 +13,7 @@ const STATUS_TAG: Record<
 > = {
   open: {
     label: '운영 중',
-    tagClass: 'bg-accent text-ink',
+    tagClass: 'bg-accent text-accent-ink',
     dotClass: 'bg-ink/25',
   },
   upcoming: {
