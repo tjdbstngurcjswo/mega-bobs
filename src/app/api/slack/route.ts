@@ -1,9 +1,7 @@
-import { after } from 'next/server';
-import { NextRequest, NextResponse } from 'next/server';
+import { after, NextRequest, NextResponse } from 'next/server';
 
-import { MenuType } from '@/models/menu';
-import { trackServerEvent } from '@/utils/gaServer';
-
+import { isMenuCacheHit } from './_cache';
+import { reportSlackCommand } from './_report';
 import { getCachedMenu, toDateInfo, toSlackFormat } from './_utils';
 
 /**
@@ -11,10 +9,12 @@ import { getCachedMenu, toDateInfo, toSlackFormat } from './_utils';
  * @body FormData `text` — '오늘' | '내일' | '모레' | '글피' (없으면 오늘)
  * @returns Slack 메시지 응답 (in_channel 또는 ephemeral)
  */
+const hasSlackUser = (value: FormDataEntryValue | null) =>
+  typeof value === 'string' && value.length > 0;
+
 export const POST = async (req: NextRequest) => {
   const form = await req.formData();
   const text = form.get('text') as string | null;
-
   const dateInfo = toDateInfo(text);
 
   if (!dateInfo) {
@@ -24,11 +24,12 @@ export const POST = async (req: NextRequest) => {
     });
   }
 
+  const startedAt = Date.now();
   const { keyword, date } = dateInfo;
 
-  let menus: MenuType[];
+  let cached: Awaited<ReturnType<typeof getCachedMenu>>;
   try {
-    menus = await getCachedMenu(date);
+    cached = await getCachedMenu(date);
   } catch {
     return NextResponse.json({
       response_type: 'ephemeral',
@@ -36,12 +37,30 @@ export const POST = async (req: NextRequest) => {
     });
   }
 
-  const textResponse = toSlackFormat(menus, keyword, date);
+  const cacheHit = isMenuCacheHit(cached.cachedAt, startedAt);
+  const textResponse = toSlackFormat(cached.menus, keyword, date);
 
-  after(() => trackServerEvent('slack_bot_call', { keyword, date }));
+  after(() =>
+    reportSlackCommand({
+      track: hasSlackUser(form.get('user_id')),
+      keyword,
+      date,
+      cacheHit,
+      cachedAt: cached.cachedAt,
+      durationMs: Date.now() - startedAt,
+    })
+  );
 
-  return NextResponse.json({
-    response_type: 'in_channel',
-    text: textResponse,
-  });
+  return NextResponse.json(
+    {
+      response_type: 'in_channel',
+      text: textResponse,
+    },
+    {
+      headers: {
+        'x-menu-cache': cacheHit ? 'hit' : 'miss',
+        'x-menu-cached-at': String(cached.cachedAt),
+      },
+    }
+  );
 };

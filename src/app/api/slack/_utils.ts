@@ -12,8 +12,16 @@ import dayjs, { SEOUL_TIMEZONE } from '@/lib/dayjs';
 import { MenuCategory, MenuType } from '@/models/menu';
 import { SITE_URL } from '@/utils/env';
 
+export type SlackMenuCache = {
+  menus: MenuType[];
+  cachedAt: number;
+};
+
 export const getCachedMenu = unstable_cache(
-  (date: string) => getMenu({ start: date, end: date }),
+  async (date: string): Promise<SlackMenuCache> => {
+    const menus = await getMenu({ start: date, end: date });
+    return { menus, cachedAt: Date.now() };
+  },
   ['slack-menu'],
   { tags: ['menu'], revalidate: 86400 }
 );

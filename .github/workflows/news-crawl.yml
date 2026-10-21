@@ -6,7 +6,7 @@ name: News Crawl
 #
 # 필요한 설정 (Settings > Secrets and variables > Actions):
 #   - secret  CRON_SECRET : /api/news/crawl 인증 토큰 (Vercel 환경변수와 동일 값)
-#   - variable SITE_URL    : 배포 URL (예: https://megabobs.com)
+#   - variable SITE_URL    : 배포 URL (예: https://megabobs.vercel.app)
 
 on:
   schedule:
