@@ -73,7 +73,6 @@ export const metadata: Metadata = {
     '맛 평가',
     '식전 픽',
     '운영 시간',
-    '사내 미니게임',
     SITE_NAME,
   ],
   authors: [{ name: SITE_NAME }],

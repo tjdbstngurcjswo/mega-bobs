@@ -5,12 +5,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import { NAV_ITEMS } from '@/constants/site';
 
 import { CONTENT_WIDTH_CLASS } from '../../PageLayout/PageLayout.styles';
-import NavComingSoonItem from '../_NavComingSoonItem/NavComingSoonItem';
-import {
-  mobileComingSoonClass,
-  mobileNavLinkClass,
-  mobileOverlayClass,
-} from '../SiteHeader.styles';
+import { mobileNavLinkClass, mobileOverlayClass } from '../SiteHeader.styles';
 
 const MobileOverlay = ({
   menuOpen,
@@ -26,15 +21,6 @@ const MobileOverlay = ({
   <div className={mobileOverlayClass(menuOpen)}>
     <nav className={`mx-auto flex ${CONTENT_WIDTH_CLASS} flex-col pt-1 pb-4`}>
       {NAV_ITEMS.map((item) => {
-        if (item.comingSoon) {
-          return (
-            <NavComingSoonItem
-              key={item.href}
-              label={item.label}
-              className={mobileComingSoonClass}
-            />
-          );
-        }
         const active = pathname === item.href;
         return (
           <Link
