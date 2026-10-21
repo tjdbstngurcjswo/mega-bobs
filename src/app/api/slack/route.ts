@@ -46,7 +46,6 @@ export const POST = async (req: NextRequest) => {
       keyword,
       date,
       cacheHit,
-      cachedAt: cached.cachedAt,
       durationMs: Date.now() - startedAt,
     })
   );

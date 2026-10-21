@@ -60,7 +60,6 @@ describe('POST /api/slack', () => {
       keyword: '오늘',
       date: '2026-10-21',
       cacheHit: true,
-      cachedAt: 1_000,
       durationMs: 0,
     });
   });
