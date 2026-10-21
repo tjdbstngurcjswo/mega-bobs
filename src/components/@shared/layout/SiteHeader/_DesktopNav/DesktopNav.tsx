@@ -2,12 +2,7 @@ import Link from 'next/link';
 
 import { NAV_ITEMS } from '@/constants/site';
 
-import NavComingSoonItem from '../_NavComingSoonItem/NavComingSoonItem';
-import {
-  desktopComingSoonClass,
-  desktopNavClass,
-  desktopNavLinkClass,
-} from '../SiteHeader.styles';
+import { desktopNavClass, desktopNavLinkClass } from '../SiteHeader.styles';
 
 const DesktopNav = ({
   pathname,
@@ -18,15 +13,6 @@ const DesktopNav = ({
 }) => (
   <nav className={desktopNavClass}>
     {NAV_ITEMS.map((item) => {
-      if (item.comingSoon) {
-        return (
-          <NavComingSoonItem
-            key={item.href}
-            label={item.label}
-            className={desktopComingSoonClass}
-          />
-        );
-      }
       const active = pathname === item.href;
       return (
         <Link
