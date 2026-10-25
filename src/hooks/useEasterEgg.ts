@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { trackEvent } from '@/utils/ga';
+import { trackEvent } from '@/utils/analytics';
 
 export type EggStep = 0 | 1 | 2;
 
@@ -33,7 +33,7 @@ export const useEasterEgg = () => {
       clickCountRef.current = 0;
       setTriggered(true);
       setClickCount(0);
-      trackEvent('event', 'easter_egg_confetti', { trigger: 'course_label' });
+      trackEvent('easter_egg_confetti', { trigger: 'course_label' });
       return;
     }
 
@@ -41,7 +41,7 @@ export const useEasterEgg = () => {
     setClickCount(next);
     const nextStep = calcEggStep(next);
     if (nextStep > 0) {
-      trackEvent('event', 'easter_egg_confetti_progress', { step: nextStep });
+      trackEvent('easter_egg_confetti_progress', { step: nextStep });
     }
     resetTimerRef.current = setTimeout(() => {
       clickCountRef.current = 0;

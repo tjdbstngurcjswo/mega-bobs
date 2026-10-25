@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const trackServerEvent = vi.fn();
 
-vi.mock('@/utils/gaServer', () => ({
+vi.mock('@/lib/beacon/collect', () => ({
   trackServerEvent: (...args: unknown[]) => trackServerEvent(...args),
 }));
 
@@ -21,7 +21,7 @@ describe('reportSlackCommand', () => {
     vi.clearAllMocks();
   });
 
-  it('sends cache hit usage to analytics without a database write', async () => {
+  it('sends cache hit usage to beacon without a database write', async () => {
     await reportSlackCommand({
       track: true,
       keyword: '오늘',
@@ -30,12 +30,16 @@ describe('reportSlackCommand', () => {
       durationMs: 12,
     });
 
-    expect(trackServerEvent).toHaveBeenCalledWith('slack_bot_call', {
-      keyword: '오늘',
-      date: '2026-10-21',
-      cache_hit: 'hit',
-      duration_ms: 12,
-    });
+    expect(trackServerEvent).toHaveBeenCalledWith(
+      'slack_bot_call',
+      {
+        keyword: '오늘',
+        date: '2026-10-21',
+        cache_hit: true,
+        duration_ms: 12,
+      },
+      '/api/slack'
+    );
   });
 
   it('skips warming calls', async () => {

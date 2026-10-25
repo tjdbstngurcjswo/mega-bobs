@@ -1,7 +1,7 @@
-import { trackEvent } from '@/utils/ga';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { VoteResult, VoteType } from '@/models/vote';
+import { trackEvent } from '@/utils/analytics';
 import { getOrCreateVoterId } from '@/utils/voterId';
 
 type VoteMap = Record<string, VoteResult>;
@@ -144,7 +144,7 @@ export const useVotes = (date: string, { enabled = true } = {}) => {
           }),
         });
         if (!res.ok) throw new Error('vote failed');
-        trackEvent('event', 'menu_vote', {
+        trackEvent('menu_vote', {
           vote_type: isSame ? 'cancel' : voteType,
           course: menuKey.split('_').slice(1).join('_'),
           date: menuKey.split('_')[0],
