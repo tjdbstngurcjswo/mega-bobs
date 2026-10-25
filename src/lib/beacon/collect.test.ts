@@ -8,7 +8,7 @@ vi.mock('@/utils/env', () => ({
   get isProd() {
     return env.isProd;
   },
-  SITE_URL: 'https://megabobs.com',
+  SITE_URL: 'https://megabobs.vercel.app',
 }));
 
 import { trackServerEvent } from './collect';
@@ -37,7 +37,7 @@ describe('trackServerEvent', () => {
       expect.objectContaining({
         name: 'slack_bot_call',
         siteId: 'mega-bobs',
-        url: 'https://megabobs.com/api/slack',
+        url: 'https://megabobs.vercel.app/api/slack',
         props: { cache_hit: true },
       }),
     ]);

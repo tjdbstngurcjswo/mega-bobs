@@ -2,7 +2,11 @@ import 'server-only';
 
 import type { BatchPayload } from 'hongsoohyuk-beacon';
 
-import { BEACON_COLLECT_URL, BEACON_SITE_ID } from '@/constants/beacon';
+import {
+  BEACON_COLLECT_URL,
+  BEACON_SERVER_TIMEOUT_MS,
+  BEACON_SITE_ID,
+} from '@/constants/beacon';
 import { isProd, SITE_URL } from '@/utils/env';
 
 type ServerEvent = Omit<
@@ -38,8 +42,10 @@ export const trackServerEvent = async (
   try {
     const res = await fetch(BEACON_COLLECT_URL, {
       method: 'POST',
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify(payload),
       cache: 'no-store',
+      signal: AbortSignal.timeout(BEACON_SERVER_TIMEOUT_MS),
     });
     if (!res.ok) console.error('[beacon] server event rejected:', res.status);
   } catch (error) {
