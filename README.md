@@ -51,7 +51,6 @@ REVALIDATE_SECRET=
 API_KEY=
 CRON_SECRET=
 NEXT_PUBLIC_SITE_URL=
-BEACON_COLLECT_URL=        # 선택. 기본 https://hongsoohyuk.com/api/collect
 ```
 
 ```bash

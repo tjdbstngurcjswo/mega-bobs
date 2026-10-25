@@ -63,7 +63,6 @@ src/
 | `/api/votes` | GET/POST | `x-voter-id` | 코스별 맛 평가 투표 |
 | `/api/votes/cleanup` | DELETE | Bearer | 만료 투표 정리 |
 | `/api/picks` | GET/POST | `x-voter-id` | 식전 코스 픽 |
-| `/api/collect` | POST | — | beacon 배치를 hongsoohyuk.com 수집 서버로 프록시 |
 
 ### State Management
 
@@ -106,7 +105,6 @@ REVALIDATE_SECRET=          # ISR 재검증 인증 토큰 (/api/revalidate)
 API_KEY=                    # /api/menu 인증 키
 CRON_SECRET=                # Cron 인증 토큰 (/api/votes/cleanup·/api/news/crawl Bearer)
 NEXT_PUBLIC_SITE_URL=       # 배포 URL (metadataBase·sitemap에 사용)
-BEACON_COLLECT_URL=         # 선택. beacon 수집 서버 (기본 https://hongsoohyuk.com/api/collect)
 ```
 
 ## 메가존 소식 (News)
@@ -123,7 +121,7 @@ BEACON_COLLECT_URL=         # 선택. beacon 수집 서버 (기본 https://hongs
 
 GA 대신 자체 SDK [`hongsoohyuk-beacon`](https://github.com/hongsoohyuk/beacon)으로 수집한다. 저장은 hongsoohyuk.com Supabase `beacon_events` (`site_id = 'mega-bobs'`) — 메가밥스 DB에는 쓰지 않는다.
 
-- **브라우저**: `BeaconProvider`(프로덕션 전용)가 SDK를 init → 페이지뷰 자동 수집. 행동 이벤트는 `trackEvent(name, props)` (`src/utils/analytics.ts`). 수집 서버 CORS 허용 목록에 메가밥스가 없어 SDK는 같은 오리진 `/api/collect`로 보내고, 서버가 그대로 전달한다 (`site_id`가 `mega-bobs`가 아닌 배치는 400).
+- **브라우저**: `BeaconProvider`(프로덕션 전용)가 SDK를 init → 페이지뷰 자동 수집. 행동 이벤트는 `trackEvent(name, props)` (`src/utils/analytics.ts`). SDK는 수집 서버로 직접 보낸다 — 수집 서버 CORS 허용 목록(`hongsoohyuk/app/api/collect/_lib/http.ts`)에 `megabobs.vercel.app`이 등록되어 있어야 하며, 도메인을 바꾸면 그쪽도 함께 추가한다.
 - **서버**: `trackServerEvent` (`src/lib/beacon/collect.ts`)가 수집 서버에 직접 POST. 슬래시 커맨드마다 `slack_bot_call` (`props`: `keyword`, `date`, `cache_hit`(boolean), `duration_ms`). 캐시 워밍 호출(`user_id` 없음)은 제외.
 
 ```sql
