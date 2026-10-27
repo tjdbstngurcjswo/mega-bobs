@@ -1,8 +1,11 @@
 /** beacon 수집 서버(hongsoohyuk.com)에서 메가밥스 이벤트를 구분하는 키 */
 export const BEACON_SITE_ID = 'mega-bobs';
 
-/** 수집 서버. CORS 허용 목록에 메가밥스 도메인이 등록되어 있어 브라우저가 직접 보낸다 */
-export const BEACON_COLLECT_URL = 'https://hongsoohyuk.com/api/collect';
+/**
+ * 수집 서버. CORS 허용 목록에 메가밥스 도메인이 등록되어 있어 브라우저가 직접 보낸다.
+ * apex(hongsoohyuk.com)는 www로 307 리다이렉트되고 그 응답엔 CORS 헤더가 없어 브라우저 요청이 실패하므로 www를 쓴다.
+ */
+export const BEACON_COLLECT_URL = 'https://www.hongsoohyuk.com/api/collect';
 
 /**
  * 수집 서버 CORS 허용 목록과 같아야 하는 호스트. 목록 밖 오리진에서 보내면
