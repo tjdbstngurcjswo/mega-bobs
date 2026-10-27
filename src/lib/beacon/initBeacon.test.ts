@@ -27,7 +27,7 @@ describe('initBeacon', () => {
     initBeacon();
 
     expect(init).toHaveBeenCalledWith({
-      endpoint: 'https://hongsoohyuk.com/api/collect',
+      endpoint: 'https://www.hongsoohyuk.com/api/collect',
       siteId: 'mega-bobs',
     });
   });

@@ -31,7 +31,7 @@ describe('trackServerEvent', () => {
     await trackServerEvent('slack_bot_call', { cache_hit: true }, '/api/slack');
 
     const [url, init] = fetchMock.mock.calls[0];
-    expect(url).toBe('https://hongsoohyuk.com/api/collect');
+    expect(url).toBe('https://www.hongsoohyuk.com/api/collect');
     expect(init.method).toBe('POST');
     expect(JSON.parse(init.body).events).toEqual([
       expect.objectContaining({
