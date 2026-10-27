@@ -117,6 +117,23 @@ NEXT_PUBLIC_SITE_URL=       # 배포 URL (metadataBase·sitemap에 사용)
 - **조회**: `src/api/getNews.ts` (서버 전용) → `/news` 페이지 ISR (6h). UI: `src/components/news/NewsCard/`
 - Google News RSS 는 본문 스니펫을 제공하지 않아 `summary` 는 항상 null — 카드는 제목·출처·날짜·원문 링크만 노출
 
+## 이벤트 수집 (beacon)
+
+GA 대신 자체 SDK [`hongsoohyuk-beacon`](https://github.com/hongsoohyuk/beacon)으로 수집한다. 저장은 hongsoohyuk.com Supabase `beacon_events` (`site_id = 'mega-bobs'`) — 메가밥스 DB에는 쓰지 않는다.
+
+- **브라우저**: `BeaconProvider`(프로덕션 전용)가 SDK를 init → 페이지뷰 자동 수집. 행동 이벤트는 `trackEvent(name, props)` (`src/utils/analytics.ts`). SDK는 수집 서버로 직접 보낸다 — 수집 서버 CORS 허용 목록(`hongsoohyuk/app/api/collect/_lib/http.ts`)와 `BEACON_ALLOWED_HOSTS`(`src/constants/beacon.ts`)가 같아야 한다. 목록 밖 호스트(프리뷰 등)에서는 SDK를 켜지 않는다. 도메인을 바꾸면 양쪽 모두 추가한다.
+- **서버**: `trackServerEvent` (`src/lib/beacon/collect.ts`)가 수집 서버에 직접 POST. 슬래시 커맨드마다 `slack_bot_call` (`props`: `keyword`, `date`, `cache_hit`(boolean), `duration_ms`). 캐시 워밍 호출(`user_id` 없음)은 제외.
+
+```sql
+-- 일별 슬래시 커맨드 호출 수 · 캐시 적중률
+select date_trunc('day', received_at at time zone 'Asia/Seoul') as day,
+       count(*) as calls,
+       round(avg((props->>'cache_hit')::boolean::int) * 100, 1) as hit_rate_pct
+from beacon_events
+where site_id = 'mega-bobs' and event_name = 'slack_bot_call'
+group by 1 order by 1 desc;
+```
+
 ## Notion MCP 설정
 
 Notion prefix는 환경마다 다르다 (예: `mcp__notion-local`). 첫 작업 전 ToolSearch로 `notion retrieve` 검색해 확인. 스킬이 ToolSearch로 자동 탐색하는 fallback 있음.

@@ -1,4 +1,3 @@
-import { GoogleAnalytics } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
@@ -7,6 +6,7 @@ import { headers } from 'next/headers';
 import './globals.css';
 
 import ConsoleArt from '@/components/@shared/ConsoleArt';
+import BeaconProvider from '@/components/@shared/providers/BeaconProvider';
 import ThemeProvider from '@/components/@shared/providers/ThemeProvider';
 import ToasterProvider from '@/components/@shared/providers/ToasterProvider';
 import RenewalFeedbackPopup from '@/components/feedback/RenewalFeedbackPopup/RenewalFeedbackPopup';
@@ -141,11 +141,9 @@ export default async function RootLayout({
             />
           )}
           {isProd && <Analytics />}
+          {isProd && <BeaconProvider />}
         </ThemeProvider>
       </body>
-      {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-      )}
     </html>
   );
 }

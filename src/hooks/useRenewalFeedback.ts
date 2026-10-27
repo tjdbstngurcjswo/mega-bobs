@@ -1,9 +1,9 @@
 'use client';
 
-import { trackEvent } from '@/utils/ga';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
+import { trackEvent } from '@/utils/analytics';
 import { getOrCreateVoterId } from '@/utils/voterId';
 
 const LS_DISMISSED = (version: string) =>
@@ -36,14 +36,14 @@ export const useRenewalFeedback = (version: string) => {
   }, [state]);
 
   const toggle = useCallback(() => {
-    if (!isOpen) trackEvent('event', 'feedback_open', {});
+    if (!isOpen) trackEvent('feedback_open');
     setIsOpen((v) => !v);
   }, [isOpen]);
 
   const close = useCallback(() => setIsOpen(false), []);
 
   const dismiss = useCallback(() => {
-    trackEvent('event', 'feedback_dismiss', {});
+    trackEvent('feedback_dismiss');
     localStorage.setItem(LS_DISMISSED(version), 'true');
     setVisible(false);
     setIsOpen(false);
@@ -73,7 +73,7 @@ export const useRenewalFeedback = (version: string) => {
       if (!res.ok) throw new Error('submit failed');
 
       setState('submitted');
-      trackEvent('event', 'feedback_submit', {
+      trackEvent('feedback_submit', {
         score,
         has_reason: !!reason.trim(),
         page: pathname,

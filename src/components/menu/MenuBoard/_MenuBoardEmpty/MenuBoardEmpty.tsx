@@ -3,7 +3,7 @@
 import { Plane, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 
-import { trackEvent } from '@/utils/ga';
+import { trackEvent } from '@/utils/analytics';
 
 import {
   BOARD_EMPTY_COPY,
@@ -32,7 +32,7 @@ const MenuBoardEmpty = ({
   const handlePlaneClick = () => {
     const next =
       planeCount >= PLANE_CONFIGS.length ? INITIAL_PLANE_COUNT : planeCount + 1;
-    trackEvent('event', 'easter_egg_airplane', {
+    trackEvent('easter_egg_airplane', {
       plane_count: next,
       is_max: next >= PLANE_CONFIGS.length,
     });

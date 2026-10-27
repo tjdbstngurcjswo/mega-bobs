@@ -46,9 +46,13 @@ const PrivacyPage = () => (
           {SITE_NAME}는 개인정보를 수집하지 않습니다. 맛 평가 투표 및 식전 픽
           기능의 중복 방지를 위해 브라우저의 localStorage에 익명 식별자(투표자
           ID)를 자동 생성하여 저장합니다. 이 식별자는 개인을 특정할 수 없는
-          무작위 값(UUID)이며, 서버에 저장되지 않습니다. 이 외에도 Google
-          Analytics 및 Google 광고 서비스가 쿠키를 통해 방문 통계, 기기 정보 등
-          비식별 이용 데이터를 자동으로 수집합니다. 자세한 내용은{' '}
+          무작위 값(UUID)이며, 서버에 저장되지 않습니다. 서비스 개선을 위해 방문
+          페이지, 버튼 클릭 등 비식별 이용 기록을 이용 통계 도구(beacon)로
+          수집합니다. 이때 브라우저의 localStorage·sessionStorage에
+          방문자·세션을 구분하는 무작위 식별자를 저장하고, 이용 기록과 함께 통계
+          서버 (hongsoohyuk.com)로 전송합니다. IP 주소는 저장하지 않습니다. 이
+          외에도 Google 광고 서비스가 쿠키를 통해 기기 정보 등 비식별 이용
+          데이터를 자동으로 수집합니다. 자세한 내용은{' '}
           <a href="#cookies-ads" className="underline">
             쿠키 및 광고
           </a>{' '}
@@ -113,10 +117,11 @@ const PrivacyPage = () => (
               </td>
             </tr>
             <tr>
-              <td className={legalSectionTdClass}>Google Analytics</td>
+              <td className={legalSectionTdClass}>beacon (hongsoohyuk.com)</td>
               <td className={legalSectionTdClass}>이용 통계</td>
               <td className={legalSectionTdClass}>
-                방문 페이지, 체류 시간 등 비식별 통계
+                방문 페이지, 버튼 클릭 등 비식별 이용 기록과 익명 방문자·세션
+                식별자
               </td>
             </tr>
             <tr>

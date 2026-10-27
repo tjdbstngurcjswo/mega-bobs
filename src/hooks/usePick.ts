@@ -1,9 +1,9 @@
 'use client';
 
-import { trackEvent } from '@/utils/ga';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { PickResult, PickType } from '@/models/vote';
+import { trackEvent } from '@/utils/analytics';
 import { getOrCreateVoterId } from '@/utils/voterId';
 
 const DEFAULT_COUNTS: PickResult['counts'] = {
@@ -106,7 +106,7 @@ export const usePick = (date: string, { enabled = true } = {}) => {
           body: JSON.stringify({ date, pick_type: isSame ? null : pick_type }),
         });
         if (!res.ok) throw new Error('submit failed');
-        trackEvent('event', 'menu_pick', {
+        trackEvent('menu_pick', {
           pick_type: isSame ? null : pick_type,
           action: isSame ? 'cancel' : prev !== null ? 'change' : 'select',
           date,
