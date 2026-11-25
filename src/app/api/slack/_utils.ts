@@ -10,7 +10,6 @@ import {
 } from '@/constants/slack';
 import dayjs, { SEOUL_TIMEZONE } from '@/lib/dayjs';
 import { MenuCategory, MenuType } from '@/models/menu';
-import { SITE_URL } from '@/utils/env';
 
 export type SlackMenuCache = {
   menus: MenuType[];
@@ -67,9 +66,5 @@ export const toSlackFormat = (
     return [`*${label}*`, ...lines].join('\n');
   }).join('\n\n');
 
-  const footer = `<${SITE_URL}|🔗 투표하고 인기 메뉴 확인하기>`;
-
-  return sections
-    ? [header, sections, footer].join('\n\n')
-    : [header, footer].join('\n\n');
+  return sections ? [header, sections].join('\n\n') : header;
 };
