@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 import dayjs from '@/lib/dayjs';
-import { getWeekDays } from '@/utils/date';
+import { getMenuDateRange, getWeekDays } from '@/utils/date';
 
 interface DateStore {
   today: dayjs.Dayjs;
@@ -17,14 +17,9 @@ interface DateStore {
   refreshToday: () => void;
 }
 
-const computeDateWindow = (t: dayjs.Dayjs) => ({
-  minDate: getWeekDays(t.subtract(1, 'week'))[0],
-  maxDate: getWeekDays(t.add(1, 'week'))[6],
-});
-
 export const useDateStore = create<DateStore>((set, get) => {
   const today = dayjs().tz();
-  const { minDate, maxDate } = computeDateWindow(today);
+  const { minDate, maxDate } = getMenuDateRange(today);
 
   return {
     today,
@@ -66,7 +61,7 @@ export const useDateStore = create<DateStore>((set, get) => {
       const freshToday = dayjs().tz();
       set({
         today: freshToday,
-        ...computeDateWindow(freshToday),
+        ...getMenuDateRange(freshToday),
         selectedDate: freshToday,
         currentWeek: getWeekDays(freshToday),
       });
@@ -79,7 +74,7 @@ export const useDateStore = create<DateStore>((set, get) => {
       const wasOnToday = selectedDate.isSame(today, 'day');
       set({
         today: freshToday,
-        ...computeDateWindow(freshToday),
+        ...getMenuDateRange(freshToday),
         ...(wasOnToday
           ? { selectedDate: freshToday, currentWeek: getWeekDays(freshToday) }
           : {}),

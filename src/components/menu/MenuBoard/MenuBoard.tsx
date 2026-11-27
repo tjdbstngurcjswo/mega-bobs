@@ -2,13 +2,11 @@
 
 import { useMemo, useState } from 'react';
 
-
 import { MENU_CATEGORIES, MenuCategoryLabel } from '@/constants/menu';
 import { useDateUrl } from '@/hooks/useDateUrl';
 import { useEasterEgg } from '@/hooks/useEasterEgg';
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { usePick } from '@/hooks/usePick';
-import { useVotes } from '@/hooks/useVote';
 import dayjs from '@/lib/dayjs';
 import { useDateStore } from '@/store/useDateStore';
 import { cn } from '@/utils/cn';
@@ -43,9 +41,6 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
     () => menus.some((m) => m.date === dateStr && m.items.length > 0),
     [menus, dateStr]
   );
-  const { voteMap, submitVote, isLoading, isSubmitting } = useVotes(dateStr, {
-    enabled: hasMenus,
-  });
   const {
     myPick,
     counts,
@@ -56,9 +51,8 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
   const now = dayjs().tz();
   const isToday = selectedDate.isSame(today, 'day');
   const isPast = selectedDate.isBefore(today, 'day');
-  const showVote =
-    isKorea && mounted && (isPast || (isToday && isAfterClose(now)));
-  const showPick = isKorea && mounted && !showVote && !isPast;
+  const showPick =
+    isKorea && mounted && !isPast && !(isToday && isAfterClose(now));
 
   const dayMenus = useMemo(() => {
     const key = formatYYYYMMDD(selectedDate);
@@ -98,38 +92,29 @@ const MenuBoard = ({ menus, isKorea }: MenuBoardProps) => {
       )}
       <div className={menuBodyClass}>
         {dayMenus.length > 0 ? (
-          dayMenus.map((menu, i) => {
-            const menuKey = `${menu.date}_${menu.category}`;
-            return (
-              <div
-                key={menu.category}
-                className={cn(
-                  i !== safeTab ? 'hidden h-full min-[640px]:block' : 'h-full',
-                  courseColumnClass(i === 0)
-                )}
-              >
-                <MenuBoardCourseRow
-                  menu={menu}
-                  vote={{
-                    show: showVote && !isLoading,
-                    result: voteMap[menuKey],
-                    onVote: (type: 'up' | 'down') => submitVote(menuKey, type),
-                    isSubmitting,
-                  }}
-                  pick={{
-                    show: showPick && !isLoadingPick,
-                    count: counts[menu.category],
-                    isPicked: myPick === menu.category,
-                    hasAnyPick: myPick !== null,
-                    onPick: () => submitPick(menu.category),
-                    isSubmitting: isSubmittingPick,
-                  }}
-                  onHeaderClick={handleLabelClick}
-                  eggStep={eggStep}
-                />
-              </div>
-            );
-          })
+          dayMenus.map((menu, i) => (
+            <div
+              key={menu.category}
+              className={cn(
+                i !== safeTab ? 'hidden h-full min-[640px]:block' : 'h-full',
+                courseColumnClass(i === 0)
+              )}
+            >
+              <MenuBoardCourseRow
+                menu={menu}
+                pick={{
+                  show: showPick && !isLoadingPick,
+                  count: counts[menu.category],
+                  isPicked: myPick === menu.category,
+                  hasAnyPick: myPick !== null,
+                  onPick: () => submitPick(menu.category),
+                  isSubmitting: isSubmittingPick,
+                }}
+                onHeaderClick={handleLabelClick}
+                eggStep={eggStep}
+              />
+            </div>
+          ))
         ) : (
           <div className="col-span-full">
             <MenuBoardEmpty

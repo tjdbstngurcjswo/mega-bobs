@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { extractGeo, isKoreaGeo } from '@/lib/geoHeaders';
 import { supabaseServer } from '@/lib/supabaseServer';
-import { PickResult, PickType } from '@/models/vote';
+import { PickResult, PickType } from '@/models/pick';
 
 const PICK_TYPES: PickType[] = ['COURSE_1', 'COURSE_2', 'TAKE_OUT', 'pass'];
 

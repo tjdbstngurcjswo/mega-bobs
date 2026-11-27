@@ -70,7 +70,6 @@ export const metadata: Metadata = {
     '코스1',
     '코스2',
     '테이크아웃',
-    '맛 평가',
     '식전 픽',
     '운영 시간',
     SITE_NAME,

@@ -35,7 +35,7 @@ find src -type d -empty 2>/dev/null
 - knip이 `server-only`, `@vercel/analytics` 등 런타임 사이드이펙트 패키지를 미사용으로 표시하면 → 무시
 - `vitest.config.ts`가 삭제된 테스트 파일을 참조하는 경우 → `vitest.config.ts` 자체 삭제 검토
 - Next.js App Router `page.tsx` / `layout.tsx` / `route.ts`는 진입점이므로 knip이 미사용으로 표시해도 → 무시
-- Vercel Cron 대상 route(`/api/slack/warm`, `/api/votes/cleanup`)는 직접 import 없어도 유지
+- Vercel Cron 대상 route(`/api/slack/warm`, `/api/menus/cleanup`)는 직접 import 없어도 유지
 
 ## STEP 3: 제거 계획 보고
 

@@ -1,7 +1,7 @@
 const VOTER_KEY = 'voter-id';
 
 /**
- * localStorage에서 익명 투표자 ID를 읽거나 최초 접근 시 생성해 저장한다.
+ * localStorage에서 익명 식별자를 읽거나 최초 접근 시 생성해 저장한다.
  * SSR 환경에서는 빈 문자열을 반환한다.
  */
 export const getOrCreateVoterId = (): string => {

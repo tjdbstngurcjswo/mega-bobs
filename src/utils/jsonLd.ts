@@ -2,7 +2,7 @@ import { SITE_NAME } from '@/constants/site';
 import { SITE_URL } from '@/utils/env';
 
 export const SITE_DESC =
-  '메가존·메가존클라우드 구내식당 주간 식단표를 한눈에 확인하세요. 코스1·코스2·테이크아웃 메뉴, 실시간 운영 상태, 맛 평가 투표부터 메가존클라우드 소식·공지사항까지 메가존 임직원을 위한 점심 메뉴판입니다.';
+  '메가존·메가존클라우드 구내식당 주간 식단표를 한눈에 확인하세요. 코스1·코스2·테이크아웃 메뉴, 실시간 운영 상태, 식전 픽부터 메가존클라우드 소식·공지사항까지 메가존 임직원을 위한 점심 메뉴판입니다.';
 
 export const getWebsiteJsonLd = () => ({
   '@context': 'https://schema.org',

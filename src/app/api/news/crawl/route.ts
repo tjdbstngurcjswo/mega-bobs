@@ -34,16 +34,24 @@ export const GET = async (req: NextRequest) => {
     published_at: item.publishedAt,
   }));
 
-  const { error } = await supabaseServer
-    .from('company_news')
-    .upsert(rows, { onConflict: 'url' });
+  // 기존 기사를 읽어 비교하지 않는다. title unique · url PK 에
+  // INSERT ... ON CONFLICT DO NOTHING 으로 인덱스에서만 걸러진다.
+  const { data: inserted, error } = await supabaseServer.rpc(
+    'insert_company_news_if_new',
+    { payload: rows }
+  );
 
   if (error) {
-    console.error('[news/crawl] upsert 실패:', error.message);
+    console.error('[news/crawl] insert 실패:', error.message);
     return NextResponse.json({ error: 'Upsert failed' }, { status: 500 });
   }
 
-  revalidatePath('/news');
+  const upserted = typeof inserted === 'number' ? inserted : 0;
+  if (upserted > 0) revalidatePath('/news');
 
-  return NextResponse.json({ fetched: items.length, upserted: rows.length });
+  return NextResponse.json({
+    fetched: items.length,
+    upserted,
+    skipped: rows.length - upserted,
+  });
 };

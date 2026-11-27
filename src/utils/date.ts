@@ -41,3 +41,11 @@ export const getWeekDays = (date: dayjs.Dayjs): dayjs.Dayjs[] => {
   const weekStart = date.subtract(day - 1, 'day').startOf('day');
   return Array.from({ length: 7 }, (_, i) => weekStart.add(i, 'day'));
 };
+
+/**
+ * 메뉴판이 보여주는 날짜 범위. 저번주 월요일부터 다음주 일요일까지.
+ */
+export const getMenuDateRange = (today: dayjs.Dayjs) => ({
+  minDate: getWeekDays(today.subtract(1, 'week'))[0],
+  maxDate: getWeekDays(today.add(1, 'week'))[6],
+});

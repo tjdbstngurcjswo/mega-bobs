@@ -5,7 +5,7 @@
       "schedule": "0 15 * * *"
     },
     {
-      "path": "/api/votes/cleanup",
+      "path": "/api/menus/cleanup",
       "schedule": "0 0 * * *"
     }
   ],

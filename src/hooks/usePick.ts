@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { PickResult, PickType } from '@/models/vote';
+import { PickResult, PickType } from '@/models/pick';
 import { trackEvent } from '@/utils/analytics';
 import { getOrCreateVoterId } from '@/utils/voterId';
 

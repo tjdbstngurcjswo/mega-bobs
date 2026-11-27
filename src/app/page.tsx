@@ -11,7 +11,7 @@ import {
 import { HeroStatus } from '@/components/home';
 import { MenuBoard } from '@/components/menu';
 import dayjs from '@/lib/dayjs';
-import { formatYYYYMMDD, getWeekDays } from '@/utils/date';
+import { formatYYYYMMDD, getMenuDateRange } from '@/utils/date';
 import {
   getCafeteriaJsonLd,
   getOrgJsonLd,
@@ -25,8 +25,9 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const today = dayjs().tz();
-  const start = formatYYYYMMDD(getWeekDays(today.subtract(1, 'week'))[0]);
-  const end = formatYYYYMMDD(getWeekDays(today.add(1, 'week'))[6]);
+  const { minDate, maxDate } = getMenuDateRange(today);
+  const start = formatYYYYMMDD(minDate);
+  const end = formatYYYYMMDD(maxDate);
 
   const menus = await getMenu({ start, end });
 

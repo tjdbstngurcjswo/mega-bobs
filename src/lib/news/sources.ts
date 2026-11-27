@@ -4,8 +4,8 @@ type NewsSource = { company: NewsCompany; query: string };
 
 /**
  * 메가존 3사 — 정확 구문(따옴표) 검색으로 노이즈를 줄인다.
- * 구체적인 사명(자회사)을 먼저 둔다: fetchNews 의 url 중복제거가 첫 매치를
- * 유지하므로 '"메가존"' 이 먼저면 자회사 기사가 megazone 으로 잘못 분류된다.
+ * 구체적인 사명(자회사)을 먼저 둔다: 제목이 같으면 먼저 수집된 쪽을 유지하므로
+ * '"메가존"' 이 먼저면 자회사 기사가 megazone 으로 잘못 분류된다.
  * Google News RSS 는 API 키가 필요 없다.
  */
 export const NEWS_SOURCES: NewsSource[] = [

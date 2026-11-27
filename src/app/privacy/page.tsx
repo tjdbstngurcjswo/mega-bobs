@@ -43,16 +43,16 @@ const PrivacyPage = () => (
       <section id="collected-info" className={legalSectionClass}>
         <h2 className={legalSectionTitleClass}>1. 수집하는 정보</h2>
         <p className={legalSectionBodyClass}>
-          {SITE_NAME}는 개인정보를 수집하지 않습니다. 맛 평가 투표 및 식전 픽
-          기능의 중복 방지를 위해 브라우저의 localStorage에 익명 식별자(투표자
-          ID)를 자동 생성하여 저장합니다. 이 식별자는 개인을 특정할 수 없는
-          무작위 값(UUID)이며, 서버에 저장되지 않습니다. 서비스 개선을 위해 방문
-          페이지, 버튼 클릭 등 비식별 이용 기록을 이용 통계 도구(beacon)로
-          수집합니다. 이때 브라우저의 localStorage·sessionStorage에
-          방문자·세션을 구분하는 무작위 식별자를 저장하고, 이용 기록과 함께 통계
-          서버 (hongsoohyuk.com)로 전송합니다. IP 주소는 저장하지 않습니다. 이
-          외에도 Google 광고 서비스가 쿠키를 통해 기기 정보 등 비식별 이용
-          데이터를 자동으로 수집합니다. 자세한 내용은{' '}
+          {SITE_NAME}는 개인정보를 수집하지 않습니다. 식전 픽 기능의 중복 방지를
+          위해 브라우저의 localStorage에 익명 식별자를 자동 생성하여 저장합니다.
+          이 식별자는 개인을 특정할 수 없는 무작위 값(UUID)이며, 서버에 저장되지
+          않습니다. 서비스 개선을 위해 방문 페이지, 버튼 클릭 등 비식별 이용
+          기록을 이용 통계 도구(beacon)로 수집합니다. 이때 브라우저의
+          localStorage·sessionStorage에 방문자·세션을 구분하는 무작위 식별자를
+          저장하고, 이용 기록과 함께 통계 서버 (hongsoohyuk.com)로 전송합니다.
+          IP 주소는 저장하지 않습니다. 이 외에도 Google 광고 서비스가 쿠키를
+          통해 기기 정보 등 비식별 이용 데이터를 자동으로 수집합니다. 자세한
+          내용은{' '}
           <a href="#cookies-ads" className="underline">
             쿠키 및 광고
           </a>{' '}
@@ -66,7 +66,7 @@ const PrivacyPage = () => (
           수집된 익명 식별자는 다음 목적으로만 사용됩니다.
         </p>
         <ul className={legalSectionListClass}>
-          <li>맛 평가 투표 및 식전 픽의 중복 제출 방지</li>
+          <li>식전 픽의 중복 제출 방지</li>
           <li>
             재미로 보는 비공식 수요 예측 집계 — 로그인 기반이 아니므로 정확하지
             않으며, 구내식당 운영에 실제로 활용되지 않습니다
@@ -77,10 +77,9 @@ const PrivacyPage = () => (
       <section id="retention" className={legalSectionClass}>
         <h2 className={legalSectionTitleClass}>3. 보관 기간 및 파기</h2>
         <p className={legalSectionBodyClass}>
-          데이터베이스에 저장된 투표 및 픽 데이터는 생성일로부터
-          <b> 2주 후 자동 삭제</b>됩니다. 브라우저 localStorage에 저장된 익명
-          식별자는 이용자가 직접 브라우저 설정에서 삭제할 수 있으며, 삭제 후에도
-          서비스 이용은 가능합니다.
+          데이터베이스에 저장된 식전 픽은 같은 날 선택을 바꾸면 덮어씁니다.
+          브라우저 localStorage에 저장된 익명 식별자는 이용자가 직접 브라우저
+          설정에서 삭제할 수 있으며, 삭제 후에도 서비스 이용은 가능합니다.
         </p>
       </section>
 
@@ -102,7 +101,7 @@ const PrivacyPage = () => (
             <tr>
               <td className={legalSectionTdClass}>Supabase</td>
               <td className={legalSectionTdClass}>데이터베이스</td>
-              <td className={legalSectionTdClass}>식단 데이터, 투표·픽 저장</td>
+              <td className={legalSectionTdClass}>식단 데이터, 식전 픽 저장</td>
             </tr>
             <tr>
               <td className={legalSectionTdClass}>Vercel</td>
@@ -180,7 +179,7 @@ const PrivacyPage = () => (
         <p className={legalSectionBodyClass}>
           이용자는 브라우저 설정에서 사이트 데이터(localStorage)를 삭제하여 익명
           식별자를 제거할 수 있습니다. 삭제 후 재접속 시 새로운 식별자가
-          자동으로 생성되며, 이전 투표·픽 이력은 복구되지 않습니다.
+          자동으로 생성되며, 이전 식전 픽 이력은 복구되지 않습니다.
         </p>
       </section>
 
